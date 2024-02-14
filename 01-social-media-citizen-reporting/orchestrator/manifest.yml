@@ -1,0 +1,31 @@
+# Generated manifest.yml based on template version 0.1.0
+# appName = social-citizen-genai
+# language=nodejs
+# multitenancy=false
+---
+applications:
+# -----------------------------------------------------------------------------------
+# Backend Service
+# -----------------------------------------------------------------------------------
+- name: social-citizen-genai-srv
+  random-route: true  # for development only
+  path: gen/srv
+  memory: 256M
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.8.15
+  services:
+  - social-citizen-genai-db
+  env:
+    deploymentUrl: "/v2/inference/deployments/d779eac2fb5c98b5/chat/completions?api-version=2023-05-15"
+
+# -----------------------------------------------------------------------------------
+# HANA Database Content Deployer App
+# -----------------------------------------------------------------------------------
+- name: social-citizen-genai-db-deployer
+  path: gen/db
+  no-route: true
+  health-check-type: process
+  memory: 256M
+  instances: 1
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.8.15
+  services:
+  - social-citizen-genai-db
