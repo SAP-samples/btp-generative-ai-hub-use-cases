@@ -1,0 +1,117 @@
+#@server = http://localhost:4004
+## GenAI Enablement Subaccount
+@server = https://social-citizen-genai-srv-resplendent-hyrax-mi.cfapps.eu10-004.hana.ondemand.com
+
+### Retrieve List Processed Issues
+GET {{server}}/manager-api/ProcessedIssues
+
+### Retrieve List a Processed Issue
+GET {{server}}/manager-api/ProcessedIssues(1)
+
+### Retrieve List of Posts from Reddit
+GET {{server}}/reddit-api/RedditPost
+
+### Retrieve a Reddit Post
+GET {{server}}/reddit-api/RedditPost('19djuam')
+
+
+
+### Process a Post from Reddit List with GenAI Hub API
+# Input: Details from Reddit Post
+# Output: Payload for Processed Issues & S4 Maintenance Notification
+POST {{server}}/genaihub-api/processRedditPostGenAI
+Content-Type: application/json
+
+{ 
+  "post" : {
+  "id": "21trmsa",
+  "author": "Trinidad_MG",
+  "title": "a graffity in a public wall",
+  "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)", 
+  "postingDate": "2024-01-19T09:33:38.000Z"
+    }
+}
+
+
+### Create New Maintenance Notification (Request) in S/4HANA
+### For Notify Function
+POST {{server}}/s4vdm-api/createMaintenanceNotificationS4
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38"
+   }
+}
+
+### Create New Maintenance Notification (Request) in S/4HANA
+### For Ignore Function
+POST {{server}}/s4vdm-api/denyNotificationOfIssue
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38"
+   }
+}
+
+### Retrieve list of maintenance notifications (requests) from S/4HANA
+GET {{server}}/notification-api/MaintenanceNotifications
+
+
+################################################
+################################################
+# Other requests for further debugging
+### Post a Processed Issue
+POST {{server}}/manager-api/ProcessedIssues
+Content-Type: application/json
+
+{
+   "processor":"z",
+   "decision":"a",
+   "redditPostID":"2",
+   "maintenanceNotificationID":"2"
+}
+### v1 Perform an action of a POST request to bundle functions
+POST {{server}}/manager-api/acceptGenAISuggestion
+Content-Type: application/json
+
+{ "processedIssues":1, "newprocessor":"ddd" }
+
+### v2 Perform an action of a POST request to bundle functions
+POST {{server}}/genaihub-api/acceptSuggestionFromGenAI
+Content-Type: application/json
+
+{
+   "getnAiOutput":{
+      "author":"jacobtan89",
+      "sentiment":"negative",
+      "location":"45.463721,9.154985",
+      "summary":"The street is in complete darkness for many hours.",
+      "description":"The street has been experiencing a prolonged period of darkness for several hours. This issue was reported on 2024-01-17 at 07:13:48 AM.",
+      "priority":"very high",
+      "proposedIssueCategory":"Roads & Footpaths",
+      "date":"2024-01-17",
+      "time":"07:13:48 AM"
+   }
+}

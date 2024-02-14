@@ -1,0 +1,12 @@
+requests
+Flask_Cors
+flask
+langchain
+openai
+generative-ai-hub-sdk
+ai-core-sdk
+cfenv==0.5.3
+hdbcli==2.17.*
+pandas
+hana-ml
+shapely
