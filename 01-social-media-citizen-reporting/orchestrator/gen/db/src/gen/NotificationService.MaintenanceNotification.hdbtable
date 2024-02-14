@@ -1,0 +1,8 @@
+COLUMN TABLE NotificationService_MaintenanceNotification (
+  maintenanceNotification NVARCHAR(5000),
+  notificationText NVARCHAR(5000),
+  maintPriority NVARCHAR(5000),
+  maintPriorityDesc NVARCHAR(5000),
+  notificationType NVARCHAR(5000),
+  creationDate NVARCHAR(5000)
+)

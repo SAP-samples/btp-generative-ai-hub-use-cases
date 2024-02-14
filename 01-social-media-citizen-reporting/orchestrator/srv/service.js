@@ -9,23 +9,10 @@ const { maintenanceNotificationApi } = maintenanceNotificationService();
 
 const { buildMaintenanceNotificationForCreate } = require("./helper");
 
-/** [DESTINATION TIPS]
- *  - For dev purposes, this project could utilise a defined destination approach.
- * More info here: https://cap.cloud.sap/docs/guides/using-services#app-defined-destinations
- * And here: https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destination
- * Below approach to connect to SAP BTP destination service through SAP Cloud SDK.
- * Refer to package.json on the definition of the destination name used in this project. e.g. S4HC_AICOREBOOTCAMP
- * Mainly this is being used in createMaintenanceNotificationS4 method to Create a Maintenance Notification.
- */
 const s4Dest = { destinationName: cds.env.aicore.dest };   //  Defined S4HC_GENAI in BTP Dest defined in package.json
-const genAIModelDeploymentEndpoint = process.env.deploymentUrl; 
+const genAIModelDeploymentEndpoint = process.env.deploymentUrl;
 var genAIAuthToken, genAIAPIURL, redditAuthURL, redditAuthParam, redditAPIURL;
 
-/** Note: Search for [TODO] */
-
-/** [TODO]: Improve this logic here as if these fail, the CAP service won't be running.
- * - option 1: exclude here and only include it in each request call.
- */
 getDestination("REDDIT_API_AUTH").then((dest) => {
     redditAuthParam = dest.authTokens[0].http_header.value;
     redditAuthURL = dest.destinationConfiguration.URL;
@@ -77,9 +64,9 @@ module.exports = cds.service.impl(async function () {
                 NotificationText: payloadMN.summary,
                 MaintNotifLongTextForEdit: payloadMN.description,
                 MaintPriority: paramPriority,
-                ReportedByUser: "CB9980003338", //  optional
+                // ReportedByUser: "CB9980003338", //  optional
                 LocationDescription: payloadMN.location,
-                PersonResponsible: "50005672"   //  optional
+                // PersonResponsible: "50005672"   //  optional
             }
 
             const mn = buildMaintenanceNotificationForCreate(datamn);
@@ -101,16 +88,12 @@ module.exports = cds.service.impl(async function () {
                 const mnResult = result.toJSON();
                 const mnId = mnResult.maintenanceNotification;
 
-                // console.log(mnResult);
-                console.log(mnId);
-
                 var nextID;
 
                 const { ID } = await cds
                     .tx(req)
                     .run(SELECT.one.from(ProcessedIssues).columns("max(ID) as ID"));
                 nextID = ID + 1;
-                // console.log(nextID);
 
                 var currentDate = getCurrentDate();
                 var currentTime = getCurrentTime();
@@ -137,8 +120,6 @@ module.exports = cds.service.impl(async function () {
     this.on('denyNotificationOfIssue', async req => {
         try {
             const payloadMN = req.data.message;
-            // console.log(payloadMN);
-
             var paramPriority, locationParts, priorDesc;
             locationParts = payloadMN.location.split(",");
             switch (req.data.message.priority) {
@@ -159,7 +140,7 @@ module.exports = cds.service.impl(async function () {
                     paramPriority = "4";
                     break;
                 default:
-                    console.log("priority not defined");
+                // console.log("priority not defined");
             }
 
             var nextID;
@@ -168,7 +149,6 @@ module.exports = cds.service.impl(async function () {
                 .tx(req)
                 .run(SELECT.one.from(ProcessedIssues).columns("max(ID) as ID"));
             nextID = ID + 1;
-            // console.log(nextID);
 
             var currentDate = getCurrentDate();
             var currentTime = getCurrentTime();
@@ -191,15 +171,7 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-                
-    /** 
-            * [TODO] Parameterisation of Prompt engineering
-             * - LangChain prompt template
-             * - payload of category
-             * - payload of priority
-             * - extraction and transformation
-             * - guidance instructions
-             */
+
     /** [GenAI Hub API] Each post is processed with GenAI Hub API 
      * to summarise, sentiment analysis, context based solution suggestion 
      * - id, summary, sentiment, proposed maintenance type, person responsible, priority 
@@ -217,7 +189,6 @@ module.exports = cds.service.impl(async function () {
 
             getDestination("GENAICORE").then((dest) => {
                 genAIAuthToken = "Bearer " + dest.authTokens[0].value;
-                console.log("Refresh GenAICore JWT Token.");
             });
 
             //  Context for Prompt Engineering
@@ -233,9 +204,9 @@ module.exports = cds.service.impl(async function () {
             var redditPostId = req.data.post.id;
 
             socialMediaPost = "RedditPostId: " + redditPostId + "\n"
-            + "Author: " + author + "\n"
-            + "Message: " + msg + "\n"
-            + "Posting Date: " + postingDate + "\n";
+                + "Author: " + author + "\n"
+                + "Message: " + msg + "\n"
+                + "Posting Date: " + postingDate + "\n";
 
             problemCategoryContext = "Identify the category from one of the following categories names:\
             \"PUBLIC CLEANLINESS\",\"ROADS & FOOTPATHS\",\"FACILITY & PARK MAINTENANCE\",\"PESTS,DRAINS & SEWERS\". \n \
@@ -252,7 +223,7 @@ module.exports = cds.service.impl(async function () {
             2-High : the issue needs to be resolved quickly because it can potentially cause dangerous situations or disruptions. \n \
             1-Very High : the issue needs to be handled as soon as possible, as it is a matter of public safety. \n \
             Return the priority level. If in doubt, return 3-Medium \n";
-            
+
             summary = "Summarize the issue that is being reported in 40 characters and a neutral tone. \n";
             description = "Summarize the issue that is being reported in not more that 300 characters and a neutral tone. \n";
             address = "Extract the address where the issue has been noticed. Return the street only and omit the town or country. \n";
@@ -261,23 +232,23 @@ module.exports = cds.service.impl(async function () {
                             1. NEUTRAL: if the issue is reported politely \n \
                             2. NEGATIVE: if the post shows irritation, impatience, annoyance \n \
                             3. VERY NEGATIVE: the post expresses rage, hatred \n";
-                            
+
             promptGuidance = "```SOCIAL MEDIA POST: \n"
-            + socialMediaPost 
-            + "INSTRUCTIONS  \n "
-            + "For social media post above, extract the following information: \n"
-            + "redditPostID: redditPostId from the message RedditPostId \n"             
-            + "author: author from the message Author \n" 
-            + "category: " + problemCategoryContext + "\n"            
-            + "priority: " + urgencyContext + "\n"
-            + "summary: " + summary + "\n"
-            + "description: " + description + "\n"
-            + "address: " + address + "\n"
-            + "location: " + location + "\n"
-            + "sentiment: " + sentiment + "\n"
-            + "date: date from the message posting date \n"
-            + "time: time from the message posting date\n"
-            + "Return a JSON file, all the fields should be in string format```";
+                + socialMediaPost
+                + "INSTRUCTIONS  \n "
+                + "For social media post above, extract the following information: \n"
+                + "redditPostID: redditPostId from the message RedditPostId \n"
+                + "author: author from the message Author \n"
+                + "category: " + problemCategoryContext + "\n"
+                + "priority: " + urgencyContext + "\n"
+                + "summary: " + summary + "\n"
+                + "description: " + description + "\n"
+                + "address: " + address + "\n"
+                + "location: " + location + "\n"
+                + "sentiment: " + sentiment + "\n"
+                + "date: date from the message posting date \n"
+                + "time: time from the message posting date\n"
+                + "Return a JSON file, all the fields should be in string format```";
 
             const aicoreAPI = await cds.connect.to("GENAICORE");
 
@@ -316,8 +287,6 @@ module.exports = cds.service.impl(async function () {
     /** [Reddit API] Get a list of Reddit Post of the community /r/SAGENAICITY
      * There are 2 type of auth grant types: password & client_credentials.
      * More info here: https://www.reddit.com/r/redditdev/comments/9ecpyh/difference_between_two_types_of_access_token/
-     * - id, user, location, text, datetime
-     * - Output: list of Reddit posts
      */
     this.on('READ', RedditPost, async req => {
         /**
@@ -339,11 +308,9 @@ module.exports = cds.service.impl(async function () {
         }
         //  * - /GET('id') Single Data Entity Request
         else {
-            console.log(req.params[0]);
+            // console.log(req.params[0]);
             requestType = "single";
             requestParam = req.params[0].id;
-            // var res = { "id": "198qqqm", "author": "jacobtan89", "title": "Street lights are off", "longText": "The street is in complete darkness for many hours.\n\nLocation: 45.463721,9.154985", "postingDate": "2024-01-17T07:13:48.000Z" };
-            // return res;
         }
 
         try {
@@ -373,9 +340,6 @@ module.exports = cds.service.impl(async function () {
                 .tx(req)
                 .send({ method: 'GET', path: '/r/MOCK_SAGENAICITY/new', headers: apiheaders });
 
-            // console.log("results here");
-            // console.log(apiresults);
-
             var redditLists = apiresults.data.children;
             const redditListArr = [];
 
@@ -402,7 +366,6 @@ module.exports = cds.service.impl(async function () {
                     })
                 }
             });
-            // console.log(JSON.stringify(redditListArr));
             res = redditListArr;
             return res;
         } catch (err) {

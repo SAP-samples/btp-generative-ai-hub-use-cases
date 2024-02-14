@@ -11,9 +11,9 @@ const _prepareMnBody = (mn) => {
         notificationText: limit(mn.NotificationText, 40),  //  (mandatory) Short Text. Short description of the contents of a notification. Maximum length: 40.
         maintNotifLongTextForEdit: mn.MaintNotifLongTextForEdit,    //  (optional) Long Text. Maximum length: 1333.
         maintPriority: mn.MaintPriority,    //  (optional) Priority. The key in this field indicates the importance of the processing of the order/notification. Maximum length: 1.
-        reportedByUser: mn.ReportedByUser,  //  (optional) Name of Person Reporting Notification. Name of the person who reported the notification. Maximum length: 12.
+        // reportedByUser: mn.ReportedByUser,  //  (optional) Name of Person Reporting Notification. Name of the person who reported the notification. Maximum length: 12.
         locationDescription: mn.LocationDescription,    //  (optional) Description of Current Location. Maximum length: 50.
-        personResponsible: "50005672"   //  (optional) Person Responsible ID. Specifies the internal identification number of the person who is responsible for processing the job. Maximum length: 12.
+        // personResponsible: "50005672"   //  (optional) Person Responsible ID. Specifies the internal identification number of the person who is responsible for processing the job. Maximum length: 12.
     }
 };
 

@@ -1,0 +1,63 @@
+{
+  "format_version": 1,
+  "imports": [
+    {
+      "target_table": "SOCIAL_CITIZEN_GENAI_PROCESSEDISSUES",
+      "source_data": {
+        "data_type": "CSV",
+        "file_name": "social.citizen.genai-ProcessedIssues.csv",
+        "has_header": true,
+        "type_config": {
+          "delimiter": ","
+        }
+      },
+      "import_settings": {
+        "import_columns": [
+          "ID",
+          "PROCESSOR",
+          "PROCESSDATE",
+          "PROCESSTIME",
+          "REPORTEDBY",
+          "DECISION",
+          "REDDITPOSTID",
+          "MAINTENANCENOTIFICATIONID",
+          "ADDRESS",
+          "LOCATION",
+          "LAT",
+          "LONG",
+          "GENAISUMMARY",
+          "GENAIDESCRIPTION",
+          "PRIORITY",
+          "PRIORITYDESC",
+          "SENTIMENT",
+          "CATEGORY",
+          "DATE",
+          "TIME"
+        ],
+        "include_filter": []
+      },
+      "column_mappings": {
+        "ID": "ID",
+        "PROCESSOR": "processor",
+        "PROCESSDATE": "processDate",
+        "PROCESSTIME": "processTime",
+        "REPORTEDBY": "reportedBy",
+        "DECISION": "decision",
+        "REDDITPOSTID": "redditPostID",
+        "MAINTENANCENOTIFICATIONID": "maintenanceNotificationID",
+        "ADDRESS": "address",
+        "LOCATION": "location",
+        "LAT": "lat",
+        "LONG": "long",
+        "GENAISUMMARY": "genaiSummary",
+        "GENAIDESCRIPTION": "genaiDescription",
+        "PRIORITY": "priority",
+        "PRIORITYDESC": "priorityDesc",
+        "SENTIMENT": "sentiment",
+        "CATEGORY": "category",
+        "DATE": "date",
+        "TIME": "time"
+      }
+    }
+  ]
+}

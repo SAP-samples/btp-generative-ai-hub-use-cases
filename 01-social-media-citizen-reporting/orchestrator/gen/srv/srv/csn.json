@@ -1,0 +1,446 @@
+{
+  "namespace": "social.citizen.genai",
+  "definitions": {
+    "social.citizen.genai.ProcessedIssues": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "processor": {
+          "type": "cds.String"
+        },
+        "processDate": {
+          "type": "cds.String"
+        },
+        "processTime": {
+          "type": "cds.String"
+        },
+        "reportedBy": {
+          "type": "cds.String"
+        },
+        "decision": {
+          "type": "cds.String"
+        },
+        "redditPostID": {
+          "type": "cds.String"
+        },
+        "maintenanceNotificationID": {
+          "type": "cds.String"
+        },
+        "address": {
+          "type": "cds.String"
+        },
+        "location": {
+          "type": "cds.String"
+        },
+        "lat": {
+          "type": "cds.String"
+        },
+        "long": {
+          "type": "cds.String"
+        },
+        "genaiSummary": {
+          "type": "cds.String"
+        },
+        "genaiDescription": {
+          "type": "cds.String"
+        },
+        "priority": {
+          "type": "cds.String"
+        },
+        "priorityDesc": {
+          "type": "cds.String"
+        },
+        "sentiment": {
+          "type": "cds.String"
+        },
+        "category": {
+          "type": "cds.String"
+        },
+        "date": {
+          "type": "cds.String"
+        },
+        "time": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "PublicManagerService": {
+      "@source": "srv/manager-service.cds",
+      "kind": "service",
+      "@path": "/manager-api"
+    },
+    "PublicManagerService.ProcessedIssues": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "social.citizen.genai.ProcessedIssues"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "processor": {
+          "type": "cds.String"
+        },
+        "processDate": {
+          "type": "cds.String"
+        },
+        "processTime": {
+          "type": "cds.String"
+        },
+        "reportedBy": {
+          "type": "cds.String"
+        },
+        "decision": {
+          "type": "cds.String"
+        },
+        "redditPostID": {
+          "type": "cds.String"
+        },
+        "maintenanceNotificationID": {
+          "type": "cds.String"
+        },
+        "address": {
+          "type": "cds.String"
+        },
+        "location": {
+          "type": "cds.String"
+        },
+        "lat": {
+          "type": "cds.String"
+        },
+        "long": {
+          "type": "cds.String"
+        },
+        "genaiSummary": {
+          "type": "cds.String"
+        },
+        "genaiDescription": {
+          "type": "cds.String"
+        },
+        "priority": {
+          "type": "cds.String"
+        },
+        "priorityDesc": {
+          "type": "cds.String"
+        },
+        "sentiment": {
+          "type": "cds.String"
+        },
+        "category": {
+          "type": "cds.String"
+        },
+        "date": {
+          "type": "cds.String"
+        },
+        "time": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "PublicManagerService.acceptGenAISuggestion": {
+      "kind": "action",
+      "params": {
+        "processedIssues": {
+          "type": {
+            "ref": [
+              "PublicManagerService.ProcessedIssues",
+              "ID"
+            ]
+          }
+        },
+        "newprocessor": {
+          "type": "cds.String"
+        }
+      },
+      "returns": {
+        "elements": {
+          "ID": {
+            "type": "cds.Integer"
+          }
+        }
+      }
+    },
+    "NotificationService": {
+      "@source": "srv/notification-service.cds",
+      "kind": "service",
+      "@path": "/notification-api"
+    },
+    "NotificationService.MaintenanceNotification": {
+      "kind": "entity",
+      "elements": {
+        "maintenanceNotification": {
+          "type": "cds.String"
+        },
+        "notificationText": {
+          "type": "cds.String"
+        },
+        "maintPriority": {
+          "type": "cds.String"
+        },
+        "maintPriorityDesc": {
+          "type": "cds.String"
+        },
+        "notificationType": {
+          "type": "cds.String"
+        },
+        "creationDate": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "NotificationService.MaintenanceNotifications": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "NotificationService.MaintenanceNotification"
+          ]
+        }
+      },
+      "elements": {
+        "maintenanceNotification": {
+          "type": "cds.String"
+        },
+        "notificationText": {
+          "type": "cds.String"
+        },
+        "maintPriority": {
+          "type": "cds.String"
+        },
+        "maintPriorityDesc": {
+          "type": "cds.String"
+        },
+        "notificationType": {
+          "type": "cds.String"
+        },
+        "creationDate": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.Message": {
+      "kind": "type",
+      "elements": {
+        "text": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.Result": {
+      "kind": "type",
+      "elements": {
+        "type": {
+          "type": "cds.String"
+        },
+        "route": {
+          "type": "cds.String"
+        },
+        "replyMessage": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.RedditPosts": {
+      "kind": "type",
+      "elements": {
+        "lists": {
+          "items": {
+            "type": "social.citizen.genai.srv.RedditPost"
+          }
+        }
+      }
+    },
+    "social.citizen.genai.srv.RedditPost": {
+      "kind": "type",
+      "elements": {
+        "id": {
+          "type": "cds.String"
+        },
+        "author": {
+          "type": "cds.String"
+        },
+        "postingDate": {
+          "type": "cds.DateTime"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "longText": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.GenAIOutput": {
+      "kind": "type",
+      "elements": {
+        "redditPostID": {
+          "type": "cds.String"
+        },
+        "author": {
+          "type": "cds.String"
+        },
+        "category": {
+          "type": "cds.String"
+        },
+        "priority": {
+          "type": "cds.String"
+        },
+        "summary": {
+          "type": "cds.String"
+        },
+        "description": {
+          "type": "cds.String"
+        },
+        "address": {
+          "type": "cds.String"
+        },
+        "location": {
+          "type": "cds.String"
+        },
+        "sentiment": {
+          "type": "cds.String"
+        },
+        "date": {
+          "type": "cds.String"
+        },
+        "time": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.RedditService": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@path": "/reddit-api"
+    },
+    "social.citizen.genai.srv.RedditService.Posts": {
+      "kind": "entity",
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "author": {
+          "type": "cds.String"
+        },
+        "postingDate": {
+          "type": "cds.DateTime"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "longText": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.RedditService.RedditPost": {
+      "kind": "entity",
+      "@readonly": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "social.citizen.genai.srv.RedditService.Posts"
+          ]
+        }
+      },
+      "elements": {
+        "id": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "author": {
+          "type": "cds.String"
+        },
+        "postingDate": {
+          "type": "cds.DateTime"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "longText": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "social.citizen.genai.srv.RedditService.retrieveRedditPosts": {
+      "kind": "action",
+      "params": {
+        "message": {
+          "type": "social.citizen.genai.srv.Message"
+        }
+      },
+      "returns": {
+        "type": "social.citizen.genai.srv.RedditPosts"
+      }
+    },
+    "social.citizen.genai.srv.S4VDMService": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@path": "/s4vdm-api"
+    },
+    "social.citizen.genai.srv.S4VDMService.createMaintenanceNotificationS4": {
+      "kind": "action",
+      "params": {
+        "message": {
+          "type": "social.citizen.genai.srv.GenAIOutput"
+        }
+      },
+      "returns": {
+        "type": "social.citizen.genai.srv.Result"
+      }
+    },
+    "social.citizen.genai.srv.S4VDMService.denyNotificationOfIssue": {
+      "kind": "action",
+      "params": {
+        "message": {
+          "type": "social.citizen.genai.srv.GenAIOutput"
+        }
+      },
+      "returns": {
+        "type": "social.citizen.genai.srv.Result"
+      }
+    },
+    "social.citizen.genai.srv.GenAIHubService": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@path": "/genaihub-api"
+    },
+    "social.citizen.genai.srv.GenAIHubService.processRedditPostGenAI": {
+      "kind": "action",
+      "params": {
+        "post": {
+          "type": "social.citizen.genai.srv.RedditPost"
+        }
+      },
+      "returns": {
+        "type": "social.citizen.genai.srv.GenAIOutput"
+      }
+    },
+    "social.citizen.genai.srv.GenAIHubService.acceptSuggestionFromGenAI": {
+      "kind": "action",
+      "params": {
+        "getnAiOutput": {
+          "type": "social.citizen.genai.srv.GenAIOutput"
+        }
+      },
+      "returns": {
+        "type": "social.citizen.genai.srv.Result"
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v3.6.2",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}

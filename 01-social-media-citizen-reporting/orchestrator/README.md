@@ -3,6 +3,10 @@
 # Pre-requisites
 - destinations to create: GENAICORE | REDDIT_API | REDDIT_API_AUTH | S4HC_GENAI
 
+## Parameters to be defined
+deploymentUrl in manifest.yml: retrieve from AI Core
+destinations name to follow suit: GENAICORE | REDDIT_API | REDDIT_API_AUTH | S4HC_GENAI
+
 # Steps to Deploy
 cds add hana
 cds add cf-manifest (manifest file has been generated already, so skipping step)
@@ -16,12 +20,7 @@ cf create-service hana hdi-shared social-citizen-genai-db
 (details in service-manifest.yml)
 cf push again once service is created
 
-Destination to be created
-- s4
-- reddit
-- aicore
-
-Automate creation of services below
+### Automate creation of services below
 After deployment, it will fail, bind the following services
 - destination
 - xsuaa (required for cloud sdk s4 modules)

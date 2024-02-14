@@ -15,7 +15,7 @@ applications:
   services:
   - social-citizen-genai-db
   env:
-    deploymentUrl: "/v2/inference/deployments/d779eac2fb5c98b5/chat/completions?api-version=2023-05-15"
+    deploymentUrl: "_DEPLOYMENT_URL_AI_CORE_" # something like this /v2/inference/deployments/d8919eac2fb5c98b5/chat/completions?api-version=2023-05-15
 
 # -----------------------------------------------------------------------------------
 # HANA Database Content Deployer App
