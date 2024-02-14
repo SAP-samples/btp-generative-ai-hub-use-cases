@@ -1,0 +1,23 @@
+COLUMN TABLE social_citizen_genai_ProcessedIssues (
+  ID INTEGER NOT NULL,
+  processor NVARCHAR(5000),
+  processDate NVARCHAR(5000),
+  processTime NVARCHAR(5000),
+  reportedBy NVARCHAR(5000),
+  decision NVARCHAR(5000),
+  redditPostID NVARCHAR(5000),
+  maintenanceNotificationID NVARCHAR(5000),
+  address NVARCHAR(5000),
+  location NVARCHAR(5000),
+  lat NVARCHAR(5000),
+  long NVARCHAR(5000),
+  genaiSummary NVARCHAR(5000),
+  genaiDescription NVARCHAR(5000),
+  priority NVARCHAR(5000),
+  priorityDesc NVARCHAR(5000),
+  sentiment NVARCHAR(5000),
+  category NVARCHAR(5000),
+  "DATE" NVARCHAR(5000),
+  "TIME" NVARCHAR(5000),
+  PRIMARY KEY(ID)
+)

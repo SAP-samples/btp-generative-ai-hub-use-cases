@@ -1,6 +1,5 @@
-#@server = http://localhost:4004
 ## GenAI Enablement Subaccount
-@server = https://social-citizen-genai-srv-resplendent-hyrax-mi.cfapps.eu10-004.hana.ondemand.com
+@server = http://localhost:4004
 
 ### Retrieve List Processed Issues
 GET {{server}}/manager-api/ProcessedIssues
