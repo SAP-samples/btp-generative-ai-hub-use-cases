@@ -1,20 +1,4 @@
 # Augment Your SAP BTP Use Cases With AI Foundation on SAP BTP
-<!--
-This default template for SAP Samples repositories includes files for README, LICENSE, and .reuse/dep5. All repositories on github.com/SAP-samples will be created based on this template.
-
-# Containing Files
-1. The LICENSE file:
-In most cases, the license for SAP sample projects is `Apache 2.0`.
-
-2. The .reuse/dep5 file: 
-The [Reuse Tool](https://reuse.software/) must be used for your samples project. You can find the .reuse/dep5 in the project initial. Please replace the parts inside the single angle quotation marks < > by the specific information for your repository.
-
-3. The README.md file (this file):
-Please edit this file as it is the primary description file for your project. You can find some placeholder titles for sections below.
--->
-
-<!-- Please include descriptive title -->
-
 [![License: Apache2](https://img.shields.io/badge/License-Apache2-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-generative-ai-hub-use-cases)](https://api.reuse.software/info/github.com/SAP-samples/btp-generative-ai-hub-use-cases)
 
@@ -23,8 +7,8 @@ This repository includes a list of sample code about various use cases with SAP 
 Use Case | Description | SAP BTP Services | Blog Post
 ---------|----------|----------|----------
 [`01-Social Media Citizen Reporting`](01-social-media-citizen-reporting) | In this session we will do an in-depth exploration of the new Generative AI Hub and its industry solution. Learn how to quickly develop generative AI for SAP BTP apps securely, with access to a variety of large language models. The Generative AI Hub is the central cockpit in SAP BTP, allowing you to create, operate, monitor, and orchestrate your generative AI scenarios. It provides tools for efficient prompt engineering and prompt management, experimentation through the playground, and access to code libraries and SDKs. | Generative AI Hub, SAP AI Core, SAP S/4HANA Cloud, SAP HANA Cloud, CAP, SAP Build Apps | TBA
-[`02-Generative AI-based code development with Joule in SAP Build Code`](02-) | In this session we will do an in-depth exploration of ”capGPT” and show how it can help increase development productivity by using generative AI for automatic code generation based on Cloud Platform Application Programming (CAP) model. | SAP Build Code, Joule, CAP | TBA
-[`03-Embedding business context with the SAP HANA Cloud, Vector Engine`](03-) | In this session we will do an in-depth exploration of the new Vector Engine in SAP HANA Cloud and show how it can help ground/embed your models to put its responses into the right business context for better and more relevant outcomes and eliminate “hallucinations”. | Generative AI Hub, SAP HANA Cloud, Vector Engine, SAP AI Core | TBA
+02-Generative AI-based code development with Joule in SAP Build Code | In this session we will do an in-depth exploration of ”capGPT” and show how it can help increase development productivity by using generative AI for automatic code generation based on Cloud Platform Application Programming (CAP) model. | SAP Build Code, Joule, CAP | TBA
+03-Embedding business context with the SAP HANA Cloud, Vector Engine | In this session we will do an in-depth exploration of the new Vector Engine in SAP HANA Cloud and show how it can help ground/embed your models to put its responses into the right business context for better and more relevant outcomes and eliminate “hallucinations”. | Generative AI Hub, SAP HANA Cloud, Vector Engine, SAP AI Core | TBA
 
 Please note that the table above reflects the current state of planning, and that actual topics and timelines may change completely. Additional sessions will be added throughout the year.
 
