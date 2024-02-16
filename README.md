@@ -15,7 +15,7 @@ Please edit this file as it is the primary description file for your project. Yo
 
 <!-- Please include descriptive title -->
 
-
+[![License: Apache2](https://img.shields.io/badge/License-Apache2-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-generative-ai-hub-use-cases)](https://api.reuse.software/info/github.com/SAP-samples/btp-generative-ai-hub-use-cases)
 
 ## Description
