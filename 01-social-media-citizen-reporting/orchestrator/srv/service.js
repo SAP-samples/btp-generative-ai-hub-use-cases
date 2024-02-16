@@ -338,7 +338,7 @@ module.exports = cds.service.impl(async function () {
 
             const apiresults = await redditAPI
                 .tx(req)
-                .send({ method: 'GET', path: '/r/MOCK_SAGENAICITY/new', headers: apiheaders });
+                .send({ method: 'GET', path: '/r/MOCK_SAGENAICITY/new?limit=1000', headers: apiheaders });
 
             var redditLists = apiresults.data.children;
             const redditListArr = [];
