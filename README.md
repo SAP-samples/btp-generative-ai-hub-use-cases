@@ -15,9 +15,8 @@ Please edit this file as it is the primary description file for your project. Yo
 
 <!-- Please include descriptive title -->
 
-<!--- Register repository https://api.reuse.software/register, then add REUSE badge:
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/REPO-NAME)](https://api.reuse.software/info/github.com/SAP-samples/REPO-NAME)
--->
+
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/btp-generative-ai-hub-use-cases)](https://api.reuse.software/info/github.com/SAP-samples/btp-generative-ai-hub-use-cases)
 
 ## Description
 This repository includes a list of sample code about various use cases with SAP BTP, which are presented during the [SAP BTP AI Foundation Use Cases series](https://partneredge.sap.com/en/library/education/products/btp/build/e_ep_use-cases_ai-foundation.html). Each numbered folder you see in the structure is comprised by the code presented on an individual session. And each folder represents a completed runnable project about an use case with SAP BTP. To run a specific project, please kindly follow the README.md within its folder. <br/>
