@@ -4,6 +4,7 @@ The design of our citizen issue reporting application includes several component
 
 <img width="1596" alt="Screenshot 2024-02-19 at 15 49 51" src="https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/1317854/4c970908-cc92-4cd0-9e19-35c1bf5b5666">
 
+
 In this folder of the repository you can find the material to develop a specific part of our application in Python, as alternative option in addition to the JavaScript development.
 
 In particular, with this prototype we show how we it is possible to consume Generative AI Hub in Python thanks to its [SDK](https://pypi.org/project/generative-ai-hub-sdk/), and how to implement these as a new service in Cloud Foundry.
@@ -14,11 +15,11 @@ We have to keep in mind what we want to achieve with this development: we basica
 > [!IMPORTANT]
 Please, note that this proof of concept could serve as an inspiration for you partners who are looking to develop your own solution adopting Generative AI, specifically SAP AI Core (extended service plan).
 
-## Pre-requisites
+# Pre-requisites
 Below there are some setup steps that are required to ensure a success deployment of the application.
 
-* You have a productive account for SAP Business Technology Platform (SAP BTP)
-* You have created a subaccount and a space on Cloud Foundry Environment with ???
+* You have a productive account for SAP Business Technology Platform (SAP BTP).
+* You have created a subaccount and a space on Cloud Foundry Environment.
 * You have a SAP AI Core (extended service plan). For more info, please refer to this [blog](https://community.sap.com/t5/technology-blogs-by-sap/generative-ai-hub-out-now/ba-p/13580462) about the availability of SAP Generative AI Hub. As of the date of this repository, it is still not available for trial.
 * You have deployed at least one model in AI Core to be consumed through Generative AI Hub. More details can be found in this tutorial: 
 ![Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html) 
@@ -30,7 +31,7 @@ To learn more about how to [Consume Generative AI Models](https://help.sap.com/d
 
 # Getting Started
 
-We have organized the source code and the components in general in the folders described below.
+Below you can find a description of the material in this folder:
 
 File or Folder | Purpose
 ---------|----------
@@ -57,13 +58,13 @@ We can use the Cloud Foundry runtime to deploy this Python class as a new servic
 
 # Steps to Deploy
 
-Below the list of commands to deploy the python application from a command line.
+Below the list of commands to deploy the python application from command line with CF CLI.
 
 1. Open a command-line console.
 2. Set the Cloud Foundry API endpoint for your subaccount. Execute (using your actual region URL):
 
     ```shell
-    cf api https://api.cf.<REGION>.hana.ondemand.com
+    cf api https://api.cf.<YOUR-REGION>.hana.ondemand.com
     ```
 
 3. Log in to SAP BTP, Cloud Foundry environment:
@@ -72,17 +73,17 @@ Below the list of commands to deploy the python application from a command line.
     cf login
     ```
 
-4. When prompted, enter your user credentials: the email and password you have used to register your trial or productive SAP BTP account.
+4. When prompted, enter your user credentials: the email and password you have used to register your productive SAP BTP account.
 
 5. Choose the org name and space where you want to create your application.
 
-6. Deploy the application on Cloud Foundry. To do that, in the python code directory, execute:
+6. Deploy the application on Cloud Foundry. To do that, execute:
 
     ```shell
     cf push --random-route
     ```
 
-    If you’re using a trial account, you don’t need to choose anything. You can use only one org name, and your default space is dev. Make sure you always execute cf push in the directory where the manifest.yml file is located!
+    Make sure you always execute cf push in the directory where the manifest.yml file is located!
 
 7. When the staging and deployment steps are completed, the application should be successfully started and its details displayed in the command console.
 
@@ -99,5 +100,3 @@ In order to make the python application work and establish a connection to AI Co
 * AICORE_BASE_URL: This is the URL of the service (with suffix /v2).
 * AICORE_RESOURCE_GROUP: This represents the resource group that should be used.
 
-
-## Learn More
