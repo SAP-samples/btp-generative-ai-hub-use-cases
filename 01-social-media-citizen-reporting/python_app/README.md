@@ -87,7 +87,10 @@ Below the list of commands to deploy the python application from command line wi
 
 7. When the staging and deployment steps are completed, the application should be successfully started and its details displayed in the command console.
 
-8. Keep note of the generated URL of the application (see routes). The complete URL can be built by checking the application route by adding the endpoint specified in the server code.
+8. Keep note of the generated URL of the application (see routes). The complete URL can be built by checking the application route by adding the endpoint specified in the server code. These details can be also checked from the BTP subaccount.
+
+<img width="1661" alt="Screenshot 2024-02-19 at 17 39 50" src="https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/1317854/4933a444-8350-4700-8d82-e5a9374df214">
+
 
 
 ## Parameters to be defined
