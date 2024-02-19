@@ -1,8 +1,8 @@
-# A micro-service CAP app for an Use Case adopting SAP AI Core, SAP Generative AI Hub (AI Foundation), SAP S/4HANA Cloud and Reddit (Social Media)
+# A Python micro-service app to consume foundation models through Generative AI Hub
 
 The design of our citizen issue reporting application includes several components, each one responsible for a certain system integration. All the components and steps are orchestrated by the Cloud Application Programming Model (in short CAP) micro-service described [here](../orchestrator/).
 
-
+<img width="1596" alt="Screenshot 2024-02-19 at 15 49 51" src="https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/1317854/4c970908-cc92-4cd0-9e19-35c1bf5b5666">
 
 In this folder of the repository you can find the material to develop a specific part of our application in Python, as alternative option in addition to the JavaScript development.
 
@@ -17,15 +17,13 @@ Please, note that this proof of concept could serve as an inspiration for you pa
 ## Pre-requisites
 Below there are some setup steps that are required to ensure a success deployment of the application.
 
-### Obtain a SAP BTP Productive Account with SAP AI Core (extended service plan)
-For more info, please refer to this [blog](https://community.sap.com/t5/technology-blogs-by-sap/generative-ai-hub-out-now/ba-p/13580462) about the availability of SAP Generative AI Hub. As of the date of this repository, it is still not available for trial.
-
-### Create a Deployment for a Generative AI Model
-Instructions about how to deploy (foundation) models in AI Core are reported here: [SAP Help Portal](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/create-deployment-for-generative-ai-model-in-sap-ai-core).
-With this approach you leverage the standardized AI API.
-
-Another possibility is to use AI Lauchpad as client, and perform all the operations from the UI provided by AI Launchpad, as we have shown during the webinar. More details can be found in this tutorial: 
-![Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html)
+* You have a productive account for SAP Business Technology Platform (SAP BTP)
+* You have created a subaccount and a space on Cloud Foundry Environment with ???
+* You have a SAP AI Core (extended service plan). For more info, please refer to this [blog](https://community.sap.com/t5/technology-blogs-by-sap/generative-ai-hub-out-now/ba-p/13580462) about the availability of SAP Generative AI Hub. As of the date of this repository, it is still not available for trial.
+* You have deployed at least one model in AI Core to be consumed through Generative AI Hub. More details can be found in this tutorial: 
+![Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html) 
+* Python is installed locally. In this prototype, we use Python version 3.11.x.
+* The Cloud Foundry CLI is installed locally.
 
 To learn more about how to [Consume Generative AI Models](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/consume-generative-ai-models-using-sap-ai-core).
 
