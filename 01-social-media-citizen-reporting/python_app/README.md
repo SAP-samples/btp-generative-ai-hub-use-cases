@@ -22,7 +22,7 @@ Below there are some setup steps that are required to ensure a success deploymen
 * You have created a subaccount and a space on Cloud Foundry Environment.
 * You have a SAP AI Core (extended service plan). For more info, please refer to this [blog](https://community.sap.com/t5/technology-blogs-by-sap/generative-ai-hub-out-now/ba-p/13580462) about the availability of SAP Generative AI Hub. As of the date of this repository, it is still not available for trial.
 * You have deployed at least one model in AI Core to be consumed through Generative AI Hub. More details can be found in this tutorial: 
-![Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html) 
+[Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html) 
 * Python is installed locally. In this prototype, we use Python version 3.11.x.
 * The Cloud Foundry CLI is installed locally.
 
@@ -35,7 +35,7 @@ Below you can find a description of the material in this folder:
 
 File or Folder | Purpose
 ---------|----------
-`app/` | It contains the [python application code](/app/issue_reporting_app.py) with all the logic and the python code for the [serving application](/app/server.py), as this application will be a web server utilizing the Flask web framework.
+`app/` | It contains the [python application code](./app/issue_reporting_app.py) with all the logic and the python code for the [serving application](./app/server.py), as this application will be a web server utilizing the Flask web framework.
 `Procfile` | It specifies the commands that are executed by the app on startup, for instance the app's web server.
 `manifest.yml` | Configuration describing your application and how it will be deployed to Cloud Foundry
 `requirements.txt` | List of paskages and dependencies needed to run the server and execute the python class methods.
@@ -99,4 +99,6 @@ In order to make the python application work and establish a connection to AI Co
 * AICORE_AUTH_URL: This is the URL used to retrieve a token using the client ID and secret.
 * AICORE_BASE_URL: This is the URL of the service (with suffix /v2).
 * AICORE_RESOURCE_GROUP: This represents the resource group that should be used.
+
+<img width="1082" alt="Screenshot 2024-02-19 at 17 38 06" src="https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/1317854/544982f4-c133-4c7a-a283-25d1658ee49d">
 
