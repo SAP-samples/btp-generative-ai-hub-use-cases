@@ -26,7 +26,7 @@ You can get the source code for the different modules implemented as part of our
 
 File or Folder | Purpose
 ---------|----------
-`orchestrator/` | JavaScript CAP orchestrator app
+`orchestrator/` | JavaScript CAP orchestrator app including Generative AI Hub integration, SAP S/4HANA Cloud Maintenance Notifications creation and Reddit APIs integration.
 `promt_enginnering/` | prompt to be sent to Generative AI
-`python_app/` | Python application integrating with SAP's GEnerative AI Hub showing how to use the SAP's Generative AI Hub SDK
+`python_app/` | Python application integrating with SAP's Generative AI Hub showing how to use the SAP's Generative AI Hub SDK
 
