@@ -22,7 +22,11 @@ Below there are some setup steps that are required to ensure a success deploymen
 * You have created a subaccount and a space on Cloud Foundry Environment.
 * You have a SAP AI Core (extended service plan). For more info, please refer to this [blog](https://community.sap.com/t5/technology-blogs-by-sap/generative-ai-hub-out-now/ba-p/13580462) about the availability of SAP Generative AI Hub. As of the date of this repository, it is still not available for trial.
 * You have deployed at least one model in AI Core to be consumed through Generative AI Hub. More details can be found in this tutorial: 
-[Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html) 
+[Prompt LLMs in the generative AI hub in SAP AI Core & Launchpad](https://developers.sap.com/tutorials/ai-core-generative-ai.html)
+and in this demo:
+
+    [![Watch the video](https://img.youtube.com/vi/iq-sWQbOlho/maxresdefault.jpg)](https://youtu.be/iq-sWQbOlho)
+
 * Python is installed locally. In this prototype, we use Python version 3.11.x.
 * The Cloud Foundry CLI is installed locally.
 
@@ -35,15 +39,19 @@ Below you can find a description of the material in this folder:
 
 File or Folder | Purpose
 ---------|----------
-`app/` | It contains the [python application code](./app/issue_reporting_app.py) with all the logic and the python code for the [serving application](./app/server.py), as this application will be a web server utilizing the Flask web framework.
+`app/` | It contains the [Python application code](./app/issue_reporting_app.py) with all the logic and the Python code for the [serving application](./app/server.py), as this application will be a web server utilizing the Flask web framework.
 `Procfile` | It specifies the commands that are executed by the app on startup, for instance the app's web server.
 `manifest.yml` | Configuration describing your application and how it will be deployed to Cloud Foundry
-`requirements.txt` | List of paskages and dependencies needed to run the server and execute the python class methods.
+`requirements.txt` | List of paskages and dependencies needed to run the server and execute the Python class methods.
 `runtime.txt` | It specifies the Python runtime version that your application will run on.
 `README.md` | This getting started guide
 
 
 # Description
+
+For a description of the logic implemented in the core Python class, please have a look at this demo:
+
+    [![Watch the video](https://img.youtube.com/vi/1hk0E6Lsejs/maxresdefault.jpg)](https://youtu.be/1hk0E6Lsejs)
 
 We can use the Cloud Foundry runtime to deploy this Python class as a new service. In order to do that, we need to write some additional code for the Flask web server that will serve and expose on the internet our Python class through an endpoint.
 
@@ -58,7 +66,7 @@ We can use the Cloud Foundry runtime to deploy this Python class as a new servic
 
 # Steps to Deploy
 
-Below the list of commands to deploy the python application from command line with CF CLI.
+Below the list of commands to deploy the Python application from command line with CF CLI.
 
 1. Open a command-line console.
 2. Set the Cloud Foundry API endpoint for your subaccount. Execute (using your actual region URL):
