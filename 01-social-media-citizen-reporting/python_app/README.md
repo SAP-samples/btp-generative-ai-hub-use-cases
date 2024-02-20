@@ -51,7 +51,7 @@ File or Folder | Purpose
 
 For a description of the logic implemented in the core Python class, please have a look at this demo:
 
-    [![Watch the video](https://img.youtube.com/vi/1hk0E6Lsejs/maxresdefault.jpg)](https://youtu.be/1hk0E6Lsejs)
+[![Watch the video](https://img.youtube.com/vi/1hk0E6Lsejs/maxresdefault.jpg)](https://youtu.be/1hk0E6Lsejs)
 
 We can use the Cloud Foundry runtime to deploy this Python class as a new service. In order to do that, we need to write some additional code for the Flask web server that will serve and expose on the internet our Python class through an endpoint.
 
