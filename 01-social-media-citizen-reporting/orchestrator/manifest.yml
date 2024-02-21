@@ -14,6 +14,8 @@ applications:
   buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.8.15
   services:
   - social-citizen-genai-db
+  - social-citizen-destination
+  - social-citizen-xsuaa
   env:
     deploymentUrl: "_DEPLOYMENT_URL_AI_CORE_" # something like this /v2/inference/deployments/d8919eac2fb5c98b5/chat/completions?api-version=2023-05-15
 

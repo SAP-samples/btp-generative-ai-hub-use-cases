@@ -36,7 +36,7 @@ Please complete this [tutorial](https://developers.sap.com/group.hana-cloud-setu
 ### **(iv) Create Destinations in your SAP BTP Subaccount**
 In order for this application to work, you are required to create 4 destinations of which the application requires to communicate with.
 
-#### **(a) Connecting to a `S/4HANA Cloud System` via SAP BTP Connectivity Destination**
+#### **(a) Connecting to a `SAP S/4HANA Cloud System` via SAP BTP Connectivity Destination**
 > SAP BTP Cockpit > Connectivity > Destinations > **New Destination**
 
 In this step, you will require a S/4HANA Cloud instance for this to work. You will be using a technical user with the right authorisation to Manage Maintenance Order in your S/4HANA Cloud tenant. This will be triggered in the app itself part of the Create Maintenance Notification function.
@@ -115,60 +115,14 @@ For more information on how to utilise Reddit API, please visit this [video](htt
 
 _Please note that the above destination name `REDDIT_API_AUTH` & `REDDIT_API` are being used (thus please **DO NOT** change) and defined in the **Custom Logic** file on `getDestination()` method located in [orchestrator/srv/service.js](srv/service.js#L291)._
 
-## Parameters to be defined
-deploymentUrl in manifest.yml: retrieve from AI Core
-destinations name to follow suit: GENAICORE | REDDIT_API | REDDIT_API_AUTH | S4HC_GENAI
+## Steps to Deploy
+> [!IMPORTANT]
+Please make sure you have completed all the steps explained in the prerequisites section above.
 
-# Steps to Deploy
-cds add hana
-cds add cf-manifest (manifest file has been generated already, so skipping step)
-cds add cf-manifest --force (to bring in hana db service)
-npm install (this will install all libs & dependencies defined in package.json)
-cds build --production
-cf push
-first time deployment might fail as hana db not created.
-run this command manually
-cf create-service hana hdi-shared social-citizen-genai-db
-(details in service-manifest.yml)
-cf push again once service is created
-
-### Automate creation of services below
-After deployment, it will fail, bind the following services
-- destination
-- xsuaa (required for cloud sdk s4 modules)
-Above services can be configured automatically create and bind to app.
-
-# Pending ToDo / Improvements
-- parameterise credentials & apis (currently is hardcoded into function)
-- use llm_commons/generative-ai-hub-sdk libraries to access LLMs - pending: available for JS? Released to partners before our session?
-
-# Things to take note
-NodeJS Buildpack version has to be modified in manifest.yml
-buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.8.15
-
-# Getting Started
-
-Welcome to your new project.
-
-It contains these folders and files, following our recommended project layout:
-
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`package.json` | project metadata and configuration
-`readme.md` | this getting started guide
-
-
-## Next Steps
-
-- Open a new terminal and run `cds watch` 
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
-
-
-## Learn More
-
-Learn more at https://cap.cloud.sap/docs/get-started/.
-
+1. Create the required BTP services
+- cf create-service hana hdi-shared social-citizen-genai-db
+- cf create-service destination lite social-citizen-destination
+- cf create-service xsuaa application social-citizen-xsuaa
+2. cds build --production
+3. cf login
+4. cf push
