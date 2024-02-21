@@ -1,8 +1,0 @@
-COLUMN TABLE social_citizen_genai_srv_RedditService_Posts (
-  id NVARCHAR(5000) NOT NULL,
-  author NVARCHAR(5000),
-  postingDate SECONDDATE,
-  title NVARCHAR(5000),
-  longText NVARCHAR(5000),
-  PRIMARY KEY(id)
-)

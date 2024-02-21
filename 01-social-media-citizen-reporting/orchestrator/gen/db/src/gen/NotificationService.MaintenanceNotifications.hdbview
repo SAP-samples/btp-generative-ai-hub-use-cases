@@ -1,8 +1,0 @@
-VIEW NotificationService_MaintenanceNotifications AS SELECT
-  MaintenanceNotification_0.maintenanceNotification,
-  MaintenanceNotification_0.notificationText,
-  MaintenanceNotification_0.maintPriority,
-  MaintenanceNotification_0.maintPriorityDesc,
-  MaintenanceNotification_0.notificationType,
-  MaintenanceNotification_0.creationDate
-FROM NotificationService_MaintenanceNotification AS MaintenanceNotification_0
