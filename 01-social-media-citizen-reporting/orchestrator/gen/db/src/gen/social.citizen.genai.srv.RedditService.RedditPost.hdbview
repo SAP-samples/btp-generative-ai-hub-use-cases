@@ -1,7 +1,0 @@
-VIEW social_citizen_genai_srv_RedditService_RedditPost AS SELECT
-  Posts_0.id,
-  Posts_0.author,
-  Posts_0.postingDate,
-  Posts_0.title,
-  Posts_0.longText
-FROM social_citizen_genai_srv_RedditService_Posts AS Posts_0
