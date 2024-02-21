@@ -29,4 +29,5 @@ File or Folder | Purpose
 `orchestrator/` | JavaScript CAP orchestrator app including Generative AI Hub integration, SAP S/4HANA Cloud Maintenance Notifications creation and Reddit APIs integration.
 `promt_enginnering/` | prompt to be sent to Generative AI
 `python_app/` | Python application integrating with SAP's Generative AI Hub showing how to use the SAP's Generative AI Hub SDK
+`sap_build_app/` | SAP Build Apps package containing the prototyped User Interface
 
