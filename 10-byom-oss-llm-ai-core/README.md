@@ -5,9 +5,10 @@ The open-source community surrounding Large Language Models (LLMs) is evolving r
 - [llama.cpp](https://github.com/ggerganov/llama.cpp/tree/master/examples/server)
 - [vLLM](https://docs.vllm.ai)
 <br/>
-Please refer to the blog post(tba) for details. 
+Please refer to the blog post(tba) for details.
 
 ## Why running open-sourced LLMs with SAP AI Core?
+
 + Data Protection & Privacy
 + Security
 + Cost-effectiveness
@@ -15,6 +16,7 @@ Please refer to the blog post(tba) for details.
 + Making open-sourced LLMs enterprise ready
 
 ## Solution Architecture
+
 ![Solution Architecture](resources/01-solution-architecture.jpg)
 In principle, there are three essential parts for bringing an open-source LLM/LMM into SAP AI Core.
 - Commercially viable Open-Source or Open-Weight Models: e.g. Mistral, Mixtral, LLaVa etc.
@@ -22,6 +24,7 @@ In principle, there are three essential parts for bringing an open-source LLM/LM
 - Inference server in SAP AI Core: You can bring your own code to implement an inference server, for example, in the blog post about [Running Language Models – Deploy Llama2 7b on AI Core](https://community.sap.com/t5/technology-blogs-by-sap/running-language-models-deploy-llama2-7b-on-ai-core/ba-p/13557544), it shows a great sample to implement a custom inference server with transformer. Alternatively, there are open-source and ready-to-use llm inference servers which can be reused in SAP AI Core, like Ollama, LocalAI, llama.cpp and vLLM with minimal custom code as a custom Dockerfile and configurable serving template adapted for SAP AI Core. Ollama is recommended for its simplicity and efficiency.
 
 ## Why leverage Ollama, LocalAI, llama.cpp and vLLM in SAP AI Core?
+
 Ollama, LocalAI, llama.cpp and vLLM offer a comprehensive solution for running Large Language Models (LLMs) locally or in self-hosted environments. Their full stack capabilities include:
 - Model Management: Dynamically pull or download LLMs from model repository through API during run-time (exclusive to Ollama and LocalAI. vLLM provides seamless integration with Hugging Face models)
 - Running LLM efficiently with GPU Acceleration in SAP AI Core using open-source backends such as llama.cpp, vllm, transformer, exllama etc.
@@ -46,6 +49,7 @@ td:nth-child(3) {
 </style>
 
 ### Ollama vs LocalAI in context of SAP AI Core
+
 |                                     | <a href="https://ollama.com"><img src="https://ollama.com/public/ollama.png" alt="Ollama" height="100"/><br/>Ollama</a>  | <a href="https://localai.io/"><img src="https://github.com/go-skynet/LocalAI/assets/2420543/0966aa2a-166e-4f99-a3e5-6c915fc997dd" alt="LocalAI" height="100"/><br/>LocalAI</a> |
 |-------------------------------------|--------------------------------------------|-------------------------------------|
 | Description                         |     "Ollama: Get up and running with Llama 2, Mistral, Gemma, and other large language models."                                                                   | "LocalAI is the free, Open Source OpenAI alternative. LocalAI act as a drop-in replacement REST API that’s compatible with OpenAI API specifications for local inference..." |
@@ -62,6 +66,7 @@ td:nth-child(3) {
 <br/>
 
 ### llama.cpp vs vLLM in context of SAP AI Core
+
 |                                     | <a href="https://github.com/ggerganov/llama.cpp"><img src="https://user-images.githubusercontent.com/1991296/230134379-7181e485-c521-4d23-a0d6-f7b3b61ba524.png" alt="llama.cpp" height="100"/><br/>llama.cpp</a>  | <a href="https://docs.vllm.ai/"><img src="https://raw.githubusercontent.com/vllm-project/vllm/main/docs/source/assets/logos/vllm-logo-text-light.png" alt="vLLM" height="100"/><br/>vLLM</a> |
 |-------------------------------------|--------------------------------------------|-------------------------------------|
 | Description                         | "The main goal of llama.cpp is to enable LLM inference with minimal setup and state-of-the-art performance on a wide variety of hardware - locally and in the cloud." | "A high-throughput and memory-efficient inference and serving engine for LLMs" |
@@ -76,40 +81,52 @@ td:nth-child(3) {
 | License                   |    MIT  | Apache-2.0 license |
 
 ## How to bring open-sourced LLMs into SAP AI Core
+
 In the following section, we see how to bring open-sourced LLMs into SAP AI Core with Ollama, LocalAI, llama.cpp and vLLM.
 
 ### Prerequistive
+
 The following softwares are required to serve an AI model in SAP AI Core. Please follow [this tutorial](https://developers.sap.com/group.ai-core-get-started-basics.html) to provision and set up your own SAP AI Core if it is new to you, which will cover the list below.
+
 #### 1. [Use Boosters for Standard Plan of SAP AI Core and SAP AI Launchpad(Optional)](https://developers.sap.com/group.ai-core-get-started-basics.html)
+
 Important: Please assure to entitle **Standard Plan** or **Extended Plan** of SAP AI Core, which require a CPEA, or Pay-As-You-Go contract. Please refer to [pricing of SAP AI Core](https://discovery-center.cloud.sap/serviceCatalog/sap-ai-core?region=all&tab=service_plan) for detail. Due to restriction of Free Tier service plan. We can't run the open-source llms with Free Tier plan. Please refer to the official document about [Resource Plan in SAP AI Core](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/choose-resource-plan-c58d4e584a5b40a2992265beb9b6be3c) for detail.<br/>
 
 For the Free Tier service plan, only the Starter resource plan is available. Specifying other plans will result in error. For the Standard service plan, all resource plans are available. For more information, see Free Tier and Service Plans.<br/>
 
 In this sample, SAP AI Launchpad is not used except the docker secret creation, which could be programed. All the github repo onboarding, application, configuration and deployment etc. are performed through SAP AI Core SDK. However, it is recommended to have SAP AI Launchpad for graphical cockpit for administration tasks.
+
 #### 2. [Set Up Tools to Connect With and Operate SAP AI Core](https://developers.sap.com/tutorials/ai-core-setup.html)
 
 #### 3. [Generate a GitHub personal access token](https://developers.sap.com/tutorials/ai-core-helloworld.html) and [Onboard Github to SAP AI Core](https://developers.sap.com/tutorials/ai-core-helloworld.html)
+
 Only take the steps about Generate a GitHub personal access token and Onboard Github to SAP AI Core. We'll fork this GitHub repository instead of creating a new one.
 
 #### 4. Install Docker Desktop and create a personal Docker Registry
+
 Instructions can be found [here](https://docs.docker.com/docker-hub/quickstart/), Step 1 to 4.
 We recommend you to create an access token to be used in place of your password. Instructions on how to generate a token can be found [here](https://docs.docker.com/docker-hub/access-tokens/#create-an-access-token).
 
 #### 5. Install Git and Visual Studio Code(Optional)
-* **Install Git** by following the instructions [here](https://github.com/git-guides/install-git).
-* Download and Install Visual Studio Code by following instructions [here](https://code.visualstudio.com/)
+
+- **Install Git** by following the instructions [here](https://github.com/git-guides/install-git).
+- Download and Install Visual Studio Code by following instructions [here](https://code.visualstudio.com/)
 
 #### 6.Fork [the GitHub repository of btp-generative-ai-hub-use-cases](https://github.com/SAP-samples/btp-generative-ai-hub-use-cases)
+
 Fork with [this url](https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/fork) into your own github account. Set your forked repository to **private**, for it holds the credentials to your SAP AI Core instance, GitHub, Docker registry etc in run-time, which should not be publicly accessible.  
 
 #### 7.Clone your forked repository
+
 ```sh
 git clone <YOUR_FORKED_REPOSITORY_URL> 
 ```
 
 #### 8.Setup a local Python3 environment
-* **Download and Install Python3(>=3.7)** in your local environment from [here](https://www.python.org/downloads/) or other approachs.
-* Create a virtual environment and install the dependencies
+
+- **Download and Install Python3(>=3.7)** in your local environment from [here](https://www.python.org/downloads/) or other approachs.
+- Create a virtual environment and install the dependencies
+
 ```sh
 # Create a virtual env and install the dependencies 
 cd btp-generative-ai-hub-use-cases/10-byom-oss-llm-ai-core
@@ -119,33 +136,46 @@ pip3 install -r byom-oss-llm-code/requirements.txt
 ```
 
 ### Perform the initial configurations for byom-oss-llm-ai-core application in SAP AI Core
+
 Please follow and run the jupyter notebook [00-init-config.ipynb](byom-oss-llm-code/00-init-config.ipynb) to perform the initial configurations for byom-oss-llm-ai-core application in SAP AI Core. To run the jupyter notebook, you can use either of the options below
+
 - [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/getting_started/starting.html) 
+
 ```sh
 # Start the JupyterLab
 jupyter lab
 ```
+
 - [Visual Studio Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)
 
 ### Option 1: (Recommended) Bring open-sourced LLMs into SAP AI Core with Ollama
+
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
+
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
 - [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
 
 ### Option 2: Bring open-sourced LLMs into SAP AI Core with LocalAI
+
 Please follow the jupyter notebooks below to deploy and test **LocalAI** in SAP AI Core.
+
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
 - [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
 
 ### Option 3: Bring open-sourced LLMs into SAP AI Core with llama.cpp
+
 Please follow the jupyter notebooks below to deploy and test **llama.cpp** in SAP AI Core.
+
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
 - [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
 
 ### Option 4: Bring open-sourced LLMs into SAP AI Core with vLLM
+
 Please follow the jupyter notebooks below to deploy and test **LocalAI** in SAP AI Core.
+
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
 - [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
 
 ## License
+
 Copyright (c) 2024 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](../LICENSE) file.
