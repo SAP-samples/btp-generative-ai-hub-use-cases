@@ -1,0 +1,34 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: ollama
+  annotations:
+    scenarios.ai.sap.com/description: "Run a ollama server on SAP AI Core"
+    scenarios.ai.sap.com/name: "ollama"
+    executables.ai.sap.com/description: "ollama service"
+    executables.ai.sap.com/name: "ollama"
+  labels:
+    scenarios.ai.sap.com/id: "ollama"
+    ai.sap.com/version: "0.0.1"
+spec:
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: infer.s
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: <YOUR_DOCKER_SECRET>
+        minReplicas: 1
+        maxReplicas: 1
+        containers:
+        - name: kserve-container
+          image: docker.io/<YOUR_DOCKER_USER>/ollama:ai-core
+          ports:
+            - containerPort: 8080
+              protocol: TCP

@@ -1,0 +1,91 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: llama.cpp
+  annotations:
+    scenarios.ai.sap.com/description: "Run a llama.cpp server on SAP AI Core"
+    scenarios.ai.sap.com/name: "llama.cpp"
+    executables.ai.sap.com/description: "llama.cpp server"
+    executables.ai.sap.com/name: "llama.cpp"
+  labels:
+    scenarios.ai.sap.com/id: "llama.cpp"
+    ai.sap.com/version: "0.0.1"
+spec:
+  inputs:
+    parameters:
+      - name: modelDownloadUrl
+        default: "https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
+        type: string
+        description: "URL to download UUGF with wget. e.g. https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
+      - name: modelFileName
+        default: "mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
+        type: string
+        description: "The model file name"
+      - name: alias
+        default: "mixtral" 
+        type: string
+        description: "The model alias to be used in inference"
+      - name: threads
+        default: "3" 
+        type: string
+        description: "The number of threads to be used in compute"
+      - name: ctxSize
+        default: "4098" 
+        type: string
+        description: "Size of the prompt context "
+      - name: ngl
+        default: "33" 
+        type: string
+        description: "Number of layers to be offloaded into GPU VRAM"
+      - name: enableEmbeddings
+        default: "true" 
+        type: string
+        description: "Enable embedding vector output.Valid values as 'true' or 'false'"
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: infer.s
+    spec: |
+      predictor:
+        imagePullSecrets:
+        - name: <YOUR_DOCKER_SECRET>
+        minReplicas: 1
+        maxReplicas: 1
+        containers:
+        - name: kserve-container
+          image: docker.io/<YOUR_DOCKER_USER>/llama.cpp-server:ai-core
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              set -e && echo "-------------Starting llama.cpp Server--------------" 
+              && wget -P /models -tries=10 {{inputs.parameters.modelDownloadUrl}}
+              && /server 
+              --model /models/{{inputs.parameters.modelFileName}}
+              --alias {{inputs.parameters.alias}}
+              --threads {{inputs.parameters.threads}}
+              --ctx-size {{inputs.parameters.ctxSize}}
+              --n-gpu-layers {{inputs.parameters.ngl}}
+              --embeddings
+          env:
+            - name: MODEL_DOWNLOAD_URL
+              value: "{{inputs.parameters.modelDownloadUrl}}" 
+            - name: MODEL_FILE_NAME
+              value: "{{inputs.parameters.modelFileName}}" 
+            - name: ALIAS
+              value: "{{inputs.parameters.alias}}" 
+            - name: THREADS
+              value: "{{inputs.parameters.threads}}" 
+            - name: CTX_SIZE
+              value: "{{inputs.parameters.ctxSize}}" 
+            - name: N_GPU_LAYERS
+              value: "{{inputs.parameters.ngl}}"
+            - name: ENABLE_EMBEDDINGS
+              value: "{{inputs.parameters.enableEmbeddings}}" 
