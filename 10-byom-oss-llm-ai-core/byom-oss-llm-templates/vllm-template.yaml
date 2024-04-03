@@ -1,0 +1,80 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: vllm
+  annotations:
+    scenarios.ai.sap.com/description: "Run a vLLM server on SAP AI Core"
+    scenarios.ai.sap.com/name: "vllm"
+    executables.ai.sap.com/description: "vLLM OpenAI Server"
+    executables.ai.sap.com/name: "vllm"
+  labels:
+    scenarios.ai.sap.com/id: "vllm"
+    ai.sap.com/version: "1.0.0"
+spec:
+  inputs:
+    parameters:
+      - name: model # placeholder name
+        default: "TheBloke/Mistral-7B-Instruct-v0.2-AWQ" 
+        type: string # required for every parameters
+        description: "--model: Name or path of the huggingface model to use. https://docs.vllm.ai/en/latest/models/supported_models.html/ for supported models"
+      - name: dataType # Data Type
+        default: "half" 
+        type: string # required for every parameters
+        description: "--dtype: Data type for model weights and activations. https://docs.vllm.ai/en/latest/models/engine_args.html"
+      - name: gpuMemoryUtilization # GPU Memory Utilization
+        default: "0.9" 
+        type: string # required for every parameters
+        description: "The fraction(0~1) of GPU memory to be used for the model executor. https://docs.vllm.ai/en/latest/models/engine_args.html"
+      - name: maxTokenLen # placeholder name
+        default: "2048" 
+        type: string # required for every parameters
+        description: "--max-model-len: Model context length. https://docs.vllm.ai/en/latest/models/engine_args.html"
+      - name: maxNumBatchedTokens # placeholder name
+        default: "2048" 
+        type: string # required for every parameters
+        description: "--max-num-batched-tokens: Maximum number of batched tokens per iteration. https://docs.vllm.ai/en/latest/models/engine_args.html"
+      - name: maxNumSeqs # placeholder name
+        default: "2048" 
+        type: string # required for every parameters
+        description: "--max-num-seqs: Maximum number of sequences per iteration. https://docs.vllm.ai/en/latest/models/engine_args.html"
+      - name: quantization # placeholder name
+        default: "None" 
+        type: string # required for every parameters
+        description: "--quantization: Method used to quantize the weights. https://docs.vllm.ai/en/latest/models/engine_args.html" 
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: infer.s
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: <YOUR_DOCKER_SECRET>
+        minReplicas: 1
+        maxReplicas: 1
+        containers:
+        - name: kserve-container
+          image: docker.io/<YOUR_DOCKER_USER>/vllm-openai:ai-core
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              set -e && echo "-------------Starting vLLM OpenAI API Server--------------" 
+              && python3 -m vllm.entrypoints.openai.api_server 
+              --model {{inputs.parameters.model}}
+              --dtype {{inputs.parameters.dataType}} 
+              --gpu-memory-utilization {{inputs.parameters.gpuMemoryUtilization}} 
+              --enforce-eager
+              --max-model-len {{inputs.parameters.maxTokenLen}}
+              --max-num-batched-tokens {{inputs.parameters.maxNumBatchedTokens}}
+              --max-num-seqs {{inputs.parameters.maxNumSeqs}}
+              --quantization {{inputs.parameters.quantization}}
+          env:
+            - name: MODEL
+              value: "{{inputs.parameters.model}}"

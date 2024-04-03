@@ -1,0 +1,5 @@
+ai-core-sdk
+jupyterlab
+ipython
+requests
+matplotlib
