@@ -19,7 +19,7 @@
     "access_token": "<REPLACE_WITH_YOUR_GITHUB_USER_ACCESS_TOKEN>"
   },
   "application": {
-    "path_in_repo": "02-byom-oss-llm-ai-core/byom-oss-llm-templates",
+    "path_in_repo": "10-byom-oss-llm-ai-core/byom-oss-llm-templates",
     "revision": "HEAD"
   },
   "comment_scenario": "Scenarios are defined in serving templates under byom-oss-llm-templates.DO NOT change anything in scenarios section!",
