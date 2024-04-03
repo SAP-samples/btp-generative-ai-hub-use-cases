@@ -119,16 +119,13 @@ pip3 install -r byom-oss-llm-code/requirements.txt
 ```
 
 ### Perform the initial configurations for byom-oss-llm-ai-core application in SAP AI Core
-Please follow and run the jupyter notebook [00-init-config.ipynb](byom-oss-llm-code/00-init-config.ipynb) to perform the initial configurations for byom-oss-llm-ai-core application in SAP AI Core. To run the run the jupyter notebook, you can use either [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/getting_started/starting.html) or [Visual Studio Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)
+Please follow and run the jupyter notebook [00-init-config.ipynb](byom-oss-llm-code/00-init-config.ipynb) to perform the initial configurations for byom-oss-llm-ai-core application in SAP AI Core. To run the jupyter notebook, you can use either of the options below
+- [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/getting_started/starting.html) 
 ```sh
 # Start the JupyterLab
 jupyter lab
 ```
-- copy [byom-oss-llm-code/config.template.json](byom-oss-llm-code/config.template.json) and rename the copy as config.json under folder byom-oss-llm-code
-- Review and update configurations in config.json
-- Onboarding the github repository
-- Create the application and sync
-- Create the configurations for scenarios
+- [Visual Studio Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)
 
 ### Option 1: (Recommended) Bring open-sourced LLMs into SAP AI Core with Ollama
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
