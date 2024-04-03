@@ -154,27 +154,33 @@ Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP A
 
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
 - [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
+- [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb)
+- [04-cleanup.ipynb](byom-oss-llm-code/ollama/04-cleanup.ipynb)
 
 ### Option 2: Bring open-sourced LLMs into SAP AI Core with LocalAI
 
 Please follow the jupyter notebooks below to deploy and test **LocalAI** in SAP AI Core.
 
-- [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
+- [01-deployment.ipynb](byom-oss-llm-code/local-ai/01-deployment.ipynb)
+- [02-local-ai.ipynb](byom-oss-llm-code/local-ai/02-local-ai.ipynb)
+- [03-local-ai-llava.ipynb](byom-oss-llm-code/local-ai/03-local-ai-llava.ipynb)
+- [04-cleanup.ipynb](byom-oss-llm-code/local-ai/04-cleanup.ipynb)
 
 ### Option 3: Bring open-sourced LLMs into SAP AI Core with llama.cpp
 
 Please follow the jupyter notebooks below to deploy and test **llama.cpp** in SAP AI Core.
 
-- [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
+- [01-deployment.ipynb](byom-oss-llm-code/llama.cpp/01-deployment.ipynb)
+- [02-llama.cpp.ipynb](byom-oss-llm-code/llama.cpp/02-llama.cpp.ipynb)
+- [04-cleanup.ipynb](byom-oss-llm-code/llama.cpp/04-cleanup.ipynb)
 
 ### Option 4: Bring open-sourced LLMs into SAP AI Core with vLLM
 
-Please follow the jupyter notebooks below to deploy and test **LocalAI** in SAP AI Core.
+Please follow the jupyter notebooks below to deploy and test **vLLM** in SAP AI Core.
 
-- [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
+- [01-deployment.ipynb](byom-oss-llm-code/vllm/01-deployment.ipynb)
+- [02-vllm.ipynb](byom-oss-llm-code/vllm/02-vllm.ipynb)
+- [04-cleanup.ipynb](byom-oss-llm-code/vllm.cpp/04-cleanup.ipynb)
 
 ## License
 
