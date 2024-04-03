@@ -1,5 +1,5 @@
 # Bringing Open-sourced LLMs into SAP AI Core with Ollama and LocalAI
-The open-source community surrounding Large Language Models (LLMs) is evolving rapidly, with new models, backends, libraries, and toolings constantly emerging. These developments enable the running of LLMs locally or on self-hosted environments. This repository serves as a guide on how to bring popular open-source Large Language Models (such as Llama 2, Mistral, Mixtral, Gemma, LlaVA, etc.) into SAP AI Core using widely adopted open-source LLM tools or backends.
+The open-source community surrounding Large Language Models (LLMs) is evolving rapidly, with new models, backends, libraries, and toolings constantly emerging. These developments enable the running of LLMs locally or on self-hosted environments. SAP AI Core is a service in the SAP Business Technology Platform that is designed to handle the execution and operations of your AI assets in a standardized, scalable, and hyperscaler-agnostic way. This repository serves as a guide on how to bring popular open-source Large Language Models (such as Mistral, Mixtral, Gemma, LlaVA, Llama 2, etc.) into SAP AI Core using widely adopted open-source LLM tools or backends, which complements SAP Generative AI Hub with self-hostsed open-source LLMs.
 - [Ollama](https://ollama.com/)
 - [LocalAI](https://localai.io/)
 - [llama.cpp](https://github.com/ggerganov/llama.cpp/tree/master/examples/server)
@@ -70,8 +70,11 @@ In the following section, we see how to bring open-sourced LLMs into SAP AI Core
 
 ### Prerequistive
 The following softwares are required to serve an AI model in SAP AI Core. Please follow [this tutorial](https://developers.sap.com/group.ai-core-get-started-basics.html) to provision and set up your own SAP AI Core if it is new to you, which will cover the list below.
-#### 1. [Use Boosters for Free Tier Use of SAP AI Core and SAP AI Launchpad](https://developers.sap.com/group.ai-core-get-started-basics.html)
+#### 1. [Use Boosters for Standard Plan of SAP AI Core and SAP AI Launchpad(Optional)](https://developers.sap.com/group.ai-core-get-started-basics.html)
+Important: Please assure to entitle **Standard Plan** or **Extended Plan** of SAP AI Core, which require a CPEA, or Pay-As-You-Go contract. Please refer to [pricing of SAP AI Core](https://discovery-center.cloud.sap/serviceCatalog/sap-ai-core?region=all&tab=service_plan) for detail. Due to restriction of Free Tier service plan. We can't run the open-source llms with Free Tier plan. Please refer to the official document about [Resource Plan in SAP AI Core](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/choose-resource-plan-c58d4e584a5b40a2992265beb9b6be3c) for detail.<br/><br/>
+For the Free Tier service plan, only the Starter resource plan is available. Specifying other plans will result in error. For the Standard service plan, all resource plans are available. For more information, see Free Tier and Service Plans.<br/><br/>
 
+In this sample, SAP AI Launchpad is not used except the docker secret creation, which could be programed. All the github repo onboarding, application, configuration and deployment etc. are performed through SAP AI Core SDK. However, it is recommended to have SAP AI Launchpad for graphical cockpit for administration tasks.
 #### 2. [Set Up Tools to Connect With and Operate SAP AI Core](https://developers.sap.com/tutorials/ai-core-setup.html)
 
 #### 3. [Generate a GitHub personal access token](https://developers.sap.com/tutorials/ai-core-helloworld.html) and [Onboard Github to SAP AI Core](https://developers.sap.com/tutorials/ai-core-helloworld.html)
