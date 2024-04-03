@@ -1,9 +1,11 @@
-# Bringing Open-sourced LLMs into SAP AI Core with Ollama and LocalAI
+# Bringing Open-sourced LLMs into SAP AI Core
 The open-source community surrounding Large Language Models (LLMs) is evolving rapidly, with new models, backends, libraries, and toolings constantly emerging. These developments enable the running of LLMs locally or on self-hosted environments. SAP AI Core is a service in the SAP Business Technology Platform that is designed to handle the execution and operations of your AI assets in a standardized, scalable, and hyperscaler-agnostic way. This repository serves as a guide on how to bring popular open-source Large Language Models (such as Mistral, Mixtral, Gemma, LlaVA, Llama 2, etc.) into SAP AI Core using widely adopted open-source LLM tools or backends, which complements SAP Generative AI Hub with self-hostsed open-source LLMs.
 - [Ollama](https://ollama.com/)
 - [LocalAI](https://localai.io/)
 - [llama.cpp](https://github.com/ggerganov/llama.cpp/tree/master/examples/server)
 - [vLLM](https://docs.vllm.ai)
+<br/>
+Please refer to the blog post(tba) for details. 
 
 ## Why running open-sourced LLMs with SAP AI Core?
 + Data Protection & Privacy
