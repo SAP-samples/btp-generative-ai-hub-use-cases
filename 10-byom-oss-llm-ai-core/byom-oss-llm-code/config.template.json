@@ -13,6 +13,12 @@
       "AI_API_URL": "<REPLACE_WITH_YOUR_AI_CORE_AI_API_URL> Something like https://api.ai.prod.eu-central-1.aws.ml.hana.ondemand.com"
     }
   },
+  "docker_secret": {
+    "name": "docker-secret",
+    "data": {
+      ".dockerconfigjson": "{\"auths\": {\"docker.io\": {\"username\": \"<REPLACE_WITH_YOUR_DOCKER_USERNAME>\", \"password\": \"<REPLACE_WITH_YOUR_DOCKER_ACCESS_TOKEN>\"}}}"
+    }
+  },
   "git_repo": {
     "repo_url": "https://github.com/<YOUR_GIT_HUB_USER>/btp-generative-ai-hub-use-cases",
     "user": "<REPLACE_WITH_YOUR_GITHUB_USER>",
