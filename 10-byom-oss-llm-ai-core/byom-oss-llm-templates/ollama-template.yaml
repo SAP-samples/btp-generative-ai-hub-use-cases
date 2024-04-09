@@ -23,7 +23,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-          - name: <YOUR_DOCKER_SECRET>
+        - name: <YOUR_DOCKER_SECRET>
         minReplicas: 1
         maxReplicas: 1
         containers:
