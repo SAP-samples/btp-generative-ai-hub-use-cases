@@ -1,0 +1,9 @@
+Flask
+Flask_Cors
+generative_ai_hub_sdk
+hdbcli
+langchain
+langchain_community
+PyPDF2
+uwsgi
+praw
