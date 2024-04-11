@@ -1,0 +1,9 @@
+.DS_Store
+gen
+mta_archives
+api/node_modules
+api/default-env.json
+api/.cdsrc.json
+api/.cdsrc-private.json
+router/node_modules
+api/test/requests.http

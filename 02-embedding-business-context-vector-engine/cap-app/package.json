@@ -1,0 +1,18 @@
+{
+    "name": "citizen-genai-rag",
+    "version": "1.0.0",
+    "description": "CAP sample with Generative AI Hub & SAP HANA Cloud Vector Engine",
+    "repository": "https://github.com/SAP-samples/btp-cap-genai-rag",
+    "license": "Apache License 2.0",
+    "private": true,
+    "scripts": {
+        "--------DEVELOPMENT-------": "",
+        "watch": "npx --yes npm-run-all --npm-path npm --parallel watch:api router",
+        "watch:api": "npm run watch --prefix ./api",
+        "router": "npm run start:local --prefix ./router",
+        "--------BUILD & DEPLOY-------": "",
+        "build": "mbt build -p=cf -t=./mta_archives --mtar=citizen-genai-rag_0.0.1.mtar",
+        "deploy": "cf deploy mta_archives/citizen-genai-rag_0.0.1.mtar",
+        "build:deploy": "npm run build && npm run deploy"
+    }
+}

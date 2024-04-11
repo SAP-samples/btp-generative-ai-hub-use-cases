@@ -1,0 +1,112 @@
+_schema-version: "3.2"
+ID: citizen-genai-rag
+version: 0.0.1
+
+parameters:
+    enable-parallel-deployments: true
+build-parameters:
+    before-all:
+        - builder: custom
+          commands:
+              - npm run build:cf --prefix api
+
+modules:
+    # --------------------- APPROUTER MODULE ---------------------
+    - name: citizen-genai-rag
+      # ------------------------------------------------------------
+      type: approuter.nodejs
+      path: ./router
+      build-parameters:
+          builder: npm
+          ignore: [".DS_Store", "node_modules/", "manifest*.yml"]
+      parameters:
+          app-name: citizen-genai-rag-${space}
+          disk-quota: 256MB
+          memory: 128MB
+          app-domain: ${app-name}.${default-domain}
+          keep-existing-routes: true
+      requires:
+          - name: citizen-genai-rag-uaa
+          - name: citizen-genai-rag-destination
+          - name: citizen-genai-rag-srv-api
+            group: destinations
+            properties:
+                forwardAuthToken: true
+                name: api
+                strictSSL: false
+                url: ~{srv-url}
+      provides:
+          - name: citizen-genai-rag-approuter
+            properties:
+                app-url: ${default-url}
+                application: ${app-name}
+                app-domain: ${app-domain}
+
+    # --------------------- SERVER MODULE ------------------------
+    - name: citizen-genai-rag-srv
+      # ------------------------------------------------------------
+      type: nodejs
+      path: ./api/gen/srv
+      build-parameters:
+          builder: npm
+          ignore: [".DS_Store", "manifest*.yml", "node_modules/"]
+      parameters:
+          app-name: citizen-genai-rag-srv-${space}
+          memory: 256MB
+          disk-quota: 1024MB
+          command: node ./node_modules/@sap/cds/bin/cds-serve
+          env:
+            deploymentUrl: "_DEPLOYMENT_URL_AI_CORE_"
+      requires:
+          - name: citizen-genai-rag-uaa
+          - name: citizen-genai-rag-destination
+          - name: citizen-genai-rag-hdi-container
+      provides:
+          - name: citizen-genai-rag-srv-api
+            properties:
+                srv-url: ${default-url}
+
+    # --------------------- DB MODULE --------------------------
+    - name: citizen-genai-rag-db-deployer
+      # ------------------------------------------------------------
+      type: hdb
+      path: ./api/gen/db
+      build-parameters:
+          ignore: [".DS_Store", "node_modules/", "manifest*.yml"]
+      parameters:
+          app-name: citizen-genai-rag-db-deployer-${space}
+          memory: 256MB
+          disk-quota: 1024MB
+      requires:
+          - name: citizen-genai-rag-hdi-container
+
+resources:
+    # ----------------------- UAA SERVICE ------------------------
+    - name: citizen-genai-rag-uaa
+      # ------------------------------------------------------------
+      type: org.cloudfoundry.managed-service
+      parameters:
+          config:
+              tenant-mode: dedicated
+              xsappname: citizen-genai-rag
+          path: ./api/xs-security.json
+          service: xsuaa
+          service-plan: application
+
+    # ----------------- DESTINATION SERVICE ----------------------
+    - name: citizen-genai-rag-destination
+      # ------------------------------------------------------------
+      type: org.cloudfoundry.managed-service
+      parameters:
+          service: destination
+          service-plan: lite
+
+    # ------------------ HDI CONTAINER ---------------------
+    - name: citizen-genai-rag-hdi-container
+      # ------------------------------------------------------------
+      type: com.sap.xs.hdi-container
+      parameters:
+          service: hana
+          service-plan: hdi-shared
+      properties:
+          hdi-service-name: ${service-name}

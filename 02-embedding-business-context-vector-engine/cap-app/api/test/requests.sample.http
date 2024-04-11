@@ -1,0 +1,269 @@
+@xsuaaHostname = https://YOUR_HOST_NAME.authentication.eu12.hana.ondemand.com
+@btpXsuaaClient = UAA_SERVICE_KEY_CLIENT_ID
+@btpXsuaaSecret = UAA_SERVICE_KEY_CLIENT_SECRET
+@btpAppHostname = https://SERVICE_DEPLOYED_ENDPOINT_OF_APPP.cfapps.eu12.hana.ondemand.com
+# @btpAppHostname = http://localhost:4004
+
+### GET XSUAA TOKEN
+# @name getXsuaaToken
+POST {{xsuaaHostname}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic {{btpXsuaaClient}}:{{btpXsuaaSecret}}
+
+client_id={{btpXsuaaClient}}
+&client_secret={{btpXsuaaSecret}}
+&grant_type=client_credentials
+
+
+### CHAT COMPLETION
+@token = {{getXsuaaToken.response.body.$.access_token}}
+# @name chatCompeletion
+POST {{btpAppHostname}}/rag-api/chatCompletion
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "prompt": "Hi, whats your name?"
+}
+
+### PROCESS POST
+@token = {{getXsuaaToken.response.body.$.access_token}}
+# @name postProcessGenAI
+POST {{btpAppHostname}}/rag-api/postProcessGenAI
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "post":{
+      "id":"21trmsa",
+      "author":"Trinidad_MG",
+      "title":"a graffity in a public wall",
+      "longText":"NOT SO SAFE PARK ALERT!Hey u/SagenaiCouncil , it's a great day in our beloved neighborhood, but not for much longer! Who needs a tree? We sure don't! Just witnessed a massive fallen tree in the middle of Grove Park on High Road, Sagenai. Talk about a potential disaster waiting to happen!I mean, who wants safe and well-maintained parks, am I right? We definitely prefer a jungle gym of fallen branches and a cool obstacle course for the kids! So, u/SagenaiCouncil , I'm sure you're busy, but maybe squeeze in a moment to address this before someone gets hurt? Just a suggestion from a concerned citizen who kind of enjoys walking without dodging tree debris!Thanks in advance for your prompt action, because obviously, the safety of our community is not a priority. ♂️\\#FallenTree #SagenaiProblems #SafetyFirst",
+      "postingDate":"2024-01-19T09:33:38.000Z"
+   }
+}
+
+### Similarity search based on last x days (5) from posted date, 
+### Searching around vicinity distance range of x metres (500)
+# @name search
+POST {{btpAppHostname}}/rag-api/search
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "post":{
+      "days":"5",
+      "distance":"500",
+      "date":"2024-02-05",
+      "lat":"51.54550271862823",
+      "long":"-0.009901043126801765",
+      "text":"Attention, residents of Sagenai! I would like to bring to the attention of our local community and the public administration a pressing issue in our neighbourhood. There is a malfunctioning light in the beautiful Coronation Gardens on High Road which urgently needs attention. This dimly lit park poses a safety concern for residents, especially during the evening. We need your help to spread the word so that the concerned authorities can resolve this matter promptly. Let's work together to ensure the safety and well-being of our community! #Sagenai #CommunitySafety #NeighbourhoodConcerns Coordinates:(51.54550271862823,-0.009901043126801765)"
+   }
+}
+
+#####################################################################################
+########## Functional Test: approvePost | updatePost | denyPost | linkPost ##########
+#####################################################################################
+
+### approvePost: attended, new s4hc maint.not., embeddings+>ProcessedIssues
+POST {{btpAppHostname}}/s4vdm-api/approvePost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)"
+   }
+}
+
+### updatePost: attended, update existing s4hc maint.not., embeddings+>ProcessedIssues
+POST {{btpAppHostname}}/s4vdm-api/updatePost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "decision":"notified",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "1-Very High",
+      "summary": "Mosquito breeding Update site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, asd Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)",
+      "maintenanceNotificationID":"10000421",
+      "ID":"11"
+   }
+}
+
+### updatePost: unattended, no existing s4hc maint.not., only update fields in processedissues table
+POST {{btpAppHostname}}/s4vdm-api/updatePost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "decision":"unattended",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "1-Very High",
+      "summary": "A Mosquito breeding Update site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, asd Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)",
+      "maintenanceNotificationID":"",
+      "ID":"11"
+   }
+}
+
+### denyPost: unattended, no s4hc maint.not., ONLY record in ProcessedIssues
+POST {{btpAppHostname}}/s4vdm-api/denyPost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)"
+   }
+}
+
+### linkPost: new post to notified, link to existing s4hc maint.not., creates embeddings+>ProcessedIssues
+# Link: 
+# - to create a record in processed issue table with "notified" decision + saved with existing maintenance notifications ID
+POST {{btpAppHostname}}/s4vdm-api/linkPost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)",
+      "maintenanceNotificationID":"10000341"
+   }
+}
+
+### linkPost: new post to unattended, NOT link to existing s4hc maint.not., creates embeddings+>ProcessedIssues
+# Link: 
+# - to create a record in processed issue table with "unattended" decision + saved WITHOUT existing maintenance notifications ID
+POST {{btpAppHostname}}/s4vdm-api/linkPost
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)",
+      "maintenanceNotificationID":""
+   }
+}
+
+#####################################################################################
+########## Functional Test: Processed Issues, Reddit Posts, S/4HANA Maint. ##########
+#####################################################################################
+
+### Retrieve List Processed Issues
+GET {{btpAppHostname}}/manager-api/ProcessedIssues
+
+### Retrieve List a Processed Issue
+GET {{btpAppHostname}}/manager-api/ProcessedIssues(69)
+
+### Retrieve List of Posts from Reddit
+GET {{btpAppHostname}}/reddit-api/RedditPost
+
+### Retrieve a Reddit Post
+GET {{btpAppHostname}}/reddit-api/RedditPost('1biyzr4')
+
+### Retrieve List Maintenance Notifications
+GET {{btpAppHostname}}/notification-api/MaintenanceNotification
+
+
+########################################
+############# DEPRECATED Test ##########
+########################################
+
+### Process a Post from Reddit List with GenAI Hub API
+# Input: Details from Reddit Post
+# Output: Payload for Processed Issues & S4 Maintenance Notification
+# NOT SO SAFE PARK ALERT!Hey u/SagenaiCouncil , it's a great day in our beloved neighborhood, but not for much longer! Who needs a tree? We sure don't! Just witnessed a massive fallen tree in the middle of Grove Park on High Road, Sagenai. Talk about a potential disaster waiting to happen!I mean, who wants safe and well-maintained parks, am I right? We definitely prefer a jungle gym of fallen branches and a cool obstacle course for the kids! So, u/SagenaiCouncil , I'm sure you're busy, but maybe squeeze in a moment to address this before someone gets hurt? Just a suggestion from a concerned citizen who kind of enjoys walking without dodging tree debris!Thanks in advance for your prompt action, because obviously, the safety of our community is not a priority. ♂️\\#FallenTree #SagenaiProblems #SafetyFirst
+
+POST {{btpAppHostname}}/genaihub-api/processRedditPostGenAI
+Content-Type: application/json
+
+{ 
+  "post" : {
+  "id": "21trmsa",
+  "author": "Trinidad_MG",
+  "title": "a graffity in a public wall",
+  "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)", 
+  "postingDate": "2024-01-19T09:33:38.000Z"
+    }
+}
+
+### Similar to ignorePost but this will embed it into ProcessedIssues
+# Not required at this moment
+POST {{btpAppHostname}}/s4vdm-api/denyNotificationOfIssueWithEmbedding
+Content-Type: application/json
+
+{
+   "message":{
+      "redditPostID": "21trmsa",
+      "author": "Trinidad_MG",
+      "category": "PESTS",
+      "priority": "3-Medium",
+      "summary": "Mosquito breeding site at corner of High Road and Grove Green Road",
+      "description": "A potential mosquito breeding site has been found at the corner of High Road and Grove Green Road in Sagenai. This is causing inconvenience and negatively affecting the lives of residents.",
+      "address": "High Road and Grove Green Road",
+      "location": "51.56695925174642, -0.006486404268305011",
+      "sentiment": "NEGATIVE",
+      "date": "2024-01-29",
+      "time": "09:33:38",
+      "longText": "🚨URGENT🚨 Hey, Sagenai! I'm so thrilled to share an amazing discovery in our lovely neighborhood!🦟🤢 Just stumbled upon a potential mosquito breeding site at the corner of High Road and Grove Green Road. 🏞️🦟 How lucky are we to have such a luxurious haven for these blood-sucking pests?! 🙄 I swear, it's like living in a tropical paradise. 🌴🦟 I mean, who needs sleep when you can be serenaded by the delightful buzzing of these little angels all night long? 🎵🦟 Bonus points for the constant itching and scratching that adds a touch of excitement to our lives. 🤦‍♂️🦟 Now, I know it's not an immediate danger or anything - just a minor inconvenience that negatively affects our lives. But hey, let's not let that stop us from enjoying our summers, right? 🌞🦟 So, dear public administration, if you could kindly sprinkle some of that magical mosquito repellent on this marvelous breeding site, that would be simply divine. 🙏🦟 Meanwhile, for the rest of us, let's get those bug sprays ready! 💪🏼🕷️ #MosquitoParadise #SagenaiPests #LoveMyNeighborhood  Coordinates:(51.56695925174642,-0.006486404268305011)"
+   }
+}
