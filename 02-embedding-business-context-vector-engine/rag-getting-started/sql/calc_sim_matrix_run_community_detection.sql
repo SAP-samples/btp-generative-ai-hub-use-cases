@@ -1,0 +1,108 @@
+/**
+The following code snippet is authored by:
+- Markus Fath https://github.com/fath-markus
+**/
+
+/******************************/
+-- Calculate pairwise text similarities
+-- Running community detection/clustering on the similarity matrix 
+
+/******************************/
+-- Similarity matrix
+-- for downstream processing with the HANA Graph engine we just need similarity edges in one direction (L.ID < R.ID)
+-- the view takes a minimum Cosine Similarity input parameter
+CREATE OR REPLACE VIEW V_SIM_MATRIX_FLEX(IN i_minCosSim DOUBLE) AS (
+	SELECT L."ID"||'#'||R."ID" AS "EDGE_ID", 
+			L."ID" AS "SOURCE", 
+			R."ID" AS "TARGET", 
+			"COSINE_SIMILARITY"(L.VECTOR, R.VECTOR) AS "COS_SIM", 
+			1-"L2DISTANCE"(L.VECTOR, R.VECTOR) AS "L2_SIM",
+			RANK() OVER(PARTITION BY L."ID" ORDER BY "COSINE_SIMILARITY"(L.VECTOR, R.VECTOR) DESC) AS "COS_RANK",
+			RANK() OVER(PARTITION BY L."ID" ORDER BY 1-"L2DISTANCE"(L.VECTOR, R.VECTOR) DESC) AS "L2_RANK"
+		FROM GRAPH_DOCU_QRC3 AS L, GRAPH_DOCU_QRC3 AS R
+		WHERE L."ID" < R."ID" AND "COSINE_SIMILARITY"(L.VECTOR, R.VECTOR) >= :i_minCosSim
+		ORDER BY "COS_SIM" DESC
+);
+SELECT * FROM V_SIM_MATRIX_FLEX(0.8) 
+	--WHERE RANK <= 5
+	ORDER BY "SOURCE", "COS_RANK"
+;
+
+/******************************/
+-- store the similarity matrix as a table
+--CREATE OR REPLACE VIEW V_SIM_MATRIX AS (SELECT * FROM V_SIM_MATRIX_FLEX(0.8));
+CREATE TABLE SIM_MATRIX AS (SELECT * FROM VDB.V_SIM_MATRIX_FLEX(0.8));
+ALTER TABLE SIM_MATRIX ADD PRIMARY KEY("EDGE_ID");
+ALTER TABLE SIM_MATRIX ALTER ("SOURCE" BIGINT NOT NULL, "TARGET" BIGINT NOT NULL);
+SELECT COUNT(*) FROM SIM_MATRIX;
+
+-- create GRAPH WORKSPACE
+CREATE OR REPLACE GRAPH WORKSPACE "GRAPH_SIM"
+	EDGE TABLE "SIM_MATRIX"
+		SOURCE COLUMN "SOURCE"
+		TARGET COLUMN "TARGET"
+		KEY COLUMN "EDGE_ID";
+
+-- and GraphScript procedure to run community detection
+CREATE OR REPLACE PROCEDURE "GS_COMMUNITY" (
+	OUT o_res TABLE("VERTEX_ID" BIGINT, "COMM" BIGINT)
+)
+LANGUAGE GRAPH READS SQL DATA AS
+BEGIN
+	Graph g = Graph("GRAPH_SIM");
+	SEQUENCE<MULTISET<VERTEX>> communities = COMMUNITIES_LOUVAIN(:g, 1, (Edge e) => DOUBLE{ return :e."COS_SIM"; } );
+	MAP<VERTEX, BIGINT> communityMap = TO_ORDINALITY_MAP(:communities);
+	o_res = SELECT :v.KEY_1, :communityMap[:v] FOREACH v in VERTICES(:g);
+END;
+
+-- test the procedure - column "COMM" contains the community assignment
+CALL "GS_COMMUNITY"(?);
+
+-- store the community information in a vertex table
+--DROP TABLE "COMMUNITY_VERTICES";
+DO()
+BEGIN
+	CALL "GS_COMMUNITY"(o_res);
+	CREATE TABLE "COMMUNITY_VERTICES" AS (
+		SELECT C."VERTEX_ID", "COMM", "HEADER1", "HEADER2" FROM :o_res AS C
+		LEFT OUTER JOIN "GRAPH_DOCU_QRC3" AS V ON C."VERTEX_ID" = V."ID" 
+	);
+END;
+ALTER TABLE "COMMUNITY_VERTICES" ADD PRIMARY KEY ("VERTEX_ID");
+
+-- inspect size of communities
+SELECT "COMM", COUNT(*) AS C FROM "COMMUNITY_VERTICES" GROUP BY "COMM";
+SELECT * FROM "COMMUNITY_VERTICES";
+
+-- identify medoids of the communities and store these in a table
+--DROP TABLE "COMMUNITY_MEDOIDS";
+CREATE TABLE "COMMUNITY_MEDOIDS" AS (
+WITH N AS (SELECT N."VERTEX_ID", N."COMM", V."VECTOR" FROM "COMMUNITY_VERTICES" AS N LEFT JOIN "GRAPH_DOCU_QRC3" AS V ON N."VERTEX_ID" = V."ID")
+SELECT * FROM (
+	SELECT "VERTEX_ID", "COMM", "SUM_DIST", RANK() OVER(PARTITION BY "COMM" ORDER BY "SUM_DIST" ASC) AS R FROM (
+		SELECT "VERTEX_ID", "COMM", SUM("L2_DIST") AS "SUM_DIST" FROM (
+			SELECT N1."VERTEX_ID", N1."COMM", "L2DISTANCE"(N1."VECTOR", N2."VECTOR") AS "L2_DIST"
+				FROM N AS N1, N AS N2
+				WHERE N1."COMM" = N2."COMM" AND N1."VERTEX_ID" != N2."VERTEX_ID"
+			)
+			GROUP BY "VERTEX_ID", "COMM"
+		)
+	) WHERE R = 1
+);
+SELECT * FROM "COMMUNITY_MEDOIDS";
+
+-- joining all vertex info together
+CREATE OR REPLACE VIEW "V_VERTICES" AS (
+	SELECT N.*, COALESCE(R, 0) AS "IS_MEDOID" FROM "COMMUNITY_VERTICES" AS N
+		LEFT JOIN "COMMUNITY_MEDOIDS" AS M ON N."VERTEX_ID" = M."VERTEX_ID" 
+		LEFT JOIN "GRAPH_DOCU_QRC3" AS DAT ON N."VERTEX_ID" = DAT."ID" 
+);
+SELECT * FROM "V_VERTICES";
+
+CREATE OR REPLACE GRAPH WORKSPACE "V_GRAPH_SIM"
+	EDGE TABLE "SIM_MATRIX"
+		SOURCE COLUMN "SOURCE"
+		TARGET COLUMN "TARGET"
+		KEY COLUMN "EDGE_ID"
+	VERTEX TABLE "V_VERTICES"
+		KEY COLUMN "VERTEX_ID";
