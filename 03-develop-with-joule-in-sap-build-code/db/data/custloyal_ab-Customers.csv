@@ -1,0 +1,16 @@
+ID;email;customerCode_BusinessPartner;totalPurchaseValue;totalRewardPoints;totalRedeemedRewardPoints
+4820a23b-21b6-4553-97d9-7eb00cff52fa;amanda@example.com;1000000;826.00;82;0
+32690b7f-67cd-4084-80f9-7edec5c851d2;john.doe@example.com;1000011;5432.00;543;271
+468a0a23-f0b5-4f0b-8448-dcd77d997f18;daniel@example.com;1000020;1108.00;100;10
+4c6b5fc4-6aeb-489a-9395-84e0dc4ff0d4;barbara@example.com;10910007;8765.00;876;438
+a704521d-07e7-44a9-b804-e2bc394f5527;bernd@example.com;10910008;6543.00;654;327
+319d4551-b4f9-4b9e-ab74-fd7ecc8ef897;susan@example.com;17910005;8128.00;812;406
+23938ffc-0eff-4189-b38c-51edc529efb9;james@example.com;17910006;7877.00;787;393
+528a366a-7198-4694-a0e3-5099fff28bc1;mary@example.com;17910007;8144.00;814;407
+bcabbb1a-4714-426a-be4f-d089e05ba66f;ronald@example.com;17910008;6966.00;696;348
+0a024264-ced9-434f-80cb-75b5f514c2fc;emma@example.com;11910005;8695.00;869;434
+a7392fd1-95d7-4fd5-8692-c989df11efb3;kate@example.com;11910006;7846.00;784;392
+764d4d2a-2488-41b8-97e6-2900d5480a61;john@example.com;11910007;8786.00;878;439
+509d975a-b3dc-43da-955a-66dbabc9c69d;jason@example.com;11910008;1113;111;56
+58ec8f99-44fe-410b-8b4a-13f5074054df;alina@example.com;10910005;6115.00;611;306
+e299e3a6-b3a3-4402-a94d-375bc920aabb;eric@example.com;30910006;2223.00;222;111

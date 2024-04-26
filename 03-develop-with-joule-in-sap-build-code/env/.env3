@@ -1,0 +1,3 @@
+destinations='[{"name":"S4_PRODUCT","url":"https://S4_PRODUCT.dest","proxyHost":"http://127.0.0.1","proxyPort":"8887"}]'
+cds_requires='{"S4_PRODUCT":{"impl":"@sap/cds/libx/_runtime/remote/Service.js","external":true,"kind":"odata-v2","model":"srv/external/S4_PRODUCT","credentials":{"destination":"S4_PRODUCT"}},"auth":{"strategy":"dummy","kind":"dummy"},"messaging":{"kind":"local-messaging"}}'
+VCAP_SERVICES='{}'

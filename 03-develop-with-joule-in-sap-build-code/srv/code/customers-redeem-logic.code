@@ -1,0 +1,12 @@
+{
+    "version": "2.0",
+    "codes": [],
+    "configuration": {
+        "phase": "on",
+        "events": [
+            "RedeemRewards"
+        ],
+        "entity": "custloyal_abService.Customers"
+    },
+    "hash": "710aa051dcacd2609053c4d3517c688c4b4792abad4454d7bc203bfd5f6b5a56ef7e620d7e7db9ad922c7c6eae302cc6fc98da704728746cdc31459744fe5dd8"
+}

@@ -1,0 +1,37 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:macros="sap.fe.macros"
+    xmlns:html="http://www.w3.org/1999/xhtml" controllerName="custloyalab.Redemptions.ext.main.Main">
+    <Page id="Main" title="{i18n>MainTitle}">
+        <content>
+            <Table
+                items="{/Redemptions}"
+                noDataText="Drop column list items here and columns in the area above"
+                id="table0"
+            >
+                <columns>
+                    <Column id="column0">
+                        <Text id="col0" text="Customer"/>
+                    </Column>
+                    <Column id="column1">
+                        <Text id="col1" text="Redemption Date"/>
+                    </Column>
+                    <Column id="column2">
+                        <Text id="col2" text="Redeemed Amount"/>
+                    </Column>
+                    <Column id="column3">
+                        <Text id="col3" text="Redemption Type"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="items">
+                        <cells>
+                            <Text id="text0" text="{customer/customerCode/BusinessPartnerName} ({customer/customerCode_BusinessPartner})" />
+                            <Text id="text1" text="{redemptionDate}" />
+                            <Text id="text2" text="{redeemedAmount}" />
+                            <Text id="text3" text="{type}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
