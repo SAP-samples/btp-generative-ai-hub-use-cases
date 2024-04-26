@@ -1,0 +1,3 @@
+destinations='[{"name":"S4_BUSINESS_PARTNER","url":"https://S4_BUSINESS_PARTNER.dest","proxyHost":"http://127.0.0.1","proxyPort":"8887"}]'
+cds_requires='{"S4_BUSINESS_PARTNER":{"impl":"@sap/cds/libx/_runtime/remote/Service.js","external":true,"kind":"odata-v2","model":"srv/external/S4_BUSINESS_PARTNER","credentials":{"destination":"S4_BUSINESS_PARTNER"}},"auth":{"strategy":"dummy","kind":"dummy"},"messaging":{"kind":"local-messaging"}}'
+VCAP_SERVICES='{}'
