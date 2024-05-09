@@ -1,0 +1,71 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: infinity
+  annotations:
+    scenarios.ai.sap.com/description: "Run an Infinity embedding inference server on SAP AI Core"
+    scenarios.ai.sap.com/name: "infinity"
+    executables.ai.sap.com/description: "Run an Infinity embedding inference server on SAP AI Core"
+    executables.ai.sap.com/name: "infinity"
+  labels:
+    scenarios.ai.sap.com/id: "byom-infinity-server"
+    ai.sap.com/version: "0.0.1"
+spec:
+  inputs:
+    parameters:
+    - name: image
+      type: "string"
+      default: "docker.io/jacobtan89/infinity:ai-core"
+      description: "Define the location of the Docker image of which you have built for Infinity following the steps."
+    - name: modelName
+      type: "string"
+      default: "BAAI/bge-small-en-v1.5"
+      description: "Define the Sentence Transformer model (MTEB) you would like to use that Infinity supports. More info: https://michaelfeil.eu/infinity/latest/"
+    - name: urlPrefix
+      type: "string"
+      default: "/v1"
+      description: "It is required for SAP AI Core to base the root of the inference server to start with /v1."
+    - name: portNumber
+      type: "string"
+      default: "7997"
+      description: "When you run a container, if you want to access the application in the container via a port number."
+    - name: resourcePlan
+      type: "string"
+      default: "infer.s"
+      description: "Resource plans are used to select resources in workflow and serving templates."
+    - name: minReplicas
+      type: "string"
+      default: "1"
+      description: "The lower limit for the number of replicas to which the autoscaler can scale down."
+    - name: maxReplicas
+      type: "string"
+      default: "1"
+      description: "The upper limit for the number of replicas to which the autoscaler can scale down."
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: -1
+        autoscaling.knative.dev/window: "10m"
+        autoscaling.knative.dev/scaleToZeroPodRetentionPeriod: "10m"
+      labels: |
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
+    spec: |
+      predictor:
+        imagePullSecrets:
+        - name: jacob-docker-secret
+        minReplicas: {{inputs.parameters.minReplicas}}
+        maxReplicas: {{inputs.parameters.maxReplicas}}
+        containers:
+        - name: kserve-container
+          image: "{{inputs.parameters.image}}"
+          ports:
+          - containerPort: {{inputs.parameters.portNumber}}
+            protocol: TCP
+          env:
+          - name: MODEL_NAME
+            value: "{{inputs.parameters.modelName}}"
+          - name: URL_PREFIX
+            value: "{{inputs.parameters.urlPrefix}}"
