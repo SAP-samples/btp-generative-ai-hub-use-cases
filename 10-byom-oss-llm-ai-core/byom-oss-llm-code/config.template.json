@@ -151,7 +151,7 @@
     {
       "comment": "Configuration is to run embedding model BAAI/bge-small-en-v1.5 with infinity on resource plan 'infer s' defined in infinity-template.yaml. You may modify it with your target model. Please refer to https://huggingface.co/BAAI/bge-small-en-v1.5 for engine arguments detail",
       "name": "infinity",
-      "scenario_id": "byom-infinity-server",
+      "scenario_id": "infinity",
       "executable_id": "infinity",
       "parameters": [
         {
