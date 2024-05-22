@@ -14,7 +14,7 @@ spec:
   inputs:
     parameters:
       - name: preloaded_models
-        default: "[{\"id\": \"model-gallery@mistral\"}]" 
+        default: "" 
         type: string
         description: "Preloading models during startup.Refer to https://localai.io/advanced/#preloading-models-during-startup for detail"
       - name: debug
