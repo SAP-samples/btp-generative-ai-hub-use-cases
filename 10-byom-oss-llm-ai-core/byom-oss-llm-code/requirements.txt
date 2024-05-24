@@ -1,5 +1,4 @@
 ai-core-sdk
+generative-ai-hub-sdk
 jupyterlab
-ipython
-requests
-matplotlib
+boto3

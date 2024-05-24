@@ -5,42 +5,52 @@ metadata:
   annotations:
     scenarios.ai.sap.com/description: "Run a llama.cpp server on SAP AI Core"
     scenarios.ai.sap.com/name: "llama.cpp"
-    executables.ai.sap.com/description: "llama.cpp server"
+    executables.ai.sap.com/description: "Run a llama.cpp server on SAP AI Core"
     executables.ai.sap.com/name: "llama.cpp"
   labels:
-    scenarios.ai.sap.com/id: "llama.cpp"
+    scenarios.ai.sap.com/id: "byom-llama.cpp-server"
     ai.sap.com/version: "0.0.1"
 spec:
   inputs:
     parameters:
-      - name: modelDownloadUrl
-        default: "https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
-        type: string
-        description: "URL to download UUGF with wget. e.g. https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
-      - name: modelFileName
-        default: "mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
-        type: string
-        description: "The model file name"
-      - name: alias
+      - name: modelName # placeholder name
         default: "mixtral" 
-        type: string
+        type: string # required for every parameters
+        description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
+      - name: resourcePlan
+        type: "string"
+        default: "infer.s"
+        description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
+      - name: modelDownloadUrl # placeholder name
+        default: "https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
+        type: string # required for every parameters
+        description: "URL to download UUGF with wget. e.g. https://huggingface.co/TheBloke/Mixtral-8x7B-Instruct-v0.1-GGUF/resolve/main/mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf"
+      - name: modelFileName # placeholder name
+        default: "mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf" 
+        type: string # required for every parameters
+        description: "The model file name"
+      - name: alias # placeholder name
+        default: "mixtral" 
+        type: string # required for every parameters
         description: "The model alias to be used in inference"
-      - name: threads
+      - name: threads # placeholder name
         default: "3" 
-        type: string
+        type: string # required for every parameters
         description: "The number of threads to be used in compute"
-      - name: ctxSize
+      - name: ctxSize # placeholder name
         default: "4098" 
-        type: string
+        type: string # required for every parameters
         description: "Size of the prompt context "
-      - name: ngl
+      - name: ngl # placeholder name
         default: "33" 
-        type: string
+        type: string # required for every parameters
         description: "Number of layers to be offloaded into GPU VRAM"
-      - name: enableEmbeddings
+      - name: enableEmbeddings # placeholder name
         default: "true" 
-        type: string
+        type: string # required for every parameters
         description: "Enable embedding vector output.Valid values as 'true' or 'false'"
+    artifacts: 
+      - name: customModel # Only used for hosting custom model or fine-tuning model in object store.
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
@@ -49,16 +59,16 @@ spec:
         autoscaling.knative.dev/target: 1
         autoscaling.knative.dev/targetBurstCapacity: 0
       labels: |
-        ai.sap.com/resourcePlan: infer.s
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
     spec: |
       predictor:
         imagePullSecrets:
-        - name: <YOUR_DOCKER_SECRET>
+        - name: yatsea-docker-secret
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/<YOUR_DOCKER_USER>/llama.cpp-server:ai-core
+          image: docker.io/yatsea/llama.cpp-server:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -75,6 +85,8 @@ spec:
               --n-gpu-layers {{inputs.parameters.ngl}}
               --embeddings
           env:
+            - name: STORAGE_URI #uncommented these two lines for custom model or fine-tuning.
+              value: "{{inputs.artifacts.customModel}}"
             - name: MODEL_DOWNLOAD_URL
               value: "{{inputs.parameters.modelDownloadUrl}}" 
             - name: MODEL_FILE_NAME

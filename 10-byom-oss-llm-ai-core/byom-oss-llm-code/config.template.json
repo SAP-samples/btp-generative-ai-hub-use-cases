@@ -19,6 +19,23 @@
       ".dockerconfigjson": "{\"auths\": {\"docker.io\": {\"username\": \"<REPLACE_WITH_YOUR_DOCKER_USERNAME>\", \"password\": \"<REPLACE_WITH_YOUR_DOCKER_ACCESS_TOKEN>\"}}}"
     }
   },
+  "object_store_secret": {
+    "name": "object-store-secret",
+    "type": "S3",
+    "bucket": "<S3 bucket name. e.g. open-llm-repo>",
+    "endpoint": "<S3 end point. e.g. s3.amazonaws.com>",
+    "pathPrefix": "<Optional: A path prefix that follows the bucket name. If not specified, just leave it blank>",
+    "region": "<Optional: S3 region. If not specified, just leave it blank>",
+    "data": {
+      "AWS_ACCESS_KEY_ID": "<AWS access key ID>",
+      "AWS_SECRET_ACCESS_KEY": "<AWS secret access key>"
+    }
+  },
+  "model_placeholder": {
+    "model_file_name": "dummy.txt",
+    "path": "/Dummy",
+    "url": "ai://object-store-secret/Dummy"
+  },
   "git_repo": {
     "repo_url": "https://github.com/<YOUR_GIT_HUB_USER>/btp-generative-ai-hub-use-cases",
     "user": "<REPLACE_WITH_YOUR_GITHUB_USER>",
@@ -54,18 +71,33 @@
   "comment_configurations": "DO NOT change scenario_id and executable_id in configurations section! You may change the name and parameters of each configuration",
   "configurations": [
     {
-      "comment": "No configuration required for ollama. Pull the model dynamically in ollama/ollama.ipynb",
-      "name": "ollama",
+      "comment": "Pull the model dynamically in ollama/ollama.ipynb. the model specified in modelName can be used to inference with SAP Generative AI Hub SDK",
+      "name": "ollama-phi3-14b",
       "scenario_id": "ollama",
       "executable_id": "ollama",
-      "parameters": []
+      "input_artifacts": [],
+      "parameters": [
+        {
+          "key": "modelName",
+          "value": "phi3:14b"
+        },
+        {
+          "key": "resourcePlan",
+          "value": "infer.s"
+        }
+      ]
     },
     {
       "comment": "Configuration below is to preload model Mistral-7B-OpenOrca-GGUF(https://github.com/go-skynet/model-gallery/blob/main/mistral.yaml) with local-ai on resource plan 'infer s' defined in local-ai-template.yaml. In its model config file, GPU acceleration isn't enabled, hence it is quite slow. To have GPU acceleration for a model, you may set f16: true, mmap:true and gpu_layers: xx as example https://github.com/go-skynet/model-gallery/blob/main/mixtral-Q6.yaml. You can install more models with end point /model/apply in local-ai/local-ai.ipynb. Please refer to https://localai.io/advanced/#preloading-models-during-startup",
-      "name": "local-ai",
+      "name": "local-ai-mistral",
       "scenario_id": "local-ai",
       "executable_id": "local-ai",
+      "input_artifacts": [],
       "parameters": [
+        {
+          "key": "model_name",
+          "value": "mistral"
+        },
         {
           "key": "preloaded_models",
           "value": "[{\"id\": \"model-gallery@mistral\"}]"
@@ -73,15 +105,37 @@
         {
           "key": "debug",
           "value": "true"
+        },
+        {
+          "key": "resource_plan",
+          "value": "infer.s"
         }
       ]
     },
     {
       "comment": "Configuration is to run model mistral-7b-instruct-v0.2.Q5_K_M with llama.cpp on resource plan 'infer s' defined in llama.cpp-template.yaml. You may modify it with your target model. ngl stands for the number of layers to offload to GPU. Please refer to https://github.com/ggerganov/llama.cpp/tree/c47cf414efafb8f60596edc7edb5a2d68065e992/examples/server about arguments of llama.cpp server",
-      "name": "llama.cpp",
+      "name": "llama.cpp-mistral",
       "scenario_id": "llama.cpp",
       "executable_id": "llama.cpp",
+      "input_artifacts": [
+        {
+          "name": "mistral",
+          "key": "customModel",
+          "artifact_id": "",
+          "kind": "model",
+          "url": "ai://object-store-secret/Dummy",
+          "description": "Model placeholder registry of mistral for SAP Generative AI Hub SDK"
+        }
+      ],
       "parameters": [
+        {
+          "key": "modelName",
+          "value": "mistral"
+        },
+        {
+          "key": "resourcePlan",
+          "value": "infer.s"
+        },
         {
           "key": "modelDownloadUrl",
           "value": "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q5_K_M.gguf"
@@ -104,7 +158,7 @@
         },
         {
           "key": "ngl",
-          "value": "30"
+          "value": "33"
         },
         {
           "key": "enableEmbeddings",
@@ -114,12 +168,22 @@
     },
     {
       "comment": "Configuration is to run model Mistral-7B-Instruct-v0.2-AWQ with vllm on resource plan 'infer s' defined in vllm-template.yaml. You may modify it with your target model. Please refer to https://docs.vllm.ai/en/latest/models/engine_args.html for engine arguments detail",
-      "name": "vllm",
+      "name": "vllm-mistral",
       "scenario_id": "vllm",
       "executable_id": "vllm",
+      "input_artifacts": [
+        {
+          "name": "TheBloke/Mistral-7B-Instruct-v0.2-AWQ",
+          "key": "customModel",
+          "artifact_id": "",
+          "kind": "model",
+          "url": "ai://object-store-secret/Dummy",
+          "description": "Model placeholder registry of mistral for SAP Generative AI Hub SDK"
+        }
+      ],
       "parameters": [
         {
-          "key": "model",
+          "key": "modelName",
           "value": "TheBloke/Mistral-7B-Instruct-v0.2-AWQ"
         },
         {
@@ -145,14 +209,19 @@
         {
           "key": "quantization",
           "value": "awq"
+        },
+        {
+          "key": "resourcePlan",
+          "value": "infer.s"
         }
       ]
     },
     {
-      "comment": "Configuration is to run embedding model BAAI/bge-small-en-v1.5 with infinity on resource plan 'infer s' defined in infinity-template.yaml. You may modify it with your target model. Please refer to https://huggingface.co/BAAI/bge-small-en-v1.5 for engine arguments detail",
-      "name": "infinity",
+      "comment": "Configuration is to run embedding model nreimers/MiniLM-L6-H384-uncased (or any MTEB/Sentence Transformer) with infinity on resource plan 'infer l' defined in infinity-template.yaml. You may modify it with your target model. Please refer to https://github.com/UKPLab/sentence-transformers/ for the list of models you may use to deploy.",
+      "name": "infinity-minilm-small",
       "scenario_id": "infinity",
       "executable_id": "infinity",
+      "input_artifacts": [],
       "parameters": [
         {
           "key": "image",
@@ -160,7 +229,7 @@
         },
         {
           "key": "modelName",
-          "value": "BAAI/bge-small-en-v1.5"
+          "value": "nreimers/MiniLM-L6-H384-uncased"
         },
         {
           "key": "urlPrefix",
