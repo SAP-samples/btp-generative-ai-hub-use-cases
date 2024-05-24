@@ -5,12 +5,22 @@ metadata:
   annotations:
     scenarios.ai.sap.com/description: "Run a ollama server on SAP AI Core"
     scenarios.ai.sap.com/name: "ollama"
-    executables.ai.sap.com/description: "ollama service"
+    executables.ai.sap.com/description: "Run a ollama server on SAP AI Core"
     executables.ai.sap.com/name: "ollama"
   labels:
-    scenarios.ai.sap.com/id: "ollama"
+    scenarios.ai.sap.com/id: "byom-ollama-server"
     ai.sap.com/version: "0.0.1"
 spec:
+  inputs:
+    parameters:
+      - name: modelName # placeholder name
+        default: "llama3:latest" 
+        type: string # required for every parameters
+        description: "Model Name to be used for inference with SAP Generative AI Hub SDK"
+      - name: resourcePlan
+        type: "string"
+        default: "infer.s"
+        description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
@@ -19,16 +29,16 @@ spec:
         autoscaling.knative.dev/target: 1
         autoscaling.knative.dev/targetBurstCapacity: 0
       labels: |
-        ai.sap.com/resourcePlan: infer.s
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
     spec: |
       predictor:
         imagePullSecrets:
-        - name: <YOUR_DOCKER_SECRET>
+        - name: yatsea-docker-secret
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/<YOUR_DOCKER_USER>/ollama:ai-core
+          image: docker.io/yatsea/ollama:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP

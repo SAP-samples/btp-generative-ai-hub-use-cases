@@ -5,15 +5,15 @@ metadata:
   annotations:
     scenarios.ai.sap.com/description: "Run a vLLM server on SAP AI Core"
     scenarios.ai.sap.com/name: "vllm"
-    executables.ai.sap.com/description: "vLLM OpenAI Server"
+    executables.ai.sap.com/description: "Run a LocalAI server on SAP AI Core"
     executables.ai.sap.com/name: "vllm"
   labels:
-    scenarios.ai.sap.com/id: "vllm"
-    ai.sap.com/version: "1.0.0"
+    scenarios.ai.sap.com/id: "byom-vllm-server"
+    ai.sap.com/version: "0.0.1"
 spec:
   inputs:
     parameters:
-      - name: model # placeholder name
+      - name: modelName # placeholder name
         default: "TheBloke/Mistral-7B-Instruct-v0.2-AWQ" 
         type: string # required for every parameters
         description: "--model: Name or path of the huggingface model to use. https://docs.vllm.ai/en/latest/models/supported_models.html/ for supported models"
@@ -41,6 +41,12 @@ spec:
         default: "None" 
         type: string # required for every parameters
         description: "--quantization: Method used to quantize the weights. https://docs.vllm.ai/en/latest/models/engine_args.html" 
+      - name: resourcePlan
+        type: "string"
+        default: "infer.s"
+        description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
+    artifacts:
+      - name: customModel #only used for custom model such as fine-tuning, private model etc.
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
@@ -49,16 +55,16 @@ spec:
         autoscaling.knative.dev/target: 1
         autoscaling.knative.dev/targetBurstCapacity: 0
       labels: |
-        ai.sap.com/resourcePlan: infer.s
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
     spec: |
       predictor:
         imagePullSecrets:
-        - name: <YOUR_DOCKER_SECRET>
+        - name: yatsea-docker-secret
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/<YOUR_DOCKER_USER>/vllm-openai:ai-core
+          image: docker.io/yatsea/vllm-openai:ai-core
           ports:
             - containerPort: 8000
               protocol: TCP
@@ -67,14 +73,16 @@ spec:
             - >
               set -e && echo "-------------Starting vLLM OpenAI API Server--------------" 
               && python3 -m vllm.entrypoints.openai.api_server 
-              --model {{inputs.parameters.model}}
-              --dtype {{inputs.parameters.dataType}} 
-              --gpu-memory-utilization {{inputs.parameters.gpuMemoryUtilization}} 
+              --model {{inputs.parameters.modelName}}
+              --dtype {{inputs.parameters.dataType}}
+              --gpu-memory-utilization {{inputs.parameters.gpuMemoryUtilization}}
               --enforce-eager
               --max-model-len {{inputs.parameters.maxTokenLen}}
               --max-num-batched-tokens {{inputs.parameters.maxNumBatchedTokens}}
               --max-num-seqs {{inputs.parameters.maxNumSeqs}}
               --quantization {{inputs.parameters.quantization}}
           env:
+            - name: STORAGE_URI
+              value: "{{inputs.artifacts.customModel}}"
             - name: MODEL
-              value: "{{inputs.parameters.model}}"
+              value: "{{inputs.parameters.modelName}}"
