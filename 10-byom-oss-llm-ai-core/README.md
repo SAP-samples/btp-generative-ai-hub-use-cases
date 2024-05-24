@@ -91,13 +91,13 @@ td:nth-child(3) {
 
 In the following section, we see how to bring open-sourced LLMs into SAP AI Core with Ollama, LocalAI, llama.cpp and vLLM.
 
-### Prerequistive
+### Prerequisites
 
 The following softwares are required to serve an AI model in SAP AI Core. Please follow [this tutorial](https://developers.sap.com/group.ai-core-get-started-basics.html) to provision and set up your own SAP AI Core if it is new to you, which will cover the list below.
 
 #### 1. [Use Boosters for Standard Plan of SAP AI Core and SAP AI Launchpad(Optional)](https://developers.sap.com/group.ai-core-get-started-basics.html)
 
-Important: Please assure to entitle **Standard Plan** or **Extended Plan** of SAP AI Core, which require a CPEA, or Pay-As-You-Go contract. Please refer to [pricing of SAP AI Core](https://discovery-center.cloud.sap/serviceCatalog/sap-ai-core?region=all&tab=service_plan) for detail. Due to restriction of Free Tier service plan. We can't run the open-source llms with Free Tier plan. Please refer to the official document about [Resource Plan in SAP AI Core](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/choose-resource-plan-c58d4e584a5b40a2992265beb9b6be3c) for detail.<br/>
+Important: Please assure to entitle **Standard Plan** or **Extended Plan** of SAP AI Core, which require a BTPEA, or Pay-As-You-Go contract. Please refer to [pricing of SAP AI Core](https://discovery-center.cloud.sap/serviceCatalog/sap-ai-core?region=all&tab=service_plan) for detail. Due to restriction of Free Tier service plan. We can't run the open-source llms with Free Tier plan. Please refer to the official document about [Resource Plan in SAP AI Core](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/choose-resource-plan-c58d4e584a5b40a2992265beb9b6be3c) for detail.<br/>
 
 For the Free Tier service plan, only the Starter resource plan is available. Specifying other plans will result in error. For the Standard service plan, all resource plans are available. For more information, see Free Tier and Service Plans.<br/>
 
@@ -164,7 +164,8 @@ jupyter lab
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb)
+- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb) for test Ollama in SAP AI Core through API
+- [02-ollama-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/ollama/02-ollama-sap-genai-hub-sdk.ipynb) for test Ollama in SAP AI Core through SAP Generative AI Hub SDK and Langchain
 - [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb)
 - [04-cleanup.ipynb](byom-oss-llm-code/ollama/04-cleanup.ipynb)
 
