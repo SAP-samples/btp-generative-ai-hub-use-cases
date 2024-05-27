@@ -19,7 +19,7 @@ spec:
       description: "Define the location of the Docker image of which you have built for Infinity following the steps."
     - name: modelName
       type: "string"
-      default: "BAAI/bge-small-en-v1.5"
+      default: "nreimers/MiniLM-L6-H384-uncased"
       description: "Define the Sentence Transformer model (MTEB) you would like to use that Infinity supports. More info: https://michaelfeil.eu/infinity/latest/"
     - name: urlPrefix
       type: "string"

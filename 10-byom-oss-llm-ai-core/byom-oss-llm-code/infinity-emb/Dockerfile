@@ -28,7 +28,7 @@ RUN mkdir -p /nonexistent/ && \
 
 ENV HF_HOME=/hf-home
     # Note: Uncomment this ENV with MODEL_NAME & URL_PREFIX if you're running Docker locally. Don't forget about the backslash \
-    # MODEL_NAME="BAAI/bge-small-en-v1.5"
+    # MODEL_NAME="nreimers/MiniLM-L6-H384-uncased"
     # URL_PREFIX="/v1"
 
 ENTRYPOINT [ "/usr/src/run.sh" ]
