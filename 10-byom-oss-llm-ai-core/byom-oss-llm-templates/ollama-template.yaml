@@ -14,7 +14,7 @@ spec:
   inputs:
     parameters:
       - name: modelName # placeholder name
-        default: "llama3:latest" 
+        default: "phi3:14b" 
         type: string # required for every parameters
         description: "Model Name to be used for inference with SAP Generative AI Hub SDK"
       - name: resourcePlan
@@ -33,12 +33,12 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: yatsea-docker-secret
+        - name: <YOUR_DOCKER_SECRET>
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/yatsea/ollama:ai-core
+          image: docker.io/<YOUR_DOCKER_USER>/ollama:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP
