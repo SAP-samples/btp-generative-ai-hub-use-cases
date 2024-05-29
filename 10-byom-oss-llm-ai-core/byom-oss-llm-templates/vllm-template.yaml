@@ -8,7 +8,7 @@ metadata:
     executables.ai.sap.com/description: "Run a LocalAI server on SAP AI Core"
     executables.ai.sap.com/name: "vllm"
   labels:
-    scenarios.ai.sap.com/id: "byom-vllm-server"
+    scenarios.ai.sap.com/id: "vllm"
     ai.sap.com/version: "0.0.1"
 spec:
   inputs:
@@ -16,7 +16,7 @@ spec:
       - name: modelName # placeholder name
         default: "TheBloke/Mistral-7B-Instruct-v0.2-AWQ" 
         type: string # required for every parameters
-        description: "--model: Name or path of the huggingface model to use. https://docs.vllm.ai/en/latest/models/supported_models.html/ for supported models"
+        description: "--model: Name or path of the huggingface model to use. https://docs.vllm.ai/en/latest/models/supported_models.html/ for supported models. The same model name is used with SAP Generative AI Hub SDK"
       - name: dataType # Data Type
         default: "half" 
         type: string # required for every parameters
