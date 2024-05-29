@@ -41,12 +41,12 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: yatsea-docker-secret
+        - name: <YOUR_DOCKER_SECRET>
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/yatsea/local-ai:ai-core
+          image: docker.io/<YOUR_DOCKER_USER>/local-ai:ai-core
           ports:
             - containerPort: 18080
               protocol: TCP

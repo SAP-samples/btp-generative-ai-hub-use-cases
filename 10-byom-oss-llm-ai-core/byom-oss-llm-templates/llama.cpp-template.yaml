@@ -63,12 +63,12 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: yatsea-docker-secret
+        - name: <YOUR_DOCKER_SECRET>
         minReplicas: 1
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/yatsea/llama.cpp-server:ai-core
+          image: docker.io/<YOUR_DOCKER_USER>/llama.cpp-server:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP
