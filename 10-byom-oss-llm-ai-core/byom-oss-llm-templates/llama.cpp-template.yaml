@@ -8,7 +8,7 @@ metadata:
     executables.ai.sap.com/description: "Run a llama.cpp server on SAP AI Core"
     executables.ai.sap.com/name: "llama.cpp"
   labels:
-    scenarios.ai.sap.com/id: "byom-llama.cpp-server"
+    scenarios.ai.sap.com/id: "llama.cpp"
     ai.sap.com/version: "0.0.1"
 spec:
   inputs:

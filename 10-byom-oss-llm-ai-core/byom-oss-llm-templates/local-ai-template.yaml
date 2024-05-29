@@ -8,7 +8,7 @@ metadata:
     executables.ai.sap.com/description: "Run a LocalAI server on SAP AI Core"
     executables.ai.sap.com/name: "local-ai"
   labels:
-    scenarios.ai.sap.com/id: "byom-local-ai-server"
+    scenarios.ai.sap.com/id: "local-ai"
     ai.sap.com/version: "0.0.1"
 spec:
   inputs:
