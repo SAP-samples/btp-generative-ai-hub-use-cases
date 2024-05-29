@@ -8,7 +8,7 @@ metadata:
     executables.ai.sap.com/description: "Run an Infinity embedding inference server on SAP AI Core"
     executables.ai.sap.com/name: "infinity"
   labels:
-    scenarios.ai.sap.com/id: "byom-infinity-server"
+    scenarios.ai.sap.com/id: "infinity"
     ai.sap.com/version: "0.0.1"
 spec:
   inputs:
@@ -19,7 +19,7 @@ spec:
       description: "Define the location of the Docker image of which you have built for Infinity following the steps."
     - name: modelName
       type: "string"
-      default: "BAAI/bge-small-en-v1.5"
+      default: "nreimers/MiniLM-L6-H384-uncased"
       description: "Define the Sentence Transformer model (MTEB) you would like to use that Infinity supports. More info: https://michaelfeil.eu/infinity/latest/"
     - name: urlPrefix
       type: "string"
