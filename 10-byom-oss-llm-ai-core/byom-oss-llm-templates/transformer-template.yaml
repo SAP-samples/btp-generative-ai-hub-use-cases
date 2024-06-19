@@ -1,0 +1,52 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: transformer
+  annotations:
+    scenarios.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
+    scenarios.ai.sap.com/name: "transformer"
+    executables.ai.sap.com/description: "Run a custom transformer server on SAP AI Core"
+    executables.ai.sap.com/name: "transformer"
+  labels:
+    scenarios.ai.sap.com/id: "transformer"
+    ai.sap.com/version: "0.0.1"
+spec:
+  inputs:
+    parameters:
+      - name: modelName # placeholder name
+        default: "microsoft/Phi-3-vision-128k-instruct" 
+        type: string # required for every parameters
+        description: "Model Name to be used in SAP Generative AI Hub SDK. Ensure an identical value as alias parameter"
+      - name: resourcePlan
+        type: "string"
+        default: "infer.s"
+        description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: "{{inputs.parameters.resourcePlan}}"
+    spec: |
+      predictor:
+        imagePullSecrets:
+        - name: <YOUR_DOCKER_SECRET>
+        minReplicas: 1
+        maxReplicas: 1
+        containers:
+        - name: kserve-container
+          image: docker.io/<YOUR_DOCKER_USER>/transformer:ai-core
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              set -e && echo "-------------Starting transformer Server--------------" 
+              && uvicorn server:app --host 0.0.0.0 --port 8080
+          env:
+            - name: MODEL_NAME
+              value: "{{inputs.parameters.modelName}}" 

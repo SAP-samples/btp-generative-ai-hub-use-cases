@@ -1,4 +1,4 @@
 .DS_Store
-
+__pycache__
 byom-oss-llm-code/config.json
 oss-llm-env
