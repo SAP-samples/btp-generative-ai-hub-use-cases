@@ -64,6 +64,10 @@
       "id": "vllm"
     },
     {
+      "name": "transformer",
+      "id": "transformer"
+    },
+    {
       "name": "infinity",
       "id": "infinity"
     }
@@ -209,6 +213,23 @@
         {
           "key": "quantization",
           "value": "awq"
+        },
+        {
+          "key": "resourcePlan",
+          "value": "infer.s"
+        }
+      ]
+    },
+    {
+      "comment": "Configuration for serving phi3-vision with a custom transformer server. The model specified in modelName can be used to inference with SAP Generative AI Hub SDK",
+      "name": "transformer-phi3-vision",
+      "scenario_id": "transformer",
+      "executable_id": "transformer",
+      "input_artifacts": [],
+      "parameters": [
+        {
+          "key": "modelName",
+          "value": "microsoft/Phi-3-vision-128k-instruct"
         },
         {
           "key": "resourcePlan",
