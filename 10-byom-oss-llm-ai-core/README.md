@@ -6,7 +6,7 @@ The open-source community surrounding Large Language Models (LLMs) is evolving r
 - [LocalAI](https://localai.io/)
 - [llama.cpp](https://github.com/ggerganov/llama.cpp/tree/master/examples/server)
 - [vLLM](https://docs.vllm.ai)
-- [Custom Inference Server](byom-oss-llm-code/transfomer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index)
+- [Custom Inference Server](byom-oss-llm-code/transformer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index)
 - [Infinity](https://github.com/michaelfeil/infinity) for open-source text embedding models from [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard)
 <br/>
 
@@ -27,7 +27,7 @@ In principle, there are three essential parts for bringing an open-source LLM/LM
 
 - Commercially viable Open-Source or Open-Weight Models: e.g. Mistral, Mixtral, LLaVa etc.
 - Public accessible Model Hub: For instance, [Ollama Model Library](https://ollama.com/library) tailored for Ollama, [Hugging Face](https://huggingface.co/) as a general purposed model repository.
-- Inference server in SAP AI Core: You can bring your own code to implement an inference server, for example,[Custom Inference Server](byom-oss-llm-code/transfomer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index). Alternatively, there are open-source and ready-to-use llm inference servers which can be reused in SAP AI Core, like Ollama, LocalAI, llama.cpp and vLLM with minimal custom code as a custom Dockerfile and configurable serving template adapted for SAP AI Core. Ollama is recommended for its simplicity and efficiency.
+- Inference server in SAP AI Core: You can bring your own code to implement an inference server, for example,[Custom Inference Server](byom-oss-llm-code/transformer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index). Alternatively, there are open-source and ready-to-use llm inference servers which can be reused in SAP AI Core, like Ollama, LocalAI, llama.cpp and vLLM with minimal custom code as a custom Dockerfile and configurable serving template adapted for SAP AI Core. Ollama is recommended for its simplicity and efficiency.
 
 ## Why leverage Ollama, LocalAI, llama.cpp and vLLM in SAP AI Core?
 
@@ -201,8 +201,8 @@ Please follow the jupyter notebooks below to deploy and test **vLLM** in SAP AI 
 Please follow the jupyter notebooks below to deploy and test **Custom Transformer Server** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/transformer/01-deployment.ipynb) for building the docker image and starting a deployment
-- [02-transformer-direct-api-call.ipynb](byom-oss-llm-code/transfomer/02-transformer-direct-api-call.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through direct API call.
-- [03-transformer-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/transfomer/03-transformer-sap-genai-hub-sdk.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through [SAP Generative AI Hub SDK](https://pypi.org/project/generative-ai-hub-sdk/) and LangChain.
+- [02-transformer-direct-api-call.ipynb](byom-oss-llm-code/transformer/02-transformer-direct-api-call.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through direct API call.
+- [03-transformer-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/transformer/03-transformer-sap-genai-hub-sdk.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through [SAP Generative AI Hub SDK](https://pypi.org/project/generative-ai-hub-sdk/) and LangChain.
 - [04-cleanup.ipynb](byom-oss-llm-code/transformer/04-cleanup.ipynb)
 
 ## License
