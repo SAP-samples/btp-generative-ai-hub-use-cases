@@ -201,8 +201,8 @@ Please follow the jupyter notebooks below to deploy and test **vLLM** in SAP AI 
 Please follow the jupyter notebooks below to deploy and test **Custom Transformer Server** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/transformer/01-deployment.ipynb) for building the docker image and starting a deployment
-- [02-transformer-direct-api-call.ipynb](byom-oss-llm-code/transformer/02-transformer-direct-api-call.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through direct API call.
-- [03-transformer-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/transformer/03-transformer-sap-genai-hub-sdk.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through [SAP Generative AI Hub SDK](https://pypi.org/project/generative-ai-hub-sdk/) and LangChain.
+- [02-transformer-direct-api-call.ipynb](byom-oss-llm-code/transformer/02-transformer-direct-api-call.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-vision-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through direct API call.
+- [03-transformer-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/transformer/03-transformer-sap-genai-hub-sdk.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-vision-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through [SAP Generative AI Hub SDK](https://pypi.org/project/generative-ai-hub-sdk/) and LangChain.
 - [04-cleanup.ipynb](byom-oss-llm-code/transformer/04-cleanup.ipynb)
 
 ## License
