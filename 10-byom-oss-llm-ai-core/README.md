@@ -1,14 +1,16 @@
 # Bringing Open-sourced LLMs into SAP AI Core
 
-The open-source community surrounding Large Language Models (LLMs) is evolving rapidly, with new models, backends, libraries, and toolings constantly emerging. These developments enable the running of LLMs locally or on self-hosted environments. SAP AI Core is a service in the SAP Business Technology Platform that is designed to handle the execution and operations of your AI assets in a standardized, scalable, and hyperscaler-agnostic way. This repository serves as a guide on how to bring popular open-source Large Language Models (such as Mistral, Mixtral, Gemma, LlaVA, Llama 2, etc.) into SAP AI Core using widely adopted open-source LLM tools or backends, which complements SAP Generative AI Hub with self-hosted open-source LLMs.
+The open-source community surrounding Large Language Models (LLMs) is evolving rapidly, with new models, backends, libraries, and toolings constantly emerging. These developments enable the running of LLMs locally or on self-hosted environments. SAP AI Core is a service in the SAP Business Technology Platform that is designed to handle the execution and operations of your AI assets in a standardized, scalable, and hyperscaler-agnostic way. This repository serves as a guide on how to bring popular open-source Large Language Models (such as LLaMa 3, Phi-3, Mistral, Mixtral, LlaVA, Gemma, etc.) and open-source Text Embedding Models into SAP AI Core using widely adopted open-source LLM tools or backends, which complements SAP Generative AI Hub with self-hosted open-source LLMs.
 
 - [Ollama](https://ollama.com/)
 - [LocalAI](https://localai.io/)
 - [llama.cpp](https://github.com/ggerganov/llama.cpp/tree/master/examples/server)
 - [vLLM](https://docs.vllm.ai)
+- [Custom Inference Server](byom-oss-llm-code/transfomer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index)
+- [Infinity](https://github.com/michaelfeil/infinity) for open-source text embedding models from [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard)
 <br/>
 
-Please refer to the blog post(tba) for details.
+Please refer to the blog post about [**Bring Open-Source LLMs into SAP AI Core**](https://community.sap.com/t5/artificial-intelligence-and-machine-learning-blogs/bring-open-source-llms-into-sap-ai-core/ba-p/13655167) for details.
 
 ## Why running open-sourced LLMs with SAP AI Core?
 
@@ -24,8 +26,8 @@ Please refer to the blog post(tba) for details.
 In principle, there are three essential parts for bringing an open-source LLM/LMM into SAP AI Core.
 
 - Commercially viable Open-Source or Open-Weight Models: e.g. Mistral, Mixtral, LLaVa etc.
-- Public accessible Model Hub: For instance, Ollama Model Library tailored for Ollama, hugging face as a general purposed model repository.
-- Inference server in SAP AI Core: You can bring your own code to implement an inference server, for example, in the blog post about [Running Language Models – Deploy Llama2 7b on AI Core](https://community.sap.com/t5/technology-blogs-by-sap/running-language-models-deploy-llama2-7b-on-ai-core/ba-p/13557544), it shows a great sample to implement a custom inference server with transformer. Alternatively, there are open-source and ready-to-use llm inference servers which can be reused in SAP AI Core, like Ollama, LocalAI, llama.cpp and vLLM with minimal custom code as a custom Dockerfile and configurable serving template adapted for SAP AI Core. Ollama is recommended for its simplicity and efficiency.
+- Public accessible Model Hub: For instance, [Ollama Model Library](https://ollama.com/library) tailored for Ollama, [Hugging Face](https://huggingface.co/) as a general purposed model repository.
+- Inference server in SAP AI Core: You can bring your own code to implement an inference server, for example,[Custom Inference Server](byom-oss-llm-code/transfomer) with [Hugging Face Transformers Library](https://huggingface.co/docs/transformers/en/index). Alternatively, there are open-source and ready-to-use llm inference servers which can be reused in SAP AI Core, like Ollama, LocalAI, llama.cpp and vLLM with minimal custom code as a custom Dockerfile and configurable serving template adapted for SAP AI Core. Ollama is recommended for its simplicity and efficiency.
 
 ## Why leverage Ollama, LocalAI, llama.cpp and vLLM in SAP AI Core?
 
@@ -164,9 +166,9 @@ jupyter lab
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb) for test Ollama in SAP AI Core through API
-- [02-ollama-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/ollama/02-ollama-sap-genai-hub-sdk.ipynb) for test Ollama in SAP AI Core through SAP Generative AI Hub SDK and Langchain
-- [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb)
+- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb) for test Ollama's Model pulling API, Text Generation API, OpenAI-like Chat Completion API in SAP AI Core through direct API call.
+- [02-ollama-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/ollama/02-ollama-sap-genai-hub-sdk.ipynb) for test Ollama's OpenAI-like Chat Completion API in SAP AI Core through SAP Generative AI Hub SDK and Langchain
+- [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb) for test Ollama's Text Generation API on [LLaVa](https://ollama.com/library/llava) model with vision capability in SAP AI Core through direct API call.
 - [04-cleanup.ipynb](byom-oss-llm-code/ollama/04-cleanup.ipynb)
 
 ### Option 2: Bring open-sourced LLMs into SAP AI Core with LocalAI
@@ -192,7 +194,16 @@ Please follow the jupyter notebooks below to deploy and test **vLLM** in SAP AI 
 
 - [01-deployment.ipynb](byom-oss-llm-code/vllm/01-deployment.ipynb)
 - [02-vllm.ipynb](byom-oss-llm-code/vllm/02-vllm.ipynb)
-- [04-cleanup.ipynb](byom-oss-llm-code/vllm.cpp/04-cleanup.ipynb)
+- [04-cleanup.ipynb](byom-oss-llm-code/vllm/04-cleanup.ipynb)
+
+### Option 5: Bring open-sourced LLMs into SAP AI Core with a Custom Inference Server with Hugging Face Transformer Library
+
+Please follow the jupyter notebooks below to deploy and test **Custom Transformer Server** in SAP AI Core.
+
+- [01-deployment.ipynb](byom-oss-llm-code/transformer/01-deployment.ipynb) for building the docker image and starting a deployment
+- [02-transformer-direct-api-call.ipynb](byom-oss-llm-code/transfomer/02-transformer-direct-api-call.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through direct API call.
+- [03-transformer-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/transfomer/03-transformer-sap-genai-hub-sdk.ipynb): Sample code to inference [Microsoft's Phi-3-vision-128k-instruct](https://huggingface.co/microsoft/Phi-3-small-128k-instruct) served in [custom inference server with hugging face transformers library](app/server.py) within SAP AI Core through [SAP Generative AI Hub SDK](https://pypi.org/project/generative-ai-hub-sdk/) and LangChain.
+- [04-cleanup.ipynb](byom-oss-llm-code/transformer/04-cleanup.ipynb)
 
 ## License
 
