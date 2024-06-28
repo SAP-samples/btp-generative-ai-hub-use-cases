@@ -19,23 +19,6 @@
       ".dockerconfigjson": "{\"auths\": {\"docker.io\": {\"username\": \"<REPLACE_WITH_YOUR_DOCKER_USERNAME>\", \"password\": \"<REPLACE_WITH_YOUR_DOCKER_ACCESS_TOKEN>\"}}}"
     }
   },
-  "object_store_secret": {
-    "name": "object-store-secret",
-    "type": "S3",
-    "bucket": "<S3 bucket name. e.g. open-llm-repo>",
-    "endpoint": "<S3 end point. e.g. s3.amazonaws.com>",
-    "pathPrefix": "<Optional: A path prefix that follows the bucket name. If not specified, just leave it blank>",
-    "region": "<Optional: S3 region. If not specified, just leave it blank>",
-    "data": {
-      "AWS_ACCESS_KEY_ID": "<AWS access key ID>",
-      "AWS_SECRET_ACCESS_KEY": "<AWS secret access key>"
-    }
-  },
-  "model_placeholder": {
-    "model_file_name": "dummy.txt",
-    "path": "/Dummy",
-    "url": "ai://object-store-secret/Dummy"
-  },
   "git_repo": {
     "repo_url": "https://github.com/<YOUR_GIT_HUB_USER>/btp-generative-ai-hub-use-cases",
     "user": "<REPLACE_WITH_YOUR_GITHUB_USER>",
@@ -168,14 +151,6 @@
       "scenario_id": "vllm",
       "executable_id": "vllm",
       "input_artifacts": [
-        {
-          "name": "TheBloke/Mistral-7B-Instruct-v0.2-AWQ",
-          "key": "customModel",
-          "artifact_id": "",
-          "kind": "model",
-          "url": "ai://object-store-secret/Dummy",
-          "description": "Model placeholder registry of mistral for SAP Generative AI Hub SDK"
-        }
       ],
       "parameters": [
         {

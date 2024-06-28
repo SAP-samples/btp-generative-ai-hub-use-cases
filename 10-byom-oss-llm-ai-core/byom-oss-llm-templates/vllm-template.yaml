@@ -45,8 +45,6 @@ spec:
         type: "string"
         default: "infer.s"
         description: "Resource Plan of SAP AI Core. Supported: infer.s, infer.m, infer.l, train.l"
-    artifacts:
-      - name: customModel #only used for custom model such as fine-tuning, private model etc.
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
@@ -82,7 +80,5 @@ spec:
               --max-num-seqs {{inputs.parameters.maxNumSeqs}}
               --quantization {{inputs.parameters.quantization}}
           env:
-            - name: STORAGE_URI
-              value: "{{inputs.artifacts.customModel}}"
             - name: MODEL
               value: "{{inputs.parameters.modelName}}"
