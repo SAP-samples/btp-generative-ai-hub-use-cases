@@ -122,14 +122,6 @@
       "scenario_id": "llama.cpp",
       "executable_id": "llama.cpp",
       "input_artifacts": [
-        {
-          "name": "mistral",
-          "key": "customModel",
-          "artifact_id": "",
-          "kind": "model",
-          "url": "ai://object-store-secret/Dummy",
-          "description": "Model placeholder registry of mistral for SAP Generative AI Hub SDK"
-        }
       ],
       "parameters": [
         {
