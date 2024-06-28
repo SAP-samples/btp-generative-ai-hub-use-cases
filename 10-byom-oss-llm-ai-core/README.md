@@ -163,6 +163,7 @@ jupyter lab
 
 ### Option 1: (Recommended) Bring open-sourced LLMs into SAP AI Core with Ollama
 
+Please refer to this [blog post](https://community.sap.com/t5/artificial-intelligence-and-machine-learning-blogs/bring-open-source-llms-into-sap-ai-core-with-ollama/ba-p/13659769) about Bring Open-Source LLMs into SAP AI Core with **Ollama** for more details. <br/><br/>
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
