@@ -22,7 +22,7 @@
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/dev-cap-tools": "^1.31.0",
-    "@sap/ux-specification": "^1.108.27",
+    "@sap/ux-specification": "^1.120.15",
     "axios": "^1.6.8",
     "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
