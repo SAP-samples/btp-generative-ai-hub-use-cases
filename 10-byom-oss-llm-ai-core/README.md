@@ -167,9 +167,10 @@ Please refer to this [blog post](https://community.sap.com/t5/artificial-intelli
 Please follow the jupyter notebooks below to deploy and test **Ollama** in SAP AI Core.
 
 - [01-deployment.ipynb](byom-oss-llm-code/ollama/01-deployment.ipynb)
-- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb) for test Ollama's Model pulling API, Text Generation API, OpenAI-like Chat Completion API in SAP AI Core through direct API call.
-- [02-ollama-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/ollama/02-ollama-sap-genai-hub-sdk.ipynb) for test Ollama's OpenAI-like Chat Completion API in SAP AI Core through SAP Generative AI Hub SDK and Langchain
-- [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb) for test Ollama's Text Generation API on [LLaVa](https://ollama.com/library/llava) model with vision capability in SAP AI Core through direct API call.
+- [02-ollama.ipynb](byom-oss-llm-code/ollama/02-ollama.ipynb) for testing Ollama's Model pulling API, Text Generation API, OpenAI-like Chat Completion API in SAP AI Core through direct API call.
+- [02-ollama-sap-genai-hub-sdk.ipynb](byom-oss-llm-code/ollama/02-ollama-sap-genai-hub-sdk.ipynb) for testing Ollama's OpenAI-like Chat Completion API in SAP AI Core through SAP Generative AI Hub SDK and Langchain
+- [03-ollama-function-call.ipynb](byom-oss-llm-code/ollama/03-ollama-function-call.ipynb) for testing **Function Calling** with Ollama on the open-weight models Meta's [llama 3.1](https://ollama.com/library/llama3.1) or Mistral's [mistral v0.3](https://ollama.com/library/mistral).
+- [03-ollama-llava.ipynb](byom-oss-llm-code/ollama/03-ollama-llava.ipynb) for testing Ollama's Text Generation API on [LLaVa](https://ollama.com/library/llava) model with vision capability in SAP AI Core through direct API call.
 - [04-cleanup.ipynb](byom-oss-llm-code/ollama/04-cleanup.ipynb)
 
 ### Option 2: Bring open-sourced LLMs into SAP AI Core with LocalAI
