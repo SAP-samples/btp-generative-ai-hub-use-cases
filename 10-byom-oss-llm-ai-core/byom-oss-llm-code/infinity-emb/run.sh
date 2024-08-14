@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# TODO: Infinity's CLI v2 also accepts Env variables starting with INFINITY_*
+# INFINITY_PORT, INFINITY_MODEL_ID etc
+
 # Set default Host to 0.0.0.0 if not already set
 HOST="${HOST:-0.0.0.0}"
 OPT+=" --host ${HOST}"
@@ -17,4 +20,4 @@ echo ${URL_PREFIX}
 set -x
 
 # Run the service with the model and the prepared options
-infinity_emb --url-prefix "${URL_PREFIX}" --model-name-or-path "${MODEL_NAME}"
+infinity_emb v2 --url-prefix "${URL_PREFIX}" --model-id "${MODEL_NAME}"
