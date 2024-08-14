@@ -1,6 +1,6 @@
 Flask
 Flask_Cors
-generative_ai_hub_sdk
+generative-ai-hub-sdk[langchain]
 hdbcli
 langchain
 langchain_community
