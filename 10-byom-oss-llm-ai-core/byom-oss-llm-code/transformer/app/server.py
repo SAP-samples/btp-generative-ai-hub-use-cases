@@ -90,6 +90,11 @@ It holds a list of model and processor, no model swapping with current implmenta
 
             processor = AutoProcessor.from_pretrained(model_id, 
                                                       trust_remote_code=True)
+            # encode the special token to avoid prompt injection attack
+            # References: 
+            # https://x.com/omrani_bilel/status/1823425529606775243
+            # https://github.com/huggingface/tokenizers/pull/1437
+            processor.tokenizer._tokenizer.encode_special_tokens = True
             self.models[model_id] = (model, processor)
         return self.models[model_id]
 
