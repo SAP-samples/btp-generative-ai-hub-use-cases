@@ -1,7 +1,8 @@
 Flask
 Flask_Cors
-generative-ai-hub-sdk[langchain]
 hdbcli
+generative-ai-hub-sdk
+#generative-ai-hub-sdk[langchain]
 langchain
 langchain_community
 PyPDF2

@@ -3,6 +3,7 @@ Flask_Cors
 flask
 langchain
 openai
+generative-ai-hub-sdk
 generative-ai-hub-sdk[langchain]
 cfenv==0.5.3
 hdbcli==2.17.*

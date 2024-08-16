@@ -1,3 +1,4 @@
+generative-ai-hub-sdk
 generative-ai-hub-sdk[langchain]
 jupyterlab
 boto3
