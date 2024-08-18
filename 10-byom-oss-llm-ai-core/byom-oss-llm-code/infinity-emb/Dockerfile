@@ -11,8 +11,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m pip install --upgrade pip==23.2.1 && \
-    python3 -m pip install "infinity-emb[all]==0.0.54" && \
+RUN python3 -m pip install --upgrade pip==23.2.1 --no-cache-dir && \
+    python3 -m pip install "infinity-emb[all]==0.0.54" --no-cache-dir && \
     rm -rf /root/.cache/pip
 
 EXPOSE 7997
