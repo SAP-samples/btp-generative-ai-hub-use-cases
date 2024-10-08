@@ -1,0 +1,17 @@
+#clientKey=<< Existing password/certificate removed on export >>
+#
+#Mon Oct 07 08:26:55 UTC 2024
+tokenServiceURLType=Dedicated
+BuildApps.RequiresCsrf=true
+Description=Report Citizen Demo App - Manager API
+authnContextClassRef=urn\:oasis\:names\:tc\:SAML\:2.0\:ac\:classes\:X509
+sap.processautomation.enabled=true
+WebIDEEnabled=true
+URL=https\://REPLACE_WITH_CAP_CDS_SERVICE/manager-api
+Name=ReportCitizenApp-ManagerAPI
+WebIDEUsage=odata_gen
+Type=HTTP
+HTML5.DynamicDestination=true
+Authentication=NoAuthentication
+AppgyverEnabled=true
+ProxyType=Internet
