@@ -23,5 +23,5 @@ entity ProcessedIssues {
         time                      : String;
         text                      : String;
         embedding                 : LargeString;
-        vector                    : cds.Vector(1536);
+        vector                    : Vector(1536);
 }
