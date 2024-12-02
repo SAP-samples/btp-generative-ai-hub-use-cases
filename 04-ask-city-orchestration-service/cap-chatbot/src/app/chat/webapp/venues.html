@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Sagenai City Council</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f0f0f0;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ccc;
+            /* Replace with your logo image URL */
+        }
+
+        .title {
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .main {
+            padding: 1rem;
+        }
+
+        .content {
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+    <script
+        id="sap-ui-bootstrap"
+        src="https://sapui5.hana.ondemand.com/1.120.19/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resourceroots='{
+            "chat": "./"
+        }'
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-frameOptions="trusted"
+        data-sap-ui-logLevel="warning"
+    ></script>
+</head>
+
+<body class="sapUiBody sapUiSizeCompact" style="overflow: auto; margin-top: 5px; margin-left: 10px;" id="content">
+    <header class="header">
+        <img class="logo" src="https://styles.redditmedia.com/t5_ahn97m/styles/communityIcon_wnj87tgxiqec1.jpg"
+            alt="Sagenai City Council Logo">
+        <h1 class="title">Sagenai City Council</h1>
+    </header>
+    <main class="main">
+        <div id="chatbotUI" class="chatbot-ui" data-sap-ui-component data-name="chat" data-id="container" data-settings='{"id" : "chat"}' data-handle-validation="true"></div>
+        <button id="chatbotButton">🤖</button>
+        <section class="content">
+            <h2>Venues available for your wedding or civil partnership</h2>
+        </section>
+
+        <article>
+
+
+            <h2>A Ceremony at an Approved Venue</h2>
+            <p>It is possible to marry or enter into civil partnership in any approved venue in England or Wales.</p>
+
+            <p>Ceremonies may take place in hotels, banqueting suites, stately homes and other places that have been
+                licensed by the local authority.</p>
+
+            <p>Notice of marriage or civil partnership has to be given in the district(s) where you live.</p>
+
+            <p>Before giving notice, it is very important that you make a provisional booking at the venue of your
+                choice and check that registrars from the local register office are able to attend to register the event
+                and conduct the ceremony.</p>
+
+            <p>Each local authority sets the fee for a ceremony at an approved venue and therefore these fees are not
+                the same throughout the country.</p>
+
+            <h3>Hiring a room</h3>
+
+            <ul>
+                <li><a
+                        href="/info/200067/marriages_and_civil_partnerships/4911/venues_licensed_to_hold_weddings_or_civil_partnerships">Licensed
+                        venues</a></li>
+                <li><a href="/info/876/civil_partnerships/2968/how_to_arrange_a_civil_partnership/5"
+                        title="Civil partnership ceremonies at approved religious premises">Civil partnership
+                        ceremonies&nbsp;at approved religious premises&nbsp;</a></li>
+            </ul>
+
+            <p>It is advisable to make a provisional booking at the <a
+                    href="/info/200067/marriages_and_civil_partnerships/1186/sagenaicity_registration_service_-_contact_and_location_details"
+                    title="Contact and location details">Sagenai Register Office</a> as soon as possible if you wish
+                to marry or enter into a civil partnership at an approved venue in Sagenai. While the venue may be
+                able to hold your wedding or civil partnership on a certain date and time, there is no guarantee that
+                registrars will be available. The sooner you book the better!</p>
+
+        </article>
+
+        <section class="content">
+            <h2>Contact Us</h2>
+            <ul>
+                <li><a href="registerbirth.html">Register Birth</a></li>
+                <li><a href="registerbirth2.html">Register Birth 2</a></li>
+                <li><a href="civilpartnership.html">Civil Partnership</a></li>
+                <li><a href="organisemarriage.html">Organise a Marriage</a></li>
+                <li><a href="buildinglicense.html">Marriages and civil partnerships venue approval</a></li>
+                <li><a href="ceremony.html">Marriage and Civil Partnership ceremonies</a></li>
+                <li><a href="venues.html">Venues available for your wedding or civil partnership</a></li>
+                <li><a href="notice.html">Giving notice of marriage or civil partnership</a></li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <!-- <p>&copy; 2024 Sagenai City Council</p> -->
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

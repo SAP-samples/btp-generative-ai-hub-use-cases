@@ -1,0 +1,53 @@
+<mvc:View controllerName="chat.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+	xmlns:card="sap.f.cards">
+    <App id="app">
+        <Page id="page" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+            <headerContent>
+                <Title text="SAGenAICity - AskTheCity Chatbot  🤖" class="sapUiSmallMargin"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://delete" tooltip="{i18n>delete}" press=".onDeleteChat" binding="{/deleteChatSession(...)}" />
+            </headerContent>
+            <content>
+                <List
+                    showSeparators="Inner"
+                    items="{chat>/}">
+                    <items>
+                        <FeedListItem
+                            icon="{chat>icon}"
+                            info="{chat>role}"
+                            timestamp="{chat>timestamp}"
+                            text="{chat>content}"
+                            class="sapUiTinyMargin" />
+                    </items>
+                    <noData>
+                        <IllustratedMessage 
+                            enableVerticalResponsiveness="true"
+                            title="How may I help you today?"
+                            description="I am your friendly City Council Officer!"
+                            illustrationType="sapIllus-Survey" />
+                    </noData>
+                </List>
+            </content>
+            <footer>
+                <OverflowToolbar height="auto" width="100%">
+                    <ToolbarSpacer />
+                    <FeedInput
+                        showIcon="true"
+                        icon="https://styles.redditmedia.com/t5_ahn97m/styles/communityIcon_wnj87tgxiqec1.jpg"
+                        placeholder="Type a message...."
+                        growing="false"
+                        rows="3"
+                        post=".onSendMessage"
+                        enabled="{ui>/enabled}"
+                        class="sapUiSmallMarginTopBottom"
+                        binding="{/getAiResponse(...)}" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+            </footer>
+        </Page>
+    </App>
+</mvc:View>

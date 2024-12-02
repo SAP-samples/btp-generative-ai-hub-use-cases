@@ -1,0 +1,14 @@
+{
+  "requires": {
+    "[production]": {
+      "db": "hana",
+      "auth": "xsuaa"
+    },
+    "auth": {
+      "kind": "mocked"
+    },
+    "destinations": true,
+    "html5-repo": true,
+    "workzone": true
+  }
+}
