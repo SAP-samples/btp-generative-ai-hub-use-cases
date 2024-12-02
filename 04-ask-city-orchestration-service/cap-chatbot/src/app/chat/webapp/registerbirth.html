@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Sagenai City Council</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f0f0f0;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ccc;
+            /* Replace with your logo image URL */
+        }
+
+        .title {
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .main {
+            padding: 1rem;
+        }
+
+        .content {
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+    <script
+        id="sap-ui-bootstrap"
+        src="https://sapui5.hana.ondemand.com/1.120.19/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-resourceroots='{
+            "chat": "./"
+        }'
+        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-frameOptions="trusted"
+        data-sap-ui-logLevel="warning"
+    ></script>
+</head>
+
+<body class="sapUiBody sapUiSizeCompact" style="overflow: auto; margin-top: 5px; margin-left: 10px;" id="content">
+    <header class="header">
+        <img class="logo" src="https://styles.redditmedia.com/t5_ahn97m/styles/communityIcon_wnj87tgxiqec1.jpg"
+            alt="Sagenai City Council Logo">
+        <h1 class="title">Sagenai City Council</h1>
+    </header>
+    <main class="main">
+        <div id="chatbotUI" class="chatbot-ui" data-sap-ui-component data-name="chat" data-id="container" data-settings='{"id" : "chat"}' data-handle-validation="true"></div>
+        <button id="chatbotButton">🤖</button>
+        <section class="content">
+            <h2>Register a Birth</h2>
+        </section>
+
+        <article>
+
+
+            <h2>Appointments for registering a birth&nbsp;</h2>
+            <p class="well">Before booking your appointment, <a
+                    href="http://www.gov.uk/register-birth/who-can-register-a-birth">read the gov.uk guidance on who can
+                    register a birth</a>&nbsp;</p>
+
+            <p>Births must be registered within 6 weeks (42 days) and you’ll need to confirm:&nbsp;</p>
+
+            <ul>
+                <li>Baby's date and place of birth, Baby's forename(s) and surname (with exact spellings)&nbsp;</li>
+                <li>Mother's full name, date and place of birth, occupation and maiden name/date of marriage (if
+                    applicable)&nbsp;</li>
+                <li>Where father's details are being recorded, the same information as for the mother is needed &nbsp;
+                </li>
+            </ul>
+
+            <p>The centre you wish to attend to register (i.e The Register Office in Heron House, or the Surestart
+                Centre of your choice if you are a Sagenai resident)&nbsp;</p>
+
+            <h3>Booking your appointment&nbsp;</h3>
+
+            <p>Our appointments get booked up quickly, and we can only open more once a week, on a Monday. If there are
+                none available please keep checking: there’s usually more availability early in the week. &nbsp;</p>
+
+            <div class="well cta">
+                <div class="more"><a class="btn-alt" href="https://sagenaicity.zipporah.co.uk/CeremonyPlanner/">Book an
+                        appointment online</a></div>
+            </div>
+
+            <h3>What you need to bring with you to your appointment&nbsp;</h3>
+
+            <p>The only document that you need to bring is the "Red Book" (Personal Child Health Record). A record of
+                the birth is sent to us by the hospital.&nbsp;</p>
+
+            <p>But it’s useful, to improve the quality of the information recorded in the registration, if you bring one
+                of the following for both parents: Passport/Utility Bill/Driving Licence/Marriage or Civil Partnership
+                Certificate. &nbsp;Same sex couples do not need to bring their parenthood agreement to the appointment.
+                You will be asked to check and then sign, to confirm that the information recorded is correct.
+                <strong>Mistakes can be corrected but only if you pay a significant fee</strong>. &nbsp;</p>
+
+            <p><a href="http://www.sagenaicity.gov.uk/info/200010/births/8446/correcting_a_registration">Find out what to
+                    do if you need to re-register or change details of&nbsp;a birth that has been registered</a></p>
+
+            <h3>What documents are available&nbsp;</h3>
+
+            <p>Choose from:&nbsp;</p>
+
+            <ul>
+                <li>A standard certificate, showing all the details recorded in the register. This is available from the
+                    registrar, at the time of registration, at a cost of £11. &nbsp;</li>
+                <li>A short certificate, showing just the child's details, at a cost of £11. &nbsp;</li>
+            </ul>
+
+            <p>Any passport application for your child will require a standard birth certificate.&nbsp;</p>
+
+        </article>
+
+        <section class="content">
+            <h2>Contact Us</h2>
+            <ul>
+                <li><a href="registerbirth.html">Register Birth</a></li>
+                <li><a href="registerbirth2.html">Register Birth 2</a></li>
+                <li><a href="civilpartnership.html">Civil Partnership</a></li>
+                <li><a href="organisemarriage.html">Organise a Marriage</a></li>
+                <li><a href="buildinglicense.html">Marriages and civil partnerships venue approval</a></li>
+                <li><a href="ceremony.html">Marriage and Civil Partnership ceremonies</a></li>
+                <li><a href="venues.html">Venues available for your wedding or civil partnership</a></li>
+                <li><a href="notice.html">Giving notice of marriage or civil partnership</a></li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <!-- <p>&copy; 2024 Sagenai City Council</p> -->
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

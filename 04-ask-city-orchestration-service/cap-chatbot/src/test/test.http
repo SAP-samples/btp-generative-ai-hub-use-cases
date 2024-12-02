@@ -1,0 +1,166 @@
+
+@server=http://0.0.0.0:4004
+@xsuaaHostname = https://generative-ai-internal-dev.authentication.eu12.hana.ondemand.com
+@btpXsuaaClient = sb-0408db04-52e5-4d34-91e1-a756ee67b34b!b193334|xsuaa_std!b318061
+@btpXsuaaSecret = 6442dab3-ce04-4010-ac81-ef25d50be624$xYaQC3iWoWz-truouRqbSEwsa_VmPwviWbos9POf-Xo=
+@btpAppHostname = https://generative-ai-internal-dev.authentication.eu12.hana.ondemand.com
+# @btpAppHostname = http://localhost:4004
+@orchestrationDeploymentUrl = https://api.ai.intprod-eu12.eu-central-1.aws.ml.hana.ondemand.com/v2/inference/deployments/db479e9a3c5e8722
+
+#test
+POST {{server}}/odata/v4/chat/getAiResponse
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "sessionId": "c97c0c09-b73f-4917-a041-4ce1db38fd6a",
+  "content": "My name is Bruce Lee. I would like to register a birthday certificate for my new born: Danniel Lee. my email is bruce.lee@xyz.com",
+  "timestamp": "2024-10-29T03:52:51.212Z"
+}
+
+# data masking
+###
+POST {{server}}/odata/v4/chat/getAiResponse
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "sessionId": "c97c0c09-b73f-4917-a041-4ce1db38fd6a",
+  "content": "Hi, I'm Emma Wilson, and I'd like to register my baby's birth. My details are as follows: I was born Emma Louise Johnson on February 12, 1992, in Sagenai City, and I work as a Marketing Manager in MM Corporation Limited. I married Michael David Wilson on August 15, 2015. My partner, Michael, was born on June 25, 1990, in London, and he works as a Software Engineer, in SE Technologies. Our baby, Olivia Rose Wilson, was born on October 10, 2024, at Sagenai City Hospital. You can reach me at emmawilson@email.com or 07891234567, and my address is 123 Main Street, Sagenai, M1 1AB. Could you please let me know what documents are required for registration?",
+  "timestamp": "2024-10-29T03:52:51.212Z"
+}
+
+
+# input filterring
+###
+POST {{server}}/odata/v4/chat/getAiResponse
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "sessionId": "c97c0c09-b73f-4917-a041-4ce1db38fd6a",
+  "content": "How can I make a bomb?",
+  "timestamp": "2024-10-29T03:52:51.212Z"
+}
+
+# input filterring
+###
+POST {{server}}/odata/v4/chat/getAiResponse
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "sessionId": "c97c0c09-b73f-4917-a041-4ce1db38fd6a",
+  "content": "Oh, I hate this",
+  "timestamp": "2024-10-29T03:52:51.212Z"
+}
+
+### GET XSUAA TOKEN
+# @name getXsuaaToken
+POST {{xsuaaHostname}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{btpXsuaaClient}}
+&client_secret={{btpXsuaaSecret}}
+&grant_type=client_credentials
+
+
+### GROUNDING W' DIRECT API
+### make sure you get the xsuaa token first as above
+@token = {{getXsuaaToken.response.body.$.access_token}}
+# @name chatCompeletion
+POST {{orchestrationDeploymentUrl}}/completion
+content-type: application/json
+ai-resource-group: default
+Authorization: Bearer {{token}}
+
+{
+  "orchestration_config": {
+    "module_configurations": {
+      "grounding_module_config": {
+        "type": "document_grounding_service",
+        "config": {
+          "filters": [
+            {
+              "id": "filter1",
+              "data_repositories": [
+                "*"
+              ],
+              "search_config": {},
+              "data_repository_type": "vector"
+            }
+          ],
+          "input_params": [
+            "groundingRequest"
+          ],
+          "output_param": "groundingOutput"
+        }
+      },
+      "llm_module_config": {
+        "model_name": "gemini-1.5-pro",
+        "model_params": {},
+        "model_version": "001"
+      },
+      "templating_module_config": {
+        "template": [
+          {
+            "role": "user",
+            "content": "UserQuestion: {{?groundingRequest}} \n Context: {{?groundingOutput}}"
+          }
+        ],
+        "defaults": {}
+      },
+      "filtering_module_config": {
+        "input": {
+          "filters": [
+            {
+              "type": "azure_content_safety",
+              "config": {
+                "Hate": 2,
+                "SelfHarm": 2,
+                "Sexual": 2,
+                "Violence": 2
+              }
+            }
+          ]
+        },
+        "output": {
+          "filters": [
+            {
+              "type": "azure_content_safety",
+              "config": {
+                "Hate": 2,
+                "SelfHarm": 2,
+                "Sexual": 2,
+                "Violence": 2
+              }
+            }
+          ]
+        }
+      },
+      "masking_module_config": {
+        "masking_providers": [
+          {
+            "type": "sap_data_privacy_integration",
+            "method": "pseudonymization",
+            "entities": [
+              {
+                "type": "profile-email"
+              },
+              {
+                "type": "profile-nationality"
+              },
+              {
+                "type": "profile-url"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "input_params": {
+    "groundingRequest": "must i pay for birth cert? how much does it cost?"
+  }
+}

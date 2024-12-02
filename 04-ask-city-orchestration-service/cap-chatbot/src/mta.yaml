@@ -1,0 +1,154 @@
+_schema-version: 3.3.0
+ID: btp-cap-gen-ai-orchestration
+version: 1.0.0
+description: "A CAP chatbot sample about ask city with SAP Generative AI Orchestration Service via ai-sdk-js"
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: btp-cap-gen-ai-orchestration-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+      ignore:
+        - .env
+        - node_modules/
+        - default-env.json
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: btp-cap-gen-ai-orchestration-db
+      - name: btp-cap-gen-ai-orchestration-auth
+      - name: btp-cap-gen-ai-orchestration-destination
+
+  - name: btp-cap-gen-ai-orchestration-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: btp-cap-gen-ai-orchestration-db
+
+  - name: btp-cap-gen-ai-orchestration-app-deployer
+    type: com.sap.application.content
+    path: gen
+    requires:
+      - name: btp-cap-gen-ai-orchestration-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: asksagaichat
+          artifacts:
+            - chat.zip
+          target-path: app/
+
+  - name: asksagaichat
+    type: html5
+    path: app/chat
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+
+  - name: btp-cap-gen-ai-orchestration-destinations
+    type: com.sap.application.content
+    requires:
+      - name: btp-cap-gen-ai-orchestration-auth
+        parameters:
+          service-key:
+            name: btp-cap-gen-ai-orchestration-auth-key
+      - name: btp-cap-gen-ai-orchestration-html5-repo-host
+        parameters:
+          service-key:
+            name: btp-cap-gen-ai-orchestration-html5-repo-host-key
+      - name: srv-api
+      - name: btp-cap-gen-ai-orchestration-destination
+        parameters:
+          content-target: true
+    build-parameters:
+      no-source: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: btp-cap-gen-ai-orchestration-app-srv
+              Authentication: OAuth2UserTokenExchange
+              TokenServiceInstanceName: btp-cap-gen-ai-orchestration-auth
+              TokenServiceKeyName: btp-cap-gen-ai-orchestration-auth-key
+              URL: ~{srv-api/srv-url}
+              sap.cloud.service: asksagai.service
+            - Name: btp-cap-gen-ai-orchestration-html5-repository
+              ServiceInstanceName: btp-cap-gen-ai-orchestration-html5-repo-host
+              ServiceKeyName: btp-cap-gen-ai-orchestration-html5-repo-host-key
+              sap.cloud.service: asksagai.service
+            - Name: btp-cap-gen-ai-orchestration-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: btp-cap-gen-ai-orchestration-auth
+              ServiceKeyName: btp-cap-gen-ai-orchestration-auth-key
+              sap.cloud.service: asksagai.service
+
+resources:
+  - name: btp-cap-gen-ai-orchestration-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: btp-cap-gen-ai-orchestration-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: btp-cap-gen-ai-orchestration-auth
+        tenant-mode: dedicated
+  - name: btp-cap-gen-ai-orchestration-destination
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: srv-api
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: btp-cap-gen-ai-orchestration-srv-api
+                URL: ~{srv-api/srv-url}
+                Authentication: OAuth2UserTokenExchange
+                Type: HTTP
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+  - name: btp-cap-gen-ai-orchestration-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host

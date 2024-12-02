@@ -1,0 +1,54 @@
+{
+  "name": "btp-cap-gen-ai-orchestration",
+  "version": "1.0.0",
+  "description": "A CAP chatbot sample for citizen asking city council about public services and policy etc. with enhanced security and data privacy powered with Orchestration Service in SAP Generative AI Hub",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@langchain/community": "^0.3.1",
+    "@langchain/textsplitters": "^0.1.0",
+    "@sap-ai-sdk/orchestration": "^1.3.1-20241126013133.0",
+    "@sap-cloud-sdk/http-client": "^3.21.0",
+    "@sap/cds": "^8.2.3",
+    "@sap/cds-hana": "^2.0.0",
+    "@sap/xsenv": "^5.3.0",
+    "@sap/xssec": "^4.2.4",
+    "axios": "^1.7.7",
+    "express": "^4.21.0",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@cap-js/cds-typer": ">=0.1",
+    "@cap-js/cds-types": "^0.6.5",
+    "@cap-js/sqlite": "^1.7.3",
+    "@sap/ux-specification": "^1.124.1",
+    "@types/node": "^20",
+    "eslint": "^9.11.0",
+    "eslint-config-mlauffer-ui5": "^1.0.3",
+    "prettier": "^3.3.3",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@sap/cds-dk": "^8"
+  },
+  "scripts": {
+    "watch": "cds-tsx watch",
+    "watch:hybrid": "cds-tsx watch --profile hybrid",
+    "lint": "eslint . && prettier . --config ../.prettierrc --ignore-path ../.prettierignore -c",
+    "lint:fix": "eslint . --fix && prettier . --config ../.prettierrc --ignore-path ../.prettierignore -w --log-level error",
+    "start": "cds-serve",
+    "hybrid": "cds watch --profile hybrid",
+    "build": "mbt build -t gen --mtar archive",
+    "deploy": "cf deploy gen/archive.mtar --retries 1 --delete-services",
+    "undeploy": "cf undeploy btp-cap-gen-ai-orchestration --delete-services --delete-service-keys --delete-service-brokers"
+  },
+  "sapux": [
+    "app/embedding",
+    "app/chat"
+  ],
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
+  }
+}
