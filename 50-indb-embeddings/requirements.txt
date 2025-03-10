@@ -1,0 +1,10 @@
+Flask
+Flask_Cors
+hana_ml
+configparser
+hdbcli
+uwsgi
+pandas
+numpy
+IPython
+generative-ai-hub-sdk
