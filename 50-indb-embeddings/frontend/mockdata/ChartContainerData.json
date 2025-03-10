@@ -1,0 +1,58 @@
+{
+	"Products": [
+		{
+			"Country": "Cloud Architecture",
+			"Profit": 100,
+			"Forcast": 200,
+			"Target": 20,
+			"Revenue": 20,
+			"Revenue2": 20,
+			"Revenue3": 512
+		},
+		{
+			"Country": "Data to Value",
+			"Profit": 159,
+			"Forcast": 140,
+			"Target": 150,
+			"Revenue": 30,
+			"Revenue2": 100,
+			"Revenue3": 303
+		},
+		{
+			"Country": "Security",
+			"Profit": 129,
+			"Forcast": 120,
+			"Target": 100,
+			"Revenue": 200,
+			"Revenue2": 222,
+			"Revenue3": 263
+		},
+		{
+			"Country": "Application development and UI",
+			"Profit": 58,
+			"Forcast": 60,
+			"Target": 80,
+			"Revenue": 116,
+			"Revenue2": 152,
+			"Revenue3": 113
+		},
+		{
+			"Country": "Multitenancy",
+			"Profit": 149,
+			"Forcast": 120,
+			"Target": 150,
+			"Revenue": 249,
+			"Revenue2": 292,
+			"Revenue3": 443
+		},
+		{
+			"Country": "Integration",
+			"Profit": 49,
+			"Forcast": 60,
+			"Target": 55,
+			"Revenue": 1449,
+			"Revenue2": 242,
+			"Revenue3": 243
+		}
+	]
+}

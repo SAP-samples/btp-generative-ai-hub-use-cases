@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>D3 Multi-Series Bar Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .chart-container {
+            display: flex;
+        }
+
+        .chart {
+            display: block;
+            margin: 20px auto;
+        }
+
+        #chart svg {
+            /* Or target the SVG directly if you have other svgs */
+            margin-right: -400px;
+            /* Adjust this value */
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .bar {
+            transition: all 0.3s ease;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        #lastRefreshed {
+            margin-left: 10px;
+        }
+
+        /* SAPUI5-inspired styles */
+        select,
+        button,
+        label,
+        input[type="range"] {
+            padding: 0.5rem;
+            margin: 0.2rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #0a6ed1;
+            /* SAPUI5 Horizon blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 5px;
+            cursor: pointer;
+            background: #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            appearance: none;
+            margin-top: -5px;
+            background: #0078D7;
+            border-radius: 50%;
+        }
+
+        .legend {
+            display: block;
+            float: right;
+            margin-top: 20px;
+            right: 400px;
+            width: 200px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            cursor: pointer;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 80%;
+            margin-right: 5px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 600px) {
+
+            .chart-container {
+                width: 400px;
+            }
+
+            #chart {
+                padding-left: 20px;
+                padding-top: 20px;
+                width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <select id="expert-filter"></select>
+    <button id="refresh-button">Refresh</button>
+    <!-- <label for="auto-refresh">Auto Refresh:</label>
+    <input type="checkbox" id="auto-refresh">
+    <input type="range" id="refresh-interval" min="1" max="10" value="3" step="1"> <span id="interval-value">3</span>
+    seconds -->
+
+    <!-- <br> -->
+    <div id="lastRefreshed">Last refreshed: Not yet.</div>
+
+    <div class="chart-container">
+        <div id="chart"></div>
+        <div class="legend"></div>
+    </div>
+
+    <script>
+        const chartDiv = d3.select("#chart");
+        let data, clusterDescriptions;
+        let svg, xScale, yScale, colorScale, xAxis, yAxis, tooltip;
+        let refreshIntervalId;
+        let loadingIndicator; // Declare a variable for the loading indicator
+
+        const expertFilter = d3.select("#expert-filter");
+        const refreshButton = d3.select("#refresh-button");
+        const autoRefreshCheckbox = d3.select("#auto-refresh");
+        const refreshIntervalSlider = d3.select("#refresh-interval");
+        const intervalValueSpan = d3.select("#interval-value");
+
+        refreshIntervalSlider.on("input", function () {
+            intervalValueSpan.text(this.value);
+            if (autoRefreshCheckbox.property("checked")) {
+                clearInterval(refreshIntervalId);
+                refreshIntervalId = setInterval(fetchDataAndDrawChart, this.value * 1000);
+            }
+        });
+
+        autoRefreshCheckbox.on("change", function () {
+            clearInterval(refreshIntervalId);
+            if (this.checked) {
+                refreshIntervalId = setInterval(fetchDataAndDrawChart, refreshIntervalSlider.property("value") * 1000);
+            }
+        });
+
+        refreshButton.on("click", fetchDataAndDrawChart);
+
+        // window.addEventListener("resize", fetchDataAndDrawChart);
+
+        const margin = { top: 80, right: 280, bottom: 120, left: 80 },
+            width = 1100 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        let PROJ_ARCH_CLUSTER_EP, CLUSTER_DESC_EP; // Declare globally
+
+        fetch("/getenvironmentvariables")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const pyEndpoint = data;
+                // console.log("Python endpoint:", pyEndpoint);
+
+                PROJ_ARCH_CLUSTER_EP = pyEndpoint + "/get_projects_by_architect_and_cluster";
+                CLUSTER_DESC_EP = pyEndpoint + "/get_clusters_description";
+
+                // Initial chart drawing (using initial data if available)
+                fetchDataAndDrawChart(); // Call to draw the initial chart
+            })
+            .catch(error => {
+                console.error("Error fetching environment variable:", error);
+            });
+        // Set the interval (in milliseconds).  xx seconds = xx * 1000 milliseconds
+        let intervalInSeconds = 5; // Example: 5 seconds
+        let intervalId = setInterval(checkGlobalAutoRefresh, intervalInSeconds * 1000);
+
+        // Optional: To stop the interval later (e.g., after a certain condition)
+        // You'll need to store the intervalId returned by setInterval()
+        // Example: Stop after 30 seconds
+        // setTimeout(function () {
+        //     clearInterval(intervalId);
+        //     console.log("Interval stopped.");
+        // }, 30000); // 30 seconds
+
+        /** [TO IMPROVE]*/
+
+        function checkGlobalAutoRefresh() {
+            var globalAutoRefresh = localStorage.getItem("AUTO-REFRESH");
+            if (globalAutoRefresh == "true") {
+                fetchDataAndDrawChart();
+            } else {
+                // clearInterval(intervalId);
+            }
+        }
+
+        function fetchDataAndDrawChart() {
+            // showLoadingIndicator();
+
+            Promise.all([
+                d3.json(PROJ_ARCH_CLUSTER_EP),
+                d3.json(CLUSTER_DESC_EP)
+            ]).then(function (values) {
+                data = values[0].projects_by_architect_and_cluster;
+                clusterDescriptions = values[1];
+
+                data.forEach(d => {
+                    const cluster = clusterDescriptions.find(c => c.CLUSTER_ID === d.CLUSTER_ID);
+                    d.CLUSTER_DESCRIPTION = cluster ? cluster.CLUSTER_DESCRIPTION : "Unknown Cluster";
+                });
+
+                data.sort((a, b) => b.PROJECT_COUNT - a.PROJECT_COUNT);
+
+                drawChart();
+                populateExpertFilter();
+                // hideLoadingIndicator();
+
+                const now = new Date();
+                const formattedDateTime = now.toLocaleString(); // Or customize the format
+                document.getElementById("lastRefreshed").textContent = "Last refreshed at " + formattedDateTime;
+
+            }).catch(error => {
+                console.error("Error fetching data:", error);
+                // hideLoadingIndicator(); // Hide even if there's an error
+            });
+        }
+
+        function drawChart() {
+            chartDiv.selectAll("*").remove();
+            svg = chartDiv.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            xScale = d3.scaleBand()
+                .domain(clusterDescriptions.map(c => c.CLUSTER_DESCRIPTION))
+                .range([0, width])
+                .padding(0.1);
+
+            yScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.PROJECT_COUNT)])
+                .range([height, 0]);
+
+            colorScale = d3.scaleOrdinal(d3.schemePastel1);
+
+            xAxis = svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-45)");
+
+            yAxis = svg.append("g")
+                .call(d3.axisLeft(yScale));
+
+            tooltip = d3.select("body").append("div").attr("class", "tooltip");
+
+            updateChart(height);
+        }
+
+        function updateChart(height) {
+            const selectedExpert = expertFilter.property("value");
+            const filteredData = selectedExpert === "" || selectedExpert === "All Experts" ? data : data.filter(d => d.architect === selectedExpert);
+
+            const groupedData = d3.group(filteredData, d => d.CLUSTER_DESCRIPTION);
+
+            xScale.domain(Array.from(groupedData.keys()));
+
+            svg.select(".x.axis").transition().duration(500).call(d3.axisBottom(xScale))
+                .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-45)");
+
+            yScale.domain([0, d3.max(filteredData, d => d.PROJECT_COUNT) || 0]); // Handle empty data
+
+            const barWidth = xScale.bandwidth() / (groupedData.size || 1);
+
+            svg.selectAll(".bar").remove(); // Remove previous bars to avoid duplicates
+
+            groupedData.forEach((projects, cluster) => {
+                let xPos = xScale(cluster);
+
+                if (projects.length === 0) return; // Skip empty clusters
+
+                projects.forEach((d, i) => {
+                    const barHeight = height - yScale(d.PROJECT_COUNT); // Calculate bar height HERE
+
+                    svg.append("rect")
+                        .attr("class", "bar")
+                        .attr("x", xPos)
+                        .attr("width", barWidth)
+                        .attr("y", height) // Start from the bottom
+                        .attr("height", 0) // Initial height is 0
+                        .attr("fill", colorScale(d.architect))
+                        .transition()
+                        .duration(1000)
+                        .attr("y", yScale(d.PROJECT_COUNT))
+                        .attr("height", barHeight) // Use the calculated barHeight
+
+                    // .on("mouseover", function (event, d) {
+                    //     tooltip.transition().duration(200).style("opacity", .9);
+                    //     tooltip.html(`${d.architect}<br>${d.CLUSTER_DESCRIPTION}: ${d.PROJECT_COUNT}`)
+                    //         .style("left", (event.pageX) + "px")
+                    //         .style("top", (event.pageY - 28) + "px");
+                    // })
+                    // .on("mouseout", function () {
+                    //     tooltip.transition().duration(500).style("opacity", 0);
+                    // })
+                    // .transition().duration(500) // Transition for smooth updates
+                    // .attr("x", xPos)
+                    // .attr("width", barWidth)
+                    // .attr("y", yScale(d.PROJECT_COUNT))
+                    // .attr("height", barHeight); // Use the calculated barHeight
+
+                    xPos += barWidth;
+                });
+            });
+
+            // Legend
+            const legend = d3.select(".legend");
+            legend.selectAll("*").remove(); // Clear previous legend items
+
+            const experts = [...new Set(filteredData.map(d => d.architect))];
+            const legendItems = legend.selectAll(".legend-item")
+                .data(experts)
+                .enter().append("div")
+                .attr("class", "legend-item");
+
+            legendItems.append("div")
+                .attr("class", "legend-color")
+                .style("background-color", d => colorScale(d));
+
+            legendItems.append("span")
+                .text(d => d);
+
+            // legendItems.on("click", function (event, d) {
+            //     expertFilter.property("value", d);
+            //     updateChart(height); // Pass height here as well.
+
+            //     // Fade out other legend items
+            //     legendItems.transition().duration(300)
+            //         .style("opacity", otherExpert => otherExpert === d ? 1 : 0.3); // Opacity based on selection
+            // });
+        }
+
+        function populateExpertFilter() {
+            const experts = ["All Experts", ...new Set(data.map(d => d.architect))];
+            expertFilter.selectAll("option")
+                .data(experts)
+                .enter().append("option")
+                .attr("value", d => d)
+                .text(d => d);
+
+            expertFilter.on("change", function () {
+                updateChart(height); // Pass height here!
+            });
+
+            expertFilter.property("value", "All Experts");
+        }
+
+        function showLoadingIndicator() {
+            if (!loadingIndicator) { // Create if it doesn't exist
+                loadingIndicator = d3.select("body").append("div")
+                    .attr("class", "loading-indicator")
+                    .style("position", "absolute")
+                    .style("top", "40%")
+                    .style("left", "50%")
+                    .style("transform", "translate(-50%, -50%)")
+                    .style("font-family", "72, 72full, , Arial, Helvetica, sans-serif")
+                    .style("font-size", "14px")
+                    .text("Loading..."); // Or a spinner image
+
+                // Add a semi-transparent overlay to block interaction while loading
+                d3.select("body").append("div")
+                    .attr("class", "loading-overlay")
+                    .style("position", "fixed")
+                    .style("top", 0)
+                    .style("left", 0)
+                    .style("width", "100%")
+                    .style("height", "100%")
+                    .style("background-color", "rgba(0, 0, 0, 0.2)") // Semi-transparent black
+                    .style("z-index", 999); // Ensure it's on top
+            } else {
+                loadingIndicator.style("display", "block"); // Show if it was hidden
+                d3.select(".loading-overlay").style("display", "block");
+            }
+        }
+
+        function hideLoadingIndicator() {
+            if (loadingIndicator) {
+                loadingIndicator.style("display", "none");
+                d3.select(".loading-overlay").style("display", "none");
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

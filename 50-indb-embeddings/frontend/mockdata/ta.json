@@ -1,0 +1,29 @@
+{
+	"pages": [
+		{
+			"pageId": "genericPageId",
+			"header": "Technical Advisory",
+			"title": "Partner ABC",
+			"titleUrl": "http://de.wikipedia.org/wiki/Inventarisation",
+			"icon": "sap-icon://travel-request",
+			"groups": [
+				{
+					"elements": [
+						{
+							"label": "Start Date",
+							"value": "01/01/2015"
+						},
+						{
+							"label": "End Date",
+							"value": "31/12/2015"
+						},
+						{
+							"label": "Occurrence",
+							"value": "Weekly"
+						}
+					]
+				}
+			]
+		}
+	]
+}

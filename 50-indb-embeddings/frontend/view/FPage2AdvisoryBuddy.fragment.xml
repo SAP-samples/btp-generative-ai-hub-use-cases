@@ -1,0 +1,77 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <MessageStrip
+        text="The search tool is powered by the in-database embeddings from SAP HANA Cloud."
+        showIcon="true"
+        customIcon="sap-icon://search"
+        showCloseButton="true"
+        class="sapUiTinyMarginBottom">
+    </MessageStrip>
+    <OverflowToolbar height="auto" width="100%">
+        <ToolbarSpacer />
+        <FeedInput
+            showIcon="true"
+            icon="sap-icon://ai"
+            placeholder="Enter a search term that is related to the request you're working on..."
+            growing="false"
+            rows="3"
+            post=".onEmbedHANASimilaritySearch"
+            enabled="{ui>/enabled}"
+            class="sapUiTinyMarginTopBottom"
+            binding="{/getAiResponse(...)}" />
+        <ToolbarSpacer />
+    </OverflowToolbar>
+    <f:GridList
+        id="gridList"
+        headerText=""
+        items="{search>/similarities}"
+        delete="onDelete"
+        class="sapUiResponsiveContentPadding">
+        <f:customLayout>
+            <grid:GridBasicLayout gridTemplateColumns="repeat(auto-fit, minmax(20rem, 1fr))" gridGap="0.5rem" />
+        </f:customLayout>
+        <f:GridListItem
+            press="onGridListItemPressForProjectDetails"
+            highlight="Information"
+            type="Active">
+            <VBox height="100%" justifyContent="SpaceBetween">
+                <layoutData>
+                    <FlexItemData growFactor="1" shrinkFactor="0" />
+                </layoutData>
+                <VBox class="sapUiSmallMargin">
+                    <Title text="Request #{search>project_number}" wrapping="true" />
+                    <ExpandableText class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{search>TEXT}" overflowMode="Popover" />
+                    <HBox alignItems="Center">
+                        <Label text="Similarity score:" wrapping="true" />
+                        <tnt:InfoLabel text="{path: 'search>SIMILARITY', formatter: '.formatMatchingScore'}" colorScheme="{path: 'search>SIMILARITY', formatter: '.formatMatchingScoreColor'}" />
+                    </HBox>
+                </VBox>
+                
+                <OverflowToolbar design="Solid" class="sapContrast">
+                    <Button icon="sap-icon://hint" type="Transparent" press="onCoinStar"/>
+                    <ToolbarSpacer />
+                    <Button icon="sap-icon://add-favorite" type="Transparent" press="onAddFav"/>
+                    <Button icon="sap-icon://copy" type="Transparent" press="onCopy"/>
+                    <Button icon="sap-icon://call" type="Transparent" press="onCall"/>
+                </OverflowToolbar>
+            </VBox>
+        </f:GridListItem>
+        <f:noData>
+            <IllustratedMessage 
+                enableVerticalResponsiveness="true"
+                title="What would you like to search today?"
+                description="SAP HANA Embeddings"
+                illustrationType="sapIllus-NoSearchResults" />
+        </f:noData>
+    </f:GridList>
+</core:FragmentDefinition>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Filtered Grouped Bar Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        #filter-container {
+            /* Container for the dropdown */
+            margin-bottom: 20px;
+            display: inline-block;
+            /* Make it a block element */
+        }
+
+        .sap-dropdown {
+            /* SAP-like dropdown styles */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 14px;
+            appearance: none;
+            /* Remove default arrow */
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") no-repeat right 10px center;
+            /* Add custom arrow */
+            padding-right: 30px;
+            /* Adjust padding for arrow */
+            cursor: pointer;
+        }
+
+        .sap-dropdown:focus {
+            outline: none;
+            /* Remove focus outline */
+            border-color: #0a6ed1;
+            /* Highlight on focus (SAP blue) */
+            box-shadow: 0 0 5px rgba(10, 110, 209, 0.3);
+            /* Subtle shadow on focus */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="filter-container">
+        <select id="filter" class="sap-dropdown">
+            <option value="all">All Experts</option>
+        </select>
+    </div>
+    <div id="chart"></div>
+
+    <script>
+        // SAP-inspired pastel color palette
+        const sapPastelColors = [
+            "#82c0f0", // Light Blue
+            "#a0d58d", // Light Green
+            "#f8cbad",  // Light Pink
+            "#f2e69f", // Light Yellow
+            "#d1b0ff",  // Light Lavender
+            "#c6e4dd", // Light Teal
+            "#f5b7b1", // Light Salmon
+            "#d8d8d8", // Light Gray
+            "#b5d0ff", // another light blue
+            "#e0c397" // light brown
+        ];
+        Promise.all([
+            fetch('https://indb-embedding.cfapps.eu12.hana.ondemand.com/get_projects_by_architect_and_cluster')
+                .then(response => response.json()),
+            fetch('https://indb-embedding.cfapps.eu12.hana.ondemand.com/get_clusters_description')
+                .then(response => response.json())
+        ])
+            .then(([projectData, clusterDescriptions]) => {
+
+                const chartData = projectData.projects_by_architect_and_cluster;
+                const clusterDescriptionMap = new Map();
+                clusterDescriptions.forEach(cluster => {
+                    clusterDescriptionMap.set(cluster.CLUSTER_ID, cluster.CLUSTER_DESCRIPTION.trim());
+                });
+
+                const architects = [...new Set(chartData.map(d => d.architect))];
+                const colorScale = d3.scaleOrdinal(sapPastelColors).domain(architects); // Use SAP colors
+
+                // Populate the filter dropdown
+                const filterDropdown = d3.select("#filter");
+                architects.forEach(architect => {
+                    filterDropdown.append("option").attr("value", architect).text(architect);
+                });
+
+                const margin = { top: 80, right: 120, bottom: 100, left: 80 },
+                    width = 1000 - margin.left - margin.right,
+                    height = 600 - margin.top - margin.bottom;
+
+                const svg = d3.select("#chart").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                const x0 = d3.scaleBand()
+                    .domain(chartData.map(d => {
+                        const description = clusterDescriptionMap.get(d.CLUSTER_ID);
+                        return description ? description.slice(0, 20) : d.CLUSTER_ID;
+                    }))
+                    .range([0, width])
+                    .padding(0.2);
+
+                const x1 = d3.scaleBand()
+                    .domain(architects)
+                    .range([0, x0.bandwidth()])
+                    .padding(0.1);
+
+                const y = d3.scaleLinear()
+                    .domain([0, d3.max(chartData, d => d.PROJECT_COUNT)])
+                    .range([height, 0]);
+
+                // Create the legend *once*, before updateChart
+                let legend = svg.selectAll(".legend")
+                    .data(architects) // Bind data initially
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function (d, i) { return "translate(" + (width + 20) + "," + i * 20 + ")"; })
+                    .on("click", function (event, d) {
+                        const selected = d3.select("#filter").property("value");
+                        if (selected === "all") {
+                            updateChart(d);
+                            d3.select("#filter").property("value", d);
+                        } else if (selected === d) {
+                            updateChart("all");
+                            d3.select("#filter").property("value", "all");
+                        } else {
+                            updateChart(d);
+                            d3.select("#filter").property("value", d);
+                        }
+                    });
+
+                legend.append("rect") // Add rects initially
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 18)
+                    .attr("height", 18)
+                    .style("fill", colorScale);
+
+                legend.append("text") // Add text initially
+                    .attr("x", 22)
+                    .attr("y", 9)
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "start")
+                    .text(function (d) { return d; });
+
+                function updateChart(selectedArchitect) {
+                    // Filter data based on selected architect
+                    const filteredData = selectedArchitect === "all" ? chartData : chartData.filter(d => d.architect === selectedArchitect);
+
+                    const sortedData = [...filteredData].sort((a, b) => b.PROJECT_COUNT - a.PROJECT_COUNT);
+
+                    // Update x0 domain based on the sorted data
+                    x0.domain(sortedData.map(d => {
+                        const description = clusterDescriptionMap.get(d.CLUSTER_ID);
+                        return description ? description.slice(0, 20) : d.CLUSTER_ID;
+                    }));
+
+                    // Update x0 axis
+                    svg.select(".x-axis") // Select the x-axis group
+                        .transition()
+                        .duration(750)
+                        .call(d3.axisBottom(x0))
+                        .selectAll("text")
+                        .style("text-anchor", "end")
+                        .attr("dx", "-.8em")
+                        .attr("dy", ".15em")
+                        .attr("transform", "rotate(-45)");
+
+
+                    // JOIN new data with old elements.
+                    const bars = svg.selectAll("rect")
+                        .data(sortedData, d => d.CLUSTER_ID + d.architect); // Use sorted data and key
+
+
+                    // EXIT old elements not present in new data.
+                    bars.exit().remove();
+
+                    // UPDATE existing elements (with transition)
+                    bars.transition()
+                        .duration(750)
+                        .attr("x", d => { // Update x position based on the new order
+                            const description = clusterDescriptionMap.get(d.CLUSTER_ID);
+                            return x1(d.architect) + x0(description ? description.slice(0, 20) : d.CLUSTER_ID);
+                        })
+                        .attr("y", d => y(d.PROJECT_COUNT))
+                        .attr("height", d => height - y(d.PROJECT_COUNT));
+
+                    // ENTER new elements present in new data.
+                    bars.enter().append("rect")
+                        .attr("x", d => {
+                            const description = clusterDescriptionMap.get(d.CLUSTER_ID);
+                            return x1(d.architect) + x0(description ? description.slice(0, 20) : d.CLUSTER_ID);
+                        })
+                        .attr("width", x1.bandwidth())
+                        .attr("y", d => y(d.PROJECT_COUNT))
+                        .attr("height", d => height - y(d.PROJECT_COUNT))
+                        .attr("fill", d => colorScale(d.architect))
+                        .transition()
+                        .duration(750);
+
+                    // Update rects (color boxes) - FINALLY CORRECT!
+                    legend.selectAll("rect")
+                        .data(architects) // Re-bind data in selectAll as well
+                        .transition() // Smooth transition for colors
+                        .duration(750)
+                        .style("fill", d => selectedArchitect === "all" || d === selectedArchitect ? colorScale(d) : "lightgray");
+
+                    // Update text
+                    legend.selectAll("text")
+                        .data(architects) // Re-bind data in selectAll as well
+                        .style("fill", d => selectedArchitect === "all" || d === selectedArchitect ? "black" : "gray");
+
+
+                    // Handle legend items that might have been added or removed due to filtering
+                    legend.enter().append("g")
+                        .attr("class", "legend")
+                        .attr("transform", function (d, i) { return "translate(" + (width + 20) + "," + i * 20 + ")"; })
+                        .on("click", function (event, d) {
+                            const selected = d3.select("#filter").property("value"); // Get current dropdown value
+
+                            if (selected === "all") { // If "All Experts" is selected
+                                updateChart(d); // Filter to the clicked expert
+                                d3.select("#filter").property("value", d); // Update dropdown to the expert
+
+                            } else if (selected === d) { // If the clicked expert is already selected
+                                updateChart("all"); // Show all experts
+                                d3.select("#filter").property("value", "all"); // Update dropdown to "All Experts"
+
+                            } else { // If a different expert is selected
+                                updateChart(d); // Filter to the clicked expert
+                                d3.select("#filter").property("value", d); // Update dropdown to the expert
+                            }
+                        })
+                        .append("rect") // Add rects for new legend items
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", 18)
+                        .attr("height", 18)
+                        .style("fill", colorScale); // Set color for new rects
+
+                    legend.enter().select("g").append("text") // Add text for new legend items
+                        .attr("x", 22)
+                        .attr("y", 9)
+                        .attr("dy", ".35em")
+                        .style("text-anchor", "start")
+                        .text(function (d) { return d; });
+
+                    legend.exit().remove(); // Remove old legend items
+
+                }
+
+                // Initial chart drawing
+                updateChart("all");
+
+                // Add event listener to the dropdown
+                filterDropdown.on("change", function () {
+                    const selectedArchitect = this.value;
+                    updateChart(selectedArchitect);
+                });
+
+                // ... (rest of the chart code - axes, labels, legend - remains the same)
+                svg.append("g")
+                    .attr("class", "x-axis") // Add class to the x-axis
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x0))
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-45)");
+
+                svg.append("g")
+                    .call(d3.axisLeft(y));
+
+                svg.append("text")
+                    .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.bottom - 10) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Cluster Description");
+
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin.left + 20)
+                    .attr("x", 0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Project Count");
+
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+
+    </script>
+
+</body>
+
+</html>

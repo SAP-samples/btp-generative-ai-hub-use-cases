@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <IllustratedMessage 
+        enableVerticalResponsiveness="true"
+        title="Good day! Looks like you have completed all tasks! ☑️"
+        description=""
+        illustrationType="sapIllus-BalloonSky">
+        <additionalContent>
+            <Button icon="sap-icon://sys-help" press="onSearchPress" text="Need help with a new advisory?" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://search" press="onKBPress" text="Search up knowledge base" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://learning-assistant" press="onClusterExpPress" text="Explore the cluster analysis of advisories" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://learning-assistant" press="onCatMgmtPress" text="Manage categories with ease" class="sapUiTinyMargin"/>
+            <Button id="jouleWelcomeBtn" visible="false" icon="sap-icon://da" press="onJoule" text="Talk to Joule for Insights" class="sapUiTinyMargin"/>
+        </additionalContent>
+    </IllustratedMessage>
+</core:FragmentDefinition>

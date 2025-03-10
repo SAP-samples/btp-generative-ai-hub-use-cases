@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="shortcut icon" href="model/wisdom.png">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="model/wisdom-phone.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="model/wisdom-phone.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="model/wisdom-phone.png">
+    
+  <title>Smart Advisory Companion</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+  <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/1.120.19/resources/sap-ui-core.js"
+    data-sap-ui-theme="sap_horizon" 
+    data-sap-ui-resourceroots='{
+            "chat": "./"
+        }' 
+    data-sap-ui-oninit="module:sap/ui/core/ComponentSupport" 
+    data-sap-ui-compatVersion="edge"
+    data-sap-ui-async="true" 
+    data-sap-ui-frameOptions="trusted" 
+    data-sap-ui-logLevel="warning">
+    </script>
+</head>
+
+<body class="sapUiBody sapUiSizeCompact" id="content">
+  <div data-sap-ui-component data-name="chat" 
+        data-id="container" 
+        data-settings='{"id" : "chat"}'
+        data-handle-validation="true">
+  </div>
+  <!-- <script src="script.js"></script> -->
+</body>
+
+<!-- Joule Extensibility Pop -->
+
+<!-- <div id="cai-webclient-main"
+  style="display: none; position: fixed; bottom: 1rem; right: 17rem; height: 90%; width: 106px; max-width: 20rem; max-height: 48rem; pointer-events: none; z-index: 11;">
+  <div id="cai-webclient-container"
+    style="overflow: hidden; height: 100%; width: 23rem; resize: none; display: flex; border-radius: 1rem; border: none; box-shadow: rgba(0, 0, 0, 0.42) 0px 0px 0px 0.0625rem, rgba(0, 0, 0, 0.3) 0px 0.625rem 1.875rem 0px; max-height: 48rem; min-width: 16rem; flex-direction: column; margin-bottom: 10px; background-color: rgba(230, 230, 230, 0.6);">
+    <div id="dasLoadingIndicatorPage" style="width: 100%; height: 100%;">
+
+
+      <meta name="description" content="SAP DAS Web Client">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+      <title>Loading page</title>
+      <style>
+        .splashBackground {
+          width: 100%;
+          height: 100%;
+          border-width: 0px;
+          background: var(--sapAssistant_BackgroundGradient, linear-gradient(to bottom, #5d36ff, #a100c2));
+          ;
+          background-size: var(--dasWelcomeScreenBackgroundSize, 100% 100%);
+          -webkit-animation: BackgroundAnimation 420s ease infinite;
+          -moz-animation: BackgroundAnimation 420s ease infinite;
+          animation: BackgroundAnimation 420s ease infinite;
+        }
+
+        .splashImageArea {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          min-height: 90%;
+        }
+
+        @-webkit-keyframes BackgroundAnimation {
+          0% {
+            background-position: 0% 97%
+          }
+
+          50% {
+            background-position: 100% 4%
+          }
+
+          100% {
+            background-position: 0% 97%
+          }
+        }
+
+        @-moz-keyframes BackgroundAnimation {
+          0% {
+            background-position: 0% 97%
+          }
+
+          50% {
+            background-position: 100% 4%
+          }
+
+          100% {
+            background-position: 0% 97%
+          }
+        }
+
+        @keyframes BackgroundAnimation {
+          0% {
+            background-position: 0% 97%
+          }
+
+          50% {
+            background-position: 100% 4%
+          }
+
+          100% {
+            background-position: 0% 97%
+          }
+        }
+
+        @media (forced-colors: active) {
+          * {
+            forced-color-adjust: none;
+          }
+
+          ::-webkit-scrollbar,
+          ::-webkit-scrollbar-thumb,
+          ::-webkit-scrollbar-track {
+            forced-color-adjust: none;
+            /* Prevent system colors from applying */
+          }
+        }
+      </style>
+
+
+      <div class="splashBackground">
+        <header class="splashHeader"></header>
+        <div class="splashImageArea">
+          <div>
+            
+            <img alt="" width="416"
+              src="https://joule-process-trigger.eu12.sapdas.cloud.sap/resources/public/webclient/icon_loading.gif"
+              style="filter: ">
+            
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="cai-webclient-customDragDivHeader"
+      style="width: 100%; height: 15px; position: absolute; cursor: move; margin-left: auto; margin-right: auto; z-index: 11;">
+    </div><iframe id="cai-webclient-iframe" sandbox="allow-forms
+    allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups
+    allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation
+    allow-top-navigation-by-user-activation allow-downloads  allow-storage-access-by-user-activation"
+      referrerpolicy="same-origin" title="Joule"
+      style="position:relative;width:100%;height:0;border:none;overflow:hidden;border-radius:0.5rem;allowtransparency:true;margin:0"
+      src="https://joule-process-trigger.eu12.sapdas.cloud.sap/resources/public/webclient/../../webclient/webclient.html?botName=da_btpsa&amp;defaultTheme=sap_horizon"
+      allow="microphone *; clipboard-read; clipboard-write">
+    </iframe>
+  </div>
+</div> -->
+<!-- src="https://joule-process-trigger.eu12.sapdas.cloud.sap/resources/public/webclient/../../webclient/webclient.html?botName=da_btpsa&amp;defaultTheme=sap_horizon" -->
+<!-- src="https://joule-process-trigger.eu12.sapdas.cloud.sap/webclient/protected/webclient.html?botName=da_btpsa&standaloneMode=true&noCloseButton=true&noFullscreenButton=true&defaultTheme=sap_horizon&useInplaceContainer=true" -->
+
+</html>
