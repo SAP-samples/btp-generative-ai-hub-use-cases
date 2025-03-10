@@ -1,0 +1,41 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <MessageStrip
+        visible="false"
+        text="Below are some insights to your advisory journey! Your last adjustment to your team's learning plan was on Dec 2024."
+        showIcon="true"
+        customIcon="sap-icon://ai"
+        showCloseButton="true"
+        class="sapUiTinyMargin">
+    </MessageStrip>
+    <f:Card id="scatterCard" width="95%" height="800px" class="sapUiTinyMarginBegin sapUiTinyMarginTop sapUiTinyMarginEnd">
+        <f:header>
+            <card:Header title="Cluster Analysis of Trending Cluster Categories" subtitle="Grouping &amp; Comparing Advisories Requests by Cluster" />
+        </f:header>
+        <f:content>
+            <html:iframe id="chart" src="cluster_category_analysis.html" style="-webkit-transform: scale(1); transform: scale(1); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" height="900px" width="100%" scrolling="yes"/>
+        </f:content>
+    </f:Card>
+
+    <f:Card id="clusterBarCard" height="800px" width="100%" class="sapUiTinyMarginBegin sapUiTinyMarginTop sapUiTinyMarginEnd">
+        <f:layoutData>
+            <f:GridContainerItemLayoutData columns="10" />
+        </f:layoutData>
+        <f:header>
+            <card:Header title="Project Distribution by Cluster" subtitle="Breakdown of Projects by Architect" />
+        </f:header>
+        <f:content>
+            <html:iframe id="clusterExpertChart" src="cluster_project_by_expert.html" style="-webkit-transform: scale(1); transform: scale(1); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" height="900px" width="100%" scrolling="yes"/>
+        </f:content>
+    </f:Card>
+</core:FragmentDefinition>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAPUI5 Web Components with VizFrame</title>
+    <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.viz, sap.m" data-sap-ui-theme="sap_fiori_3" data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true">
+        </script>
+    <script type="module" src="https://sap.github.io/ui5-webcomponents/bundle.esm.js"></script>
+    <script type="module" src="https://sap.github.io/ui5-webcomponents-fiori/bundle.esm.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #vizFrame {
+            width: 600px;
+            height: 400px;
+        }
+
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .help-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .help-content p {
+            margin-bottom: 10px;
+        }
+
+        .help-content button {
+            padding: 10px 20px;
+            background-color: #0a6ed1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .help-content .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .arrow-top-left {
+            top: 20px;
+            left: 20px;
+            border-width: 10px 10px 0 0;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        .animated {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #helpVizFrame {
+            width: 400px;
+            height: 300px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body id="content">
+
+    <div class="container">
+        <ui5-button id="myButton">Click Me</ui5-button>
+        <ui5-input placeholder="Enter Text"></ui5-input>
+        <ui5-select>
+            <ui5-option>Option 1</ui5-option>
+            <ui5-option>Option 2</ui5-option>
+        </ui5-select>
+
+        <div id="vizFrame"></div>
+    </div>
+
+    <div id="helpOverlay" class="help-overlay" style="display: none;">
+        <div class="help-content">
+            <div class="arrow arrow-top-left"></div>
+            <p>This is the help overlay. Click the button to see it!</p>
+            <p>This input field allows you to enter text.</p>
+            <p>This select dropdown lets you choose an option.</p>
+            <p>Here's a chart!</p>
+            <div id="helpVizFrame"></div>
+            <button id="closeHelp">Close</button>
+        </div>
+    </div>
+
+    <script>
+        sap.ui.getCore().attachInit(() => {
+            const myButton = document.getElementById('myButton');
+            const helpOverlay = document.getElementById('helpOverlay');
+            const closeHelp = document.getElementById('closeHelp');
+            const helpContent = document.querySelector('.help-content');
+            const vizFrame = document.getElementById('vizFrame');
+            const helpVizFrame = document.getElementById('helpVizFrame');
+            const content = document.getElementById('content');
+
+            const data = {
+                'd': [
+                    { 'Country': 'Germany', 'Sales': 200 },
+                    { 'Country': 'USA', 'Sales': 150 },
+                    { 'Country': 'France', 'Sales': 100 },
+                    { 'Country': 'Japan', 'Sales': 80 }
+                ]
+            };
+
+            const model = new sap.ui.model.json.JSONModel(data);
+            sap.ui.getCore().setModel(model,"salesdata"); // Set the model globally (or on a specific control)
+
+            const vizProperties = {
+                'title': { 'text': 'Sales by Country' },
+                'plotArea': {
+                    'colorPalette': ['#008fd3', '#ff005e', '#00ad5f', '#f2c80f']
+                },
+                'categoryAxis': {
+                    'title': { 'text': 'Country' }
+                },
+                'valueAxis': {
+                    'title': { 'text': 'Sales' }
+                }
+            };
+
+            const oVizFrame = new sap.viz.ui5.controls.VizFrame({
+                id: "salesChart",
+                width: "100%",
+                height: "100%",
+                vizType: "column",
+                // 2. Bind the dataset to the model:
+                dataset: new sap.viz.ui5.data.FlattenedDataset({
+                    dimensions: [{ name: 'Country', value: "{salesdata>/d/Country}" }], // Use path to data
+                    measures: [{ name: 'Sales', value: "{salesdata>/d/Sales}" }], // Use path to data
+                    // data: data  <- REMOVE THIS! Data is provided by the model
+                }),
+                vizProperties: vizProperties
+            });
+
+            // vizFrame.appendChild(oVizFrame.getDomRef().get(0));
+            // content.appendChild(vizFrame);
+
+            oVizFrame.placeAt(vizFrame); // Use placeAt - this is the correct way!
+
+            myButton.addEventListener('click', () => {
+                helpOverlay.style.display = 'flex';
+                const animatedElements = helpContent.querySelectorAll('p');
+                animatedElements.forEach(element => {
+                    element.classList.add('animated');
+                });
+
+                helpVizFrame.innerHTML = "";
+                helpVizFrame.appendChild(oVizFrame.clone(true).getDomRef());
+            });
+
+            closeHelp.addEventListener('click', () => {
+                helpOverlay.style.display = 'none';
+                const animatedElements = helpContent.querySelectorAll('p');
+                animatedElements.forEach(element => {
+                    element.classList.remove('animated');
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

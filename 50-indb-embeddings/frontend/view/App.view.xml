@@ -1,0 +1,283 @@
+<mvc:View controllerName="chat.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <App id="app">
+    <tnt:ToolPage id="toolPage">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button
+					visible="{= ${device>/system/phone}}"
+					id="sideNavigationToggleButton"
+					icon="sap-icon://menu2"
+					type="Transparent"
+					press=".onSideNavMenuButtonPress">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" />
+					</layoutData>
+				</Button>
+				<Image height="2.5rem"
+					   class="sapUiTinyMargin"
+					   src="https://cdn-icons-gif.flaticon.com/17556/17556499.gif" />
+				<Title level="H6" text="Smart Advisory Companion" class="sapUiNoMargin .sapTntToolHeader .sapMTitle" wrapping="true" id="productName">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="Disappear"/>
+					</layoutData>
+				</Title>
+				<Text text="" wrapping="false" id="secondTitle">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="Disappear"/>
+					</layoutData>
+				</Text>
+				<ToolbarSpacer />
+				<ToolbarSpacer id="spacer">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="Low" group="1"/>
+					</layoutData>
+				</ToolbarSpacer>
+				<Button id="jouleBtn" visible="false" icon="sap-icon://da" type="Emphasized" tooltip="Joule" press="onJoule">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<tnt:ToolHeaderUtilitySeparator/>
+				<ToolbarSpacer width="1.125rem"/>
+				<Avatar id="profile" src="sap-icon://user" displaySize="XS" tooltip="Profile">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Avatar>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<!-- <tnt:subHeader>
+			<tnt:ToolHeader visible="{=! ${device>/system/phone}}">
+				<IconTabHeader
+						selectedKey="{nav>/selectedKey}"
+						items="{path: 'nav>/navigation'}"
+						select=".onItemSelect"
+						mode="Inline">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" shrinkable="true" />
+					</layoutData>
+					<items>
+						<IconTabFilter
+								items="{nav>items}"
+								icon="{nav>icon}"
+								text="{nav>title}"
+                                visible="{nav>visible}"
+								key="{nav>key}"
+								interactionMode="SelectLeavesOnly">
+							<items>
+								<IconTabFilter
+										text="{nav>title}"
+										key="{nav>key}"
+										enabled="{nav>enabled}">
+								</IconTabFilter>
+							</items>
+						</IconTabFilter>
+					</items>
+				</IconTabHeader>
+			</tnt:ToolHeader>
+		</tnt:subHeader> -->
+		<tnt:sideContent>
+			<tnt:SideNavigation
+				id="sideNavigation"
+				visible="{= ${device>/system/phone}}"
+				expanded="false"
+				selectedKey="{nav>/selectedKey}"
+				itemSelect=".onNavItemSelect">
+				<tnt:NavigationList items="{path: 'nav>/navigation'}">
+					<tnt:NavigationListItem
+						text="{nav>title}"
+						icon="{nav>icon}"
+						enabled="{nav>enabled}"
+						visible="{nav>visible}"
+						expanded="{nav>expanded}"
+						items="{nav>items}"
+						key="{nav>key}">
+						<tnt:NavigationListItem
+							text="{nav>title}"
+							key="{nav>key}"
+							enabled="{nav>enabled}"
+							visible="{nav>visible}" />
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="page1">
+				<pages>
+					<Page id="page1" showHeader="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent></headerContent>
+                        <content>
+							<core:Fragment fragmentName="chat.view.FPage1Welcome" id="FPage1Welcome" type="XML"/>
+                        </content>
+                        <footer></footer>
+                    </Page>
+					<Page id="page2" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent>
+                            <Title text="Advisory Buddy Search Tool" class="sapUiSmallMargin"/>
+                            <ToolbarSpacer />
+							<ToolbarSpacer />
+                        </headerContent>
+                        <content>
+							<core:Fragment fragmentName="chat.view.FPage2AdvisoryBuddy" id="FPage2AdvisoryBuddy" type="XML"/>
+                        </content>
+                        <footer></footer>
+                    </Page>
+					<Page id="page3" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent>
+                            <Title text="Knowledge Base" class="sapUiSmallMargin"/>
+							<ToolbarSpacer />
+							<Label text="Filter by:" labelFor="state"/>
+							<!-- <SearchField liveChange=".onKBSearch" width="55%"/> -->
+							<SearchField id="state" placeholder="Enter project/request ID..." change=".onKBSearch" width="55%"/>
+                        </headerContent>
+                        <content>
+							<core:Fragment fragmentName="chat.view.FPage3KnowledgeBase" id="FPage3KnowledgeBase" type="XML"/>
+                        </content>
+                        <footer>
+                        </footer>
+                    </Page>
+					<Page id="page4" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent>
+                            <Title text="Cluster Exploration" class="sapUiSmallMargin"/>
+                            <ToolbarSpacer />
+							<Label text="Auto Refresh:"/>
+							<Switch change="onClusterExpAutoRefresh" state="false">
+								<layoutData>
+									<FlexItemData growFactor="1" />
+								</layoutData>
+							</Switch>
+                        </headerContent>
+                        <content>
+							<core:Fragment fragmentName="chat.view.FPage4ClusterExp" id="FPage4ClusterExp" type="XML"/>
+                        </content>
+                        <footer>
+                        </footer>
+                    </Page>
+					<Page id="page5" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent>
+                            <Title text="Category Management" class="sapUiSmallMargin"/>
+                            <ToolbarSpacer />
+							<Label text="Auto Refresh:"/>
+							<Switch change="onCatMgmtAutoRefresh" state="false">
+								<layoutData>
+									<FlexItemData growFactor="1" />
+								</layoutData>
+							</Switch>
+                        </headerContent>
+                        <content>
+							<core:Fragment fragmentName="chat.view.FPage5CategoryMgmt" id="FPage5CategoryMgmt" type="XML"/>
+                        </content>
+                        <footer></footer>
+                    </Page>
+					<!-- <Page id="page99" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+                        <headerContent>
+                            <Title text="SAGenAICity - AskTheCity Chatbot  🤖" class="sapUiSmallMargin"/>
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://delete" tooltip="{i18n>delete}" press=".onDeleteChat" binding="{/deleteChatSession(...)}" />
+                        </headerContent>
+                        <content>
+						<MessageStrip
+							text="Chat is powered by the generative AI Hub orchestration service from SAP AI Core."
+							showIcon="true"
+							customIcon="sap-icon://ai"
+							showCloseButton="true"
+							class="sapUiSmallMargin">
+						</MessageStrip>
+                            <List
+                                showSeparators="Inner"
+                                items="{chat>/}">
+                                <items>
+                                    <FeedListItem
+                                        icon="{chat>icon}"
+                                        info="{chat>role}"
+                                        timestamp="{chat>timestamp}"
+                                        text="{chat>content}"
+                                        class="sapUiTinyMargin" />
+                                </items>
+                                <noData>
+                                    <IllustratedMessage 
+                                        enableVerticalResponsiveness="true"
+                                        title="How may I help you today?"
+                                        description="I am your friendly City Council Officer!"
+                                        illustrationType="sapIllus-Survey" />
+                                </noData>
+                            </List>
+                        </content>
+                        <footer>
+                            <OverflowToolbar height="auto" width="100%">
+                                <ToolbarSpacer />
+                                <FeedInput
+                                    showIcon="true"
+                                    icon="https://styles.redditmedia.com/t5_ahn97m/styles/communityIcon_wnj87tgxiqec1.jpg"
+                                    placeholder="Type a message...."
+                                    growing="false"
+                                    rows="3"
+                                    post=".onSendMessage"
+                                    enabled="{ui>/enabled}"
+                                    class="sapUiSmallMarginTopBottom"
+                                    binding="{/getAiResponse(...)}" />
+                                <ToolbarSpacer />
+                            </OverflowToolbar>
+                        </footer>
+                    </Page> -->
+				</pages>
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
+        <!-- <Page id="page" floatingFooter="false" busy="{ui>/busy}" busyIndicatorDelay="0">
+            <headerContent>
+                <Title text="SAGenAICity - AskTheCity Chatbot  🤖" class="sapUiSmallMargin"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://delete" tooltip="{i18n>delete}" press=".onDeleteChat" binding="{/deleteChatSession(...)}" />
+            </headerContent>
+            <content>
+                <List
+                    showSeparators="Inner"
+                    items="{chat>/}">
+                    <items>
+                        <FeedListItem
+                            icon="{chat>icon}"
+                            info="{chat>role}"
+                            timestamp="{chat>timestamp}"
+                            text="{chat>content}"
+                            class="sapUiTinyMargin" />
+                    </items>
+                    <noData>
+                        <IllustratedMessage 
+                            enableVerticalResponsiveness="true"
+                            title="How may I help you today?"
+                            description="I am your friendly City Council Officer!"
+                            illustrationType="sapIllus-Survey" />
+                    </noData>
+                </List>
+            </content>
+            <footer>
+                <OverflowToolbar height="auto" width="100%">
+                    <ToolbarSpacer />
+                    <FeedInput
+                        showIcon="true"
+                        icon="https://styles.redditmedia.com/t5_ahn97m/styles/communityIcon_wnj87tgxiqec1.jpg"
+                        placeholder="Type a message...."
+                        growing="false"
+                        rows="3"
+                        post=".onSendMessage"
+                        enabled="{ui>/enabled}"
+                        class="sapUiSmallMarginTopBottom"
+                        binding="{/getAiResponse(...)}" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+            </footer>
+        </Page> -->
+    </App>
+</mvc:View>

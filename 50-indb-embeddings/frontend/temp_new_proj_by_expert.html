@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3 Multi-Series Bar Chart</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: "72", "72full", Arial, Helvetica, sans-serif;
+      margin: 20px;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls select,
+    .controls button,
+    .controls input[type="checkbox"] {
+      font-family: "72", "72full", Arial, Helvetica, sans-serif;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .controls select:focus,
+    .controls button:focus,
+    .controls input[type="checkbox"]:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      border-color: #007bff;
+    }
+
+    .controls button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+    }
+
+    .controls button:hover {
+      background-color: #0056b3;
+    }
+
+    .controls label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+
+    .chart-container {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      padding: 5px;
+      background: #fff;
+      border: 1px solid #ccc;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .legend {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Projects by Architect and Cluster</h1>
+  <div class="controls">
+    <label for="expertFilter">Filter by Expert:</label>
+    <select id="expertFilter">
+      <option value="all">All Experts</option>
+    </select>
+    <button id="refreshButton">Refresh</button>
+    <label for="autoRefresh">Auto Refresh (3s):</label>
+    <input type="checkbox" id="autoRefresh">
+  </div>
+  <div class="chart-container">
+    <svg></svg>
+  </div>
+  <div class="legend" id="legend"></div>
+
+  <script>
+    const svg = d3.select("svg");
+    const tooltip = d3.select("body").append("div").attr("class", "tooltip");
+
+    let data = [];
+    let clusters = {};
+    let intervalId = null;
+
+    // Dynamic margins and dimensions
+    let margin = { top: 20, right: 30, bottom: 60, left: 60 };
+    let width, height;
+
+    async function fetchData() {
+      try {
+        const projectsResponse = await fetch("https://indb-embedding.cfapps.eu12.hana.ondemand.com/get_projects_by_architect_and_cluster");
+        const projectsData = await projectsResponse.json();
+
+        const clustersResponse = await fetch("https://indb-embedding.cfapps.eu12.hana.ondemand.com/get_clusters_description");
+        const clustersData = await clustersResponse.json();
+
+        // Map cluster descriptions
+        clusters = clustersData.reduce((acc, cluster) => {
+          acc[cluster.CLUSTER_ID] = cluster.CLUSTER_DESCRIPTION.trim();
+          return acc;
+        }, {});
+
+        // Combine data
+        data = projectsData.projects_by_architect_and_cluster.map(d => ({
+          ...d,
+          CLUSTER_DESCRIPTION: clusters[d.CLUSTER_ID]
+        }));
+
+        renderChart();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    function renderChart() {
+      // Dynamically calculate dimensions based on screen size
+      width = window.innerWidth > 600 ? 600 : window.innerWidth - margin.left - margin.right;
+      height = Math.max(300, window.innerHeight * 0.6);
+
+      // Clear previous chart
+      svg.selectAll("*").remove();
+
+      const architects = [...new Set(data.map(d => d.architect))];
+      const clusterDescriptions = [...new Set(data.map(d => d.CLUSTER_DESCRIPTION))];
+
+      const x0 = d3.scaleBand()
+        .domain(clusterDescriptions)
+        .range([0, width])
+        .padding(0.1);
+
+      const x1 = d3.scaleBand()
+        .domain(architects)
+        .range([0, x0.bandwidth()]);
+
+      const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.PROJECT_COUNT)])
+        .nice()
+        .range([height, 0]);
+
+      const color = d3.scaleOrdinal(d3.schemePastel1);
+
+      // Append SVG with dynamic dimensions
+      svg.attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+      const g = svg.append("g")
+        .attr("transform", `translate(<span class="math-inline">\{margin\.left\},</span>{margin.top})`);
+
+      // X-axis
+      g.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x0))
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-45)");
+
+      // Y-axis
+      g.append("g")
+        .attr("class", "y-axis")
+        .call(d3.axisLeft(y));
+
+      // Bars
+      const bars = g.selectAll(".bar-group")
+        .data(data)
+        .enter().append("g")
+        .attr("class", "bar-group")
+        .attr("transform", d => `translate(${x0(d.CLUSTER_DESCRIPTION)},0)`);
+
+      bars.append("rect")
+        .attr("x", d => x1(d.architect))
+        .attr("y", height) // Start from the bottom
+        .attr("width", x1.bandwidth())
+        .attr("height", 0) // Initial height is 0
+        .attr("fill", d => color(d.architect))
+        .transition()
+        .duration(1000)
+        .attr("y", d => y(d.PROJECT_COUNT))
+        .attr("height", d => height - y(d.PROJECT_COUNT))
+        .on("mouseover", (event, d) => {
+          tooltip.transition().duration(200).style("opacity", 0.9);
+          tooltip.html(`${d.architect} - ${d.CLUSTER_DESCRIPTION}<br>${d.PROJECT_COUNT} Projects`)
+            .style("left", `${event.pageX + 5}px`)
+            .style("top", `${event.pageY - 28}px`);
+        })
+        .on("mouseout", () => {
+          tooltip.transition().duration(500).style("opacity", 0);
+        })
+        .on("click", (event, d) => {
+          d3.select("#expertFilter").property("value", d.architect); // Update dropdown
+          applyFilter(); // Apply filter
+        });
+
+      // Update dropdown
+      const expertFilter = d3.select("#expertFilter");
+      expertFilter.selectAll("option").remove();
+      expertFilter.append("option").text("All Experts").attr("value", "all");
+      architects.forEach(architect => {
+        expertFilter.append("option").text(architect).attr("value", architect);
+      });
+
+      // Update legend
+      const legend = d3.select("#legend");
+      legend.selectAll("*").remove();
+      architects.forEach(architect => {
+        const legendItem = legend.append("div").attr("class", "legend-item")
+          .on("click", () => {
+            d3.select("#expertFilter").property("value", architect); // Update dropdown
+            applyFilter(); // Apply filter
+          });
+        legendItem.append("div")
+          .attr("class", "legend-color")
+          .style("background-color", color(architect));
+        legendItem.append("span").text(architect);
+      });
+
+      // Apply filter
+      applyFilter();
+    }
+
+    function applyFilter() {
+      const selectedExpert = d3.select("#expertFilter").property("value");
+      svg.selectAll("rect")
+        .transition()
+        .duration(500)
+        .style("opacity", d => selectedExpert === "all" || d.architect === selectedExpert ? 1 : 0.2);
+    }
+
+    d3.select("#expertFilter").on("change", applyFilter);
+
+    d3.select("#refreshButton").on("click", fetchData);
+
+    d3.select("#autoRefresh").on("change", function () {
+      if (this.checked) {
+        intervalId = setInterval(fetchData, 3000);
+      } else {
+        clearInterval(intervalId);
+      }
+    });
+
+    // Redraw chart on window resize
+    window.addEventListener("resize", renderChart);
+
+    // Initial data fetch
+    fetchData();
+  </script>
+</body>
+
+</html>
