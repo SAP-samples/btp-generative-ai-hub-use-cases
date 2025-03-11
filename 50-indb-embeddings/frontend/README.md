@@ -8,16 +8,16 @@ Leveraging a standalone Node.js architecture, chosen for its seamless integratio
 Please note that this proof of concept could serve as an inspiration for you partners who are looking to develop your own solution adopting Generative AI, specifically SAP AI Core (extended service plan).
 
 ## Business Scenario
-[<img src="https://github.com/user-attachments/assets/3a28e5de-8c1d-4a76-a189-fd5f2eaeb589"/>](https://github.com/user-attachments/assets/3a28e5de-8c1d-4a76-a189-fd5f2eaeb589)
+[<img src="https://github.com/user-attachments/assets/fee45f2b-cb0d-48cb-8d68-00824aaee706"/>](https://github.com/user-attachments/assets/fee45f2b-cb0d-48cb-8d68-00824aaee706)
+[<img src="https://github.com/user-attachments/assets/05d75d3f-9081-4ed8-b0fc-9c3362550894"/>](https://github.com/user-attachments/assets/05d75d3f-9081-4ed8-b0fc-9c3362550894)
 
 Key functionalities include similarity searches, knowledge base exploration for past requests, and cluster analysis insights for managers. This application is a foundational piece in an evolving use case story, with plans to integrate advanced AI agents, SAP Joule, SAP Knowledge Graph, and other innovative technologies. Stay tuned for future updates as we enhance this smart advisory companion.
 
 ## Persona
-[<img src="https://github.com/user-attachments/assets/e8369e6a-9d35-43f3-aceb-4d19ad6623c0"/>](https://github.com/user-attachments/assets/e8369e6a-9d35-43f3-aceb-4d19ad6623c0)
+[<img src="https://github.com/user-attachments/assets/86472bb0-0417-4ef6-9308-d363f828fc6c"/>](https://github.com/user-attachments/assets/86472bb0-0417-4ef6-9308-d363f828fc6c)
 
 ## Solution Architecture
-tbc
-<!-- [<img src="https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/8436161/a826c07b-304e-4849-9ac0-493a739536d6"/>](https://github.com/SAP-samples/btp-generative-ai-hub-use-cases/assets/8436161/a826c07b-304e-4849-9ac0-493a739536d6) -->
+[<img src="https://github.com/user-attachments/assets/f7ac1a4d-e12a-426f-a978-867fabc585cb"/>](https://github.com/user-attachments/assets/f7ac1a4d-e12a-426f-a978-867fabc585cb)
 
 ## Pre-requisites
 Below are some setup steps that are required to ensure a success deployment of the application.
