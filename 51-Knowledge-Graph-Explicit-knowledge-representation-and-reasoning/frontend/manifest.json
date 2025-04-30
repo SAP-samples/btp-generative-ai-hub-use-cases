@@ -1,0 +1,90 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "asksagai.chat",
+    "type": "application",
+    "i18n": {
+      "bundleName": "chat.i18n.i18n",
+      "supportedLocales": [
+        ""
+      ],
+      "fallbackLocale": ""
+    },
+    "applicationVersion": {
+      "version": "${version}"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.14.3",
+      "toolsId": "5708deba-5ada-40c9-b291-226400e53855"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png",
+      "favIcon": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png",
+      "phone": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png",
+      "phone@2": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png",
+      "tablet": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png",
+      "tablet@2": "https://cdn-icons-png.flaticon.com/256/16809/16809893.png"
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.120.19",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "chat.i18n.i18n",
+          "supportedLocales": [
+            ""
+          ],
+          "fallbackLocale": "",
+          "async": true
+        }
+      },
+      "ui": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "chat": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "rootView": {
+      "viewName": "chat.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <MessageStrip
+        visible="false"
+        text="Below are some insights to your advisory journey! Your last adjustment to your team's learning plan was on Dec 2024."
+        showIcon="true"
+        customIcon="sap-icon://ai"
+        showCloseButton="true"
+        class="sapUiTinyMargin">
+    </MessageStrip>
+    <f:GridContainer id="demoGrid" class="sapUiTinyMargin">
+        <f:Card id="pieCard" height="650px" width="100%" class="sapUiTinyMarginBegin sapUiTinyMarginTop sapUiTinyMarginEnd">
+            <f:layoutData>
+                <f:GridContainerItemLayoutData columns="6" />
+            </f:layoutData>
+            <f:header>
+                <card:Header title="Project Breakdown by Category" subtitle="Number of Projects in Each Category" />
+            </f:header>
+            <f:content>
+                <suite:ChartContainer
+                    id="piechartContainer"
+                    showLegend="false"
+                    showFullScreen="true"
+                    showPersonalization="false"
+                    autoAdjustHeight="false"
+                    personalizationPress="attachPersonalizationPress"
+                    contentChange="attachContentChange"
+                    title="">
+                    <suite:content>
+                        <suite:ChartContainerContent
+                            icon="sap-icon://line-chart"
+                            title="Line Chart">
+                            <suite:content>
+                                <viz:VizFrame id="piechartContainerVizFrame" height="500px" width="100%"
+                                    uiConfig="{applicationSet:'fiori'}">
+                                    <viz:dependents>
+                                        <viz:Popover id="idPopOverPie"></viz:Popover>
+                                    </viz:dependents>
+                                </viz:VizFrame>
+                            </suite:content>
+                        </suite:ChartContainerContent>
+                    </suite:content>
+                    <suite:toolbar>
+                        <OverflowToolbar id="appToolbar">
+                            <Label id="pieRefreshLabel" text=""/>
+                            <ToolbarSpacer/>
+                            <suite:ChartContainerToolbarPlaceholder></suite:ChartContainerToolbarPlaceholder>
+                        </OverflowToolbar>
+                    </suite:toolbar>
+                </suite:ChartContainer>
+            </f:content>
+        </f:Card>
+
+
+        <f:Card id="columnCard" height="650px" width="100%" class="sapUiTinyMarginBegin sapUiTinyMarginTop sapUiTinyMarginEnd sapUiTinyMarginBottom">
+            <f:layoutData>
+                <f:GridContainerItemLayoutData columns="6" />
+            </f:layoutData>
+            <f:header>
+                <card:Header title="Project Workload by Expert and Category" subtitle="Number of Projects Handled by Each Expert, Categorized by Project Type" />
+            </f:header>
+            <f:content>
+                <suite:ChartContainer
+                    id="chartContainer"
+                    showLegend="false"
+                    showFullScreen="true"
+                    showPersonalization="false"
+                    autoAdjustHeight="false"
+                    personalizationPress="attachPersonalizationPress"
+                    contentChange="attachContentChange"
+                    title="">
+                    <suite:dimensionSelectors>
+                        <Select id="idoSelect1" change="onColChartHandleSelectionChange" 
+                        valueState="Information" valueStateText="Chart results will be filtered by the selected expert.">
+                            <core:Item key="Archie" text="Projects by Archie"/>
+                            <core:Item key="Chris" text="Projects by Chris"/>
+                            <core:Item key="Emma" text="Projects by Emma"/>
+                            <core:Item key="Jules" text="Projects by Jules"/>
+                            <core:Item key="Leonard" text="Projects by Leonard"/>
+                            <core:Item key="Mary" text="Projects by Mary"/>
+                            <core:Item key="Sandra" text="Projects by Sandra"/>
+                        </Select>
+                    </suite:dimensionSelectors>
+                    <suite:content>
+                        <suite:ChartContainerContent
+                            icon="sap-icon://line-chart"
+                            title="Line Chart">
+                            <suite:content>
+                                <viz:VizFrame id="chartContainerVizFrame" height="500px" width=""
+                                    uiConfig="{applicationSet:'fiori'}">
+                                    <viz:dependents>
+                                        <viz:Popover id="idPopOverCol"></viz:Popover>
+                                    </viz:dependents>
+                                </viz:VizFrame>
+                            </suite:content>
+                        </suite:ChartContainerContent>
+                    </suite:content>
+                    <suite:toolbar>
+                        <OverflowToolbar>
+                            <ToolbarSpacer/>
+                            <Label id="colRefreshLabel" text="" width=""/>
+                            <suite:ChartContainerToolbarPlaceholder></suite:ChartContainerToolbarPlaceholder>
+                        </OverflowToolbar>
+                    </suite:toolbar>
+                </suite:ChartContainer>
+            </f:content>
+        </f:Card>
+    </f:GridContainer>
+
+    <f:Card id="categoryManagementCard" width="95%" class="sapUiTinyMarginBegin sapUiTinyMarginTop sapUiTinyMarginEnd">
+        <f:layoutData>
+            <f:GridContainerItemLayoutData columns="10" />
+        </f:layoutData>
+        <f:header>
+            <card:Header title="Category Management" subtitle="Update Category Labels &amp; Descriptions" />
+        </f:header>
+        <f:content>
+            <Table id="editableTable" items="{categorymgmt>/clusters}"
+                growing="true" growingScrollToLoad="true" width="100%">
+                <headerToolbar>
+                    <OverflowToolbar id="otbSubheader">
+                        <Label id="catTableRefreshLabel" text=""/>
+                        <ToolbarSpacer />
+                        <Button text="Edit" press="onCatMgmtEdit" visible="{= ${categorymgmt>/isEditMode} === false }" />
+                        <Button text="Cancel" press="onCatMgmtCancel" visible="{= ${categorymgmt>/isEditMode} === true }" />
+                        <Button text="Save" press="onCatMgmtSave" visible="{= ${categorymgmt>/isEditMode} === true }" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column width="3em"><Text text="ID" /></Column>
+                    <Column width="12em" minScreenWidth="Tablet" demandPopin="true"><Text text="Category" /></Column>
+                    <Column width="20em" minScreenWidth="Tablet" demandPopin="true"><Text text="Description" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <!-- Cluster ID (Non-editable) -->
+                            <Text text="{categorymgmt>index}" />
+                            <!-- Cluster Description (Editable) -->
+                            <!-- <Text text="{cluster>cluster_description}" /> -->
+                            <!-- <Text text="{categorymgmt>cluster_description}" visible="{= ${categorymgmt>/isEditMode} === false }" /> -->
+                            
+                            <!-- Category Label (Editable) -->
+                            <!-- <Text text="{cluster>category_label}" /> -->
+                            <!-- <Text text="{categorymgmt>category_label}" visible="{= ${categorymgmt>/isEditMode} === false }" /> -->
+                            <Input value="{categorymgmt>category_label}" editable="{= ${categorymgmt>/isEditMode} === true }" visible="true" />
+                            <Input width="" value="{categorymgmt>category_descr}" editable="{= ${categorymgmt>/isEditMode} === true }" visible="true"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:Card>
+</core:FragmentDefinition>

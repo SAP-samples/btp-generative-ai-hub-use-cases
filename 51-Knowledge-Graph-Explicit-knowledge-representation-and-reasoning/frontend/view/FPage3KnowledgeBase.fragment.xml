@@ -1,0 +1,54 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+    <List
+        id="idList"
+        items="{projects>/all_projects}"
+        selectionChange=".onKBSelectionChange"
+        growing="true"
+        growingThreshold="50"
+        includeItemInSelection="true">
+        <infoToolbar>
+            <OverflowToolbar visible="false" id="idInfoToolbar">
+                <Label id="idFilterLabel" />
+            </OverflowToolbar>
+        </infoToolbar>
+        <ObjectListItem
+            title="{projects>topic}"
+            type="Active"
+            press="onKBListItemPress"
+            number="{projects>project_number}"
+            numberUnit="Request ID"
+            >
+            <markers>
+                <ObjectMarker type="Favorite" />
+                <ObjectMarker type="Flagged" />
+            </markers>
+            <firstStatus>
+                <ObjectStatus
+                    text="{projects>architect}"
+                    state="Success" />
+            </firstStatus>
+            <ObjectAttribute class="sapMTextWrap" title="Solution" text="{projects>solution}" />
+            <ObjectAttribute class="sapMTextWrap" title="" text="{
+                path: 'projects>project_date',
+                type: 'sap.ui.model.type.Date',
+                formatOptions: {
+                    style: 'medium',
+                    source: {
+                        pattern: 'EEE, dd MMM yyyy HH:mm:ss zzz'
+                    }
+                }
+            }" />
+        </ObjectListItem>
+    </List>
+</core:FragmentDefinition>

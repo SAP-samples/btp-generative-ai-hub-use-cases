@@ -1,0 +1,56 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout">
+        <VBox class="sapUiSmallMarginTop sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiNoMarginBottom">
+                <core:HTML content='&lt;div class="featured-card featured-card-type-blue"&gt;
+                    &lt;div class="relative h-64 lg:basis-1/2 lg:w-1/2 lg:max-w-[32rem] lg:h-auto"&gt;
+                        &lt;div class="relative w-full h-full overflow-hidden rounded-2xl"&gt;
+                            &lt;img src="" class="w-[130%] absolute -left-16 bottom-0 lg:left-0 lg:-bottom-16"&gt;
+                        &lt;/div&gt;
+                        &lt;img src="resources/grow.gif" class="absolute h-full right-8 -top-8 z-10 lg:right-20"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="p-10 lg:basis-1/2"&gt;
+                &lt;/div&gt;'/>
+
+                <VBox class="overlayContent">
+                    <tnt:InfoLabel text="New" colorScheme="7" class="customBadge sapUiSmallMarginBottom"/>
+                    <Title text="Smart Advisory Companion" level="H1" class="customTitle sapUiSmallMarginBottom"/>
+                    <Text text="Learn how to organize and represent enterprise data in a graph structure with HANA Cloud Knowledge Graph Engine, where entities are interconnected by relationships, creating a network of business-related information. Discover how this structure facilitates knowledge representation and reasoning. Learn how to leverage Knowledge Graphs to retrieve structured data and achieve greater accuracy and explainability in RAG scenarios." class="customText"/>
+                    <Text text="Explicit knowledge representation and reasoning with Knowledge Graphs" class="customSmallText" />
+                    <HBox class="sapUiNoMarginBegin sapUiMediumMarginTop">
+                        <!-- <Button text="Get Started" type="Emphasized" class="customButton"/>
+                        <Button text="Read The Docs" class="customButton"/> -->
+                        <Button icon="sap-icon://sys-help" press="onSearchPress" text="Help with a new advisory?" class="sapUiNoMarginBegin sapUiTinyMargin"/>
+                        <Button icon="sap-icon://search" press="onKBPress" text="Search knowledge base" class="sapUiTinyMargin"/>
+                        <Button icon="sap-icon://learning-assistant" press="onClusterExpPress" text="Explore cluster analysis of advisories" class="sapUiTinyMargin"/>
+                        <Button icon="sap-icon://learning-assistant" press="onCatMgmtPress" text="Manage categories" class="sapUiTinyMargin"/>
+                        <Button id="jouleWelcomeBtn" visible="false" icon="sap-icon://da" press="onJoule" text="Talk to Joule for Insights" class="sapUiTinyMargin"/>
+                    </HBox>
+                </VBox>
+        </VBox>
+    <!-- <IllustratedMessage 
+        enableVerticalResponsiveness="true"
+        title="Good day! Looks like you have completed all tasks! ☑️"
+        description=""
+        illustrationType="sapIllus-BalloonSky">
+        <additionalContent>
+            
+        </additionalContent>
+    </IllustratedMessage> -->
+    <!-- <HBox alignContent="Stretch" justifyContent="Center" alignItems="Center">
+    <Button icon="sap-icon://sys-help" press="onSearchPress" text="Need help with a new advisory?" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://search" press="onKBPress" text="Search up knowledge base" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://learning-assistant" press="onClusterExpPress" text="Explore the cluster analysis of advisories" class="sapUiTinyMargin"/>
+            <Button icon="sap-icon://learning-assistant" press="onCatMgmtPress" text="Manage categories with ease" class="sapUiTinyMargin"/>
+            <Button id="jouleWelcomeBtn" visible="false" icon="sap-icon://da" press="onJoule" text="Talk to Joule for Insights" class="sapUiTinyMargin"/>
+            </HBox> -->
+</core:FragmentDefinition>

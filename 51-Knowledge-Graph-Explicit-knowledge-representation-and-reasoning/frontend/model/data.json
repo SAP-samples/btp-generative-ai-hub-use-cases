@@ -1,0 +1,62 @@
+{
+	"selectedKey": "page1",
+	"navigation": [
+		{
+			"title": "Welcome",
+			"icon": "sap-icon://home",
+			"key": "page1",
+			"visible": true
+		},
+		{
+			"title": "Advisory Buddy",
+			"icon": "sap-icon://citizen-connect",
+			"key": "page2",
+			"visible": true
+		},
+		{
+			"title": "Knowledge Base",
+			"icon": "sap-icon://activity-items",
+			"key": "page3",
+			"visible": true
+		},
+		{
+			"title": "Advisory Explorer",
+			"icon": "sap-icon://explorer",
+			"enabled": true,
+			"visible": true,
+			"expanded": true,
+			"items": [
+				{
+					"title": "Knowledge Graph Discovery",
+					"key": "page6"
+				},
+				{
+					"title": "SPARQL Explorer",
+					"key": "page8"
+				},
+				{
+					"title": "Enhanced Advisory Buddy",
+					"key": "page7"
+				}
+				
+			]
+		},
+		{
+			"title": "Manager Cockpit",
+			"icon": "sap-icon://customer-view",
+			"enabled": true,
+			"visible": true,
+			"expanded": true,
+			"items": [
+				{
+					"title": "Cluster Exploration",
+					"key": "page4"
+				},
+				{
+					"title": "Category Management",
+					"key": "page5"
+				}
+			]
+		}
+	]
+}

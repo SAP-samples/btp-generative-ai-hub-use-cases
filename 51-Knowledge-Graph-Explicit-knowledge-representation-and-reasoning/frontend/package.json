@@ -1,0 +1,16 @@
+{
+  "name": "myfirstnode",
+  "version": "1.0.0",
+  "description": "My First Node using CLI and NPM commands",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.16.3",
+    "path": "^0.12.7"
+  }
+}

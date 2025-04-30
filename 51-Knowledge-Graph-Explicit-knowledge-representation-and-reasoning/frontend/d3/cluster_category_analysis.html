@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cluster Analysis of Trending Cluster Categories</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* Styles for the loading indicator */
+        .loading-overlay {
+            position: fixed;
+            /* Cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent backdrop */
+            display: flex;
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            z-index: 9999;
+            /* Ensure it's on top */
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            /* Light grey */
+            border-top: 4px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            /* Animate the spinner */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Hide the overlay by default */
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        /* SAPUI5 Horizon-inspired styles */
+        .date-range-container {
+            display: flex;
+            align-items: center;
+            /* Vertically align items */
+            margin-bottom: 5px;
+            /* Space between controls and chart */
+            margin-top: 20px;
+            /* Add margin-top to move it down */
+        }
+
+        .date-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            box-sizing: border-box;
+            /* Include padding in width */
+        }
+
+        .date-label {
+            margin-right: 5px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .run-analysis-button {
+            padding: 8px 16px;
+            background-color: #0a6ed1;
+            /* SAPUI5 Horizon blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+            /* Smooth transition on hover */
+        }
+
+        .run-analysis-button:hover {
+            background-color: #085ab5;
+            /* Darker blue on hover */
+        }
+
+        .run-analysis-button:active {
+            background-color: #06499f;
+            /* Even darker blue on click */
+        }
+
+        body {
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 20px;
+        }
+
+        #chart {
+            padding-left: 20px;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            width: 800px;
+            margin-bottom: 50px;
+            /* Or whatever width you want */
+            margin: 0 auto;
+            /* Center horizontally */
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .legend {
+            position: absolute;
+            margin-bottom: 20px;
+            /* Position at the top */
+            left: 20px;
+            /* Position on the left (or adjust as needed) */
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow wrapping */
+            /* overflow-y: auto; */
+            /* max-height: 60px; */
+        }
+
+        .legend-item {
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            /* Space between legend items */
+            cursor: pointer;
+        }
+
+        .legend-item.active {
+            opacity: 0.7;
+        }
+
+        .legend-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 600px) {
+
+            /* Adjust breakpoint as needed */
+            .legend {
+                flex-direction: column;
+                /* Stack legend items vertically */
+                max-height: 100px;
+                /* Adjust maximum height as needed */
+                overflow-y: auto;
+                /* Make it scrollable */
+            }
+
+            .legend-item {
+                margin-right: 10px;
+                /* Reduce right margin */
+            }
+
+            #chart {
+                padding-left: 20px;
+                padding-top: 20px;
+                width: 400px;
+            }
+        }
+
+        /* Basic toast styling */
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        #chart svg {
+            /* Target the SVG inside #chart */
+            width: 100%;
+            /* Make SVG responsive */
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 600px) {
+
+            /* Adjust breakpoint as needed */
+            #chart svg {
+                width: 100%;
+                /* Occupy full width */
+                height: auto;
+                /* Maintain aspect ratio */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="date-range-container">
+        <label for="start_date" class="date-label">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" class="date-input">
+
+        <label for="end_date" class="date-label">End Date:</label>
+        <input type="date" id="end_date" name="end_date" class="date-input">
+
+        <button id="runAnalysis" class="run-analysis-button">Run Cluster Analysis</button>
+    </div>
+
+    <div id="chart"></div>
+    <div class="legend"></div>
+    <div id="toast" class="toast"></div>
+
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        const margin = { top: 20, right: 150, bottom: 20, left: 20 };
+        const width = 1000 - margin.left - margin.right;
+        const height = 600 - margin.top - margin.bottom;
+
+        let svg; // Declare svg OUTSIDE so it's accessible to redrawChart
+        let color = d3.scaleOrdinal(d3.schemePastel1); // Color scale
+
+        // Initialize the chart (runs once on page load)
+        function initializeChart() {
+            svg = d3.select("#chart").append("svg")
+                .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("width", "100%")
+                .attr("length", "auto")
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        }
+
+        initializeChart(); // Call it to create the initial SVG
+
+
+        let ALL_CLUSTER_EP, CLUSTER_DESC_EP, REFRESH_CLUSTER_EP; // Declare globally
+
+        fetch("/getenvironmentvariables")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const pyEndpoint = data;
+                // console.log("Python endpoint:", pyEndpoint);
+
+                ALL_CLUSTER_EP = pyEndpoint + "/get_clusters";
+                CLUSTER_DESC_EP = pyEndpoint + "/get_clusters_description";
+                REFRESH_CLUSTER_EP = pyEndpoint + "/refresh_clusters";
+
+                // Initial chart drawing (using initial data if available)
+                fetchAndDrawInitialChart(); // Call to draw the initial chart
+            })
+            .catch(error => {
+                console.error("Error fetching environment variable:", error);
+            });
+
+        function fetchAndDrawInitialChart() {
+            Promise.all([d3.json(ALL_CLUSTER_EP), d3.json(CLUSTER_DESC_EP)])
+                .then(([pointsData, descriptionsData]) => {
+                    const descriptionMap = new Map();
+                    descriptionsData.forEach(d => {
+                        descriptionMap.set(d.CLUSTER_ID, d.CLUSTER_DESCRIPTION);
+                    });
+
+                    const processedPointsData = pointsData.map(point => ({
+                        ...point,
+                        CLUSTER_DESCRIPTION: descriptionMap.get(point.CLUSTER_ID) || "Unknown Cluster"
+                    }));
+                    drawChart(processedPointsData); // Draw initial chart
+                })
+                .catch(error => {
+                    console.error("Error fetching initial data:", error);
+                });
+        }
+
+        const startDateInput = document.getElementById("start_date");
+        const endDateInput = document.getElementById("end_date");
+        const runAnalysisButton = document.getElementById("runAnalysis");
+
+        runAnalysisButton.addEventListener("click", () => {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+
+            if (!startDate || !endDate) {
+                alert("Please select both start and end dates.");
+                return;
+            }
+
+            const formattedStartDate = formatDate(startDate);
+            const formattedEndDate = formatDate(endDate);
+
+            showLoadingOverlay();
+
+            // Make the POST request
+            fetch(REFRESH_CLUSTER_EP, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded' // Important for form data
+                },
+                body: `start_date=${formattedStartDate}&end_date=${formattedEndDate}` // Form data
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    hideLoadingOverlay();
+                    fetchAndRedrawChart(); // Redraw chart with new data
+                    showToast("Cluster analysis completed. Cluster chart has been refreshed!"); // Or handle data
+                })
+                .catch(error => {
+                    hideLoadingOverlay();
+                    console.error("Error making POST request:", error);
+                    showToast("An error occurred. Please try again.");
+                });
+        });
+
+        function fetchAndRedrawChart() {
+            Promise.all([d3.json(ALL_CLUSTER_EP), d3.json(CLUSTER_DESC_EP)])
+                .then(([pointsData, descriptionsData]) => {
+                    const descriptionMap = new Map();
+                    descriptionsData.forEach(d => {
+                        descriptionMap.set(d.CLUSTER_ID, d.CLUSTER_DESCRIPTION);
+                    });
+
+                    const processedPointsData = pointsData.map(point => ({
+                        ...point,
+                        CLUSTER_DESCRIPTION: descriptionMap.get(point.CLUSTER_ID) || "Unknown Cluster"
+                    }));
+
+                    svg.selectAll("*").remove(); // Clear SVG before redrawing
+                    drawChart(processedPointsData); // Redraw with new data
+                })
+                .catch(error => {
+                    console.error("Error fetching data for redraw:", error);
+                });
+        }
+
+        function drawChart(data) {
+            const x = d3.scaleLinear()
+                .domain(d3.extent(data, d => +d.x))
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .domain(d3.extent(data, d => +d.y))
+                .range([height, 0]);
+
+            const radius = d3.scaleSqrt()
+                .domain([0, d3.max(data, d => 10)])
+                .range([2, 7]);
+
+            let circles = svg.selectAll("circle")
+                .data(data);
+
+            // // Enter selection (new circles)
+            // circles.enter().append("circle")
+            //     .attr("cx", d => x(d.x))
+            //     .attr("cy", d => y(d.y))
+            //     .attr("r", 0) // Initial radius 0
+            //     .attr("fill", d => color(d.CLUSTER_ID))
+            //     .transition().duration(500) // Transition for radius
+            //     .attr("r", d => radius(10)) // Final radius
+            //     .selection() // Select the entered circles AFTER transition
+            //     .on("mouseover", function (event, d) { // Attach mouseover AFTER transition
+            //         showToast(`Project Number: ${d.PROJECT_NUMBER}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`);
+            //         d3.select(".tooltip")
+            //             .transition().duration(200).style("opacity", .9);
+            //         d3.select(".tooltip")
+            //             .html(`Project Number: ${d.PROJECT_NUMBER}<br>X: ${d.x}<br>Y: ${d.y}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`)
+            //             .style("left", (event.pageX) + "px")
+            //             .style("top", (event.pageY - 28) + "px");
+            //     })
+            //     .on("mouseout", function (d) {
+            //         d3.select(".tooltip").transition().duration(500).style("opacity", 0);
+            //     })
+            //     .on("click", function (event, d) {
+            //         showToast(`Project Number: ${d.PROJECT_NUMBER}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`);
+            //     });
+
+            // circles
+            //     .transition().duration(500)
+            //     .attr("cx", d => x(d.x))
+            //     .attr("cy", d => y(d.y))
+            //     .attr("r", d => radius(10))
+            //     .attr("fill", d => color(d.CLUSTER_ID));
+
+            // circles.exit().remove();
+
+            /** Ease Elastic Transition */
+            // circles.enter().append("circle")
+            //     .attr("cx", d => x(d.x))
+            //     .attr("cy", d => y(d.y))
+            //     .attr("r", 0) // Initial radius 0
+            //     .attr("fill", d => color(d.CLUSTER_ID))
+            //     .attr("opacity", 0) // Initially invisible
+            //     .call(enter => enter.transition().duration(800).ease(d3.easeElastic) // Transition for appearance
+            //         .attr("r", d => radius(10)) // Final radius
+            //         .attr("opacity", 1) // Fade in
+            //     )
+            /** Expanding Ring */
+            circles.enter().append("circle")
+                .attr("cx", d => x(d.x))
+                .attr("cy", d => y(d.y))
+                .attr("r", 0)
+                .attr("fill", "none") // No initial fill
+                .attr("stroke", d => color(d.CLUSTER_ID)) // Initial stroke
+                .attr("stroke-width", 2)
+                .call(enter => enter.transition().duration(800) // Transition for appearance
+                    .attr("r", d => radius(10))
+                    .transition().duration(300)
+                    .attr("fill", d => color(d.CLUSTER_ID))// Add fill after ring expands
+                )
+                .on("mouseover", function (event, d) { // Attach mouseover AFTER transition
+                    showToast(`Project Number: ${d.PROJECT_NUMBER}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`);
+                    d3.select(".tooltip")
+                        .transition().duration(200).style("opacity", .9);
+                    d3.select(".tooltip")
+                        .html(`Project Number: ${d.PROJECT_NUMBER}<br>X: ${d.x}<br>Y: ${d.y}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`)
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function (d) {
+                    d3.select(".tooltip").transition().duration(500).style("opacity", 0);
+                })
+                .on("click", function (event, d) {
+                    showToast(`Project Number: ${d.PROJECT_NUMBER}<br>Cluster ID: ${d.CLUSTER_ID}<br>Cluster: ${d.CLUSTER_DESCRIPTION}`);
+                });
+
+            // Update selection (existing circles)
+            circles
+                .transition().duration(500)
+                .attr("cx", d => x(d.x))
+                .attr("cy", d => y(d.y))
+                .attr("r", d => radius(10))
+                .attr("fill", d => color(d.CLUSTER_ID));
+
+            // Exit selection (circles to be removed)
+            circles.exit()
+                .transition().duration(500) // Transition for exit
+                .attr("r", 0) // Shrink to 0
+                .attr("opacity", 0) // Fade out
+                .remove();
+
+            // svg.append("g")
+            //     .attr("transform", "translate(0," + height + ")")
+            //     .call(d3.axisBottom(x).tickFormat(""));
+
+            // svg.append("g")
+            //     .call(d3.axisLeft(y).tickFormat(""));
+
+            // // Remove the axes:
+            // svg.selectAll(".x-axis").remove();  // Remove x-axis
+            // svg.selectAll(".y-axis").remove();  // Remove y-axis
+
+            const clusters = [...new Set(data.map(d => d.CLUSTER_ID))].sort();
+
+            const legend = d3.select(".legend")
+                .selectAll(".legend-item")
+                .data(clusters);
+
+            // Enter selection (new legend items)
+            const legendEnter = legend.enter().append("div")
+                .attr("class", "legend-item")
+                .on("click", function (event, cluster) {
+                    const legendItem = d3.select(this);
+                    legendItem.classed("active", !legendItem.classed("active"));
+
+                    const selectedClusters = d3.selectAll(".legend-item.active").data();
+
+                    svg.selectAll("circle")
+                        .transition().duration(300)
+                        .style("opacity", d => {
+                            if (selectedClusters.length === 0) {
+                                return 1; // Show all if no clusters are selected
+                            } else {
+                                return selectedClusters.includes(d.CLUSTER_ID) ? 1 : 0; // Filter
+                            }
+                        });
+                });
+
+            legendEnter.append("div")
+                .attr("class", "legend-circle")
+                .style("background-color", d => color(d));
+
+            legendEnter.append("span")
+                .text(cluster => {
+                    const description = data.find(item => item.CLUSTER_ID === cluster)?.CLUSTER_DESCRIPTION;
+                    return description || "Unknown Cluster";
+                });
+
+            // Update selection (existing legend items)
+            legend.select(".legend-circle")
+                .style("background-color", d => color(d));
+
+            legend.select("span")
+                .text(cluster => {
+                    const description = data.find(item => item.CLUSTER_ID === cluster)?.CLUSTER_DESCRIPTION;
+                    return description || "Unknown Cluster";
+                });
+
+            legend.exit().remove(); // Remove old legend items
+        }
+
+        function showLoadingOverlay() {
+            document.getElementById("loadingOverlay").classList.remove("hidden");
+        }
+
+        function hideLoadingOverlay() {
+            document.getElementById("loadingOverlay").classList.add("hidden");
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerHTML = message;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 5000);
+        }
+
+    </script>
+
+</body>
+
+</html>
