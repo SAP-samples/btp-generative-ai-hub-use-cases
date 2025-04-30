@@ -1,0 +1,214 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout"
+    xmlns:ng="sap.suite.ui.commons.networkgraph">
+
+    <f:SidePanel id="mySidePanel" sidePanelResizable="true" sidePanelWidth="40%" toggle="onToggle">
+        <f:mainContent>
+            <VBox>
+                <MessageStrip
+                id="infoExperimental"
+                text="Generate SPARQL query with natural language. Note: Review output carefully before use. (Experimental)"
+                showIcon="true"
+                customIcon="sap-icon://lab"
+                showCloseButton="true"
+                class="sapUiTinyMargin">
+                </MessageStrip>
+                <OverflowToolbar height="auto" width="100%">
+                    <ToolbarSpacer />
+                    <FeedInput
+                        id="nlInput"
+                        visible="true"
+                        value=""
+                        showIcon="true"
+                        icon="https://cdn-icons-gif.flaticon.com/8121/8121267.gif"
+                        placeholder="Talk to me naturally..."
+                        growing="true"
+                        rows="3"
+                        post=".onKGNaturalLanguage2Sparql"
+                        enabled="{ui>/enabled}"
+                        class="sapUiTinyMarginTopBottom"
+                        binding="{/getAiResponse(...)}" />
+                    <FeedInput
+                        id="nlKGSemanticsInput"
+                        visible="true"
+                        value=""
+                        showIcon="true"
+                        icon="https://cdn-icons-gif.flaticon.com/7403/7403034.gif"
+                        placeholder="Talk to me naturally..."
+                        growing="true"
+                        rows="3"
+                        post=".onKGSemantics2Sparql"
+                        enabled="{ui>/enabled}"
+                        class="sapUiTinyMarginTopBottom"
+                        binding="{/getAiResponse(...)}" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+                <MessageStrip
+                    id="nlInputHeader"
+                    visible="false"
+                    text=""
+                    type="Information"
+                    showIcon="true"
+                    customIcon="sap-icon://discussion"
+                    class="sapUiTinyMargin">
+                    <link>
+                        <Link text="🔄 Regenerate SPARQL"
+                            press="onRefreshKGNaturalLanguage2Sparql" />
+                    </link>
+                </MessageStrip>
+
+                <Panel id="expandablePanel" expanded="true" visible="false" expandable="true" width="auto" class="sapUiTinyMargin">
+                    <headerToolbar>
+                        <OverflowToolbar active="false" press="expandSparqlqueryTextArea">
+                            <Title id="titleForGeneratedSparqlQuery" text="Generated SPARQL Query" />
+                            
+                            <ToolbarSpacer />
+                            <Label text="Edit:"/>
+                            <Switch id="refreshSparqlQueryOnly" change="onRefreshSparqlQueryOnly" state="true" customTextOn=" " customTextOff=" ">
+                                <layoutData>
+                                    <FlexItemData growFactor="1" />
+                                </layoutData>
+                            </Switch>
+                            <!-- <Button icon="sap-icon://hint" /> -->
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <content>
+                        <TextArea editable="false" id="generatedSparqlQuery" growing="true" width="100%"/>
+                        <MessageStrip
+                            visible="false"
+                            id="generatedSparqlQueryExplanation"
+                            text=""
+                            type="Success"
+                            enableFormattedText="true"
+                            customIcon="sap-icon://ai"
+                            showIcon="true"
+                            showCloseButton="false"
+                            class="sapUiTinyMargin">
+                        </MessageStrip>
+                    </content>
+                </Panel>
+
+                <IconTabBar id="outputIconTabBar" visible="false" class="sapUiTinyMargin" tabDensityMode="Compact">
+                    <items>
+                        <IconTabFilter
+                            icon="sap-icon://table-view"
+                            design="Horizontal"
+                            text="Tabular">
+                            <Table headerText="Results"
+                                id="resultsTable"
+                                visible="false"
+                                items="{kgSparqlTable>/results}"
+                                growing="true"
+                                growingThreshold="20"
+                                class="sapUiTinyMargin">
+                                <!-- Columns will be added dynamically -->
+                                <columns>
+                                    <!-- Dynamically generated in controller -->
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <!-- Dynamically generated in controller -->
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                                <noData>
+                                    <IllustratedMessage 
+                                        enableVerticalResponsiveness="true"
+                                        title="Looks like there is no data"
+                                        description="Either the query is not valid or the data is not available."
+                                        illustrationType="sapIllus-NoSearchResults" />
+                                </noData>
+                            </Table>
+                        </IconTabFilter>
+                        <!-- <IconTabSeparator icon="sap-icon://open-command-field" /> -->
+                        <!-- <IconTabFilter
+                            icon="sap-icon://example"
+                            design="Horizontal"
+                            text="Graph">
+                            <html:iframe id="chart" src="graph.html" style="-webkit-transform: scale(1); transform: scale(1); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" height="1200px" width="100%" scrolling="yes"/>
+                        </IconTabFilter> -->
+                        <IconTabFilter
+                            icon="sap-icon://learning-assistant"
+                            design="Horizontal"
+                            visible="false"
+                            text="Reference">
+                            <!-- <html:iframe id="ontologyHelpReference" src="SmartAdvisoryToolOntology/index.html" style="-webkit-transform: scale(1); transform: scale(1); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" height="1200px" width="100%" scrolling="yes"/> -->
+                        </IconTabFilter>
+                        <IconTabFilter
+                            icon="sap-icon://lab"
+                            visible="true"
+                            design="Horizontal"
+                            text="Graph">
+                            <ng:Graph enableWheelZoom="false"
+                            height="90%"
+                                    orientation="TopBottom"
+                                    id="graphViewKGResults"
+                                    noDataText="No data available for the graph visualisation."
+                                    noData="true"
+                                    nodes="{kgresults>/nodes}" lines="{kgresults>/lines}" groups="{kgresults>/groups}">
+                                <ng:nodes>
+                                    <ng:Node key="{kgresults>key}" title="{kgresults>title}" icon="{kgresults>icon}" status="{kgresults>status}" shape="{kgresults>shape}" group="{kgresults>group}"/>
+                                </ng:nodes>
+                                <ng:lines>
+                                    <ng:Line from="{kgresults>from}" to="{kgresults>to}" />
+                                </ng:lines>
+                                <ng:groups>
+                                    <ng:Group key="{kgresults>key}" title="{kgresults>title}" /> </ng:groups>
+                            </ng:Graph>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </f:mainContent>
+        <f:items>
+            <f:SidePanelItem icon="sap-icon://step" text="Process Flow">
+                <VBox>
+                    <f:Card id="processCard" visible="true" width="95%" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiTinyMarginEnd sapUiSmallMarginBottom">
+                        <f:header>
+                            <card:Header title="Process flow of the Enhanced Advisory Buddy" subtitle="What is happening behind the scenes?" />
+                        </f:header>
+                        <f:content>
+                            <ng:Graph enableWheelZoom="false"
+                            height="90%"
+                                    orientation="TopBottom"
+                                    id="processFlowGraph"
+                                    noDataText="No process data defined for visualisation."
+                                    noData="false"
+                                    nodes="{processflow>/nodes}" lines="{processflow>/lines}" groups="{processflow>/groups}">
+                                <ng:nodes>
+                                    <ng:Node key="{processflow>key}" title="{processflow>title}" icon="{processflow>icon}" status="{processflow>status}" shape="{processflow>shape}" group="{processflow>group}"/>
+                                </ng:nodes>
+                                <ng:lines>
+                                    <ng:Line from="{processflow>from}" to="{processflow>to}" />
+                                </ng:lines>
+                                <ng:groups>
+                                    <ng:Group key="{processflow>key}" title="{processflow>title}" /> </ng:groups>
+                            </ng:Graph>
+                        </f:content>
+                    </f:Card>
+                </VBox>
+            </f:SidePanelItem>
+            <f:SidePanelItem icon="sap-icon://learning-assistant" text="Ontology Reference">
+                <VBox width="100%" height="100%">
+                    <html:iframe id="ontologyHelpReference" src="SmartAdvisoryToolOntology/index.html" style="width: calc(100% / 0.8); height: calc(100vh / 1.1); -webkit-transform: scale(0.8); transform: scale(0.8); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" scrolling="yes"/>
+                </VBox>
+            </f:SidePanelItem>
+        </f:items>
+    </f:SidePanel>
+    
+    <!-- width: calc(100% / 0.8); height: calc(100vh / 0.8);  -->
+
+
+
+</core:FragmentDefinition>

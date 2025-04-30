@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontology Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars initially */
+        }
+        #visualization-container {
+            width: 100vw;
+            height: 80vh; /* Adjust as needed */
+        }
+        svg {
+            display: block; /* Remove extra space below SVG */
+            width: 100%;
+            height: 100%;
+        }
+        .node {
+            cursor: pointer;
+        }
+        .node.highlighted-node circle,
+        .node.highlighted-node rect {
+            stroke: black;
+            stroke-width: 3px;
+        }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1px;
+        }
+        .link.highlighted-link {
+            stroke: rgb(27, 159, 215);
+            stroke-width: 2.5px;
+        }
+        .link-label {
+            font-size: 0.6em; /* Smaller font size for labels */
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            fill: #666;
+            pointer-events: none;
+        }
+        .legend {
+            font-size: 10px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            fill: #333;
+            cursor: default;
+            user-select: none;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+        }
+        .legend-shape {
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+        }
+        .legend-circle { border-radius: 50%; }
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+        }
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 10px;
+            white-space: pre-wrap; /* Allow line breaks in toast */
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #0a6ed1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+            margin-bottom: 10px; /* Add margin below buttons */
+        }
+
+        button:hover {
+            background-color: #085ab5;
+        }
+
+        button:active {
+            background-color: #06499f;
+        }
+        #controls-container {
+            padding: 10px;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        #controls-toggle, #query-toggle {
+            margin-bottom: 10px;
+        }
+        #controls {
+            /* display: block; */
+            display: none;
+        }
+        #sparql-query-container {
+            display: none;
+            margin-bottom: 10px;
+        }
+        #sparql-query {
+            width: 100%;
+            padding: 8px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #controls label {
+            margin-right: 15px;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        #search-bar {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "72", "72full", Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            transition: background-color 0.2s;
+            margin-bottom: 10px; /* Add margin below buttons */
+        }
+    </style>
+</head>
+<body>
+    <div id="controls-container">
+        
+            <!-- <label>Zoom:</label> -->
+            <button id="zoom-out">-</button>
+            <input type="range" id="zoom-slider" min="0.1" max="2" step="0.05" value="1">
+            <button id="zoom-in">+</button>
+            <input type="text" id="search-bar" placeholder="Search nodes...">
+            <!-- <button id="controls-toggle">Show/Hide Controls</button> -->
+            <button id="query-toggle">Show/Hide SPARQL</button>
+        <div id="controls">
+            <!-- <button id="fetchData">Fetch and Visualize Ontology</button> -->
+            <div>
+                <label><input type="radio" name="labelFormat" value="local" checked> Local Name</label>
+                <label><input type="radio" name="labelFormat" value="uri"> Full URI</label>
+            </div>
+            <div>
+                <label>Link Style:</label>
+                <select id="linkStyle">
+                    <option value="solid" selected>Solid</option>
+                    <option value="dashed">Dashed</option>
+                    <option value="dotted">Dotted</option>
+                </select>
+                <label>Color SubClassOf:</label>
+                <input type="color" id="subClassOfColor" value="#008000">
+                <label>Color Other Properties:</label>
+                <input type="color" id="otherPropertyColor" value="#ccc">
+            </div>
+        </div>
+        
+        <div id="sparql-query-container">
+            <textarea id="sparql-query" rows="10"></textarea>
+            <button id="applyQuery">Apply Query</button>
+        </div>
+    </div>
+    <div id="visualization-container">
+        <svg id="visualization-svg"></svg>
+    </div>
+    <div id="toast" class="toast"></div>
+    <div class="tooltip"></div>
+
+    <script>
+        const fetchDataButton = d3.select("#fetchData");
+        const visualizationContainer = d3.select("#visualization-container");
+        const svg = d3.select("#visualization-svg");
+        const toastDiv = d3.select("#toast");
+        const tooltipDiv = d3.select(".tooltip");
+        const labelFormatRadio = d3.selectAll('input[name="labelFormat"]');
+        const linkStyleSelect = d3.select("#linkStyle");
+        const subClassOfColorInput = d3.select("#subClassOfColor");
+        const otherPropertyColorInput = d3.select("#otherPropertyColor");
+        const controlsContainer = d3.select("#controls");
+        const controlsToggle = d3.select("#controls-toggle");
+        const queryToggle = d3.select("#query-toggle");
+        const sparqlQueryContainer = d3.select("#sparql-query-container");
+        const sparqlQueryTextArea = d3.select("#sparql-query");
+        const applyQueryButton = d3.select("#applyQuery");
+        const apiUrl = "https://kgwebinar.cfapps.eu12.hana.ondemand.com/execute_query_raw?format=csv";
+        const zoomInButton = d3.select("#zoom-in");
+        const zoomOutButton = d3.select("#zoom-out");
+        const zoomSlider = d3.select("#zoom-slider");
+
+        let currentGraphData = { nodes: [], links: [] };
+        let currentLabelFormat = "local";
+        let currentLinkStyle = "solid";
+        let currentSubClassOfColor = "#008000";
+        let currentOtherPropertyColor = "#ccc";
+        let isControlsVisible = false;
+        let isQueryVisible = false;
+        let zoom; // Declare zoom outside renderGraph
+        let g;
+
+        let KG_CONSTRUCT_EXECUTE_EP;
+
+        const initialSparqlQuery = 
+`prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+
+CONSTRUCT {?s ?p ?o}
+FROM <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology>
+WHERE {
+    {
+        {?p a owl:ObjectProperty .}
+        UNION
+        {?p a owl:DatatypeProperty .}
+        ?p rdfs:domain ?s .
+        ?p rdfs:range ?o .
+        FILTER regex(str(?s), "smart-technical-advisory", "i") .
+    }
+    UNION
+    {
+        ?s ?p ?o .
+        FILTER (?p = rdfs:subClassOf) .
+        FILTER regex(str(?s), "smart-technical-advisory", "i") .
+    }
+    UNION
+    {
+        ?s ?p ?o .
+        FILTER (?p = rdfs:comment) .
+        FILTER regex(str(?s), "smart-technical-advisory", "i") .
+    }
+    UNION
+    {
+        ?s ?p ?o .
+        FILTER (?p = rdf:type) .
+        FILTER regex(str(?s), "smart-technical-advisory", "i") .
+        FILTER (!regex(str(?o), "Functional", "i")) .
+        FILTER (!regex(str(?o), "Variable", "i")) .
+        FILTER (!regex(str(?o), "Annotation", "i")) .
+        FILTER (!regex(str(?o), "Ontology", "i")) .
+        FILTER (!regex(str(?o), "Named", "i")) .
+    }
+} ORDER BY ?p`;
+
+        fetch("/getkgendpoint")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const pyEndpoint = data;
+                console.log("Python endpoint:", pyEndpoint);
+
+                KG_CONSTRUCT_EXECUTE_EP = pyEndpoint + "/execute_query_raw?format=csv";
+
+                // Initial chart drawing (using initial data if available)
+                fetchDataAndRender(initialSparqlQuery); // Call to draw the initial chart
+            })
+            .catch(error => {
+                console.error("Error fetching environment variable:", error);
+            });
+
+        sparqlQueryTextArea.property("value", initialSparqlQuery);
+
+        controlsToggle.on("click", () => {
+            isControlsVisible = !isControlsVisible;
+            controlsContainer.style("display", isControlsVisible ? "block" : "none");
+        });
+
+        queryToggle.on("click", () => {
+            isQueryVisible = !isQueryVisible;
+            sparqlQueryContainer.style("display", isQueryVisible ? "block" : "none");
+        });
+
+        // fetchDataButton.on("click", fetchDataAndRender);
+        fetchDataButton.on("click", () => {
+            const updatedQuery = sparqlQueryTextArea.property("value");
+            fetchDataAndRender(updatedQuery);
+        });
+        applyQueryButton.on("click", () => {
+            const updatedQuery = sparqlQueryTextArea.property("value");
+            fetchDataAndRender(updatedQuery);
+        });
+
+        labelFormatRadio.on("change", function() {
+            currentLabelFormat = this.value;
+            renderGraph(currentGraphData);
+        });
+        linkStyleSelect.on("change", function() {
+            currentLinkStyle = this.value;
+            renderGraph(currentGraphData);
+        });
+        subClassOfColorInput.on("input", function() {
+            currentSubClassOfColor = this.property("value");
+            renderGraph(currentGraphData);
+        });
+        otherPropertyColorInput.on("input", function() {
+            currentOtherPropertyColor = this.property("value");
+            renderGraph(currentGraphData);
+        });
+
+        function fetchDataAndRender(query = initialSparqlQuery) {
+            fetch(KG_CONSTRUCT_EXECUTE_EP, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: query
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const triples = parseRDFTriples(data);
+                currentGraphData = createGraphData(triples);
+                renderGraph(currentGraphData);
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                toastDiv.text("Error fetching data").classed("show", true);
+                setTimeout(() => toastDiv.classed("show", false), 3000);
+            });
+        }
+
+        function parseRDFTriples(data) {
+            const lines = data.trim().split('\n');
+            const triples = [];
+            const prefixMap = {};
+
+            lines.forEach(line => {
+                if (line.startsWith('@prefix')) {
+                    const parts = line.split(' ');
+                    const prefix = parts[1].slice(0, -1);
+                    const uri = parts[2].slice(1, -1);
+                    prefixMap[prefix] = uri;
+                } else if (line && !line.startsWith('#')) {
+                    const match = line.match(/<([^>]+)>\s+<([^>]+)>\s+((?:<[^>]+>)|"(.*?)"(?:@([a-z]+))?)\s+\./);
+                    if (match) {
+                        const subject = match[1];
+                        const predicate = match[2];
+                        let object = match[3];
+                        const literalValue = match[4];
+                        const languageTag = match[5];
+
+                        if (literalValue !== undefined) {
+                            object = literalValue;
+                            if (languageTag) {
+                                object += `@${languageTag}`;
+                            }
+                        }
+
+                        triples.push({ subject, predicate, object });
+                    }
+                }
+            });
+            return triples;
+        }
+
+        function createGraphData(triples) {
+            const nodeLabels = {};
+            const nodeDescriptions = {};
+            const propertyTypes = {};
+            const nodeOwlTypes = {};
+            const nodeNamespaces = {}; // <-- To store namespaces
+            const predicateUris = new Set();
+            const potentialNodeUris = new Set(); // <--- Store URIs that could be nodes
+            const connectedNodeUris = new Set(); // Track nodes that are connected by links
+            const nodeRelationships = {}; // <-- Node ID to Relationships mapping
+
+            // --- Pass 1: Collect Metadata and Identify Predicates/Potential Nodes ---
+            triples.forEach(triple => {
+                const { subject, predicate, object } = triple;
+                const subjectUri = subject.startsWith("<") ? subject.slice(1,-1) : subject;
+                const predicateUri = predicate.startsWith("<") ? predicate.slice(1,-1) : predicate;
+                // console.log(predicateUri);
+                // console.log(subjectUri);
+                const objectValue = object.startsWith("<") ? object.slice(1,-1) : object;
+
+                // Store labels
+                if (predicateUri === "http://www.w3.org/2000/01/rdf-schema#label") {
+                    nodeLabels[subjectUri] = objectValue.startsWith('"') ? objectValue.slice(1, -1) : objectValue;
+                    potentialNodeUris.add(subjectUri); // The subject of a label is likely a node
+                    return; // Don't process label triples further in this pass
+                }
+
+                // Store descriptions
+                if (predicateUri === "http://www.w3.org/2000/01/rdf-schema#comment") {
+                    nodeDescriptions[subjectUri] = objectValue.startsWith('"') ? objectValue.slice(1, -1) : objectValue;
+                    potentialNodeUris.add(subjectUri); // The subject of a comment is likely a node
+                    return; // Don't process comment triples further in this pass
+                }
+
+                // Store property types AND node OWL types from rdf:type triples
+                if (predicateUri === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
+                     const typeUri = objectValue;
+                     if (typeUri.startsWith("http://www.w3.org/2002/07/owl#")) {
+                         const typeName = getLocalName(typeUri);
+                         if (typeName.includes("Property")) {
+                             propertyTypes[subjectUri] = typeName;
+                             predicateUris.add(subjectUri); // Mark as predicate
+                         } else if (typeName === 'Class' || typeName === 'NamedIndividual' || typeName === 'Ontology') {
+                              nodeOwlTypes[subjectUri] = typeName;
+                              potentialNodeUris.add(subjectUri); // It's a typed resource, potential node
+
+                              nodeNamespaces[subjectUri] = "http://www.w3.org/2002/07/owl#" + typeName; // Store namespace
+                          }
+                     } else {
+                          // Store custom type name if it exists
+                          nodeOwlTypes[subjectUri] = getLocalName(typeUri);
+                          potentialNodeUris.add(subjectUri); // Assume typed things are nodes unless known predicates
+
+                          // --- Capture Namespace for custom types ---
+                            const namespace = typeUri.substring(0, typeUri.lastIndexOf('/') + 1);
+                            if (namespace) {
+                                nodeNamespaces[subjectUri] = namespace;
+                            }
+                      }
+                     // Keep this subject as a potential node for now, unless explicitly marked as predicate
+                     if (!predicateUris.has(subjectUri)) {
+                         potentialNodeUris.add(subjectUri);
+                     }
+                 } else {
+                      // This is a relationship triple
+                      predicateUris.add(predicateUri); // Mark predicate
+                      // Subject and Object are potential nodes
+                      if(subject.startsWith("<")) potentialNodeUris.add(subjectUri);
+                      if(object.startsWith("<")) potentialNodeUris.add(objectValue); // objectValue is objectUri here
+                  }
+            });
+
+            // --- Pass 2: Create Node Objects for Non-Predicate URIs ---
+            const nodes = {};
+            potentialNodeUris.forEach(uri => {
+                // Create node only if it's NOT identified as a predicate URI
+                if (!predicateUris.has(uri)) {
+                    if (!nodes[uri]) { // Avoid duplicates if somehow added twice
+                        console.log(getLocalName(uri));
+                        nodes[uri] = {
+                            id: uri,
+                            type: nodeOwlTypes[uri] || 'Resource', // Use specific type or fallback
+                            label: nodeLabels[uri] || getLocalName(uri),
+                            description: nodeDescriptions[uri] || "",
+                            namespace: nodeNamespaces[uri] // <-- ADD THIS: Store namespace in node
+                        };
+                    }
+                }
+            });
+
+            // --- Pass 3: Create Filtered Links Between Existing Nodes ---
+            const links = [];
+            triples.forEach(triple => {
+                 const { subject, predicate, object } = triple;
+                 const subjectUri = subject.startsWith("<") ? subject.slice(1,-1) : subject;
+                 const predicateUri = predicate.startsWith("<") ? predicate.slice(1,-1) : predicate;
+
+                 // Filter out metadata predicates
+                 if (predicateUri === "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" ||
+                     predicateUri === "http://www.w3.org/2000/01/rdf-schema#label" ||
+                     predicateUri === "http://www.w3.org/2000/01/rdf-schema#comment") {
+                     return;
+                 }
+
+                 // Check if object is a URI and if both subject and object nodes exist
+                 if (object.startsWith("<")) {
+                    const objectUri = object.slice(1,-1);
+
+                    // Create link only if BOTH subject and object nodes were created in Pass 2
+                    if (nodes[subjectUri] && nodes[objectUri]) {
+                         const propTypeName = propertyTypes[predicateUri];
+                         const inferredTypeName = 'ObjectProperty'; // Assume object if not literal/typed otherwise
+
+                        links.push({
+                            source: subjectUri,
+                            target: objectUri,
+                            type: predicateUri,
+                            propertyTypeName: propTypeName || inferredTypeName
+                        });
+
+                        // Store relationships for the source node
+                        if (!nodeRelationships[subjectUri]) {
+                            nodeRelationships[subjectUri] = [];
+                        }
+                        nodeRelationships[subjectUri].push({
+                            predicate: predicateUri,
+                            targetLabel: nodes[objectUri].label
+                        });
+
+                        // Store relationships for the target node
+                        if (!nodeRelationships[objectUri]) {
+                            nodeRelationships[objectUri] = [];
+                        }
+                        nodeRelationships[objectUri].push({
+                            predicate: predicateUri,
+                            sourceLabel: nodes[subjectUri].label
+                        });
+
+                        // Mark both subject and object as connected
+                        connectedNodeUris.add(subjectUri);
+                        connectedNodeUris.add(objectUri);
+                    }
+                 }
+                 // Ignore triples where the object is a literal for link creation
+             });
+
+            // --- Pass 4: Filter out NamedIndividual nodes that are not connected ---
+            const filteredNodes = Object.values(nodes).filter(node => {
+                if (node.type === 'NamedIndividual' || node.type === 'Ontology' || node.type === 'Class') {
+                    return connectedNodeUris.has(node.id);
+                }
+                return true;
+            });
+
+            return { nodes: filteredNodes, links: links, nodeRelationships: nodeRelationships};
+        }
+
+        function getNodeType(nodeId) {
+            if (nodeId.includes("#")) {
+                const lastPart = nodeId.split("#").pop();
+                console.log("Last part:", lastPart);
+                if (lastPart.includes("Property")) {
+                    return "property";
+                } else if (lastPart.charAt(0) === lastPart.charAt(0).toUpperCase()) {
+                    return "class";
+                } else {
+                    return "instance";
+                }
+            } else {
+                return "resource";
+            }
+        }
+
+        function getLocalName(uri) {
+            const parts = uri.split(/[/#]/);
+            return parts[parts.length - 1];
+        }
+
+        function renderGraph(graphData) {
+            svg.selectAll("*").remove();
+            const container = visualizationContainer.node();
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // --- Define Colors for Property Types --- <--- NEW
+            const propertyTypeColors = {
+                "ObjectProperty": "#328ded", // Blue
+                "DatatypeProperty": "#ff7f0e", // Orange
+                "FunctionalProperty": "#2ca02c", // Green
+                "AnnotationProperty": "#d62728", // Red
+                "subClassOf": "#9467bd", // Purple (special case)
+                "default": "#7f7f7f" // Grey for others/undefined
+            };
+
+             // Function to get color based on property type
+             function getLinkColor(d) {
+                 if (d.type === "http://www.w3.org/2000/01/rdf-schema#subClassOf") {
+                     return propertyTypeColors["subClassOf"];
+                 }
+                 const typeName = d.propertyTypeName;
+                 return propertyTypeColors[typeName] || propertyTypeColors["default"];
+             }
+
+            svg.attr("viewBox", `0 0 ${width} ${height}`);
+            g = svg.append("g");
+
+            zoom = d3.zoom()
+                .scaleExtent([0.1, 2])
+                .on("zoom", zoomed);
+            svg.call(zoom)
+               .on("wheel.zoom", null);
+
+            // Define base and highlight sizes
+            const baseArrowSize = 10;
+            const highlightArrowSize = 6;
+            const baseLinkWidth = 1;
+            const highlightLinkWidth = 2.5;
+
+            svg.append("defs").selectAll("marker")
+                // ... (marker definition remains the same) ...
+                 .data(["arrow"])
+                 .enter().append("marker")
+                 .attr("id", d => d)
+                 .attr("viewBox", "0 -5 10 10")
+                 .attr("refX", 18) // Adjust for node radius/size
+                 .attr("refY", 0)
+                 .attr("markerWidth", baseArrowSize)
+                 .attr("markerHeight", baseArrowSize)
+                //  .attr("markerWidth", 10)
+                //  .attr("markerHeight", 10)
+                 .attr("orient", "auto")
+                 .append("path")
+                 .attr("d", "M0,-5L10,0L0,5")
+                 .style("fill", "#999"); // Set marker color
+
+
+            const simulation = d3.forceSimulation(graphData.nodes)
+                .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(150))
+                .force("charge", d3.forceManyBody().strength(-200))
+                .force("center", d3.forceCenter(width / 2, height / 2));
+
+            const link = g.append("g")
+                .attr("class", "links")
+                .selectAll("path")
+                .data(graphData.links)
+                .join("path")
+                .attr("class", "link")
+                // --- Updated Link Styling ---
+                .style("stroke", d => getLinkColor(d)) // Use function to get color
+                // .style("stroke-width", baseLinkWidth) // Apply base width
+                .style("stroke-dasharray", () => { // Keep existing style options
+                    if (currentLinkStyle === "dashed") return "5,5";
+                    if (currentLinkStyle === "dotted") return "1,3";
+                    return "";
+                })
+                .attr("marker-end", "url(#arrow)");
+
+            const linkLabels = g.append("g")
+                 .attr("class", "link-labels")
+                 .selectAll("text")
+                 .data(graphData.links)
+                 .join("text")
+                 .attr("class", "link-label")
+                 .attr("text-anchor", "middle")
+                 .text(d => getLocalName(d.type)); // Label remains the predicate local name
+
+            // --- Node creation remains the same ---
+             const node = g.append("g")
+                 .attr("class", "nodes")
+                 // ... (rest of node creation, events, shapes, text are the same) ...
+                  .selectAll("g")
+                 .data(graphData.nodes)
+                 .join("g")
+                 .attr("class", "node")
+                 .on('mouseover', handleMouseOver) // Add mouseover event
+                 .on('mouseout', handleMouseOut)   // Add mouseout event
+                //  .on("click", (event, d) => {
+                //      console.log(d);
+                //      // Display more info if available
+                //      let message = `ID: ${d.id}\nLabel: ${d.label}\nType: ${d.type}`;
+                //      if (d.description) {
+                //           message += `\nComments: ${d.description}`;
+                //       }
+                //       showToast(message);
+                //   })
+                 .on("click", handleNodeClick)
+                 .call(d3.drag()
+                     .on("start", dragstarted)
+                     .on("drag", dragged)
+                     .on("end", dragended));
+
+             node.append("circle")
+                 .filter(d => d.type !== "property") // Assuming 'property' type derived from getNodeType needs review based on ontology
+                 .attr("r", 12)
+                 .style("fill", d => {
+                    console.log(d.type);
+                     if (d.type === "class") return "lightblue";
+                     if (d.type === "Resource") return "#13ebbcd4"; // Maybe map OWL property types here?
+                     if (d.type === "instance") return "orange";
+                     return "#a6cee3b2"; // Default color
+                 })
+                 .style("stroke", "#333")
+                 .style("stroke-width", 1.5);
+
+             node.append("rect")
+                 .filter(d => d.type === "property") // Review if this distinction is still correct/needed
+                 .attr("width", 24)
+                 .attr("height", 24)
+                 .attr("x", -12)
+                 .attr("y", -12)
+                 .style("fill", "lightgreen") // Color for property nodes
+                 .style("stroke", "#333")
+                 .style("stroke-width", 1.5);
+
+             node.append("text")
+                 .attr("x", 14) // Position text relative to node center
+                 .attr("y", 5) // Adjust vertical alignment
+                 .text(d => currentLabelFormat === "local" ? d.label : d.id)
+                 .style("font-size", "0.8em")
+                 .style("font-weight", "bold")
+                 .attr("dy", "0.35em"); // Vertical alignment tweak
+
+
+            simulation.on("tick", () => {
+                 // --- Tick function remains largely the same ---
+                 link.attr("d", d => {
+                    // Curve calculation code ...
+                     const dx = d.target.x - d.source.x;
+                     const dy = d.target.y - d.source.y;
+                     const dr = Math.sqrt(dx * dx + dy * dy);
+                     return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+                 });
+
+                 linkLabels // Adjust label positioning along the curved path
+                     .attr("x", d => {
+                        // Simplified positioning at midpoint - requires path arithmetic for perfect curve following
+                        return (d.source.x + d.target.x) / 2;
+                     })
+                     .attr("y", d => {
+                         return (d.source.y + d.target.y) / 2 - 5; // Offset slightly above link midpoint
+                     });
+
+
+                 node.attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+
+            // --- Update Legend Data --- <--- NEW/UPDATED
+            const nodeLegendData = [
+                 { label: "Class", shape: "circle", color: "#a6cee3b2" },
+                 { label: "Resource", shape: "circle", color: "#13ebbcd4" }
+                //  { label: "Property Resource", shape: "rect", color: "lightgreen" }, // If properties are distinct nodes
+                //  { label: "Instance", shape: "circle", color: "orange" },
+                //  { label: "Other Resource", shape: "circle", color: "#a6cee3" }
+             ];
+
+             const linkLegendData = [
+                 { label: "subClassOf", color: propertyTypeColors["subClassOf"] },
+                 { label: "Object Property", color: propertyTypeColors["ObjectProperty"] },
+                 { label: "Datatype Property", color: propertyTypeColors["DatatypeProperty"] },
+                 { label: "Functional Property", color: propertyTypeColors["FunctionalProperty"] },
+                 { label: "Annotation Property", color: propertyTypeColors["AnnotationProperty"] },
+                 { label: "Other Relation", color: propertyTypeColors["default"] }
+             ];
+
+             // --- Render Node Legend --- (Adjust positioning)
+             const nodeLegend = svg.append("g")
+                 .attr("class", "legend")
+                 .attr("transform", `translate(${width - 180}, 152)`); // Position top-left
+
+             const nodeLegendItems = nodeLegend.selectAll(".legend-item")
+                 .data(nodeLegendData)
+                 .enter().append("g")
+                 .attr("class", "legend-item")
+                 .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+             nodeLegendItems.append("path") // Use path for shapes
+                 .attr("d", d => {
+                      if (d.shape === "circle") return d3.symbol().type(d3.symbolCircle).size(150)();
+                      if (d.shape === "rect") return d3.symbol().type(d3.symbolSquare).size(64)();
+                      return "";
+                  })
+                 .attr("transform", "translate(10, 0)") // Center shape vertically
+                 .style("fill", d => d.color)
+                 .style("stroke", "#333")
+                 .style("stroke-width", 1.5);
+
+             nodeLegendItems.append("text")
+                 .attr("x", 25) // Position text next to shape
+                 .attr("dy", "0.35em")
+                 .text(d => d.label);
+
+
+             // --- Render Link Legend --- <--- NEW (Adjust positioning)
+             const linkLegend = svg.append("g")
+                 .attr("class", "legend")
+                 .attr("transform", `translate(${width - 180}, 20)`); // Position top-right
+
+             linkLegend.append("text") // Legend Title
+                  .attr("x", 0)
+                  .attr("y", -10)
+                  .style("font-weight", "bold")
+                  .text("Legend:");
+
+
+             const linkLegendItems = linkLegend.selectAll(".legend-item")
+                 .data(linkLegendData)
+                 .enter().append("g")
+                 .attr("class", "legend-item")
+                 .attr("transform", (d, i) => `translate(0, ${i * 20})`); // Vertical layout
+
+             linkLegendItems.append("line")
+                 .attr("x1", 0)
+                 .attr("x2", 20)
+                 .attr("y1", 10)
+                 .attr("y2", 10)
+                 .style("stroke", d => d.color)
+                 .style("stroke-width", 2);
+
+             linkLegendItems.append("text")
+                 .attr("x", 25)
+                 .attr("y", 10)
+                 .attr("dy", "0.35em")
+                 .text(d => d.label);
+
+            function handleNodeClick(event, d) { /* ... */
+                 console.log("Clicked Node:", d); 
+                 let message = `Label: ${d.label}\nType: ${d.type}\nID: ${d.id}`; 
+                 if (d.description) message += `\nComments: ${d.description}`; 
+                 showToast(message, currentGraphData.nodeRelationships[d.id]);
+             }
+
+
+            // --- Rest of the functions (drag, zoom, toast, etc.) remain the same ---
+             function dragstarted(event) {
+                 if (!event.active) simulation.alphaTarget(0.3).restart();
+                 event.subject.fx = event.subject.x;
+                 event.subject.fy = event.subject.y;
+             }
+             // ... other helper functions ...
+              function dragged(event) {
+                 event.subject.fx = event.x;
+                 event.subject.fy = event.y;
+             }
+
+             function dragended(event) {
+                 if (!event.active) simulation.alphaTarget(0);
+                 event.subject.fx = null;
+                 event.subject.fy = null;
+             }
+
+             function showToast(message, relationships) {
+                let fullMessage = message;
+                if (relationships && relationships.length > 0) {
+                    fullMessage += "\n\nRelationships:\n";
+                    relationships.forEach(rel => {
+                        const predicateLocalName = getLocalName(rel.predicate);
+                        const otherLabel = rel.targetLabel || rel.sourceLabel;
+                        fullMessage += `- ${predicateLocalName} ${otherLabel}\n`;
+                    });
+                }
+                toastDiv.text(fullMessage).classed("show", true);
+                setTimeout(() => toastDiv.classed("show", false), 5000);
+             }
+
+             function zoomed(event) {
+                 g.attr("transform", event.transform);
+                 zoomSlider.property("value", event.transform.k); // Update slider value
+             }
+             function handleMouseOver(event, d) {
+                //  const nodeElement = d3.select(this);
+                //  nodeElement.classed('highlighted-node', true);
+
+                // link.filter(l => l.source.id === d.id || l.target.id === d.id)
+                //      .classed('highlighted-link', true)
+                //      .raise(); // Bring highlighted links to front
+
+                // link.filter(l => l.source.id === d.id || l.target.id === d.id).classed('highlighted-link', true).raise();
+
+                // d3.select("#arrow")  // Select the marker and change its size
+                //     .attr("markerWidth", 12)
+                //     .attr("markerHeight", 12);
+
+                const nodeElement = d3.select(this);
+                 nodeElement.classed('highlighted-node', true);
+
+                link.filter(l => l.source.id === d.id || l.target.id === d.id)
+                    .classed('highlighted-link', true)
+                    // .style("stroke-width", highlightLinkWidth) // Apply highlight width
+                    .raise();
+
+                d3.select("#arrow")  // Select the marker and change its size
+                    .attr("markerWidth", highlightArrowSize)
+                    .attr("markerHeight", highlightArrowSize);
+
+                    nodeElement.raise();
+
+                //  nodeElement.raise(); // Bring highlighted node to front
+                // const nodeElement = d3.select(this).classed('highlighted-node', true).raise();
+                console.log(d);
+                tooltipDiv.transition().duration(200).style("opacity", .9);
+                tooltipDiv.html(`<strong>${d.label}</strong> (${d.type})<br>${d.description}<br><br>${d.id}<br>Namespace: ${d.namespace}`).style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 28) + "px");
+             }
+
+             function handleMouseOut(event, d) {
+                 const nodeElement = d3.select(this);
+                 nodeElement.classed('highlighted-node', false);
+
+                // link.filter(l => l.source.id === d.id || l.target.id === d.id)
+                //      .classed('highlighted-link', false);
+
+                // d3.select("#arrow")  // Select the marker and change its size
+                //     .attr("markerWidth", 10)
+                //     .attr("markerHeight", 10);
+
+                link.filter(l => l.source.id === d.id || l.target.id === d.id)
+                    .classed('highlighted-link', false)
+                    // .style("stroke-width", baseLinkWidth);    // Revert to base width
+
+                d3.select("#arrow")  // Select the marker and revert its size
+                    .attr("markerWidth", baseArrowSize)
+                    .attr("markerHeight", baseArrowSize);
+
+                tooltipDiv.transition().duration(500).style("opacity", 0);
+             }
+            // Debounce function...
+              function debounce(func, delay) {
+                 let timeoutId;
+                 return function(...args) {
+                     clearTimeout(timeoutId);
+                     timeoutId = setTimeout(() => {
+                         func.apply(this, args);
+                     }, delay);
+                 };
+             }
+
+            // Zoom controls...
+            zoomInButton.on("click", () => {
+                 zoom.scaleBy(svg.transition().duration(300), 1.2);
+             });
+             zoomOutButton.on("click", () => {
+                 zoom.scaleBy(svg.transition().duration(300), 0.8);
+             });
+             zoomSlider.on("input", function() {
+                 zoom.scaleTo(svg.transition().duration(300), +this.value);
+             });
+
+             svg.call(zoom.transform, d3.zoomIdentity.scale(0.8));
+             zoomSlider.property("value", 0.8);
+
+             window.addEventListener("resize", debounce(() => renderGraph(currentGraphData), 250));
+             document.getElementById('search-bar').addEventListener('input', (event) => {
+                 const searchTerm = event.target.value.toLowerCase();
+                 const hasSearchTerm = searchTerm.length > 0;
+
+                 node.style('opacity', d => {
+                     const labelMatch = d.label.toLowerCase().includes(searchTerm);
+                     const idMatch = d.id.toLowerCase().includes(searchTerm);
+                     return !hasSearchTerm || labelMatch || idMatch ? 1 : 0.1;
+                 });
+
+                 link.style('opacity', d => {
+                     const sourceLabelMatch = d.source.label.toLowerCase().includes(searchTerm);
+                     const sourceIdMatch = d.source.id.toLowerCase().includes(searchTerm);
+                     const targetLabelMatch = d.target.label.toLowerCase().includes(searchTerm);
+                     const targetIdMatch = d.target.id.toLowerCase().includes(searchTerm);
+                     return !hasSearchTerm || sourceLabelMatch || sourceIdMatch || targetLabelMatch || targetIdMatch ? 1 : 0.1;
+                 });
+
+                 linkLabels.style('opacity', d => {
+                     const sourceLabelMatch = d.source.label.toLowerCase().includes(searchTerm);
+                     const sourceIdMatch = d.source.id.toLowerCase().includes(searchTerm);
+                     const targetLabelMatch = d.target.label.toLowerCase().includes(searchTerm);
+                     const targetIdMatch = d.target.id.toLowerCase().includes(searchTerm);
+                     return !hasSearchTerm || sourceLabelMatch || sourceIdMatch || targetLabelMatch || targetIdMatch ? 1 : 0.1;
+                  });
+             });
+        } // End of renderGraph
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,1042 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="static/custom/favicon.ico">
+
+	
+		<title>Ontospy > Smart Advisory Tool Ontology</title>
+	
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="static/libs/bootstrap-3_3_7-dist/css/bootstrap.min.css" rel="stylesheet">  -->
+    <!-- Bootswatch:  -->
+    <!-- cerulean  | cyborg |  flatly |  lumen |  sandstone |   spacelab  |  yeti | cosmo |  darkly |  paper | simplex | superhero |  journal | readable  |   slate |  united -->
+    <link href="static/libs/bootswatch3_2/readable/bootstrap.min.css" rel="stylesheet">
+    <link href="static/custom/css/simple-sidebar.css" rel="stylesheet">
+    <link href="static/custom/css/familytree.css" rel="stylesheet">
+    <link href="static/custom/css/tabletree.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="static/libs/bootstrap-3_3_7-dist/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/custom/css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style type="text/css">
+
+  .lead-plus {font-size: 26.5px;}
+  .label-xs {font-size: 10px;}
+  .label-dark {background: #2c3e50; color: white; padding: 1px;}
+  .margin50 {margin-top: 50px; margin-bottom: 50px;}
+
+  .namespaces {background: #ced2d6; width: 100%;}
+
+
+  /*so that the d3plus tooltip panel doesnt cover the top banner*/
+  .navbar {z-index: 3000;}
+
+
+  .panel-body dt {margin-top: 5px;}
+  .page-header  {margin-top: 30px;}
+  #wrapper {margin-top: 50px;}
+
+  .implementation-panel {
+    overflow: auto;
+    /*max-height: 500px;*/
+  }
+
+  tr.table-classproperties {
+      /*background: #f5f5f5;*/
+  }
+  tr.table-classproperties th {
+      font-size: 80%;
+      font-weight: normal;
+  }
+
+
+  tr.table-inheritanceinfo {
+      /*background: #f5f5f5;*/
+      text-align: left;
+  }
+
+  tr.table-inheritanceinfo th {
+      font-size: 90%;
+      font-weight: normal;
+  }
+
+
+  .breadcrumb {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  .breadcrumb a {
+      text-transform: capitalize;
+  }
+  .breadcrumb li {
+      text-transform: none;
+      /*so to catch the uri @todo improve*/
+  }
+
+
+  .fromclass_link {
+    /*color: white;
+    text-decoration: underline;*/
+    /*background: #1c1e52;*/
+    color: inherit;
+    /*padding: 1px;*/
+  }
+
+		.mythumbnail {
+			display: block;
+			padding: 13px;
+			margin-bottom: 30px;
+			line-height: 13.428571;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 30px;
+		}
+
+		.mythumbnail:hover {
+			background: lightyellow;
+			text-decoration: none;
+		}
+
+
+		.img-container{
+		    height:100%;
+			overflow: hidden;
+		    max-height:200px;
+			padding: 10px;
+/*			margin: 20px 0px 20px 0px;*/
+			border: 1em #EAE5E5 solid;
+		}
+
+		.img-container:hover {
+			border: 1px grey solid;
+		}
+
+		img{
+/*		    height:100% !important;*/
+		}
+
+
+		.icon-xxs {
+			font-size: 15px;
+		}
+
+
+    /* dropdown open on hover */
+
+    @media (min-width: 979px) {
+      ul.nav li.dropdown:hover > ul.dropdown-menu {
+        display: block;
+      }
+    }
+
+
+
+/*pygments css*/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #f8f8f8; }
+.highlight .c { color: #3D7B7B; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #9C6500 } /* Comment.Preproc */
+.highlight .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #E40000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #008400 } /* Generic.Inserted */
+.highlight .go { color: #717171 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #687822 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #717171; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #767600 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #A45A77 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+/*overloading this class from pygments*/
+.highlight {
+  overflow: auto;
+}
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+  </head>
+
+  <body>
+
+
+  
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <a class="navbar-brand" id="menu-toggle" title="Toggle sidebar">
+        
+        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li ><a href="index.html"><code style="font-size: 115%;">Smart Advisory Tool Ontology</code></a></li>
+
+        <li  ><a href="entities-az.html">Entities A-Z</a></li>
+        
+        <li ><a href="entities-tree-classes.html">Classes</a></li>
+        
+        
+        <li ><a href="entities-tree-properties.html">Properties</a></li>
+        
+        
+        
+        
+        <li  ><a href="statistics.html">Statistics</a></li>
+
+
+
+
+
+      </ul>
+      
+    </div><!--/.nav-collapse -->
+
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+<div id="wrapper" class="toggled">
+
+
+    
+  
+    
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+
+
+        <li>
+          <input style="margin-top: 30px;  margin-bottom: 20px;" type="text" id="search-input-sidebar" name="" value="" placeholder="Type to search">
+        </li>
+
+        
+          <li class="-second-level" id="sd_classes"><a href="entities-tree-classes.html">Classes (32)</a>
+          </li>
+
+            
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_322"><a class="active" href="class-btpsolutionarchitect.html">:BTPSolutionArchitect</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_323"><a  href="class-coilexpert.html">:COILExpert</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_324"><a  href="class-country.html">:Country</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_325"><a  href="class-gtmoutcome.html">:GTMOutcome</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_326"><a  href="class-gtmroute.html">:GTMRoute</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_327"><a  href="class-industry.html">:Industry</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_328"><a  href="class-lob.html">:LoB</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_329"><a  href="class-namedindividual.html">:NamedIndividual</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_330"><a  href="class-product.html">:Product</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_331"><a  href="class-requiredsupport.html">:RequiredSupport</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_332"><a  href="class-sapaiscenario.html">:SAPAIScenario</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_333"><a  href="class-sapbtpscenario.html">:SAPBTPScenario</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_334"><a  href="class-sapemployee.html">:SAPEmployee</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_335"><a  href="class-saporganization.html">:SAPOrganization</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_336"><a  href="class-sappartner.html">:SAPPartner</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_337"><a  href="class-sappartnercontact.html">:SAPPartnerContact</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_338"><a  href="class-sappartneremployee.html">:SAPPartnerEmployee</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_339"><a  href="class-sappartnertype.html">:SAPPartnerType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_340"><a  href="class-sappartnershiptype.html">:SAPPartnershipType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_341"><a  href="class-sapprograminitiative.html">:SAPProgramInitiative</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_342"><a  href="class-sapregion.html">:SAPRegion</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_343"><a  href="class-sapservice.html">:SAPService</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_344"><a  href="class-sapservicerequest.html">:SAPServiceRequest</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_345"><a  href="class-sapservicerequestinitiator.html">:SAPServiceRequestInitiator</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_346"><a  href="class-sapservicetype.html">:SAPServiceType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_347"><a  href="class-sourceofrequest.html">:SourceOfRequest</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_348"><a  href="class-usecase.html">:UseCase</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_349"><a  href="class-foafagent.html">foaf:Agent</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_350"><a  href="class-foaforganization.html">foaf:Organization</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_351"><a  href="class-foafperson.html">foaf:Person</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_321"><a  href="class-httpwwwontologydesignpatternsorgontduldulowlperson.html">http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Person</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_352"><a  href="class-httpswwwomgorgspeclcccountriescountryrepresentationcountry.html">https://www.omg.org/spec/LCC/Countries/CountryRepresentation/Country</a></li>
+          
+        
+
+        
+            <li class="-second-level" id="sd_properties"><a  href="entities-tree-properties.html">Properties (67)</a>
+            </li>
+
+            
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_356"><a   href="prop-accountname.html">:accountName</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_397"><a   href="prop-aiscenariotype.html">:aiScenarioType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_398"><a   href="prop-belongstoindustry.html">:belongsToIndustry</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_399"><a   href="prop-belongstosapprogram.html">:belongsToSAPProgram</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_388"><a   href="prop-belongstosapregion.html">:belongsToSAPRegion</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_400"><a   href="prop-belongstoservicerequest.html">:belongsToServiceRequest</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_401"><a   href="prop-btpscenariotype.html">:btpScenarioType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_357"><a   href="prop-category.html">:category</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_358"><a   href="prop-completiondate.html">:completionDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_402"><a   href="prop-consistsof.html">:consistsOf</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_359"><a   href="prop-countrycode.html">:countryCode</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_403"><a   href="prop-coversproduct.html">:coversProduct</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_389"><a   href="prop-createdby.html">:createdBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_360"><a   href="prop-createdondate.html">:createdOnDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_404"><a   href="prop-deliveredby.html">:deliveredBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_405"><a   href="prop-executedby.html">:executedBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_361"><a   href="prop-hascustomer.html">:hasCustomer</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_362"><a   href="prop-hasdescription.html">:hasDescription</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_406"><a   href="prop-hasgtmoutcome.html">:hasGTMOutcome</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_407"><a   href="prop-hasgtmroute.html">:hasGTMRoute</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_363"><a   href="prop-hasid.html">:hasID</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_364"><a   href="prop-hasname.html">:hasName</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_365"><a   href="prop-haspbcordernumber.html">:hasPBCOrderNumber</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_408"><a   href="prop-haspartnercontact.html">:hasPartnerContact</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_409"><a   href="prop-haspartnertype.html">:hasPartnerType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_410"><a   href="prop-haspartnershiptype.html">:hasPartnershipType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_411"><a   href="prop-hassapcontact.html">:hasSAPContact</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_366"><a   href="prop-hassolution.html">:hasSolution</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_367"><a   href="prop-hasstatus.html">:hasStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_368"><a   href="prop-hastitle.html">:hasTitle</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_390"><a   href="prop-hasusecase.html">:hasUseCase</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_369"><a   href="prop-hasvalue.html">:hasValue</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_412"><a   href="prop-involvedin.html">:involvedIn</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_413"><a   href="prop-involves.html">:involves</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_370"><a   href="prop-isaiusecase.html">:isAIUseCase</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_371"><a   href="prop-isbtpusecase.html">:isBTPUseCase</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_372"><a   href="prop-isdeleted.html">:isDeleted</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_391"><a   href="prop-isemployedby.html">:isEmployedBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_373"><a   href="prop-isfreeservice.html">:isFreeService</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_374"><a   href="prop-isgssp.html">:isGSSP</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_375"><a   href="prop-legalipowner.html">:legalIPOwner</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_414"><a   href="prop-modifiedby.html">:modifiedBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_376"><a   href="prop-modifiedondate.html">:modifiedOnDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_392"><a   href="prop-ofcountry.html">:ofCountry</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_377"><a   href="prop-partnerstatus.html">:partnerStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_378"><a   href="prop-plannedgolivedate.html">:plannedGoLiveDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_379"><a   href="prop-productname.html">:productName</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_380"><a   href="prop-productpublicname.html">:productPublicName</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_381"><a   href="prop-producttype.html">:productType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_415"><a   href="prop-relatestolob.html">:relatesToLoB</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_393"><a   href="prop-relatestoservicerequest.html">:relatesToServiceRequest</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_382"><a   href="prop-requestdate.html">:requestDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_416"><a   href="prop-requested.html">:requested</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_394"><a   href="prop-requestedby.html">:requestedBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_417"><a   href="prop-requiredsupport.html">:requiredSupport</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_418"><a   href="prop-responsibleperson.html">:responsiblePerson</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_383"><a   href="prop-revenue.html">:revenue</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_419"><a   href="prop-servicetype.html">:serviceType</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_384"><a   href="prop-solutionarea.html">:solutionArea</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_385"><a   href="prop-solutionsubarea.html">:solutionSubArea</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_395"><a   href="prop-sourceofrequest.html">:sourceOfRequest</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_386"><a   href="prop-startdate.html">:startDate</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_387"><a   href="prop-usecasestatus.html">:useCaseStatus</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_396"><a   href="prop-wasinitiatedby.html">:wasInitiatedBy</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_355"><a   href="prop-foafmember.html">foaf:member</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_353"><a   href="prop-httpswrlstanfordeduontologies33swrlaowlisruleenabled.html">http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled</a></li>
+          
+              <li class="second-level" style="line-height: 20px;" id="sd_354"><a   href="prop-httpwwwsemanticweborgi559573ontologies20250smart-technical-advisory-ontologybelongstoindustry.html">http://www.semanticweb.org/i559573/ontologies/2025/0/smart-technical-advisory-ontology/belongsToIndustry</a></li>
+          
+
+        
+
+        
+
+
+        
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+    </ul>
+
+</div>
+
+
+<!-- /#sidebar-wrapper -->
+  
+
+
+
+    <!-- Begin page content -->
+    <div class="container" id="page-content-wrapper">
+
+      
+
+	
+
+      
+
+    
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <ol class="breadcrumb">
+    <li>
+      <a href="index.html">Home</a>
+    </li>
+    <li>
+          <a href="entities-az.html">Entities</a>
+    </li>
+    <li>
+          <a href="entities-tree-classes.html">Classes</a>
+    </li>
+      <li class="active">
+            :BTPSolutionArchitect
+        </li>
+  </ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+    <h1>
+      :BTPSolutionArchitect
+      
+        <small class="label label-info label-xs">leaf node</small>
+      
+    </h1>
+
+    <hr>  
+
+    
+    <div class="tree-container">
+      <div class="tree">
+        <ul>
+          
+            
+              <li>
+                <a href="class-sapemployee.html" title="'SAPEmployee' - Person that is employed by SAP and that is involved in the coaching services.">:SAPEmployee</a>
+                  <ul>
+                    <li><a style="font-weight: bold;" title="'BTPSolutionArchitect' - Team of BTP solution architects in SAP who are mandated to coach and guide SAP partners in implementing their solution..">:BTPSolutionArchitect</a>
+                    
+                  </li>
+                </ul>
+              </li>
+            
+          
+        </ul>
+      </div>
+    </div>
+
+
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">URI</h3>
+          </div>
+          <div class="panel-body">
+            <code>http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/BTPSolutionArchitect</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Label</h3>
+          </div>
+          <div class="panel-body">
+            BTPSolutionArchitect
+          </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+    
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Description</h3>
+            </div>
+            <div class="panel-body">
+              <p>Team of BTP solution architects in SAP who are mandated to coach and guide SAP partners in implementing their solution on BTP.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+    
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Superclasses (4)</h3>
+            </div>
+            <div class="panel-body">
+              
+                
+                  <li><a href="class-sapemployee.html" title="http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPEmployee">:SAPEmployee</a></li>
+                
+                  <li><a href="class-httpwwwontologydesignpatternsorgontduldulowlperson.html" title="http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Person">http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Person</a></li>
+                
+                  <li><a href="class-foafagent.html" title="http://xmlns.com/foaf/0.1/Agent">foaf:Agent</a></li>
+                
+                  <li><a href="class-foafperson.html" title="http://xmlns.com/foaf/0.1/Person">foaf:Person</a></li>
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+    
+    
+
+
+    
+    
+
+
+    
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Usage</h3>
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+              <p>Instances of :BTPSolutionArchitect can have the following properties:</p>
+            </div>
+            <table class="table table-bordered" style="overflow: auto;">
+              <tr class="table-classproperties">
+                <th>PROPERTY</th><th>TYPE</th><th>DESCRIPTION</th><th>RANGE</th>
+              </tr>
+              
+                
+                  
+                
+              
+                
+                  
+                      <tr class="table-inheritanceinfo">
+                        <th colspan="4" class="treeinfo">
+                          <span class="label label-default">From class <a title="foaf:Person" href="class-foafperson.html" class="fromclass_link">foaf:Person</a></span>
+                        </th>
+                      </tr>
+                    
+                      <tr>
+                        <td class="firsttd">
+                          <a class="propcolor" title=":isEmployedBy" href="prop-isemployedby.html">:isEmployedBy</a>
+                        </td>
+                        <td class="secondtd">
+                          <i>owl:FunctionalProperty<i>
+                        </td>
+                        <td class="thirdtd">
+                          <span>It indicates which company the employee is employed by.</span>
+                        </td>
+                        <td class="fourthtd">
+                          
+                            
+                                
+                                  <a title="foaf:Organization" href="class-foaforganization.html" class="rdfclass">foaf:Organization</a>
+                                
+                            
+                          
+                        </td>
+                      </tr>
+                    
+                      <tr>
+                        <td class="firsttd">
+                          <a class="propcolor" title=":involvedIn" href="prop-involvedin.html">:involvedIn</a>
+                        </td>
+                        <td class="secondtd">
+                          <i>owl:ObjectProperty<i>
+                        </td>
+                        <td class="thirdtd">
+                          <span>It indicates the person who is involed in some way in the service request.</span>
+                        </td>
+                        <td class="fourthtd">
+                          
+                              <i>owl:Thing</i>
+                          
+                        </td>
+                      </tr>
+                    
+                  
+                
+              
+                
+                  
+                      <tr class="table-inheritanceinfo">
+                        <th colspan="4" class="treeinfo">
+                          <span class="label label-default">From class <a title="owl:Thing" href="class-owlthing.html" class="fromclass_link">owl:Thing</a></span>
+                        </th>
+                      </tr>
+                    
+                      <tr>
+                        <td class="firsttd">
+                          <a class="propcolor" title="foaf:member" href="prop-foafmember.html">foaf:member</a>
+                        </td>
+                        <td class="secondtd">
+                          <i>owl:AnnotationProperty<i>
+                        </td>
+                        <td class="thirdtd">
+                          <span></span>
+                        </td>
+                        <td class="fourthtd">
+                          
+                              <i>owl:Thing</i>
+                          
+                        </td>
+                      </tr>
+                    
+                      <tr>
+                        <td class="firsttd">
+                          <a class="propcolor" title="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled" href="prop-httpswrlstanfordeduontologies33swrlaowlisruleenabled.html">http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled</a>
+                        </td>
+                        <td class="secondtd">
+                          <i>owl:AnnotationProperty<i>
+                        </td>
+                        <td class="thirdtd">
+                          <span></span>
+                        </td>
+                        <td class="fourthtd">
+                          
+                              <i>owl:Thing</i>
+                          
+                        </td>
+                      </tr>
+                    
+                      <tr>
+                        <td class="firsttd">
+                          <a class="propcolor" title="http://www.semanticweb.org/i559573/ontologies/2025/0/smart-technical-advisory-ontology/belongsToIndustry" href="prop-httpwwwsemanticweborgi559573ontologies20250smart-technical-advisory-ontologybelongstoindustry.html">http://www.semanticweb.org/i559573/ontologies/2025/0/smart-technical-advisory-ontology/belongsToIndustry</a>
+                        </td>
+                        <td class="secondtd">
+                          <i>owl:AnnotationProperty<i>
+                        </td>
+                        <td class="thirdtd">
+                          <span></span>
+                        </td>
+                        <td class="fourthtd">
+                          
+                              <i>owl:Thing</i>
+                          
+                        </td>
+                      </tr>
+                    
+                  
+                
+              
+            </table>
+          </div>
+        </div>
+      </div>
+    
+
+
+    
+    
+
+
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Implementation</h3>
+          </div>
+          <div class="panel-body implementation-panel">
+            
+              <div class="highlight"><pre><span></span><span class="k">@prefix</span><span class="w"> </span><span class="nn">:</span><span class="w"> </span><span class="nv">&lt;http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">owl:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2002/07/owl#&gt;</span><span class="w"> </span><span class="p">.</span>
+<span class="k">@prefix</span><span class="w"> </span><span class="nn">rdfs:</span><span class="w"> </span><span class="nv">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span><span class="w"> </span><span class="p">.</span>
+
+<span class="p">:</span><span class="nt">BTPSolutionArchitect</span> <span class="kt">a</span> <span class="nn">owl</span><span class="p">:</span><span class="nt">Class</span> <span class="p">;</span>
+    <span class="nn">rdfs</span><span class="p">:</span><span class="nt">comment</span> <span class="s">&quot;Team of BTP solution architects in SAP who are mandated to coach and guide SAP partners in implementing their solution on BTP.&quot;</span><span class="o">@</span><span class="ge">en</span> <span class="p">;</span>
+    <span class="nn">rdfs</span><span class="p">:</span><span class="nt">subClassOf</span> <span class="p">:</span><span class="nt">SAPEmployee</span> <span class="p">;</span>
+    <span class="nn">owl</span><span class="p">:</span><span class="nt">disjointWith</span> <span class="p">:</span><span class="nt">COILExpert</span> <span class="p">.</span>
+</pre></div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+        
+
+
+
+
+	</div><!-- /#page-content-wrapper -->
+
+
+  
+
+
+
+  
+
+
+
+
+  <footer class="footer">
+    <div class="container">
+    
+      <p class="text-muted">Documentation automatically generated on Thu, 20 Mar 2025 11:54:38 with <a href="http://lambdamusic.github.io/Ontospy/">Ontospy</a> (v2.1.1)</p>
+
+    
+    </div>
+  </footer>
+
+
+</div><!-- /#wrapper -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="static/libs/jquery/1_12_4/jquery.min.js"></script>
+<script src="static/libs/bootstrap-3_3_7-dist/js/bootstrap.min.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="static/libs/bootstrap-3_3_7-dist/js/ie10-viewport-bug-workaround.js"></script>
+
+<script src="static/libs/chartjs-2_4_0/chart.bundle.js"></script>
+
+
+<!-- Menu Toggle Script -->
+<script>
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+
+$('#search-input-sidebar').keyup(function() {
+
+  var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+  // var $rows = $(this).next(".entities-list").find("div");
+  var $rows = $(this).parent().parent().find("li.second-level");
+
+  $rows.show().filter(function() {
+      var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+      return !~text.indexOf(val);
+  }).hide();
+});
+
+</script>
+
+
+
+
+  <!-- Scroll Sidebar Script -->
+
+  
+  
+
+  <script type="text/javascript">
+
+    $(document).ready(function (){
+      $('#sidebar-wrapper').animate({
+          scrollTop: $("#sd_322").offset().top - 100
+      }, 100);
+    });
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

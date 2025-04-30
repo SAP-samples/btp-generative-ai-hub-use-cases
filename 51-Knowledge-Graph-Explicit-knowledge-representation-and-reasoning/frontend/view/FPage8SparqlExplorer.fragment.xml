@@ -1,0 +1,106 @@
+<core:FragmentDefinition
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+	xmlns:card="sap.f.cards"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+	xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:layout="sap.ui.layout"
+    xmlns:ng="sap.suite.ui.commons.networkgraph">
+    <f:SidePanel id="mySidePanelForSparqlExplorer" sidePanelResizable="true" sidePanelWidth="56%" toggle="onToggle">
+        <f:mainContent>
+            <MessageStrip
+                id="infoExperimentalForSparqlExplorer"
+                text="Note: Review output carefully before use. (Experimental)"
+                showIcon="true"
+                customIcon="sap-icon://lab"
+                showCloseButton="true"
+                class="sapUiTinyMargin">
+            </MessageStrip>
+
+            <MessageStrip
+                id="nlInputHeaderForSparqlExplorer"
+                visible="false"
+                text=""
+                type="Information"
+                showIcon="true"
+                customIcon="sap-icon://discussion"
+                class="sapUiTinyMargin">
+                <link>
+                    <Link text="🔄 Regenerate SPARQL"
+                        press="onExecuteSparqlExplorer" />
+                </link>
+            </MessageStrip>
+
+            <Panel id="expandablePanelForExplorer" expanded="true" visible="true" expandable="true" width="auto" class="sapUiTinyMargin">
+                <headerToolbar>
+                    <OverflowToolbar active="false" press="expandSparqlqueryTextArea">
+                        <Title id="titleForGeneratedSparqlQueryForExplorer" text="Explore your SPARQL Query" />
+                        
+                        <ToolbarSpacer />
+                        <!-- <Label text="Edit:"/>
+                        <Switch id="refreshSparqlQueryOnly" change="onRefreshSparqlQueryOnly" state="true" customTextOn=" " customTextOff=" ">
+                            <layoutData>
+                                <FlexItemData growFactor="1" />
+                            </layoutData>
+                        </Switch> -->
+                        <Button text="Execute" type="Emphasized" press="onExecuteSparqlExplorer" icon="" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <TextArea editable="true" id="generatedSparqlQueryForSparlExplorer" growing="true" width="100%"/>
+                </content>
+            </Panel>
+
+            <IconTabBar id="outputIconTabBarForSparlExplorer" visible="false" class="sapUiTinyMargin" tabDensityMode="Compact">
+                <items>
+                    <IconTabFilter
+                        icon="sap-icon://table-view"
+                        design="Horizontal"
+                        text="Tabular">
+                        <Table headerText="Results"
+                            id="sparqlExplorerResultsTable"
+                            visible="false"
+                            items="{kgSparqlTable>/results}"
+                            growing="true"
+                            growingThreshold="20"
+                            class="sapUiTinyMargin">
+                            <!-- Columns will be added dynamically -->
+                            <columns>
+                                <!-- Dynamically generated in controller -->
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <!-- Dynamically generated in controller -->
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                            <noData>
+                                <IllustratedMessage 
+                                    enableVerticalResponsiveness="true"
+                                    title="Looks like there is no data"
+                                    description="Either the query is not valid or the data is not available."
+                                    illustrationType="sapIllus-NoSearchResults" />
+                            </noData>
+                        </Table>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+            
+        </f:mainContent>
+        <f:items>
+            <f:SidePanelItem icon="sap-icon://learning-assistant" text="Ontology Reference">
+                <VBox width="100%" height="100%">
+                    <html:iframe id="ontologyHelpReference" src="SmartAdvisoryToolOntology/index.html" style="width: calc(100% / 0.8); height: calc(100vh / 1.1); -webkit-transform: scale(0.8); transform: scale(0.8); -webkit-transform-origin: 0 0; transform-origin: 0 0;" frameBorder="0" scrolling="yes"/>
+                </VBox>
+            </f:SidePanelItem>
+            <f:SidePanelItem></f:SidePanelItem>
+        </f:items>
+    </f:SidePanel>
+
+</core:FragmentDefinition>
