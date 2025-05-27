@@ -1,0 +1,2473 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:ServiceRequest4bb08e73-1110-4cfc-af96-8c8501debeb5
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestf4ee2122-21b0-4514-8087-d861b5c1fd4e
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequest2d435e6f-14d9-43ec-b58d-8ff51ac55edb
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequest8500f6dd-942b-4f4d-863a-47dec70ae404
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest2f28a2bf-483f-4495-bd5a-96443c4fe4df
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequest3189fab6-f4c5-4083-a63a-485dec95a4b7
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequest2afc2fd2-75a9-4f71-a1a7-66924ba6da35
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest74051d4c-a803-4a4c-b701-26bac28cdd85
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest07c4ef2e-9b0f-4ac7-9b7a-2ae3f0ed7377
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest51a7f16e-a423-48d6-b14d-766a7a7eacca
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequeste042b9fa-3718-451a-b068-65a9d0b83323
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0f11cd4a-0819-4cd7-b841-ca0d0e5a6c12
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3750146a-a48e-4483-8998-43ee086ea5d3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9d801b34-c2cb-4739-b7c2-8dbb1455bee8
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest37ac5d20-a824-45f1-b9d2-f07100f78cec
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest2fec18f8-619a-4ffd-b176-e7606e35b164
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2b628d09-f568-4ad0-8802-e61f04071089
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest1eb1815f-701f-4161-b676-16c937fb3d8e
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest94c4c2d8-3c27-4074-bed5-ed4836535cfe
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1d1ca409-1f3e-420f-9a5e-3722472d239d
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest90456a29-bda6-4063-8ff3-7fac5eb285bc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste1f2a3a8-4056-450e-a0f8-944689381b46
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5e66c2a0-de19-4604-89a6-f6eb4200d6e4
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest7b619c29-5c50-4179-93e8-e348cb16f6e7
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest8282dbd5-a227-47fe-b049-8ec1ddd5ac17
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestdc00d45b-dd44-41b5-91ab-962f16b50ffc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc7dff623-11b7-4e96-b2c1-e8c401fd6a0d
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequesta4a76ecd-d738-4955-b323-bd58fa59eed6
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2c9a1ee2-f694-433b-bdcf-901f726bfaec
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestbc1d3ea4-b0f5-465b-a4e2-6b13e9b55287
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequesta867f4a1-56c8-4256-a5df-a3671161b078
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest19d935d8-791b-436f-a740-3d508493ece0
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequested47197a-b209-4557-aa6a-bea00b0f380c
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest117a152b-527e-47a5-b0da-802d973df5c5
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequesta0c1a62e-5edd-4365-be0e-54343d27cc88
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5002c277-f7d2-45f6-bdad-73622b3fac17
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestc7219d65-53f8-4af2-a168-a7eb83974337
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest827dc4ec-24cf-4088-abe5-ed78e512aae4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest99fc5eab-416c-4163-b417-024dcc63b877
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd3c9d8b7-40bc-4037-a071-c21d73a6e7ec
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5dbf104c-5dc9-4e3c-a648-b363647d4f3d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest325dc534-f6a1-4c83-ad94-1c15af93af8d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest3aa86646-661e-450a-8f47-2b53df4290fc
+        :belongsToIndustry  :IndustryType15 .
+
+:ServiceRequest076e17e1-3ebb-4653-b804-a18cdf7e4242
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestcb33c58d-6817-4150-9e78-699f5b688a68
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequest28f24f90-bcb8-45c8-9724-962091bf78a1
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta7eecc28-622e-451e-a490-0c82a0eb4849
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestd8df1242-124e-4eb7-81b0-8312f5d063f7
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestcdfbc82a-f254-4045-80ac-5c24d417585a
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest6aed8ea3-dfd8-477f-bec2-776b099c8320
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest12b8b340-f995-44ec-bc05-54e908a14b15
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest82643eef-e285-468e-be03-9416dc3c5193
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest1ff8f428-2f12-4795-a76c-cb375da0bb88
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest97cfb8a7-dcb1-43b9-bfc5-8d0d3ab754d9
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest61b2def0-8b3c-48db-9ce3-c063886c350e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd108b051-232d-4454-8d43-6f8aa86cc15f
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest7cca38dd-f1c0-400f-aba0-8f9c1b2d4191
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd8e9d09c-7303-4b0f-b662-4440cb01da22
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequest103401ec-baa0-4dd0-9a57-fc74ed58c59b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest80415d35-7dbc-4c4e-bda0-258228a2c477
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestd3103789-096b-4bb3-a026-8243d9f7b834
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest880d05dc-384c-4827-be17-80580f8a7d9d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest569f2299-094d-431f-a03e-ecea55b2872f
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestcda5a49d-e2dd-495e-a0d5-4d3e8ca696b2
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest175664b7-c40f-41eb-802e-3f7360daeceb
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest62afce92-320c-4176-99f6-98166540d71b
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequest6e69655c-e154-47d6-9873-dba780f3a08e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3386451c-a4f5-4059-ad92-4ea8c2ea025e
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest0c6d920b-185c-44a5-bda4-1798fb72ae3a
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest619d4223-886e-43ac-b381-a1c293c3b59f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb98a18e9-1933-4073-b9ef-8c6f1d9eb0cf
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest6a521dd2-2a18-4860-9e70-0d4d40c0580f
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestd1099b52-9b24-4bfd-bde1-55001eabdb05
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc7f9e39b-5a40-47cb-94d4-4f1b0c9c40f3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb363a735-60a2-409e-92eb-e5361c1ffc64
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4e412ff0-31cf-4a19-a155-51a6ee297847
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest9279f2b8-9ade-4a78-84a7-ed25380fd759
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestfb18de4a-6e91-48ef-b5d5-3650cb818c72
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest962988a1-df63-4ab2-839c-ddcd6fe9850b
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestf151dbed-6e0f-409f-afa7-0daf52fe65c2
+        :belongsToIndustry  :IndustryType45 , :IndustryType18 .
+
+:ServiceRequest1a7978f5-6992-4794-91de-fdae988bfa90
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest16a5f68a-9735-4570-9453-281f8d31f648
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest935f760e-fbb9-46ed-a315-3cfc33c58370
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest2b0e6557-e35f-457c-847a-b4c76821c0f1
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestbebcdabc-f7e7-4181-8763-9bbf0044afc8
+        :belongsToIndustry  :IndustryType5 .
+
+:ServiceRequestfcf849a9-dede-409e-a956-ffb5a33a7c1b
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest1421fce0-2671-4bef-a2f8-b226acac1ae4
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest49897b90-ded1-4339-a32b-67fdd3a774db
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestbb981d66-8c4d-475e-8e75-019bc2955a48
+        :belongsToIndustry  :IndustryType41 , :IndustryType40 , :IndustryType6 .
+
+:ServiceRequestadb31d66-9e22-44f2-bb2d-835d489144c5
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest32a429d6-51a7-4686-bd48-48dc3083dd1f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest64e23500-0294-4737-acfc-84b224ce5322
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6d3a88f8-c16d-4982-b2d6-15f0c8db7cf7
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest55cfb7e4-abc1-46b9-880a-ff0852dfdb86
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequeste4f1d3c8-f171-4ec1-ad3f-f25b82ba86e5
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequestdd02bf75-8cd7-4f7c-9cf8-c8a351be3a21
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest5ac5ed62-a974-4fe5-9286-384d1d81092e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest96ecd2ed-a679-4341-b715-c2fb2a771835
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest8ca800b7-ec35-48fa-a327-09df5a0ff24b
+        :belongsToIndustry  :IndustryType42 .
+
+:ServiceRequestb7044c43-3600-4781-b22d-38cfa4f879f0
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequeste5d51f85-b5f2-499e-84a8-e62f0d228926
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest5539dc8c-48b1-4117-bdcb-33b825b31a0f
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestc521af6f-be26-490b-aa17-456b631ba6e7
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest2a01eec8-41f9-411e-a47e-bfb1473dae2b
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest7916d58d-91d2-48e6-ab39-a62154aec969
+        :belongsToIndustry  :IndustryType35 .
+
+:ServiceRequest035bfccc-2e45-45f0-a26f-490d8dc302a0
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest111d27bc-65bd-4b54-9f63-c8c73cfbce9c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest440dd98b-5db3-4dea-a7d3-149777a90692
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestdee173f0-6323-4b1a-81b4-69253c90e738
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc5b101e8-f58b-4e1b-9f04-6b6fff33f135
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest54449a61-ee69-4746-94e0-585d32868bf6
+        :belongsToIndustry  :IndustryType42 .
+
+:ServiceRequest8a00e3ea-fd9d-45dc-9737-323e538e922a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb3ee1e25-040f-48d7-9b77-33b3f247541f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1a318a09-4758-4c24-9a78-1c3c57911be6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfc7671be-5843-475c-8390-64f1f60ed12f
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest73e65837-a2b0-4c7a-ad7d-91a68dcbb3d7
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestbf137032-1211-4ea9-a5ee-d787013927d6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6281166b-8cce-4d3e-a9fa-b032b9a18643
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest81b533a4-abab-45b4-a174-69e9ba71ef3c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5bdfe8a8-f19c-41e6-99e3-8e2de2610bd2
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestcacc4d66-008f-4dc1-b23e-20c3636366c7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest22092e5f-1a9b-4e36-a1ec-f4f073c4b99e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb4ed4f81-473a-44b6-b52a-eb54fd85eac6
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequest4c45c4dd-f8c0-46d1-a730-9b3c06bfd0ab
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest88049fca-2280-42c6-87f7-8c2234d2a604
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest1bfe3e3a-cf35-46ce-891b-d14b436c34af
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest07f2590a-acd0-4cfc-ad53-5a4c4ea353ac
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste1299f14-78d1-45d4-91f9-f11f7266064d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7a26a26e-0295-469c-ad79-7d39a709baa4
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest9b682753-a2fb-48f6-8e32-87d489b60a12
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest260501d5-947f-4269-9892-5e9ad5f5f768
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestc3b328ec-ad88-4df6-8738-f412a02dade5
+        :belongsToIndustry  :IndustryType39 .
+
+:ServiceRequest82587c96-644f-4393-bc02-96ef137004c2
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest71be89ea-17fc-48c2-874c-482843835186
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequeste7adc0bc-efe4-4c44-8648-2a87f1819deb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb35473fb-b730-494c-a6aa-dc6bbbba9474
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest03fa265e-0be4-4fe8-ae7f-753da9fde06f
+        :belongsToIndustry  :IndustryType12 .
+
+:ServiceRequest4d70aaa5-af5e-4599-85c7-a32df5e8a306
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd1f970ac-f4f5-4bb2-9297-3c3e56bbaf75
+        :belongsToIndustry  :IndustryType4 , :IndustryType6 .
+
+:ServiceRequestd36b1a0c-353f-44f9-9042-b95343017e81
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest3b562917-3381-44ea-8dd8-7384e8efe1ef
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest29582b0e-2efc-471c-a17b-597cdf21986e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest24d8671f-0397-4801-a0c9-784f19220563
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestfbb66b7e-c6fe-426c-b927-e5851d70f263
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestd28e0d89-aa38-4b4f-a91b-e1a01c3b8502
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest48b5d898-b1f9-4a2d-9a7f-debeb05112d8
+        :belongsToIndustry  :IndustryType45 , :IndustryType19 .
+
+:ServiceRequestc8df1d3a-ea43-4ca9-836f-79df70e6202e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste00455bb-c083-415b-9992-9f28ca04522c
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestacb6840c-09da-4567-ba09-857cc305b0a6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6e58004b-4efe-488e-9306-3e1c9c059145
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest565e3dbe-283b-497a-a93a-eabd39199391
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequest5df62f69-5c60-41e8-861d-399c9945e33f
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest3f910115-91c5-4ebc-b4ea-a9c7a94c4cbc
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestd30f8576-ee2a-4216-b85b-7e4fb05795a8
+        :belongsToIndustry  :IndustryType7 , :IndustryType8 .
+
+:ServiceRequest6334753b-a235-436c-a536-b5f76569c304
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb576ab82-4787-4614-99fe-9060b8c40502
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest7ebacbf3-c4e9-4838-b243-1285c77dd194
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest25c3a7d6-3aa7-4d43-9363-080d123ed014
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestf0ea4ac1-1ae7-4601-a1cd-b283f1e11cd3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest58509620-acbf-49a2-840f-dbfc14ebe5db
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestd2929cb8-380b-4f92-964e-ff21d005da5d
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestaa7986b9-065c-4f92-ae3d-ccd69a9bc522
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequestf4ec3bdc-d3c5-4e10-bc41-e4b065a05eb7
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest4ddce1a1-291c-4f7c-8c43-57a02d280c3a
+        :belongsToIndustry  :IndustryType9 .
+
+:ServiceRequestf18b44af-aa80-48b8-b0a4-0b84aa2a848e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestef9b6c24-1110-42e5-9bd5-711f70e21a37
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest6c7d7bd8-9553-463c-9efc-c8d88881c74b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest074e8de6-cf18-404a-b361-23daa3dd32a6
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequestb8501404-fcbd-4dce-88a7-851593fe0a14
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest560255be-b1fe-4bb4-95f7-21997b9d1451
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest841d6912-181d-4d75-a9fe-a6d7b3047fb7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8a30f1aa-7e85-48c2-bc63-954720e821fa
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste18194d4-6c6e-40eb-81b6-b8b815e679e8
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest68d77b2f-04f3-4781-abe1-9b8c8dbba5fb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestbc231b9c-2459-4224-9497-24164bf61a14
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest5e21dbb9-510b-4fdd-b503-0c5d2a78052c
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestb5509ebe-e240-4905-bf63-ea1c3a069191
+        :belongsToIndustry  :IndustryType9 .
+
+:ServiceRequestc57fe77c-239e-4014-9b85-2be75c04bf1a
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestc9d79743-1292-4cc0-83f4-913fc6ae2f20
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1a71c42b-f01a-4256-8aea-dc5d5bdb37a5
+        :belongsToIndustry  :IndustryType36 , :IndustryType4 .
+
+:ServiceRequest8725822f-5cd8-45dc-95c9-a7a23772a583
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest69ee1b21-e1ac-4345-8812-27c30220b1ed
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc7c2ba81-23bf-41a6-942d-adce8e7eb5aa
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestac57d518-b3e7-4bef-8c31-115d48aa9a84
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7a112fea-2de8-41cb-ac5c-466e35ae2334
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest0d14e751-caa3-4352-8737-aaf461083fc6
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest620f4286-5641-4a2e-ae3e-20b483f179de
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1f0fddbe-35ed-48cc-9822-3da04c67e3c7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest216d66a1-dd1d-43e8-b63c-90df7a8a28bf
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestf2403afb-f0af-4ffd-855e-248f5ef3d2d9
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest12d9a7ec-3b4e-4f59-b31e-4a46ecd238f7
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest4d621d8f-1873-4b64-99b7-6d5405b60e73
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6cafc54e-8705-4d0a-9bb5-cd5219c42ebd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6b4f621e-53ad-4ba1-971d-e93f902ac064
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest8f745116-3ffb-4fd8-842f-6866e30427cf
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest975ad727-49d8-4bc2-bc34-a42a9b04f7bb
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestc26e053c-a02b-4e36-87c3-124949afcb6e
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestfdf12a4a-d9a5-4429-bf6c-fa0ddca23c0c
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestf1e620b4-a00b-4694-966f-a1e06db1b2cc
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest22c4196e-77bf-499e-803c-3e772447f8f9
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest957c5619-a6bf-4f5e-87a4-b166132c1fb0
+        :belongsToIndustry  :IndustryType9 .
+
+:ServiceRequest23ce35bc-0052-4c03-bb0d-e4bac0408fc5
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest78e4d0cf-2f50-4114-8b12-adcd27f6b89f
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest349f9a42-7f5d-4780-85b3-1368bd9a44ce
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5af9d5d2-10d6-4401-b5f1-6931e67cedb8
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequestbb8e25d2-dff8-4ccc-adec-14b9d9c27c97
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestddfebb55-29d6-40c2-b8b0-57c7c8d65e61
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4e6f5752-02b0-4be2-877c-7a59399bd35a
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest36667abd-55f0-403b-805a-8d0115edafbe
+        :belongsToIndustry  :IndustryType6 , :IndustryType2 .
+
+:ServiceRequest13cf18a3-1a1e-426b-8746-f47942949b1f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest552542c6-db1d-40d6-b08f-486e71e1d621
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest589fe06a-f8bc-4cdb-9414-e2cd97aff387
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3e18d9f9-675c-48c9-9b3b-b0bcbdd0e334
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest7d7265cd-c683-48c3-9799-9681b8ea32ab
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequesta8aa6b86-0fba-41c3-b6e6-653f334222eb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste0016f5d-4462-4a61-af84-db28142cf6bf
+        :belongsToIndustry  :IndustryType9 .
+
+:ServiceRequesta654672a-a19d-44d7-83c8-ca10b7047940
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest4b7f8485-6b57-41c3-bebc-6c8f0a7fcff9
+        :belongsToIndustry  :IndustryType38 .
+
+:ServiceRequest31e14c01-3d82-4180-b33a-20ee05085832
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest5ca82396-0a53-4c7a-8124-6d4586d06186
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest3f91f6d3-82e8-4a15-aaba-ceb23ffcdd01
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest984f256c-2a32-4be8-b311-80a15335cdc3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1f2de53b-fa21-4b9a-82a5-fff652b1f947
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest70a6c659-dcfe-4afc-bd9b-83f4ed7b7b04
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequeste77fc36e-8d51-42c2-a9b2-6aa734b62b37
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest3a7ffd94-aad9-411b-94d5-62f5298b0de8
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9ec611ac-b492-4544-a8c5-375fb6e0d54a
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest4020746d-5180-49a7-8080-c10959275733
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3fdfdb2a-eda4-4467-8118-38ebb5f6aeed
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4fe93928-7db0-4a26-9957-7004bc48422b
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest5cf36098-312c-4d29-9659-c2fd8750529b
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest9b36db3f-dcc5-4737-91e1-59c3a3d05156
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequestb3de3e8f-3c57-4278-8999-fb395cf707e0
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd29289a2-653c-4790-a98e-a43eb9362af7
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestdf663ed1-7dd7-4911-a404-33454e2a7cd7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8ee18840-76e9-4035-a572-39a2bf5d73b1
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc20465f0-b834-43b1-963b-bd117dfd5023
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest89edaa05-473e-486c-acb8-b6136cf8b083
+        :belongsToIndustry  :IndustryType26 , :IndustryType6 .
+
+:ServiceRequestd1b95740-6c56-4282-a917-605732258e3a
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestb2542243-f984-4fbf-8b64-7a722c10055a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest2be4bebb-f323-441b-b7c8-0c7e156169ca
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8c3543fd-5f9c-4fb1-a66a-b1a7e0ebd411
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestc6e8b6e4-fa36-4b2c-80dc-cbebb475e8af
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest52631986-506a-4fc3-98b5-a6f998d53732
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf13d26c8-b4a7-454a-ba13-5f43aea899f2
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfe0c066f-d2f7-4730-8b91-327c16d84a67
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequestcc0146dc-f603-4e43-8026-01e7f7db8cbd
+        :belongsToIndustry  :IndustryType15 .
+
+:ServiceRequestfc12ecf2-362f-476b-acb8-045c3a850a37
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest36f6343c-b3c1-4984-84d1-cf4b7e24eac8
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest6c69e3af-2a75-49ae-80d6-13e62e4dddb1
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequesta9cae706-e1ac-438f-8f92-6cc8bba64ece
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste277f5d8-31bc-4b87-ba70-041104db7965
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestaffbcd1d-db0b-4e50-bb77-aef9b9b61092
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest42012516-8a15-489e-9fe6-a581a2bc8648
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest30ef8f9f-56a4-4751-ab23-5ca114ba45cb
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest5b8ebb05-fd6e-4348-ab52-4c5e9ab39d0a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc173a3d6-b6fd-4b6b-acd8-5e3313917707
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4964b877-ad6e-459c-9f6f-fce20c4708c3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb099ed98-d5b7-4ac9-87ce-e34cf73782a8
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequest857ccd3a-ab67-476b-8e93-7ed96cee13fe
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestd892e2b6-ad29-42ca-9e89-3b59e856ae00
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest691617cf-a013-4bbf-b120-8c8a6805c062
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestfe7985e6-ef12-4bf6-b452-beadb43f2b6c
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequesta358cbb6-b7f8-4eea-8a4e-0454f8b8a84e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3491c9a4-988c-4fd5-aedb-ef0de8e0479f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest819c2004-914c-4a57-9ef6-27ec199a086c
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest551616b9-47fd-4c56-9a92-4e50a0eeeda7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestafb805be-da30-4a73-b009-ff278e2e9039
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta940aa1a-286a-4437-865b-934747cbfc88
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest08441d71-6a82-43c1-a3dc-82552e76405e
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestbf7c5fb5-5065-4e93-a1aa-cbd78a67e37c
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequestc268b35e-1208-4e5a-9bd6-c867cd59f4c8
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestef8bc71b-49ac-40d3-8627-107647f71326
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb4ed265c-96df-4fbe-a9ed-5e12265a3e10
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfd5553be-6496-45e3-b915-17f5016866db
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc7086b9b-e752-4e9f-84fa-f58f19457d4d
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest290d72a6-63c6-4add-b2e9-c056ecfc4f4c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste4ebd3ca-ffff-473c-910d-5bec38021be9
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestf12890db-3981-4faf-a437-48220a6e46c6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9d499307-7e5c-464b-a9f8-173f5d4347df
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest3b142201-587a-4c89-9a76-b2095f1d7aa7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest49de09a2-4170-46f1-8e82-45b52287a0b7
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest62e54bbb-eddd-4211-a7ee-15ad73b3f68c
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest0879f75c-370f-4235-9181-50d564aa591e
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest1e928a6b-6844-4d35-9b91-753ee03fff14
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequest6ae32147-db1d-4b67-8712-02d2fa6ac168
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest2f01cb03-441f-4e33-b333-96ae831596d5
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestb0339219-49a4-43ca-a728-c34e56de9a6b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest22b25ef1-aeb4-4ef9-ac2f-5e3052eb0e8c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta2fbfbe2-626f-486c-872f-b4786aca9eaa
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest04df6a95-8057-4653-8811-d96386da01ec
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest22489dec-58dc-453d-bb6b-7e15d796926c
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest162a4bf1-e97c-4dbb-baf4-ad3001321a30
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest88d5fe1f-8bbd-495c-a9c2-bb73efcde96b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest8bbd182c-173e-43a8-9317-947cd490f14a
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest878a6dcf-7f8c-4808-b976-0367449615c9
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0a1c3708-29e6-4b27-bc07-e6930a1a8a6d
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest3ec3db80-93d0-49cd-8cf4-2666ee4b14a0
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5e5d545a-b52e-45b4-bca4-a865edde1329
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequestab5df7b9-25d2-40b6-98f2-cc118edcef69
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestea3f5ab0-7047-4648-bc55-4675ef5db95e
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest785e70fe-aeaa-4620-8b46-010e5fa31bd7
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest5cfec024-7101-45d8-98b4-19d8e06ff228
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest4a88bfa4-4b6c-45aa-a620-86aece4129f3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest79085020-936a-4dcf-83ae-629d55e4f440
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc850507f-0d3d-45ea-b8f3-1479cbaf37ff
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8099a8f1-7abd-438c-855a-7cb2b5ffac3f
+        :belongsToIndustry  :IndustryType14 , :IndustryType15 , :IndustryType8 .
+
+:ServiceRequest4d1167ff-60e5-41dd-8ed5-7042b11a59c2
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd0790b8d-bd7a-477e-be47-03b2791355c5
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest9f67701f-5f45-486b-b20e-2bba393afeb9
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest05d4a58f-6a86-4711-8891-e56b4f9d065e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest534b1c5e-2cd0-420d-ad32-1b12f8d5227a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfafbf2b1-e662-4403-9f25-368389a7e896
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest497ba4bb-cdca-40cc-a03b-f24d04b80849
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest07bea90b-e92f-4b5c-b2cc-e65e03ca9e70
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest5e4f7cf6-44dc-4118-9020-857a556dba57
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc1f4476e-2f6c-4a0c-a9a2-b90d77d805af
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestbbae4ab1-a6ba-40de-bfbf-a1f35ccc4b48
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc7cb1034-d1b3-44d5-ae4e-71ef4386b9ec
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest8da32c58-2f08-4c84-b68e-a00792f524c1
+        :belongsToIndustry  :IndustryType2 , :IndustryType4 .
+
+:ServiceRequest0bf9a731-c80a-4854-a409-dbe1e3ddb968
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest7e446502-99d2-4277-9069-11530ddf94e9
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest49c58510-9a55-433f-bea8-80c62f923656
+        :belongsToIndustry  :IndustryType5 .
+
+:ServiceRequestc5cdbbbc-89f5-49f9-ab7a-c05f67a46aa5
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc6280819-333a-45a6-a4b5-c17d205df856
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest87032a88-0877-4820-863e-ef6336de3dbc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest41ddd178-d5f2-4aef-b267-602f5e2bd2c3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf752b1e9-ce59-46f1-8256-cdb8cf469989
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb8b2124f-1cac-47ce-8077-e93705a9df77
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest270f21f6-65e8-4218-9099-4670c7c00bc1
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfd3e50c5-a5f4-4b77-8e95-15a07625128d
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest4be39734-4757-406e-9a85-df9b647c2792
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest9f73cf41-4c07-45dc-9e47-fcca836d5fdb
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequestc318c9d5-2384-4c87-a172-c7dc76ae66ec
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc942e727-03b6-4138-8905-10b8c1c554fe
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest6222c2df-5d5f-4a1b-8c67-28437ab1048a
+        :belongsToIndustry  :IndustryType38 .
+
+:ServiceRequeste0ec086c-81ca-46c0-8cbc-813a397243d1
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest932d4698-9ef5-44b6-8b68-b12006f0713a
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequestb6f72af7-ae58-4f71-9509-326c38a80f9c
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest77a3b368-c9de-4a77-9306-2aef221988d2
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest2f51a5c4-3c60-4b99-8268-2e915376c3f4
+        :belongsToIndustry  :IndustryType46 .
+
+:ServiceRequest62d014c2-096a-4d03-a1b4-8099d0430ae2
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest3a7e7e2d-7981-47b2-b1e5-7e50f001b838
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestd19d3490-9096-4fdd-8a49-f9a4c97cdb04
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest301caa6a-0078-4ec1-81bf-8a975c4e151c
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestbbaa4354-b2b8-4f7e-8721-46c3373ca95b
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest49dcf1ff-1490-45e6-8eef-4ecb84b41dea
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest56054f2b-b9ee-45ad-8e7b-151d380535f9
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc9b7bcdc-73e6-4aeb-a3dd-66bb9e1864d7
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest5b510b2d-25fb-4aee-af6a-c6191d7a0986
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest5f99b63d-e239-43b9-8a08-490287758732
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest1f552640-3aef-4080-b2a1-9bc63c6b5d54
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste6beee5e-fcfc-4273-9585-cac7accdaed5
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest58126c99-0df4-4213-b46c-b2757340cffa
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest1315b270-7d8b-4481-91ed-c01063810f5e
+        :belongsToIndustry  :IndustryType45 , :IndustryType42 , :IndustryType40 , :IndustryType36 , :IndustryType6 , :IndustryType4 , :IndustryType2 .
+
+:ServiceRequest71b6c019-7544-4aa2-b070-09d087df847c
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestf32a1b5e-4bb7-4d11-80a3-8d60937e4b3b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest1ae9a7ac-399c-4f5b-ac67-628f4fe8dafa
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest65838242-96ce-420c-9b52-937fa2a2f73e
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest207137f5-360d-4378-a940-1c3b6973f3f4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfcde3290-8aff-4616-ba8a-b139fc0185a6
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestb8e4ac66-9401-4b4e-92ce-6ac5fa6a8356
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest01be369f-3ecf-4f2a-98c0-8c8597324f2a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest025928b8-ca83-45ed-bc1f-28b30888292c
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequeste696f954-340e-43d8-9de5-5b75490dce98
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd6b07d23-d012-49f3-8d09-4f34692a513e
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest03c0ec20-e472-4d09-a000-67d1d0095414
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestbd252fe5-af3d-4383-b450-5a05fbaa0bfc
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestf1a3c599-3c2b-49e6-9748-0e639d487d0c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8b38ad8f-8404-4811-b656-74043acc46bd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc297f175-f1a8-4aa5-9706-f4d4cddc2f84
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest79615840-bbc3-40f5-9f33-0643054c41e2
+        :belongsToIndustry  :IndustryType23 , :IndustryType26 , :IndustryType4 .
+
+:ServiceRequest8af45b78-9ed4-4777-9078-19982c884ff8
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestd8a4497e-16d3-4b92-bbf0-1ffe1cdd94e9
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest4da5044e-63a6-46cb-9165-8962360a9fa8
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest8351b289-895c-4b94-87eb-5c5c3910e9e8
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequest7ef966e8-cad1-4430-87f8-75e12faf05ee
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequest4a3abbac-e664-42b7-91f0-36723a5bd7a0
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc592a33d-9317-43ee-9a21-9e4560c1f138
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest82655b60-7ec1-4d1b-ad81-c1e7917ac230
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest866d2801-f143-42d9-88de-d3df06782fcd
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequeste46771ff-8edc-4158-ae03-fb0ee93f4f77
+        :belongsToIndustry  :IndustryType6 , :IndustryType2 .
+
+:ServiceRequeste9b4bd6c-4454-49e3-b54a-1e1e389ba0da
+        :belongsToIndustry  :IndustryType24 .
+
+:ServiceRequestf2e1540b-ba7d-461d-8297-375c937e5547
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest77590da7-06b7-4ef5-b5af-d9e3f7e46b56
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestce61bfe1-1dbd-4b4f-9688-48c633468d23
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest49af15b3-e996-470e-a09a-43a32a4e4935
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest843d0984-23e5-422b-8a6a-09d160a6917f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfa26fbc6-f17b-468e-b921-81d778f0e243
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestaf42bd89-22fb-43b0-908f-5d0cf262fc1c
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest53d257fe-f2e4-473f-86ad-906712b6766b
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestcceaa514-5064-4093-b7f0-e606827a0a07
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4bba875a-8a27-40ad-b803-1e17b38da02d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4a1bc4cd-ac8e-468e-a9d7-4864815f4314
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest90e41e75-6e64-4dab-8204-4c50320e3feb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3f8fdf65-3094-4640-98bd-ac8dab6b48a2
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest2073376a-a514-49e8-8df1-7c16ad67e429
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest50e3fe12-75ba-46c7-89ee-461bb584f1cc
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest9825e77e-300f-42b3-aabf-af30cc746d2a
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest6302ff04-8a5d-4bed-9919-a59ba0e27c81
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest30108a05-5922-4abf-81ac-62eaff606b59
+        :belongsToIndustry  :IndustryType15 , :IndustryType13 .
+
+:ServiceRequestce6752b4-b54c-40af-8ea7-981974766585
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestee257857-ba85-4484-a7a5-34a48b151218
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestda82f320-a52c-46cb-831f-87fa0fabfb64
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestb3348f3d-9198-4391-9546-826eb03645e1
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequestd181964e-6761-459a-938b-fab01e3e07eb
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestbf0b9c00-b0bb-41e0-af09-53529c55acaa
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest7bb11815-cfe9-4cdd-b483-2b026fc03395
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequeste89376d6-3b1a-450e-8651-37fd822ee363
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest1ff6dce9-fd94-4189-8a1b-f4240e2bf709
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2061df6e-eb17-48de-b37d-1129b61bcf58
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest9a03d6c0-b691-4363-820d-3b207a75a76c
+        :belongsToIndustry  :IndustryType39 .
+
+:ServiceRequeste54babd0-87ab-41bd-b10b-8459054651cc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd39e4ce4-3d46-46fa-86e6-3681c5a021d0
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest696c5ba0-be97-4576-b0cd-5f4e2c815554
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5b4c2750-b971-44ff-bef7-634221d63642
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest617cb8ad-a96d-49f2-98fc-bf3ca156d8d7
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest37440f7b-000a-4970-8edd-b57c6d322ca0
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta8d22216-c88e-48c0-973a-ee43607d44b3
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest61143b4b-6b05-4ffe-a000-dfa33e20782d
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest4cde280a-2743-4d21-937a-bc5aa21ffecc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta878c5dd-72b0-4827-a113-babf40107157
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestc61a0ed3-d364-4659-8c9a-a400ca2e88bd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest12d23693-f65e-4f6c-92eb-cae4f0ff8776
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb18a3cd2-aaa7-47f2-8b1c-d736d7d3f7fb
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest2a4cdda8-ce4c-4c63-becc-ba28295ec5b4
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest6435a46f-08d1-4d27-a503-8dcfb00d2265
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest59c5c053-29f6-4e7b-8c37-7fafb74a4c09
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestf824c71c-60ef-4a68-9218-51b47d56e84b
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest236f3b98-f203-4651-a38e-add33d0a787a
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest987accae-2cb1-474b-a0c5-ae4b32ee4e4a
+        :belongsToIndustry  :IndustryType9 .
+
+:ServiceRequest1c0e9393-465b-49ed-b1ed-1e088bf4f400
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestfc4c1434-0256-48b3-bc37-7bd6c065c1f2
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest95482ed0-cd25-4aed-a8e0-99286daff935
+        :belongsToIndustry  :IndustryType28 .
+
+:ServiceRequest6a7dee39-c65f-4671-85ff-7c682cbf8eea
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta07e1532-ffb3-46a1-afa4-4e933acc2151
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest0d9f475c-3a88-4787-8213-c729dad79905
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest5eb748d9-6656-4962-a0a9-b1c04581fabc
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest4695a475-9cf3-40c9-9116-daae46c74cb1
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequestea94aa03-d25c-4a77-9619-b533639643aa
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd9233404-7835-453d-ae5b-fe82b5925841
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest863364df-7f92-4e4e-9120-82dab5d4dd0e
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest0ed3e9d2-b0ee-409c-bf3f-f31974bf20d2
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2db5fe6b-aa96-4b8e-935e-fba0e4c03e48
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest305652e7-55ad-4568-aa02-ea733eff3535
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest50ad4b1d-da6a-414e-bc37-72a7169fb843
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequeste1682fe3-518b-4247-a84b-6316a4488aab
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequest2690b438-e71c-4f36-aa1a-b1dcc820a8aa
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestf2d01952-e3f9-4a6b-a1cc-99f237c7840b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd8804fad-8130-4d26-b3ce-1051098009c2
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestda62001b-1808-45b4-8d14-7bfaf135e4a4
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestf8cf9088-9f99-44dd-9032-73a20ef21e03
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfa152164-eb66-490e-8627-76fa197cb769
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest4d6ba388-bd66-4333-9144-870e16681c21
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest35cf2d08-260f-426e-bbfa-76b296bf4aff
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest8eee3a45-6f19-4ce2-8a26-efd9fdbea1ab
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest850d3d2e-7517-4096-a8a1-313a84d3c417
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5ea1a6cb-396a-4b55-84ad-d13905f9e9bc
+        :belongsToIndustry  :IndustryType42 .
+
+:ServiceRequest0715c0ac-e3b1-4071-bba1-2f9b0ce7da03
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestf31b3d87-8802-4877-8c8d-65a19ed4499b
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestf32cc596-4b5e-4e7e-aeab-1625ae4f8b13
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest17f9c068-bd6d-4b7b-9ab9-1ebb072dc2db
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequestc8f72578-429a-4f92-ac00-3545588ea9dc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0b9731fb-61ec-450d-9e8d-96d8c5486b77
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest173ed72e-e5be-4034-b821-360cbabd8c1b
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequest36bf7fda-b426-4524-876c-b8be756cff19
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestea7f122c-7a6e-4665-a66d-00935030177c
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequestc560e3c3-7eb4-4e2c-a962-dc230a97f70b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest126b750e-cec2-4911-b0e9-1061b4d02cbd
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest4c3893e0-b95c-4b15-9ca3-db630ab3dfa2
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest6a2671ae-2a51-46f8-8f42-2968ac4d4ead
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest69c4c1fb-a763-4f57-b0d1-38c29ab3f845
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest32745b6a-9cee-4871-9432-1c05a7139604
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest445d631f-b467-4b53-ac7d-c4dedd281f89
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest8150dc05-ea5d-4a50-aacf-58a98a5c5049
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb1df279b-7d59-462a-8576-9c3f08ab1f37
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestab0dac06-92fa-46b6-b0a0-cb1ec1d5dd0d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2c2d17df-649c-41ca-9d91-89c8c97dd83f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8fd6178b-1536-4348-85d8-95aec7f745f6
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequesta8f6664a-a9d5-4614-bbf9-fee38e660e75
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest71f2dd8b-e868-49b3-be5c-7c446128228c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc5b595c1-51c2-4fcd-949f-1b67aa0447ae
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3f80446b-fb54-441f-a603-f174258b463a
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest1a7650c3-ae9e-41a3-811d-586cccdcf2d0
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest39e14c85-8297-41c4-a564-518f4231c23e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest49b1cb51-bc9e-4fc3-9450-ae39fb3f02ff
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0bca3368-a448-4373-afc1-c22443eab482
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest0d1b2c86-1cf9-419e-975e-ce9913b060ec
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest9000b636-cf07-4477-8913-6cb59ba14789
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest6bc828b9-f368-4bc0-bf1a-6bb06bb6cdf6
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequestbd126755-ccf4-40f9-b53a-8927198fda6d
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest5d1bebb3-1bc0-43fa-9390-2094889b0520
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest1e92c1f0-e67e-4ed6-b646-45def760dcc1
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest168446b5-be34-45cb-ba0e-10a324def6f7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta337a3cf-d7e7-4483-bac6-4ee3dc76785b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestda188608-b107-4ffb-b50a-b7c2827c7766
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequest887c8524-7a74-4b82-ba32-a91ca2d21be3
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequesta4b0773c-452f-4278-9db4-e40351bc35e7
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest7a193867-2b3c-4ca1-aff7-def4491e9cdd
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest3e3cbdaf-94a0-4444-9e40-22c4eeef7d27
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste3a0b311-c77f-4473-977e-faa8784488eb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf607b84f-a696-42dc-81f5-c54e92e9c60f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6726a0ed-7892-4fa0-97aa-ea234e34f0cd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc53bfff8-7a92-4b3a-9eab-ad53af699ff5
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequestebcf1f74-4439-47a5-97b7-4473dcce2886
+        :belongsToIndustry  :IndustryType40 , :IndustryType26 , :IndustryType3 .
+
+:ServiceRequest19ef6808-eab0-468c-9521-8ecbec875a03
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest8ab86886-7c73-4cc6-a8de-1c360a882e09
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestdf03b009-17ca-494c-8a93-6c2d374dc3dd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8a30e69d-c0b5-4127-843d-1bbf42869135
+        :belongsToIndustry  :IndustryType39 .
+
+:ServiceRequest0dbbb540-edef-406a-ad6a-9083f5f3b89e
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestdeb4d182-e00d-4ea8-afbe-f506f907f19a
+        :belongsToIndustry  :IndustryType24 .
+
+:ServiceRequest2c40bb37-3a45-49ea-bf2f-ec85c0a2301b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6eb67c67-aaaf-4e1c-8222-31b769b8e260
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest763f64e6-7d5a-4ed0-a028-2960cdcca716
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest39927385-9a9f-4ce7-a2a8-c4dfd8efdf0f
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestffef43a6-7d1e-4a84-9261-92338a848760
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestafe52620-38f8-4b3c-b3af-a1a9a96cbe1b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6813363c-9a40-47fb-b984-cd6fab930754
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest7b12553b-ff7b-4ce0-a410-077c9b613608
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta011410d-6345-40b8-93d8-af37c54a6b8d
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequestc3bafc0b-34dd-4eb0-a7b0-4becd96594b0
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestf55843ff-111f-4ce2-b8d3-2071bc0c2a94
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest9caa37d8-ed80-4aca-9d2d-478b202ede8c
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestdaefb1c2-c580-4973-a687-f7ff74badb6e
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestb1ca5ded-aa4c-4ce5-a5c7-fc14d9a42fcb
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequeste6243e0f-34ca-4447-8935-8c392cf767e8
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfb05dcd3-31cd-40a5-a4bb-03c1ff6c7e6a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb5845f8e-e24e-4cc7-b710-09180fcab57f
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestce46c7e1-1265-4fb2-a33d-a1d51941fcc3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5d00d2e4-b9d1-4557-a00f-5a384d1f04af
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestb8c95356-bb09-428b-971e-27fdc66b5d22
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest7c1af9e4-5eb7-4891-a6b8-5d1712e540c6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest54b5235e-b8dc-41d2-b5ac-5700bea58756
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest67afbed9-2526-4f34-bc64-d4d913eeb2ae
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest6cbe3270-0e36-42d0-9acc-73ba876c198a
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequest3482bdd7-e536-4dc2-b13f-2f426dc389ef
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9c0d9770-e6ac-4605-b13c-54bb73a5f320
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest611f9444-c8ec-4fc1-b10a-900b5b9abebf
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest86a12d67-88f8-44ec-90f4-7d94587c96a7
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequest3824be6f-90a0-4072-a28e-61c00cd83e69
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9d1bc3a0-ab80-4633-940a-5ac93c150515
+        :belongsToIndustry  :IndustryType1 .
+
+:ServiceRequestbb440c67-b34b-4741-bb5e-f1822221aa60
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest906883ea-0f9d-420a-83b5-f82346c5a5b1
+        :belongsToIndustry  :IndustryType46 .
+
+:ServiceRequest66a87541-e5a8-467b-8259-2d5bf59c7914
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest8600292d-e47b-4da0-8e02-83851c9a7e04
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest438c377f-c3e3-40ee-b1ce-2ec282e76644
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf6fdb6e9-5bff-4698-b81c-8e8ad974ac98
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest381ba64b-7888-48a3-9d2a-1fce4aee3c9d
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest69900a28-3806-4faa-a27c-34864b3140fb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7447b92c-7a43-4153-aba2-610c428d79f2
+        :belongsToIndustry  :IndustryType14 , :IndustryType3 , :IndustryType2 .
+
+:ServiceRequestbd6e6d3b-6f5d-469f-be4b-fcfc8ad8d5a3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste55659a8-fdd3-4bfe-b586-9f185e0ce090
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequesta376007d-32d1-4a1d-bb3c-77df516532fd
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestdc13e4ed-82a1-498e-b14b-58d5d2de9a30
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestc52332cd-c317-4f2e-b24d-0002d586c109
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest768f588f-fd9a-47dd-b6e0-d7342ed4cf22
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest543df0ad-69ad-43b2-8b96-f5cef7693849
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestbccaf7b7-f559-4f9b-9072-63402e3050b0
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestfe851e39-0d5b-4402-8bc7-5a430fa61a01
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest136743b5-5ac1-4269-a741-a17b9e9f2467
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequesta18af534-44b7-4971-a371-14f1eafc8769
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9200c113-db21-4655-b07d-cf7730512529
+        :belongsToIndustry  :IndustryType4 , :IndustryType2 .
+
+:ServiceRequest8fe26926-203c-47e2-8e75-9f2639e9ee36
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest66ef5be6-4ca8-4d77-85e3-1840d4440c69
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest64601080-8e49-4686-b97e-69a4d4245bee
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest40829b94-da25-4b04-a3be-ac06c73e5124
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest24d18a11-5b64-418a-9449-928f6a5a4c0c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequeste93c1f5e-1f1a-4a52-b5a5-541197c50315
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestbadb5239-69d6-4b12-9b5f-e05e425164fb
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest471b0294-8e27-4139-ac43-7cbf9ba6860b
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest9753c051-81ba-48c2-850d-3fe9d17791c7
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6f566121-f9ca-44f9-ad4b-27b4fae98e57
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7e8b16d6-4904-4533-bca7-54dda3626904
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest7911df11-2fe7-41cf-80d7-12ea494576d9
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestf7819ebe-f530-434c-bba5-dc8e7b2bc6ec
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest160271f0-e0c0-4e4a-9146-672fa44b7f10
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest233b6fc6-4307-4798-aacb-1ad5b9cb6f96
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest83cc50ce-3710-4ec3-9a3d-644fc4bb3f0a
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestba62e0e7-0b40-45e0-a3de-0db3a00a2241
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2bc9d820-ffce-453f-bbb2-cac4267b3039
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestda2a84e5-ea0f-4308-8204-ba02c4dcbb5d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest990d2613-8beb-4175-b2ca-78ed76bea712
+        :belongsToIndustry  :IndustryType28 .
+
+:ServiceRequest6d39e3a8-c47a-41c8-ace7-c4f86429dcad
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest6dad0050-416a-4b31-bae7-400326b38977
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequeste7ebb291-6961-407f-8282-09022aaa067b
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest264c90b9-9884-46bd-a57b-8f70b086c658
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestc9611c63-f5a7-49a7-9119-463f7f7c08b1
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequesta429838f-a63c-4a7b-ad97-47ab04dcc3b2
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfbb5ec91-f8b0-4e04-b5b8-93eb733f7600
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest82111ac8-dfb2-4e8e-a911-cc2f60a71b84
+        :belongsToIndustry  :IndustryType33 .
+
+:ServiceRequest4664cded-80d6-497c-8c8b-279ba4c29920
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb6292d97-aeb5-4ad9-a3a9-bf1606f143aa
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd50bec7d-b142-4877-9c90-b9df2eac545c
+        :belongsToIndustry  :IndustryType28 .
+
+:ServiceRequest8f71ec1b-7bd5-4bc6-a55b-81ab3981a10a
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequest2c3e343a-f1af-4661-b422-6c24250e908f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3021fc7e-949a-4e0b-898a-160d49266564
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest21289b6d-da05-4e3f-a0b0-80b2246da449
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest82ee56c8-ae10-4b09-a2e9-7fdd8ab0782d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest75b763ae-35d0-410a-9931-1c399764617f
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest8a6b1c31-0f85-4316-ade6-34990c256d6f
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest8598d297-1e3e-490a-b50c-a975e976ce9d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc32e7fe8-e1fd-4221-a2f8-3022e8d48bb9
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest360d37e8-17ee-48e6-915b-849a9393b246
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequestb9736963-8396-48c4-8fe8-0cffd2339f2d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest65f5e69d-6c8a-4c8a-99ff-344743df8f41
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6c356c92-0aaf-4f40-971f-c9640ebe6ae4
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest0bc0607e-8396-4c86-b52d-45ba48c424f7
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequesta749e613-7e8b-4d2a-99c4-da3885d1a802
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7f92c9a6-7711-4f6d-b2fb-e1b63b348025
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequesta68103f9-1940-48ac-b96f-0fd71f0f6a88
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest31531766-b68d-4b50-934c-9c03b1458609
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequesta0a6d3c4-25da-4159-b1ea-c8a9a1bba947
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest24eb6110-c1e0-4325-a9d2-43bb282f98c4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest2024b341-e565-48e6-9479-cd224f9cd8ec
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest57f6242c-1d10-44f2-bf96-3d5b862da20c
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest138c49c9-340e-464b-8e24-ae3560711674
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestf1b8d756-22ba-4f46-b9ae-b31b85581901
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest779748b7-78d8-4029-8016-0b63c8679adc
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequesta3889ba8-bc4f-4272-ad94-bd041ca3ab88
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest693ed099-d692-46d2-9299-196f931ab671
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9d2dfb3b-b040-496e-980b-d5623053c016
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5228926f-bfac-4165-b4c2-8cf2e17fdfb1
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest60564ffa-f056-4a64-a5d1-25aadb6f6b93
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest6638574f-ee0a-4d1b-a9cb-eef53952c752
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest891065d8-9098-44d8-beca-8348e6c2930d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf739ca2c-f864-4349-b980-a4ee46a9bf3d
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest8b9faa1b-7ced-44ca-b4b3-2bb9f83edfa0
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest96448bff-5e99-4430-94ca-84c8598f9b28
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest79886cf9-90fc-433f-a5e3-7983a424e174
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestff327ce5-cb6f-48b1-9dd7-ce53068d299d
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestd94a7c06-b6f7-4cbc-bd8a-afbc28bdb5e6
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest261a381b-115c-482b-a8e6-11f215599cb6
+        :belongsToIndustry  :IndustryType14 , :IndustryType6 , :IndustryType2 .
+
+:ServiceRequeste98d575e-3015-43fe-9acd-b7d146baf634
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestbb4314b7-ff52-4c2f-8e7e-5dcd598a9bfc
+        :belongsToIndustry  :IndustryType41 .
+
+:ServiceRequeste929195b-f983-46f3-a1d9-3a97e798a99a
+        :belongsToIndustry  :IndustryType27 .
+
+:ServiceRequestf0c96d54-503b-4b67-b91d-643d2ab3aa86
+        :belongsToIndustry  :IndustryType37 .
+
+:ServiceRequest1d578e79-59df-42a9-987e-30e0160d4b6a
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest81082210-31fc-4b0c-98d7-2afd9a0907c5
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest37e6133b-0fe8-46db-9d0e-69d839db1f94
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest98089638-be69-45fe-8d77-b5e85ee4411a
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest7f7b96ee-55ad-44e8-8b22-f3eb4c3d54ef
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest2fbb1c0c-2b31-49c2-8da2-c7f178a9ba2d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestf16eb0c5-e09f-4975-8360-94f27512acbf
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest115cc357-fbc3-4412-8c93-033208bc8eae
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestc4cdbc09-5908-4645-83b2-d880e442c6c6
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest36f84868-090b-4914-b9f6-71a538a37e63
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest547341cc-ff06-4a7b-84c0-27fa0c8d00e7
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest3f500336-de70-4d5c-a33f-250061bddc6b
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestb12b6625-fa14-47e2-8232-f8d994822243
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest1650afb6-a737-4df9-b490-0458188e032a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc002d912-4676-42f2-8b99-6759a4438056
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest54a22533-28d1-40b1-8373-a8ddf8f939d2
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest1ae02601-8911-4ab9-8f82-8685a8eafd95
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequestba6c49fd-d807-4957-a194-848817508024
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7b041057-ef24-4eb8-86cb-d94274890c8b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7ef4ec6f-7640-4094-97eb-b5787d471e85
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest0e0ae540-bd2e-4cbd-8fd3-71aa787a757b
+        :belongsToIndustry  :IndustryType15 .
+
+:ServiceRequest8bcbf1f5-0d35-458d-b74d-2a4cfeb5205d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3dd015ac-2b70-4cf3-8e84-7e3cab5b1e22
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest713dc1bd-c141-4121-ade2-b58922af06e6
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest43ba8884-2bac-4f1f-b28c-14c1ead9b582
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd19c70fc-204d-4dab-ab5a-624765c664b7
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest1d81d76e-dce6-4d9e-abe2-a9600bdc424d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0d3fa3db-c13b-4de3-ab89-d195ada62af3
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd96078ea-35f2-458a-b17b-8135b7b6acb2
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest872e4c4c-17e5-4689-9a41-c531ed1418c1
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest06302a3d-3379-4703-85ed-4e12fd61cccc
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest23fc0b3a-dd94-414e-83b0-713824e42f5b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb7cc69b7-7b53-48d2-9ceb-d4066d85e786
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestfe51ba62-2da3-4f05-9ecb-a5453453bfa8
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestc2213d17-c031-435c-885c-5f201f7a0f70
+        :belongsToIndustry  :IndustryType28 .
+
+:ServiceRequest0377a7fb-e095-420b-ac4d-93f9a2a93063
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest31429a2f-d72d-4bfb-9fda-c562fad33566
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8f756d5a-5268-44b5-8e60-072635eccca8
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest9ecd7330-cb03-460c-b771-46797f98da3c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb100cf84-7b9d-4212-ae1d-25d1898e20ce
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestfaed274c-67cb-4464-baed-9dbc468798ac
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8c3725ef-2f55-4130-9c18-71f7debcd07b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest829d25fd-9aa3-4716-88e9-26f5fea81d5c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8ec7ccb5-b712-4b5b-9d8f-20bfd45a4e7b
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequest63b0074f-8779-4887-ac99-c5e82210ef0c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest75bc0f13-0c88-4977-87dd-5a493b8d3a32
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest409880b6-0027-41df-948a-24b71e8834a7
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestbcf2f69b-8c7a-4266-82fc-d6c73676fc31
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest35e45d80-24c2-44df-ab61-733beacabcc3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest4b759629-6b33-4b25-8911-ddce40f7392b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestf2db7afe-3dee-4f6e-8e2c-c0c1294c50fd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest376251de-16c9-4c2d-9bc7-b0c01db0175b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesta015f8f8-7cfc-4820-87ad-39d071b033ad
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest7579850d-fc89-4d98-aef3-4de65d194c9e
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest4dadb228-1955-4251-9519-f5b71fbe789b
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestb43931c5-207f-4957-9b97-8d2c205a0da4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestafee7def-fe0a-4d46-b74d-474b01dcdec4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestcede64c9-4b1e-44d4-abbf-8b0885d79a9b
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest358aa314-35ee-4ba3-b01d-4063ce833076
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest82fc7c1d-e671-42a0-8ac0-4694c4ea2efa
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest34d47a9c-c7c8-4f79-bad0-d557e41cf870
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestcccd66fd-e993-434e-bd22-73322c609a9a
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequesta8a58d82-86fe-4db2-bb41-b70d06285266
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestc1738263-000b-4be5-b7de-623f17957a49
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest0fa19882-beb1-48b4-bf3b-1eb0292dbe43
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest69096ff6-e7d9-4539-a2e5-d59949fdf49c
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequesta992db17-e99c-40b7-81dd-2f5c6a830300
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf0c030b8-a1c0-4567-a90d-1d2e283d168d
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest8e05e0e9-02ca-42f7-8698-1f760bb4ede7
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestb5cb9ced-d2db-4a98-9033-030c072d367a
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequesteebc4966-1fb5-4cb4-889a-6b6551d58800
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1f733095-90e6-491a-826d-a8b2bce50fe6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestccf7c511-c6d2-4370-9b0d-2c357ceb77c7
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequesta17aa2b9-b231-44f6-b519-fb7dcb9dda11
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest132c5030-1f1e-400e-ba42-859801ba2059
+        :belongsToIndustry  :IndustryType18 .
+
+:ServiceRequest340a91d5-8507-443f-b956-a43ac0573032
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest4f808f88-86f0-45b0-84a4-6b4ecd533ef0
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest61fe57ee-ff04-43c4-9543-42682c46185c
+        :belongsToIndustry  :IndustryType6 .
+
+:ServiceRequest3e7b3133-e9f8-4fd5-b60d-40475ee17b00
+        :belongsToIndustry  :IndustryType12 .
+
+:ServiceRequestb0844130-16bc-429b-8baa-01eea04c6eda
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestc590a5c9-cf7a-4230-8244-c67a56b69722
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf3f631b5-6dda-4202-b48e-3f56e7cc1fd2
+        :belongsToIndustry  :IndustryType15 .
+
+:ServiceRequesta92edb4e-966c-49e9-bb08-9db3c1e888d8
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest7aa621b0-a6b3-4598-b2ce-667a7f9098c0
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest205c7dd8-3d63-4a67-bca3-8b6e0b50c783
+        :belongsToIndustry  :IndustryType42 .
+
+:ServiceRequest6ec749d8-2edc-49fc-b565-883521df16f5
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest2f2e45d2-40c2-496d-8ef0-819fa53feebd
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestc4615be1-dc21-45cc-9b4d-feb5e56009c7
+        :belongsToIndustry  :IndustryType34 .
+
+:ServiceRequestc0195ee4-1476-4a0f-b6e4-094def068e8e
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequest3f56e98e-66c6-4c2c-9f21-b79cf71602df
+        :belongsToIndustry  :IndustryType5 .
+
+:ServiceRequeste3c6a9ea-5a1b-4377-a7d2-8b68cf7051ae
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequestf37f117b-b613-4ace-b72a-9aff504b6a59
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest36b51130-5f35-4459-83e2-884416307213
+        :belongsToIndustry  :IndustryType46 .
+
+:ServiceRequest70d6aeec-2e45-4099-9bd0-671e806430c4
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestac00ac29-c15d-4b60-9768-bcbeb28484ed
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest88380fd1-6c54-4296-8d18-41c16b8620f2
+        :belongsToIndustry  :IndustryType19 .
+
+:ServiceRequestcac3f613-7b78-4d17-bbfe-5aa6e5a27eb4
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestcdd90d40-3781-4253-8f06-da73a8e4b2e0
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest30a62ee5-182a-4df1-8ece-8974d0c477cf
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest149de23a-705c-4f79-acbc-e834de107bf0
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestbda4764c-a620-4ffc-9ddf-6c5f7a6d885f
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3462dcc1-6d66-4f8c-a528-cf13190bfe10
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest0bc1ee24-ebc5-45e4-bce3-e2cc64d81def
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest5fb13751-4198-41e6-a465-1a9dc18fa82d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest64b81e44-4bff-461a-b790-f9419c04a9c5
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestd60bd9b9-ee3c-4bc7-8263-a1cb76a2ed27
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest5c9f2a90-8f37-4829-8473-f19c014ec73b
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestdc4fea8d-c335-4674-85a9-620925101c86
+        :belongsToIndustry  :IndustryType24 .
+
+:ServiceRequesta1fe427d-202d-4821-8642-7edf92e02fd6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest1862903f-4428-4bd8-8b12-1e12cda4cdc4
+        :belongsToIndustry  :IndustryType15 .
+
+:ServiceRequest35d45008-1ae8-4340-90bb-51715eab2c22
+        :belongsToIndustry  :IndustryType29 .
+
+:ServiceRequestc10f7b8d-2e5a-4551-8773-21f92a5b3813
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest123e3390-6911-4d4a-bc9b-19e9d1e33138
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest1b1ab0c0-7b3b-4e58-95f6-73989c8654bb
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest2a4e3dc7-5d09-41a6-a4cb-ad88458b27b2
+        :belongsToIndustry  :IndustryType40 .
+
+:ServiceRequest08fb651e-7a96-4cb7-9a5b-18b376524ee8
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest81676c7a-9234-40a8-be90-bc8c4cc91d7c
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6e5e7285-cc5d-499c-8688-e4a7889fb8b3
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestec913f4b-9298-495f-9e96-e5ddd683babc
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest8d2561e5-b535-4894-990e-b1ea9ba1e3b4
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6e77b7ee-0324-49ea-af42-70b810b26f85
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest6d41aa37-8bb5-40df-95ca-811711d0766e
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest6b07029f-c0dd-464b-8e43-6490d30d4353
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest423de0f3-63a6-4371-8ab8-ada9bfeb7cc6
+        :belongsToIndustry  :IndustryType13 , :IndustryType8 .
+
+:ServiceRequest2b644a8f-8180-4f62-aba4-54bfdbc1ce33
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest29bd8f15-8194-45a5-8e2d-b058c54705f6
+        :belongsToIndustry  :IndustryType23 .
+
+:ServiceRequest86474a81-6460-424b-951a-778ad5073f1d
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest677bfb87-153f-48aa-8380-6b937b9b453d
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest92654a4a-0936-4113-8edd-113e213e70f0
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest84a7be97-9742-49a8-be1d-649b62e5e10b
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest058966c2-d49d-4879-81b2-fdb1a2397f8b
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequestb00b8d9a-58f6-4fdc-8e09-0cc47d864b12
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest081012c7-69d0-4a38-a8be-4a4c3acb019a
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequested3f917d-0bb5-4c02-b794-f8b0f5099eb0
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest9c2364b5-b881-43a3-8faf-050f299cd8be
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestf2e0a5d7-4b1b-4f75-8893-be84cc4eea5f
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest568ff64c-6243-4e03-9518-d6218b4fca6d
+        :belongsToIndustry  :IndustryType44 .
+
+:ServiceRequeste799f78f-7d9b-41f7-94eb-d4189c5ab0d8
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb81e28b7-3655-453d-b1d5-89143326880d
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestcd6e8c55-7fbe-4f37-b095-c00183121539
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest370dce64-aa89-4639-a283-f9906d88f2da
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest937f7a50-d1f5-42ab-a316-1994055823b3
+        :belongsToIndustry  :IndustryType25 .
+
+:ServiceRequest2584c82f-65ae-4aaf-9acb-ce7231cd4cd0
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequesta0229398-355d-4945-8653-84b3c00833dd
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest0dea7a48-5bb3-4d46-8ee2-15df736f099b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest66a78afc-0443-4217-bd8d-b1e40401cc63
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest03128293-a6c5-4ddc-8fa4-d76efbc21514
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequestab8848dc-b534-41ab-a11c-a5adb29c23eb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest3d803c35-7d02-43d0-8616-7a88cd242573
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest24ea7422-54ca-489c-ae1c-26ac4a1487a5
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest4e43bcac-f23d-4e8d-bc70-afa2c659d041
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest731c2ed2-1456-461b-856f-c5d92276e776
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestd63d9b28-66b9-451b-83b4-c8615804027b
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest9c8dcd42-4197-44af-8979-60107fb23b9a
+        :belongsToIndustry  :IndustryType26 .
+
+:ServiceRequest916828c7-b5b7-4f61-82e7-50b23ac636dd
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest2d00a20b-5787-44d5-b6ff-39851d77e0e1
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest36b4cb47-c58e-41fd-b45a-f7fa1c56a7f6
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestfaa70e48-a77c-44ca-abef-8db7df6a21de
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestb668f19b-4eb2-4e44-a35d-e71b95a14169
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest1b3b92bc-e820-47eb-936f-a6ff471065d7
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestdebcbf03-4398-4e1c-83ec-e2e64c2abcec
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequestfde96796-b8ae-4825-9c4e-b60c9dc10de0
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest678bb08c-f521-41ab-b696-e91980c8bc43
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestd01fd2e6-53f4-4170-855b-c8721884b11d
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequestd7fbf1b3-2b9a-4871-b29d-4f2b4836502c
+        :belongsToIndustry  :IndustryType2 .
+
+:ServiceRequest5e5a3745-82d8-422e-bd49-0a8347f206bb
+        :belongsToIndustry  :IndustryType13 .
+
+:ServiceRequest39b75256-4eca-4a57-a4c9-37871ef7cf19
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequestce98ad38-4f66-4c73-ad05-053b5d3d7268
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest9f87460e-cec7-436f-bfb3-1111a24b7ee3
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequest38d80dc9-fd3e-4008-a5fa-982c832f01a7
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequest082fc8ff-d978-41a3-bd5c-5ce50878f394
+        :belongsToIndustry  :IndustryType7 .
+
+:ServiceRequest8b319ea2-fc56-4c07-b79a-292e2fd67c3e
+        :belongsToIndustry  :IndustryType36 , :IndustryType28 .
+
+:ServiceRequest3f87ccc1-d00e-4582-9a84-77efe340510e
+        :belongsToIndustry  :IndustryType14 .
+
+:ServiceRequest2c714181-3ecb-4e48-bf06-36195479e08f
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequestace21d93-a8e8-41ad-9cfd-caeb8198fb14
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequest93cd510b-cd4c-4a01-9044-7038f0b29e2e
+        :belongsToIndustry  :IndustryType3 .
+
+:ServiceRequest97a5eaeb-6dbb-41b4-9484-58c1b41f20b7
+        :belongsToIndustry  :IndustryType8 .
+
+:ServiceRequeste417a724-c06b-43d8-8398-10f47ee2b609
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestf9e4e887-31a7-420b-9bd6-8e174a685d4e
+        :belongsToIndustry  :IndustryType36 .
+
+:ServiceRequeste41f3c7b-e154-46a9-950a-a150778c0ddb
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest8bf2cb30-855d-4275-8c1f-27735e71b9fb
+        :belongsToIndustry  :IndustryType4 .
+
+:ServiceRequest7499a69b-4890-4d31-a700-8dea1c26e5c8
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequestaf24efbd-fa29-4228-96e7-e73d9b4628ef
+        :belongsToIndustry  :IndustryType45 .
+
+:ServiceRequest12bb1ded-9731-40e8-b213-efa2ea5f5611
+        :belongsToIndustry  :IndustryType2 , :IndustryType4 .
+
+:ServiceRequest38f732bb-6cff-40ce-9ba8-9919d4a03042
+        :belongsToIndustry  :IndustryType21 .
+
+:ServiceRequestf4c52535-ed2d-4bf3-bfe3-1c43633b54d8
+        :belongsToIndustry  :IndustryType36 .

@@ -1,0 +1,144 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:ServiceType26  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "S/4HANA Extensions Migration" .
+
+:ServiceType13  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Infrastructure Services";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/nandagopal.prasad.b@sap.com> .
+
+:ServiceType19  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "App4Growth";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/seamus.cawley@sap.com> .
+
+:ServiceType5  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Intelligent Spend Management Extensibility Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/john.hall01@sap.com> .
+
+:ServiceType34  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "AI Foundation Technical Advisory" .
+
+:ServiceType21  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Engineering Support Service";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/raja.prasad.gupta@sap.com> .
+
+:ServiceType27  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "SAP BTP Commercial Model Advisory" .
+
+:ServiceType14  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "IP Build Realization Coaching Support";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/rudolf.held@sap.com> .
+
+:ServiceType70  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "S/4HANA Cloud Private Edition Advisory" .
+
+:ServiceType6  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP Customer Experience Extensibility Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/sumit.nair@sap.com> .
+
+:ServiceType22  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Dev Advisors" .
+
+:ServiceType50  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Sustainability" .
+
+:ServiceType28  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Discovery Workshop" .
+
+:ServiceType15  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Build Services";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/nandagopal.prasad.b@sap.com> .
+
+:ServiceType71  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "S/4HANA Cloud Public Edition Advisory" .
+
+:ServiceType1  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Co-Innovated with SAP";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/nandagopal.prasad.b@sap.com> .
+
+:ServiceType30  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "HXM Partner Coaching (nonBTP)" .
+
+:ServiceType7  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP SME solutions Extensibility Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/mario.fetzner@sap.com> .
+
+:ServiceType23  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Strategic Coaching engagements" .
+
+:ServiceType10  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP BTP Technical Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/peter.von.linstow@sap.com> .
+
+:ServiceType29  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "1:1 Prototyping & Coaching" .
+
+:ServiceType72  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "RISE with SAP Methodology Advisory" .
+
+:ServiceType2  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Co-Innovated with SAP renewal";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/nandagopal.prasad.b@sap.com> .
+
+:ServiceType31  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "DSC Advisory (nonBTP)" .
+
+:ServiceType8  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP BTP Use-Case Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/brian.fillery@sap.com> .
+
+:ServiceType24  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Tiger Team" .
+
+:ServiceType11  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Hack2Build";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/rudolf.held@sap.com> .
+
+:ServiceType17  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP Qualified Partner-Packaged Solutions";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/sten.frellesvig@sap.com> .
+
+:ServiceType73  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "BTM" .
+
+:ServiceType3  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP S/4HANA Cloud Extensibility Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/alessandro.sabidussi@sap.com> .
+
+:ServiceType32  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "SAP Business AI Discovery Coaching Service" .
+
+:ServiceType60  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "Intelligent Enterprise" .
+
+:ServiceType9  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP BTP Partner Community";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/oana.tudorascu@sap.com> .
+
+:ServiceType25  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "BTP Adoption Incentive (prev. Drive2Deliver - UCR Use Cases)" .
+
+:ServiceType12  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Sprint 1";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/rudolf.held@sap.com> .
+
+:ServiceType18  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP Integration Certification for BTP";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/nandagopal.prasad.b@sap.com> .
+
+:ServiceType4  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "SAP SuccessFactors Extensibility Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/mohammed.fadili@sap.com> .
+
+:ServiceType33  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName  "VPUC Nomination" .
+
+:ServiceType20  rdf:type  owl:NamedIndividual , :SAPServiceType;
+        :hasName        "Partner Co-innovation Desk Advisory";
+        :hasSAPContact  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/john.singelmann@sap.com> .

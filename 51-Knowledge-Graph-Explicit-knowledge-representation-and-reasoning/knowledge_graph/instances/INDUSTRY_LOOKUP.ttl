@@ -1,0 +1,195 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:IndustryType18  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Mining" .
+
+:IndustryType46  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Other";
+        :hasName   "Other" .
+
+:IndustryType33  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Regional, State, and Local Government" .
+
+:IndustryType20  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Oil Field Services" .
+
+:IndustryType0  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "None";
+        :hasName   "none" .
+
+:IndustryType39  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Telecommunications" .
+
+:IndustryType26  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Healthcare" .
+
+:IndustryType6  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Wholesale Distribution" .
+
+:IndustryType13  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "Industrial Machinery and Components" .
+
+:IndustryType41  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Cargo Transportation and Logistics" .
+
+:IndustryType19  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Oil and Gas" .
+
+:IndustryType34  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Engineering, Construction and Operation" .
+
+:IndustryType1  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Agribusiness" .
+
+:IndustryType21  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Utilities" .
+
+:IndustryType7  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "Aerospace and Defense" .
+
+:IndustryType27  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Higher Education and Research" .
+
+:IndustryType14  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Chemicals" .
+
+:IndustryType42  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Hospitality" .
+
+:IndustryType35  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Media" .
+
+:IndustryType22  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Waste and Environmental Services" .
+
+:IndustryType2  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Consumer Products" .
+
+:IndustryType28  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Public Sector" .
+
+:IndustryType8  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "Automotive" .
+
+:IndustryType15  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Mill Products" .
+
+:IndustryType43  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Liner Shipping" .
+
+:IndustryType30  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Future Cities" .
+
+:IndustryType36  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Professional Services" .
+
+:IndustryType23  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Financial Services";
+        :hasName   "Banking" .
+
+:IndustryType3  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Life Sciences" .
+
+:IndustryType10  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "OEM (High-Tech)" .
+
+:IndustryType29  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Federal and National Government" .
+
+:IndustryType9  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "High Tech" .
+
+:IndustryType16  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Building Products" .
+
+:IndustryType44  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Passenger Travel and Leisure" .
+
+:IndustryType31  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Postal" .
+
+:IndustryType37  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Entertainment" .
+
+:IndustryType24  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Financial Services";
+        :hasName   "Insurance" .
+
+:IndustryType4  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Retail" .
+
+:IndustryType11  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "Semiconductor" .
+
+:IndustryType17  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Energy and Natural Resources";
+        :hasName   "Cement" .
+
+:IndustryType45  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Cross-Industry";
+        :hasName   "Cross-Industry" .
+
+:IndustryType32  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Public Security" .
+
+:IndustryType38  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Sports" .
+
+:IndustryType25  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Public Services";
+        :hasName   "Defense and Security" .
+
+:IndustryType5  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Consumer Industries";
+        :hasName   "Fashion" .
+
+:IndustryType12  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Discrete Manufacturing";
+        :hasName   "Software Providers" .
+
+:IndustryType40  rdf:type  owl:NamedIndividual , :Industry;
+        :category  "Service Industries";
+        :hasName   "Travel and Transportation" .

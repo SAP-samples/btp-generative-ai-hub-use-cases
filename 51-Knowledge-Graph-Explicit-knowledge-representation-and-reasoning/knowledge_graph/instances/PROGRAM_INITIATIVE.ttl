@@ -1,0 +1,25 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:ProgramInitiative4  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "Other" .
+
+:ProgramInitiative6  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "Global Strategic Consulting" .
+
+:ProgramInitiative1  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "Sapphire Venture" .
+
+:ProgramInitiative3  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "All-In" .
+
+:ProgramInitiative5  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "Marquee" .
+
+:ProgramInitiative2  rdf:type  owl:NamedIndividual , :SAPProgramInitiative;
+        :hasName  "Industry Cloud" .

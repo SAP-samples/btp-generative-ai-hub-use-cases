@@ -1,0 +1,21 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:Service39b8384b-8924-4338-9677-8082eef59ae8
+        rdf:type                  owl:NamedIndividual , :SAPService;
+        :createdBy                <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/emily.bronte@sap.com>;
+        :createdOnDate            "2022-11-14T09:43:39"^^xsd:dateTime;
+        :deliveredBy              <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/john.legend@sap.com>;
+        :hasStatus                "completed";
+        :isFreeService            "1"^^xsd:boolean;
+        :modifiedBy               <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/emily.bronte@sap.com>;
+        :modifiedOnDate           "2022-11-16T07:37:44"^^xsd:dateTime;
+        :relatesToServiceRequest  :ServiceRequest85ef55b1-e74a-4be5-b7e3-835873ffcb06;
+        :responsiblePerson        <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/emily.bronte@sap.com>;
+        :revenue                  "0.00"^^xsd:double;
+        :serviceType              :ServiceType10 .
