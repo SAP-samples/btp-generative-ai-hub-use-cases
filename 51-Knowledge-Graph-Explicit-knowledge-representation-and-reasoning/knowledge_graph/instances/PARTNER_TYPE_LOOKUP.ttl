@@ -1,0 +1,79 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:PartnerType18  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Reseller" .
+
+:PartnerType12  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Group Membership" .
+
+:PartnerType6  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "One-off Reseller" .
+
+:PartnerType22  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Distributor - Crystal" .
+
+:PartnerType19  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Language Service Partner" .
+
+:PartnerType13  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "SAP Education" .
+
+:PartnerType7  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "PE Build" .
+
+:PartnerType1  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "PE Sell" .
+
+:PartnerType23  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Software Partner - Special Usage" .
+
+:PartnerType14  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Global Technology Partner" .
+
+:PartnerType8  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "PE Run" .
+
+:PartnerType2  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Open Ecosystem" .
+
+:PartnerType24  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "mySAP All-in-One Hosted Solutions" .
+
+:PartnerType15  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "SolEx" .
+
+:PartnerType9  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Run SAP Partner" .
+
+:PartnerType3  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "PE Build AppDev" .
+
+:PartnerType16  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "OEM - Advantage Database Server (ADS)" .
+
+:PartnerType10  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "SAP Partner - Services" .
+
+:PartnerType4  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "PE Service" .
+
+:PartnerType20  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "SAP Alliance Partner - Services" .
+
+:PartnerType17  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Outsourcing Operations Partner" .
+
+:PartnerType11  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Global Partner - Services" .
+
+:PartnerType5  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "OEM" .
+
+:PartnerType21  rdf:type  owl:NamedIndividual , :SAPPartnerType;
+        :hasName  "Distributor" .

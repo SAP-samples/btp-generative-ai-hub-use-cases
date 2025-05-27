@@ -1,0 +1,883 @@
+@prefix : <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix omg: <https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+
+<http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology> rdf:type owl:Ontology ;
+                                                                                owl:imports <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl> ,
+                                                                                            <http://www.w3.org/ns/org#> ,
+                                                                                            <http://xmlns.com/foaf/0.1/> ,
+                                                                                            <https://w3id.org/MON/person.owl> ,
+                                                                                            <https://www.omg.org/spec/LCC/20211101/Countries/ISO3166-1-CountryCodes/> .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/member
+<http://xmlns.com/foaf/0.1/member> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/aiScenarioType
+:aiScenarioType rdf:type owl:ObjectProperty ;
+                rdfs:domain :UseCase ;
+                rdfs:range :SAPAIScenario ;
+                rdfs:comment "It is a property of the use case. It indicates the service request concerns a certain use case that is related to a specific AI Scenario."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/belongsToIndustry
+:belongsToIndustry rdf:type owl:ObjectProperty ;
+                   rdfs:domain :SAPServiceRequest ;
+                   rdfs:range :Industry ;
+                   rdfs:comment "It is a property of the service request. It indicates the service request belongs to one or more industries (this is because the use case does)."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/belongsToSAPProgram
+:belongsToSAPProgram rdf:type owl:ObjectProperty ;
+                     rdfs:domain :SAPServiceRequest ;
+                     rdfs:range :SAPProgramInitiative ;
+                     rdfs:comment "It is a property of the service request. It indicates the service request belongs to a SAP program initiative."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/belongsToSAPRegion
+:belongsToSAPRegion rdf:type owl:ObjectProperty ,
+                             owl:FunctionalProperty ;
+                    rdfs:domain :Country ;
+                    rdfs:range :SAPRegion ;
+                    rdfs:comment "It is a property of the country. It indicates the SAP business region the country belongs to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/belongsToServiceRequest
+:belongsToServiceRequest rdf:type owl:ObjectProperty ;
+                         owl:inverseOf :hasUseCase ;
+                         rdfs:domain :UseCase ;
+                         rdfs:range :SAPServiceRequest ;
+                         rdfs:comment "It indicates the service request the use case is associated to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/btpScenarioType
+:btpScenarioType rdf:type owl:ObjectProperty ;
+                 rdfs:domain :UseCase ;
+                 rdfs:range :SAPBTPScenario ;
+                 rdfs:comment "It is a property of the use case. It indicates the use case associated to the service request is related to a specific BTP Scenario."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/consistsOf
+:consistsOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            owl:inverseOf :relatesToServiceRequest ;
+            rdfs:domain :SAPServiceRequest ;
+            rdfs:range :SAPService ;
+            rdfs:comment "It indicates the service requested through the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/coversProduct
+:coversProduct rdf:type owl:ObjectProperty ;
+               rdfs:domain :SAPServiceRequest ;
+               rdfs:range :Product ;
+               rdfs:comment "It is a property of the service request. It indicates the product involved in the use case that is associated to the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/createdBy
+:createdBy rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain [ rdf:type owl:Class ;
+                         owl:unionOf ( :SAPService
+                                       :SAPServiceRequest
+                                     )
+                       ] ;
+           rdfs:range :SAPEmployee ;
+           rdfs:comment "It indicates who created the object in the SAP system."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/deliveredBy
+:deliveredBy rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf :involves ;
+             rdfs:domain :SAPService ;
+             rdfs:range :SAPEmployee ;
+             rdfs:comment "It indicates who delivered the service to the partner"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/executedBy
+:executedBy rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :involves ;
+            rdfs:domain :SAPServiceRequest ;
+            rdfs:range :SAPEmployee ;
+            rdfs:comment "It indicates who executed the service request"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasGTMOutcome
+:hasGTMOutcome rdf:type owl:ObjectProperty ;
+               rdfs:domain :UseCase ;
+               rdfs:range :GTMOutcome ;
+               rdfs:comment "It is a property of the use case. It indicates the Go-To-Market result the service request produced."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasGTMRoute
+:hasGTMRoute rdf:type owl:ObjectProperty ;
+             rdfs:domain :SAPServiceRequest ;
+             rdfs:range :GTMRoute ;
+             rdfs:comment "It is a property of the service request. It indicates the Go-to-Market result that the service request intends to produce."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasPartnerContact
+:hasPartnerContact rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :involves ;
+                   rdfs:domain :SAPServiceRequest ;
+                   rdfs:range :SAPPartnerEmployee ;
+                   rdfs:comment "It indicates the partner contact person for the service request"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasPartnerType
+:hasPartnerType rdf:type owl:ObjectProperty ;
+                rdfs:domain :SAPPartner ;
+                rdfs:range :SAPPartnerType ;
+                rdfs:comment "It is a property of the partner class. Specifies what type of partner the specific organization is for SAP."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasPartnershipType
+:hasPartnershipType rdf:type owl:ObjectProperty ;
+                    rdfs:domain :SAPPartner ;
+                    rdfs:range :SAPPartnershipType ;
+                    rdfs:comment "It is a property of the partner class. It specifies the type of partnership existing between SAP and a partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasSAPContact
+:hasSAPContact rdf:type owl:ObjectProperty ;
+               rdfs:domain :SAPServiceType ;
+               rdfs:range :SAPEmployee ;
+               rdfs:comment "It is a property of the service type class. It indicates the responsible person in SAP (identified by his email address) for the service type offered."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasUseCase
+:hasUseCase rdf:type owl:ObjectProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain :SAPServiceRequest ;
+            rdfs:range :UseCase ;
+            rdfs:comment "It is a property of the service request class. It indicates the use case associated to the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/involvedIn
+:involvedIn rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            owl:inverseOf :involves ;
+            rdfs:domain <http://xmlns.com/foaf/0.1/Person> ;
+            rdfs:range [ rdf:type owl:Class ;
+                         owl:unionOf ( :SAPService
+                                       :SAPServiceRequest
+                                     )
+                       ] ;
+            rdfs:comment "It indicates the person who is involed in some way in the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/involves
+:involves rdf:type owl:ObjectProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :SAPService
+                                      :SAPServiceRequest
+                                    )
+                      ] ;
+          rdfs:range <http://xmlns.com/foaf/0.1/Person> ;
+          rdfs:comment "It indicates the service request or service involves a certain person."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isEmployedBy
+:isEmployedBy rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain <http://xmlns.com/foaf/0.1/Person> ;
+              rdfs:range <http://xmlns.com/foaf/0.1/Organization> ;
+              rdfs:comment "It indicates which company the employee is employed by."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/modifiedBy
+:modifiedBy rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( :SAPService
+                                        :SAPServiceRequest
+                                      )
+                        ] ;
+            rdfs:range :SAPEmployee ;
+            rdfs:comment "It indicates who modified the object in the SAP system."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/ofCountry
+:ofCountry rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :SAPPartner ;
+           rdfs:range :Country ;
+           rdfs:comment "It indicates the country of provenance of the SAP partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/relatesToLoB
+:relatesToLoB rdf:type owl:ObjectProperty ;
+              rdfs:domain :SAPServiceRequest ;
+              rdfs:range :LoB ;
+              rdfs:comment "It indicates the line of business the use case associated with the service request refers to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/relatesToServiceRequest
+:relatesToServiceRequest rdf:type owl:ObjectProperty ,
+                                  owl:FunctionalProperty ;
+                         rdfs:domain :SAPService ;
+                         rdfs:range :SAPServiceRequest ;
+                         rdfs:comment "It is a property of the service class. It indicates the service request the service belongs to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/requested
+:requested rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           owl:inverseOf :requestedBy ;
+           rdfs:domain :SAPPartner ;
+           rdfs:range :SAPServiceRequest ;
+           rdfs:comment "It indicates the service request the SAP partner requested."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/requestedBy
+:requestedBy rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdf:type owl:FunctionalProperty ;
+             rdfs:domain :SAPServiceRequest ;
+             rdfs:range :SAPPartner ;
+             rdfs:comment "It is a property of the service request class. It indicates who requested the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/requiredSupport
+:requiredSupport rdf:type owl:ObjectProperty ;
+                 rdfs:domain :SAPServiceRequest ;
+                 rdfs:range :RequiredSupport ;
+                 rdfs:comment "It is a property of the service request class. It indicates the type of support required in the service request in the context of the associated use case."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/responsiblePerson
+:responsiblePerson rdf:type owl:ObjectProperty ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( :SAPOrganization
+                                               :SAPService
+                                             )
+                               ] ;
+                   rdfs:range :SAPEmployee ;
+                   rdfs:comment "Indicates the responsible person in SAP for a certain service or organization."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/serviceType
+:serviceType rdf:type owl:ObjectProperty ;
+             rdfs:domain :SAPService ;
+             rdfs:range :SAPServiceType ;
+             rdfs:comment "It specifies the type of service requested through a service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/sourceOfRequest
+:sourceOfRequest rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain :SAPServiceRequest ;
+                 rdfs:range :SourceOfRequest ;
+                 rdfs:comment """It is a property of the service request class. It indicates which channel the service request originated from. It can be:
+'PCD E-Mail'
+'PBC request'
+'Internal'
+'Others'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/wasInitiatedBy
+:wasInitiatedBy rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain :SAPServiceRequest ;
+                rdfs:range :SAPServiceRequestInitiator ;
+                rdfs:comment """It is a property of the service request class. It indicates who initiated the service request. It can be:
+'SAP'
+'Customer'
+'Partner'"""@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/accountName
+:accountName rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SAPPartner ;
+             rdfs:range xsd:string ;
+             rdfs:comment "It specifies the account name of the SAP partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/category
+:category rdf:type owl:DatatypeProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :Industry
+                                      :LoB
+                                    )
+                      ] ;
+          rdfs:range xsd:string ;
+          rdfs:comment "It indicates the category of the object it refers to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/completionDate
+:completionDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain :SAPService ;
+                rdfs:range xsd:date ;
+                rdfs:comment "It is a property of the service class. It indicates the date of completion of the requested service."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/countryCode
+:countryCode rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Country ;
+             rdfs:range xsd:string ;
+             rdfs:comment "It indicates the country code (in the ISO 3166-1 alpha-2 standard) of the country."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/createdOnDate
+:createdOnDate rdf:type owl:DatatypeProperty ;
+               rdfs:domain [ rdf:type owl:Class ;
+                             owl:unionOf ( :SAPService
+                                           :SAPServiceRequest
+                                         )
+                           ] ;
+               rdfs:range xsd:dateTime ;
+               rdfs:comment "It indicates the date the object was created (datetime) in the system."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasCustomer
+:hasCustomer rdf:type owl:DatatypeProperty ;
+             rdfs:domain :UseCase ;
+             rdfs:range xsd:boolean ;
+             rdfs:comment "It marks whether the use case has already a customer or not."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( :SAPOrganization
+                                            :SAPService
+                                            :UseCase
+                                          )
+                            ] ;
+                rdfs:range xsd:string ;
+                rdfs:comment "This property is used to provide the description of the use case or SAP organization or the service offered by SAP."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasID
+:hasID rdf:type owl:DatatypeProperty ;
+       rdfs:domain owl:Thing ;
+       rdfs:range xsd:string ;
+       rdfs:comment "It indicates the unique identifier of the object in the source table fo the original relational data model."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:domain owl:Thing ;
+         rdfs:range xsd:string ;
+         rdfs:comment "This property indicates the proper name of an object."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasPBCOrderNumber
+:hasPBCOrderNumber rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :SAPService ;
+                   rdfs:range xsd:string ;
+                   rdfs:comment "It indicates the unique  PBC order number of the service (if the service was requested through the Parter Benefits Catalog)."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasSolution
+:hasSolution rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SAPServiceRequest ;
+             rdfs:range xsd:boolean ;
+             rdfs:comment "Flag indicating whether the service request produced a solution."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasStatus
+:hasStatus rdf:type owl:DatatypeProperty ;
+           rdfs:domain [ rdf:type owl:Class ;
+                         owl:unionOf ( :SAPService
+                                       :SAPServiceRequest
+                                     )
+                       ] ;
+           rdfs:range xsd:string ;
+           rdfs:comment """It states the status of the service request or of the requested services. It can have the following values:
+'requested'/'submitted'
+'accepted'
+'rejected'
+'in progress'
+'completed'
+'discontinued'
+'canceled'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasTitle
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:domain :UseCase ;
+          rdfs:range xsd:string ;
+          rdfs:comment "It indicates the title of the use case associated to the service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/hasValue
+:hasValue rdf:type owl:DatatypeProperty ;
+          rdfs:domain owl:Thing ;
+          rdfs:range xsd:string ;
+          rdfs:comment "This property states the name or type or value assumed by an instance."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isAIUseCase
+:isAIUseCase rdf:type owl:DatatypeProperty ;
+             rdfs:domain :UseCase ;
+             rdfs:range xsd:boolean ;
+             rdfs:comment "It marks whether the use case is around AI or not."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isBTPUseCase
+:isBTPUseCase rdf:type owl:DatatypeProperty ;
+              rdfs:domain :UseCase ;
+              rdfs:range xsd:boolean ;
+              rdfs:comment "It marks whether the use case involves BTP or not."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isDeleted
+:isDeleted rdf:type owl:DatatypeProperty ;
+           rdfs:domain :SAPServiceRequest ;
+           rdfs:range xsd:boolean ;
+           rdfs:comment "Flag that states if the service request is deleted or not."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isFreeService
+:isFreeService rdf:type owl:DatatypeProperty ;
+               rdfs:domain :SAPService ;
+               rdfs:range xsd:boolean ;
+               rdfs:comment "It marks whether the requested service is paid or free."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/isGSSP
+:isGSSP rdf:type owl:DatatypeProperty ;
+        rdfs:domain :SAPPartner ;
+        rdfs:range xsd:boolean ;
+        rdfs:comment "It marks whether an SAP partner is GSSP (global strategic service partner) or not."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/legalIPOwner
+:legalIPOwner rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Product ;
+              rdfs:range xsd:string ;
+              rdfs:comment "It indicates the legal owner of the intellectual property of a certain product."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/modifiedOnDate
+:modifiedOnDate rdf:type owl:DatatypeProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( :SAPService
+                                            :SAPServiceRequest
+                                          )
+                            ] ;
+                rdfs:range xsd:dateTime ;
+                rdfs:comment "It indicates the date the object was modified (datetime) in the system."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/partnerStatus
+:partnerStatus rdf:type owl:DatatypeProperty ;
+               rdfs:domain :SAPPartner ;
+               rdfs:range xsd:string ;
+               rdfs:comment """It indicates the status of the SAP partner. It can have the following values:
+\"Prospective Partner\"
+\"Active\"
+\"Discontinued\""""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/plannedGoLiveDate
+:plannedGoLiveDate rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :UseCase ;
+                   rdfs:range xsd:date ;
+                   rdfs:comment "It indicates the planned go-live date of the solution (if specified) that the service request helped develop."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/productName
+:productName rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Product ;
+             rdfs:range xsd:string ;
+             rdfs:comment "It indicates the name of the software product."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/productPublicName
+:productPublicName rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :Product ;
+                   rdfs:range xsd:string ;
+                   rdfs:comment "It indicates the public name of the product."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/productType
+:productType rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Product ;
+             rdfs:range xsd:string ;
+             rdfs:comment """It indicates the type of the product. It can be:
+\"SAP Product\"
+\"3rd Party Product\"
+\"Service\"
+\"Users and Unallocated\""""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/requestDate
+:requestDate rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SAPServiceRequest ;
+             rdfs:range xsd:date ;
+             rdfs:comment "It is a property of the service request class. It indicates the date the service request was submitted."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/revenue
+:revenue rdf:type owl:DatatypeProperty ;
+         rdfs:domain :SAPService ;
+         rdfs:range xsd:float ;
+         rdfs:comment "It indicates the revenue earned from the delivery of a certain service."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/solutionArea
+:solutionArea rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Product ;
+              rdfs:range xsd:string ;
+              rdfs:comment """It indicates the solution area of the product. It can have the following values:
+\"HXM\"
+\"BPI\"
+\"BTP\"
+\"S4\"
+\"CX\"
+\"WCM\"
+\"Cross\"
+\"XM\"
+\"ISBN\""""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/solutionSubArea
+:solutionSubArea rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf :solutionArea ;
+                 rdfs:domain :Product ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment """It indicates the solution subarea of the product. It can have the following values:
+\"Business Network\"
+\"Business Process Intelligence\"
+\"Commerce\"
+\"Core HR and Payroll\"
+\"Cross Business Services\"
+\"Customer Data Solutions\"
+\"Database and Data Management\"
+\"Digital Supply Chain\"
+\"ERP for SME\"
+\"Enterprise Cloud Services (IaaS)\"
+\"Experience Management\"
+\"External Workforce\"
+\"Finance, Q2C and Enterprise Mgmt\"
+\"Foundation/Appl. Dev. & Integration\"
+\"IBSO Projects\"
+\"Industry-specific Applications\"
+\"Learning and Talent\"
+\"Marketing\"
+\"Others\"
+\"Planning and Analytics\"
+\"Premium Engagements\"
+\"Procurement\"
+\"Qualtrics EX\"
+\"Sales Performance Management\"
+\"Sales and Services\"
+\"SuccessFactors Cross\"
+\"Taulia\"
+\"Training and Adoption\"
+\"Travel and Expense\""""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/startDate
+:startDate rdf:type owl:DatatypeProperty ;
+           rdfs:domain :SAPService ;
+           rdfs:range xsd:date ;
+           rdfs:comment "It is a property of the service class. It indicates the date the delivery of the requested service began."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/useCaseStatus
+:useCaseStatus rdf:type owl:DatatypeProperty ;
+               rdfs:domain :UseCase ;
+               rdfs:range xsd:string ;
+               rdfs:comment """It indicates the status of the use case associated to the partner service request. It can take on one of the following values:
+'in progress'
+'completed'
+'discontinued'
+'not yet started'""" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/BTPSolutionArchitect
+:BTPSolutionArchitect rdf:type owl:Class ;
+                      rdfs:subClassOf :SAPEmployee ;
+                      owl:disjointWith :COILExpert ;
+                      rdfs:comment "Team of BTP solution architects in SAP who are mandated to coach and guide SAP partners in implementing their solution on BTP."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/COILExpert
+:COILExpert rdf:type owl:Class ;
+            rdfs:subClassOf :SAPEmployee ;
+            rdfs:comment "Class of SAP employees that are member of the SAP Co-Innovation Lab, an SAP organization that helps SAP partners to convert ideas for solutions for intelligent enterprises into working prototypes and from there to market-ready solutions."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/Country
+:Country rdf:type owl:Class ;
+         owl:equivalentClass <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/Country> ;
+         rdfs:comment "Country where the service is delivered or country of provenance of the partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/GTMOutcome
+:GTMOutcome rdf:type owl:Class ;
+            rdfs:comment "Outcome of the Go-to-Market process if there is one related to the service request submitted."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/GTMRoute
+:GTMRoute rdf:type owl:Class ;
+          rdfs:comment "Go-to-Market process expected for the submitted service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/Industry
+:Industry rdf:type owl:Class ;
+          rdfs:comment "Industry to which the use case is related to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/LoB
+:LoB rdf:type owl:Class ;
+     rdfs:comment "Line of businesses the use case is related to."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/NamedIndividual
+:NamedIndividual rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/Product
+:Product rdf:type owl:Class ;
+         rdfs:comment "Software product involved in the use case associated to the partner service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/RequiredSupport
+:RequiredSupport rdf:type owl:Class ;
+                 rdfs:comment "Type of support required for the service."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPAIScenario
+:SAPAIScenario rdf:type owl:Class ;
+               rdfs:comment """Class of the possible AI scenarios in the SAP domain. It can be:
+'Embedded AI'
+'BTP AI'
+'3rd Party AI'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPBTPScenario
+:SAPBTPScenario rdf:type owl:Class ;
+                rdfs:comment """Possible scenario when implementing a solution on SAP BTP. It can be one of the following:
+'Data-to-Value'
+'Extensibility'
+'Integration'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPEmployee
+:SAPEmployee rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://xmlns.com/foaf/0.1/member> ;
+                                   owl:someValuesFrom :SAPOrganization
+                                 ] ;
+             rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Person> ,
+                             <http://xmlns.com/foaf/0.1/Agent> ,
+                             <http://xmlns.com/foaf/0.1/Person> ;
+             owl:disjointWith :SAPPartnerEmployee ;
+             rdfs:comment "Person who is employed by SAP and that is involved in the coaching services."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPOrganization
+:SAPOrganization rdf:type owl:Class ;
+                 rdfs:subClassOf <http://xmlns.com/foaf/0.1/Organization> ;
+                 owl:disjointWith :SAPPartner ;
+                 rdfs:comment "Organized group of people in SAP with a particular purpose"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPPartner
+:SAPPartner rdf:type owl:Class ;
+            rdfs:subClassOf <http://xmlns.com/foaf/0.1/Organization> ;
+            rdfs:comment "Company that is in a certain business relationship with SAP"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPPartnerContact
+:SAPPartnerContact rdf:type owl:Class ;
+                   rdfs:subClassOf :SAPPartnerEmployee ;
+                   rdfs:comment "A partner employee responsible of the service request on the partner side."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPPartnerEmployee
+:SAPPartnerEmployee rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :isEmployedBy ;
+                                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :SAPPartner
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/org#memberOf> ;
+                                          owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :SAPPartner
+                                        ] ;
+                    rdfs:subClassOf <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Person> ,
+                                    <http://xmlns.com/foaf/0.1/Agent> ,
+                                    <http://xmlns.com/foaf/0.1/Person> ;
+                    rdfs:comment "Person employed by an SAP Partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPPartnerType
+:SAPPartnerType rdf:type owl:Class ;
+                rdfs:comment "Type of SAP partner."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPPartnershipType
+:SAPPartnershipType rdf:type owl:Class ;
+                    rdfs:comment "Type of partnership existing between and organization and SAP."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPProgramInitiative
+:SAPProgramInitiative rdf:type owl:Class ;
+                      rdfs:comment "SAP program initiative to which the request is associated."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPRegion
+:SAPRegion rdf:type owl:Class ;
+           rdfs:comment "Class of SAP business regions."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPService
+:SAPService rdf:type owl:Class ;
+            rdfs:comment "Service requested via service request from SAP partner. It is possible that multiple services are associated with the same service request."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPServiceRequest
+:SAPServiceRequest rdf:type owl:Class ;
+                   rdfs:comment "Formal coaching request sent by an SAP partner to SAP. A single request may be used to request multiple services."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPServiceRequestInitiator
+:SAPServiceRequestInitiator rdf:type owl:Class ;
+                            rdfs:comment """Who initiated the service request. It can be:
+'SAP'
+'Customer'
+'Partner'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPServiceType
+:SAPServiceType rdf:type owl:Class ;
+                rdfs:comment "Type of service requested to SAP."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SourceOfRequest
+:SourceOfRequest rdf:type owl:Class ;
+                 rdfs:comment """Channels through which the request can arrive. It can be:
+'PCD E-Mail'
+'PBC request'
+'Internal'
+'Others'"""@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/UseCase
+:UseCase rdf:type owl:Class ;
+         rdfs:comment "Use case attached to the partner service request."@en .
+
+
+###  https://www.omg.org/spec/LCC/Countries/CountryRepresentation/Country
+<https://www.omg.org/spec/LCC/Countries/CountryRepresentation/Country> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology#xxxx.yyyyy@sap.com
+<http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology#xxxx.yyyyy@sap.com> rdf:type owl:NamedIndividual ,
+                                                                                                                  :SAPEmployee ;
+                                                                                                         <http://xmlns.com/foaf/0.1/member> :SAPOrg1 ;
+                                                                                                         <http://xmlns.com/foaf/0.1/name> "xxxx yyyyy" ;
+                                                                                                         <http://xmlns.com/foaf/0.1/mbox> "xxxx.yyyyy@sap.com" .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAP
+:SAP rdf:type owl:NamedIndividual ,
+              <http://xmlns.com/foaf/0.1/Organization> ;
+     rdfs:comment "SAP SE is a European multinational software company based in Walldorf, Baden-Württemberg, Germany. The company is the world's largest vendor of enterprise resource planning (ERP) software."@en .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPOrg1
+:SAPOrg1 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/SAPOrg2
+:SAPOrg2 rdf:type owl:NamedIndividual .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+:x rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :SAPEmployee ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :x
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> <http://xmlns.com/foaf/0.1/member> ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :x ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> :SAPOrg1
+                                                                ] ;
+                                                      rdf:rest rdf:nil
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :BTPSolutionArchitect ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :x
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S2" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :SAPEmployee ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :x
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> <http://xmlns.com/foaf/0.1/member> ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :x ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> :SAPOrg2
+                                                                ] ;
+                                                      rdf:rest rdf:nil
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :COILExpert ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :x
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

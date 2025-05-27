@@ -1,0 +1,1231 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix dbo:   <http://dbpedia.org/ontology/> .
+@prefix dbp:   <http://dbpedia.org/property/> .
+@prefix dbr:   <http://dbpedia.org/resource/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix omg:   <https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:CountrySG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "SG";
+        :hasName             "Singapore" .
+
+:CountryTR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "TR";
+        :hasName             "Turkey" .
+
+:CountryBA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "BA";
+        :hasName             "Bosnia and Herzegovina" .
+
+:CountryBV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "BV";
+        :hasName             "Bouvet Island" .
+
+:CountryCL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "CL";
+        :hasName             "Chile" .
+
+:CountryGN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GN";
+        :hasName             "Guinea" .
+
+:CountryIO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "IO";
+        :hasName             "British Indian Ocean Territory" .
+
+:CountryJE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "JE";
+        :hasName             "Jersey" .
+
+:CountryKP  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion;
+        :countryCode         "KP";
+        :hasName             "Korea, Democratic People'S Republic of" .
+
+:CountryMQ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "MQ";
+        :hasName             "Martinique" .
+
+:CountryNG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "NG";
+        :hasName             "Nigeria" .
+
+:CountryPH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "PH";
+        :hasName             "Philippines" .
+
+:CountryST  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ST";
+        :hasName             "Sao Tome and Principe" .
+
+:CountryTJ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "TJ";
+        :hasName             "Tajikistan" .
+
+:CountryAX  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "AX";
+        :hasName             "Åland Islands" .
+
+:CountryBN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "BN";
+        :hasName             "Brunei Darussalam" .
+
+:CountryCD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CD";
+        :hasName             "Congo, The Democratic Republic of the" .
+
+:CountryCY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CY";
+        :hasName             "Cyprus" .
+
+:CountryDO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "DO";
+        :hasName             "Dominican Republic" .
+
+:CountryEE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "EE";
+        :hasName             "Estonia" .
+
+:CountryZM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ZM";
+        :hasName             "Zambia" .
+
+:CountryGF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GF";
+        :hasName             "French Guiana" .
+
+:CountryKH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "KH";
+        :hasName             "Cambodia" .
+
+:CountryLS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "LS";
+        :hasName             "Lesotho" .
+
+:CountrySL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SL";
+        :hasName             "Sierra Leone" .
+
+:CountryTW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion6;
+        :countryCode         "TW";
+        :hasName             "Taiwan, Province of China" .
+
+:CountryBF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "BF";
+        :hasName             "Burkina Faso" .
+
+:CountryVC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "VC";
+        :hasName             "Saint Vincent and the Grenadines" .
+
+:CountryER  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ER";
+        :hasName             "Eritrea" .
+
+:CountryGS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GS";
+        :hasName             "South Georgia and the South Sandwich Islands" .
+
+:CountryIT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "IT";
+        :hasName             "Italy" .
+
+:CountryLK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "LK";
+        :hasName             "Sri Lanka" .
+
+:CountryMA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MA";
+        :hasName             "Morocco" .
+
+:CountryMV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "MV";
+        :hasName             "Maldives" .
+
+:CountryNL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "NL";
+        :hasName             "Netherlands" .
+
+:CountryPM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "PM";
+        :hasName             "Saint Pierre and Miquelon" .
+
+:CountrySD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SD";
+        :hasName             "Sudan" .
+
+:CountrySY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SY";
+        :hasName             "Syrian Arab Republic" .
+
+:CountryTO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "TO";
+        :hasName             "Tonga" .
+
+:CountryUZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "UZ";
+        :hasName             "Uzbekistan" .
+
+:CountryBS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BS";
+        :hasName             "Bahamas" .
+
+:CountryCI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CI";
+        :hasName             "Cote D'Ivoire" .
+
+:CountryWF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "WF";
+        :hasName             "Wallis and Futuna" .
+
+:CountryIL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "IL";
+        :hasName             "Israel" .
+
+:CountryKM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "KM";
+        :hasName             "Comoros" .
+
+:CountryLC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "LC";
+        :hasName             "Saint Lucia" .
+
+:CountryMN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion6;
+        :countryCode         "MN";
+        :hasName             "Mongolia" .
+
+:CountryPE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "PE";
+        :hasName             "Peru" .
+
+:CountryTG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "TG";
+        :hasName             "Togo" .
+
+:CountryAU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "AU";
+        :hasName             "Australia" .
+
+:CountryCA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion2;
+        :countryCode         "CA";
+        :hasName             "Canada" .
+
+:CountryCV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CV";
+        :hasName             "Cape Verde" .
+
+:CountryWS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "WS";
+        :hasName             "Samoa" .
+
+:CountryYT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "YT";
+        :hasName             "Mayotte" .
+
+:CountryFM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "FM";
+        :hasName             "Micronesia, Federated States of" .
+
+:CountryHN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "HN";
+        :hasName             "Honduras" .
+
+:CountryID  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "ID";
+        :hasName             "Indonesia" .
+
+:CountryJO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "JO";
+        :hasName             "Jordan" .
+
+:CountryKE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "KE";
+        :hasName             "Kenya" .
+
+:CountryKZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "KZ";
+        :hasName             "Kazakhstan" .
+
+:CountryPR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "PR";
+        :hasName             "Puerto Rico" .
+
+:CountryRS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "RS";
+        :hasName             "Serbia" .
+
+:CountrySI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "SI";
+        :hasName             "Slovenia" .
+
+:CountryTT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "TT";
+        :hasName             "Trinidad and Tobago" .
+
+:CountryAM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "AM";
+        :hasName             "Armenia" .
+
+:CountryVU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "VU";
+        :hasName             "Vanuatu" .
+
+:CountryCN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion6;
+        :countryCode         "CN";
+        :hasName             "China" .
+
+:CountryZW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ZW";
+        :hasName             "Zimbabwe" .
+
+:CountryGP  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GP";
+        :hasName             "Guadeloupe" .
+
+:CountryIQ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "IQ";
+        :hasName             "Iraq" .
+
+:CountryKR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "KR";
+        :hasName             "Korea, Republic of" .
+
+:CountryMS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "MS";
+        :hasName             "Montserrat" .
+
+:CountryNI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "NI";
+        :hasName             "Nicaragua" .
+
+:CountrySA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SA";
+        :hasName             "Saudi Arabia" .
+
+:CountrySV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "SV";
+        :hasName             "El Salvador" .
+
+:CountryTL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "TL";
+        :hasName             "Timor-Leste" .
+
+:CountryAE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "AE";
+        :hasName             "United Arab Emirates" .
+
+:CountryAZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "AZ";
+        :hasName             "Azerbaijan" .
+
+:CountryCF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CF";
+        :hasName             "Central African Republic" .
+
+:CountryEG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "EG";
+        :hasName             "Egypt" .
+
+:CountryFR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "FR";
+        :hasName             "France" .
+
+:CountryGH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GH";
+        :hasName             "Ghana" .
+
+:CountryLU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "LU";
+        :hasName             "Luxembourg" .
+
+:CountryMK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "MK";
+        :hasName             "Macedonia, The Former Yugoslav Republic of" .
+
+:CountryNA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "NA";
+        :hasName             "Namibia" .
+
+:CountryPW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "PW";
+        :hasName             "Palau" .
+
+:CountrySN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SN";
+        :hasName             "Senegal" .
+
+:CountryTD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "TD";
+        :hasName             "Chad" .
+
+:CountryAR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "AR";
+        :hasName             "Argentina" .
+
+:CountryBH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "BH";
+        :hasName             "Bahrain" .
+
+:CountryVE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "VE";
+        :hasName             "Venezuela" .
+
+:CountryET  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ET";
+        :hasName             "Ethiopia" .
+
+:CountryFJ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "FJ";
+        :hasName             "Fiji" .
+
+:CountryGU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion2;
+        :countryCode         "GU";
+        :hasName             "Guam" .
+
+:CountryHK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion6;
+        :countryCode         "HK";
+        :hasName             "Hong Kong" .
+
+:CountryKW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "KW";
+        :hasName             "Kuwait" .
+
+:CountryMC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "MC";
+        :hasName             "Monaco" .
+
+:CountryMX  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "MX";
+        :hasName             "Mexico" .
+
+:CountryUG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "UG";
+        :hasName             "Uganda" .
+
+:CountryCK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "CK";
+        :hasName             "Cook Islands" .
+
+:CountryGM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GM";
+        :hasName             "Gambia" .
+
+:CountryIN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "IN";
+        :hasName             "India" .
+
+:CountryMP  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion2;
+        :countryCode         "MP";
+        :hasName             "Northern Mariana Islands" .
+
+:CountryNF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "NF";
+        :hasName             "Norfolk Island" .
+
+:CountryPG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "PG";
+        :hasName             "Papua New Guinea" .
+
+:CountryAW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "AW";
+        :hasName             "Aruba" .
+
+:CountryBM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BM";
+        :hasName             "Bermuda" .
+
+:CountryCC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "CC";
+        :hasName             "Cocos (Keeling) Islands" .
+
+:CountryCX  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "CX";
+        :hasName             "Christmas Island" .
+
+:CountryXK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion;
+        :countryCode         "XK";
+        :hasName             "Kosovo" .
+
+:CountryFO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "FO";
+        :hasName             "Faroe Islands" .
+
+:CountryGE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "GE";
+        :hasName             "Georgia" .
+
+:CountryKG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "KG";
+        :hasName             "Kyrgyzstan" .
+
+:CountryLR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "LR";
+        :hasName             "Liberia" .
+
+:CountryMH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "MH";
+        :hasName             "Marshall Islands" .
+
+:CountryPT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "PT";
+        :hasName             "Portugal" .
+
+:CountryRU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "RU";
+        :hasName             "Russian Federation" .
+
+:CountrySK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "SK";
+        :hasName             "Slovakia" .
+
+:CountryTV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "TV";
+        :hasName             "Tuvalu" .
+
+:CountryAO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "AO";
+        :hasName             "Angola" .
+
+:CountryBE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "BE";
+        :hasName             "Belgium" .
+
+:CountryBZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BZ";
+        :hasName             "Belize" .
+
+:CountryGR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GR";
+        :hasName             "Greece" .
+
+:CountryIS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "IS";
+        :hasName             "Iceland" .
+
+:CountryMU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MU";
+        :hasName             "Mauritius" .
+
+:CountryPL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "PL";
+        :hasName             "Poland" .
+
+:CountrySC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SC";
+        :hasName             "Seychelles" .
+
+:CountryTN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "TN";
+        :hasName             "Tunisia" .
+
+:CountryAG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "AG";
+        :hasName             "Antigua and Barbuda" .
+
+:CountryUY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "UY";
+        :hasName             "Uruguay" .
+
+:CountryBR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BR";
+        :hasName             "Brazil" .
+
+:CountryCH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "CH";
+        :hasName             "Switzerland" .
+
+:CountryHU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "HU";
+        :hasName             "Hungary" .
+
+:CountryLB  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "LB";
+        :hasName             "Lebanon" .
+
+:CountryMM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "MM";
+        :hasName             "Myanmar" .
+
+:CountryNC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "NC";
+        :hasName             "New Caledonia" .
+
+:CountryPY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "PY";
+        :hasName             "Paraguay" .
+
+:CountryRE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "RE";
+        :hasName             "Reunion" .
+
+:CountryTF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "TF";
+        :hasName             "French Southern Territories" .
+
+:CountryAT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "AT";
+        :hasName             "Austria" .
+
+:CountryBJ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "BJ";
+        :hasName             "Benin" .
+
+:CountryVG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "VG";
+        :hasName             "Virgin Islands, British" .
+
+:CountryCU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "CU";
+        :hasName             "Cuba" .
+
+:CountryDK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "DK";
+        :hasName             "Denmark" .
+
+:CountryGB  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GB";
+        :hasName             "United Kingdom" .
+
+:CountryGW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GW";
+        :hasName             "Guinea-Bissau" .
+
+:CountryHM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "HM";
+        :hasName             "Heard Island and Mcdonald Islands" .
+
+:CountryKY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "KY";
+        :hasName             "Cayman Islands" .
+
+:CountryME  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "ME";
+        :hasName             "Montenegro" .
+
+:CountryMZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MZ";
+        :hasName             "Mozambique" .
+
+:CountryNP  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "NP";
+        :hasName             "Nepal" .
+
+:CountrySH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SH";
+        :hasName             "Saint Helena" .
+
+:CountryAL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "AL";
+        :hasName             "Albania" .
+
+:CountryBB  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BB";
+        :hasName             "Barbados" .
+
+:CountryBW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "BW";
+        :hasName             "Botswana" .
+
+:CountryCM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CM";
+        :hasName             "Cameroon" .
+
+:CountryZA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ZA";
+        :hasName             "South Africa" .
+
+:CountryMR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MR";
+        :hasName             "Mauritania" .
+
+:CountryTK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "TK";
+        :hasName             "Tokelau" .
+
+:CountryAD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "AD";
+        :hasName             "Andorra" .
+
+:CountryUA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "UA";
+        :hasName             "Ukraine" .
+
+:CountryBO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "BO";
+        :hasName             "Bolivia" .
+
+:CountryCZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "CZ";
+        :hasName             "Czech Republic" .
+
+:CountryGG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GG";
+        :hasName             "Guernsey" .
+
+:CountryHR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "HR";
+        :hasName             "Croatia" .
+
+:CountryKI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "KI";
+        :hasName             "Kiribati" .
+
+:CountryLT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "LT";
+        :hasName             "Lithuania" .
+
+:CountryNU  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "NU";
+        :hasName             "Niue" .
+
+:CountryPA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "PA";
+        :hasName             "Panama" .
+
+:CountryRW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "RW";
+        :hasName             "Rwanda" .
+
+:CountrySM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SM";
+        :hasName             "San Marino" .
+
+:CountryTC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "TC";
+        :hasName             "Turks and Caicos Islands" .
+
+:CountryAQ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion;
+        :countryCode         "AQ";
+        :hasName             "Antarctica" .
+
+:CountryBG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "BG";
+        :hasName             "Bulgaria" .
+
+:CountryCR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "CR";
+        :hasName             "Costa Rica" .
+
+:CountryES  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ES";
+        :hasName             "Spain" .
+
+:CountryFI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "FI";
+        :hasName             "Finland" .
+
+:CountryGT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "GT";
+        :hasName             "Guatemala" .
+
+:CountryMW  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MW";
+        :hasName             "Malawi" .
+
+:CountryPN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "PN";
+        :hasName             "Pitcairn" .
+
+:CountryRO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "RO";
+        :hasName             "Romania" .
+
+:CountrySE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "SE";
+        :hasName             "Sweden" .
+
+:CountrySZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SZ";
+        :hasName             "Swaziland" .
+
+:CountryAI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "AI";
+        :hasName             "Anguilla" .
+
+:CountryBT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "BT";
+        :hasName             "Bhutan" .
+
+:CountryGL  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "GL";
+        :hasName             "Greenland" .
+
+:CountryIM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "IM";
+        :hasName             "Isle of Man" .
+
+:CountryKN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "KN";
+        :hasName             "Saint Kitts and Nevis" .
+
+:CountryLY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "LY";
+        :hasName             "Libyan Arab Jamahiriya" .
+
+:CountryMO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion6;
+        :countryCode         "MO";
+        :hasName             "Macao" .
+
+:CountryNE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "NE";
+        :hasName             "Niger" .
+
+:CountryNZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "NZ";
+        :hasName             "New Zealand" .
+
+:CountryPF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "PF";
+        :hasName             "French Polynesia" .
+
+:CountrySR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "SR";
+        :hasName             "Suritext" .
+
+:CountryTH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "TH";
+        :hasName             "Thailand" .
+
+:CountryUS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion2;
+        :countryCode         "US";
+        :hasName             "United States" .
+
+:CountryVI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "VI";
+        :hasName             "Virgin Islands, U.S." .
+
+:CountryDM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "DM";
+        :hasName             "Dominica" .
+
+:CountryEC  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "EC";
+        :hasName             "Ecuador" .
+
+:CountryGD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "GD";
+        :hasName             "Grenada" .
+
+:CountryGY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "GY";
+        :hasName             "Guyana" .
+
+:CountryIE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "IE";
+        :hasName             "Ireland" .
+
+:CountryJP  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "JP";
+        :hasName             "Japan" .
+
+:CountryMG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MG";
+        :hasName             "Madagascar" .
+
+:CountryNR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "NR";
+        :hasName             "Nauru" .
+
+:CountryPS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "PS";
+        :hasName             "Palestinian Territory, Occupied" .
+
+:CountrySJ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "SJ";
+        :hasName             "Svalbard and Jan Mayen" .
+
+:CountryAN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "AN";
+        :hasName             "Netherlands Antilles" .
+
+:CountryVA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "VA";
+        :hasName             "Holy See (Vatican City State)" .
+
+:CountryBD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "BD";
+        :hasName             "Bangladesh" .
+
+:CountryBY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "BY";
+        :hasName             "Belarus" .
+
+:CountryDE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "DE";
+        :hasName             "Germany" .
+
+:CountryDZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "DZ";
+        :hasName             "Algeria" .
+
+:CountryCO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "CO";
+        :hasName             "Colombia" .
+
+:CountryGQ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GQ";
+        :hasName             "Equatorial Guinea" .
+
+:CountryIR  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "IR";
+        :hasName             "Iran, Islamic Republic Of" .
+
+:CountryLI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "LI";
+        :hasName             "Liechtenstein" .
+
+:CountryMT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "MT";
+        :hasName             "Malta" .
+
+:CountryPK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "PK";
+        :hasName             "Pakistan" .
+
+:CountryQA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "QA";
+        :hasName             "Qatar" .
+
+:CountrySB  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "SB";
+        :hasName             "Solomon Islands" .
+
+:CountryTM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "TM";
+        :hasName             "Turkmenistan" .
+
+:CountryAF  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "AF";
+        :hasName             "Afghanistan" .
+
+:CountryVN  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "VN";
+        :hasName             "Viet Nam" .
+
+:CountryCG  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "CG";
+        :hasName             "Congo" .
+
+:CountryYE  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "YE";
+        :hasName             "Yemen" .
+
+:CountryEH  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "EH";
+        :hasName             "Western Sahara" .
+
+:CountryGI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GI";
+        :hasName             "Gibraltar" .
+
+:CountryHT  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "HT";
+        :hasName             "Haiti" .
+
+:CountryLA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "LA";
+        :hasName             "Lao People'S Democratic Republic" .
+
+:CountryLV  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "LV";
+        :hasName             "Latvia" .
+
+:CountryML  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "ML";
+        :hasName             "Mali" .
+
+:CountryOM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "OM";
+        :hasName             "Oman" .
+
+:CountrySO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "SO";
+        :hasName             "Somalia" .
+
+:CountryTZ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "TZ";
+        :hasName             "Tanzania, United Republic of" .
+
+:CountryAS  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion2;
+        :countryCode         "AS";
+        :hasName             "American Samoa" .
+
+:CountryBI  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "BI";
+        :hasName             "Burundi" .
+
+:CountryDJ  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "DJ";
+        :hasName             "Djibouti" .
+
+:CountryFK  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "FK";
+        :hasName             "Falkland Islands (Malvinas)" .
+
+:CountryGA  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion4;
+        :countryCode         "GA";
+        :hasName             "Gabon" .
+
+:CountryJM  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion3;
+        :countryCode         "JM";
+        :hasName             "Jamaica" .
+
+:CountryMD  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion1;
+        :countryCode         "MD";
+        :hasName             "Moldova, Republic of" .
+
+:CountryMY  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion7;
+        :countryCode         "MY";
+        :hasName             "Malaysia" .
+
+:CountryNO  rdf:type         :NamedIndividual , :Country;
+        :belongsToSAPRegion  :SAPRegion5;
+        :countryCode         "NO";
+        :hasName             "Norway" .

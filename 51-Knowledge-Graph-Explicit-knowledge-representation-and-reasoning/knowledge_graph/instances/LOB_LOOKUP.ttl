@@ -1,0 +1,211 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:LoB27  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Healthcare";
+        :hasName   "Patient Experience" .
+
+:LoB6   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Manufacturing" .
+
+:LoB14  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Aerospace and Defense";
+        :hasName   "Maintenance and Engineering" .
+
+:LoB42  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Public Sector";
+        :hasName   "Tax and Revenue Management" .
+
+:LoB48  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Utilities";
+        :hasName   "Metering" .
+
+:LoB35  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Oil and Gas";
+        :hasName   "Operations" .
+
+:LoB22  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Defense and Security";
+        :hasName   "Military Supply Chain" .
+
+:LoB1   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Asset Management" .
+
+:LoB50  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Wholesale Distribution";
+        :hasName   "Trade Management" .
+
+:LoB28  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Higher Education and Research";
+        :hasName   "Grants Management" .
+
+:LoB7   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Marketing" .
+
+:LoB15  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Aerospace and Defense";
+        :hasName   "Program Planning and Delivery" .
+
+:LoB43  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Retail";
+        :hasName   "Customer Interaction, Merchandising" .
+
+:LoB30  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Higher Education and Research";
+        :hasName   "Research Management" .
+
+:LoB49  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Utilities";
+        :hasName   "Plant Operations and Maintenance" .
+
+:LoB36  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Professional Services";
+        :hasName   "Business Service Management" .
+
+:LoB23  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Engineering, Construction and Operation";
+        :hasName   "Operations" .
+
+:LoB2   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Commerce" .
+
+:LoB10  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Service" .
+
+:LoB29  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Higher Education and Research";
+        :hasName   "Fundraising Management & Institutional Development" .
+
+:LoB8   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "R&D / Engineering" .
+
+:LoB16  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Banking";
+        :hasName   "Banking Operations" .
+
+:LoB44  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Telecommunications";
+        :hasName   "Innovative Service Offerings for Telecommunications" .
+
+:LoB31  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Higher Education and Research";
+        :hasName   "Student Information Services" .
+
+:LoB37  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Professional Services";
+        :hasName   "Project and Engagement Management" .
+
+:LoB24  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Healthcare";
+        :hasName   "Care Collaboration" .
+
+:LoB3   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Finance" .
+
+:LoB11  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Sourcing and Procurement" .
+
+:LoB9   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Sales" .
+
+:LoB17  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Banking";
+        :hasName   "Customer Channels" .
+
+:LoB45  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Travel and Transportation";
+        :hasName   "Maintenance and Engineering" .
+
+:LoB32  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Insurance ";
+        :hasName   "Operations" .
+
+:LoB38  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Public Sector";
+        :hasName   "Grants Management" .
+
+:LoB25  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Healthcare";
+        :hasName   "Clinical Delivery" .
+
+:LoB4   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Human Resources" .
+
+:LoB12  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Supply Chain Management" .
+
+:LoB40  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Public Sector";
+        :hasName   "Risk and Compliance" .
+
+:LoB18  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Banking";
+        :hasName   "Risk and Compliance" .
+
+:LoB46  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Travel and Transportation";
+        :hasName   "Operations" .
+
+:LoB33  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Media";
+        :hasName   "Job Management" .
+
+:LoB20  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Defense and Security";
+        :hasName   "Maintenance and Engineering" .
+
+:LoB39  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Public Sector";
+        :hasName   "Public Security" .
+
+:LoB26  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Healthcare";
+        :hasName   "Healthcare Analytics and Research" .
+
+:LoB5   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "IT" .
+
+:LoB13  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Cross-Industry";
+        :hasName   "Sustainability" .
+
+:LoB41  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Public Sector";
+        :hasName   "Social Services" .
+
+:LoB19  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Banking";
+        :hasName   "Sales and Service" .
+
+:LoB47  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Utilities";
+        :hasName   "Grid Operations and Maintenance" .
+
+:LoB34  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Media";
+        :hasName   "Rights and Royalties" .
+
+:LoB21  rdf:type   owl:NamedIndividual , :LoB;
+        :category  "Defense and Security";
+        :hasName   "Military Planning and Operations" .
+
+:LoB0   rdf:type   owl:NamedIndividual , :LoB;
+        :category  "None";
+        :hasName   "none" .

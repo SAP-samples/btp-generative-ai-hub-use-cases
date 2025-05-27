@@ -1,0 +1,40 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:GTMOutcome8  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "Industry Cloud" .
+
+:GTMOutcome3  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "SAP Store (endorsed)" .
+
+:GTMOutcome10  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "Other" .
+
+:GTMOutcome5  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "QPPS" .
+
+:GTMOutcome7  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "Use case repository" .
+
+:GTMOutcome2  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "SAP Store (spotlight)" .
+
+:GTMOutcome9  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "Validated Partner Use Case - VPUC" .
+
+:GTMOutcome4  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "SAP Store (Solex)" .
+
+:GTMOutcome11  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "To be decided" .
+
+:GTMOutcome6  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "Customer project" .
+
+:GTMOutcome1  rdf:type  owl:NamedIndividual , :GTMOutcome;
+        :hasName  "SAP Store (validated)" .

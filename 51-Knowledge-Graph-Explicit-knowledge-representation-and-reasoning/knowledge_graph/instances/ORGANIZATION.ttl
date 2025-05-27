@@ -1,0 +1,19 @@
+@prefix :      <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+:SAPOrg1  rdf:type          :SAPOrganization;
+        rdf:tye             owl:NamedIndividual;
+        :hasDescription     "The team provides solution architecture guidance and clarity on technical SAP BTP related topics to SAP partners with concrete use cases. The final purpose is to help accelerate the realization of their use case.";
+        :hasName            "BTP Solution Architect Team";
+        :responsiblePerson  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/gianluigi.bagnoli@sap.com> .
+
+:SAPOrg2  rdf:type          :SAPOrganization;
+        rdf:tye             owl:NamedIndividual;
+        :hasDescription     "COIL works together with SAP partners to extend and integrate SAP applications to meet unique organizational needs and digitalize business processes.\nCOIL helps SAP partners to convert ideas and solutions for intelligent enterprises into working prototypes and from there to market-ready solutions.";
+        :hasName            "Co-Innovation Lab";
+        :responsiblePerson  <http://www.semanticweb.org/ontologies/2025/smart-technical-advisory-ontology/rudolf.held@sap.com> .
