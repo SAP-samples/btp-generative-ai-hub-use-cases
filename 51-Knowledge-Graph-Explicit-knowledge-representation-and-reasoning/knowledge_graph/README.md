@@ -5,4 +5,4 @@ All the files are provided in Turtle serialization and needs to be loaded into t
 
 # Upload triples to the HANA Cloud Knowledge Graph Engine
 
-Files need to be in Turtle serialization to be uploaded. One approach is to use the python interface and load the files one by one. It is possible to load all the triples into one graph or more than one. Please, refer to the Jupyter notebook.
+Files need to be in Turtle serialization to be uploaded. One approach is to use the python interface and load the files one by one. It is possible to load all the triples into one graph or more than one. Please, refer to the [realtive Jupyter notebook]{./notebooks/load_triples_to_kge.ipynb}.
