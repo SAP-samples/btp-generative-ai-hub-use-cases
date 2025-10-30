@@ -41,12 +41,12 @@ The `app.js` proxy handles all complex authentication and API calls, allowing an
 
 ## 2. Business Scenario
 
-[<img src="../doc/img/business_scenario.png"/>](../doc/img/business_scenario.png)
+[<img src="../.github/assets/business_scenario.png"/>](../.github/assets/business_scenario.png)
 
 The business scenario begins when a traveler, **Mary**, subscribes to a course on the Vertigo Travels website. This action creates a pre-subscription in the Vertigo Travel BTP Extension, which stores her information and documents. A back-office employee, **Barry**, then reviews these documents. If the documents are all good, the subscription is finalized, customer information is posted to SAP S/4HANA Cloud, and an invoice is generated. If documents are missing, Mary receives an automated email reminder.
 
 ## 3. Solution Architecture
-[<img src="../doc/img/solution_architecture.png"/>](../doc/img/solution_architecture.png)
+[<img src="../.github/assets/solution_architecture.png"/>](../.github/assets/solution_architecture.png)
 The diagram illustrates the complete solution architecture, showing how this Node.js UI application acts as the "head" for a collection of backend services on SAP BTP.
 
 
