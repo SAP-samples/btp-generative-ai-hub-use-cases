@@ -1,0 +1,2748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertigo Travels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --brand-primary: #4f46e5;
+      /* Indigo 600 */
+      --brand-secondary: #10b981;
+      /* Emerald 500 */
+      --brand-light: #f0f2f5;
+      --brand-dark: #1f2937;
+      /* Gray 800 */
+      --text-dark: #374151;
+      /* Gray 700 */
+      --text-light: #6b7280;
+      /* Gray 500 */
+    }
+
+    /* --- Base Styles --- */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--brand-light);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* --- Improved Card Styling --- */
+    .cool-card {
+      background-color: white;
+      border-radius: 1rem;
+      /* Softer corners */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease-in-out;
+      border: 1px solid #e5e7eb;
+    }
+
+    .cool-card:hover:not(.non-clickable) {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07), 0 6px 6px rgba(0, 0, 0, 0.07);
+    }
+
+    /* --- Modern Button Styles --- */
+    .cool-button {
+      border-radius: 0.5rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .cool-button-primary {
+      background-color: var(--brand-primary);
+      color: white;
+    }
+
+    .cool-button-primary:hover {
+      background-color: #4338ca;
+      /* Darker Indigo */
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(79, 70, 229, 0.2);
+    }
+
+    .cool-button-secondary {
+      background-color: #e5e7eb;
+      color: var(--text-dark);
+      border-color: #d1d5db;
+    }
+
+    .cool-button-secondary:hover {
+      background-color: #d1d5db;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* --- Styled Inputs & Selects --- */
+    .cool-input {
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .cool-input:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    /* --- Header Styling --- */
+    .cool-header {
+      background-color: #ffffff;
+      color: var(--text-dark);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .cool-header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    /* --- Main Container --- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* --- Custom Message Box --- */
+    .message-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      text-align: center;
+      animation: fadeIn 0.3s ease-out;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    /* *** FIX: Added flex properties to center the spinner *** */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* --- Spinner for Processing Overlay --- */
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid #fff;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    details>summary {
+      list-style: none;
+    }
+
+    details>summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details[open] summary .fa-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    .ocr-box {
+      position: absolute;
+      border: 1px solid rgba(255, 0, 0, 0.7);
+      background-color: rgba(255, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .ocr-box:hover {
+      background-color: rgba(255, 0, 0, 0.4);
+    }
+
+    .ocr-box.active {
+      border: 2px solid #4f46e5;
+      /* --brand-primary */
+      background-color: rgba(79, 70, 229, 0.3);
+    }
+
+    /* Styles for Notification System */
+    .notification-item {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.2s;
+    }
+
+    .notification-item:hover {
+      background-color: #f9fafb;
+    }
+
+    .notification-item.unread {
+      background-color: #eff6ff;
+      /* A light blue to indicate unread */
+    }
+
+    .notification-item p {
+      font-size: 0.875rem;
+      color: #374151;
+      margin-bottom: 0.25rem;
+    }
+
+    .notification-item .timestamp {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <header class="cool-header shadow-sm p-4 sticky top-0 bg-white z-50 hidden">
+    <div class="container flex flex-col md:flex-row md:justify-between items-center space-y-4 md:space-y-0">
+      <h1 class="cool-header-title">Vertigo Travels</h1>
+      <div class="md:hidden">
+        <button id="hamburger-btn" class="cool-button bg-white p-2 h-10 w-10 flex items-center justify-center">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <nav id="mobile-menu"
+        class="hidden md:flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto absolute md:relative top-full left-0 bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0 mt-2 md:mt-0">
+        <div class="relative w-full md:w-auto">
+          <button id="traveler-select-btn"
+            class="cool-button bg-white hover:bg-gray-100 text-gray-700 w-full md:w-48 flex items-center justify-between">
+            <span id="traveler-select-text">Select Traveler...</span>
+            <i class="fas fa-chevron-down text-xs ml-2"></i>
+          </button>
+          <div id="traveler-select-dropdown"
+            class="absolute hidden bg-white text-gray-800 rounded-md shadow-lg py-2 mt-2 w-full right-0 z-10 border border-gray-100">
+          </div>
+        </div>
+        <button id="nav-courses-btn"
+          class="cool-button bg-white hover:bg-gray-100 text-gray-700 w-full md:w-auto">Courses</button>
+
+        <div class="relative w-full md:w-auto">
+          <button id="nav-traveler-btn"
+            class="cool-button bg-white hover:bg-gray-100 text-gray-700 w-full md:w-auto flex items-center justify-center">
+            My Account <i class="fas fa-chevron-down text-xs ml-2"></i>
+          </button>
+          <div id="traveler-dropdown"
+            class="absolute hidden bg-white text-gray-800 rounded-md shadow-lg py-2 mt-2 w-full md:w-48 right-0 z-10 border border-gray-100">
+            <button id="nav-my-profile-btn" class="block px-4 py-2 w-full text-left hover:bg-gray-100">My
+              Profile</button>
+            <button id="nav-subscriptions-btn" class="block px-4 py-2 w-full text-left hover:bg-gray-100">My
+              Subscriptions</button>
+          </div>
+        </div>
+
+        <div class="relative w-full md:w-auto">
+          <button id="nav-admin-btn"
+            class="cool-button bg-gray-700 text-white hover:bg-gray-800 w-full md:w-auto flex items-center justify-center">
+            Admin <i class="fas fa-chevron-down text-xs ml-2"></i>
+          </button>
+          <div id="admin-dropdown"
+            class="absolute hidden bg-white text-gray-800 rounded-md shadow-lg py-2 mt-2 w-full md:w-56 right-0 z-10 border border-gray-100">
+            <button id="nav-admin-manage-travelers-btn"
+              class="block px-4 py-2 w-full text-left hover:bg-gray-100">Manage Travelers</button>
+            <button id="nav-admin-courses-btn" class="block px-4 py-2 w-full text-left hover:bg-gray-100">Manage
+              Courses</button>
+            <button id="nav-admin-manage-subscriptions-btn"
+              class="block px-4 py-2 w-full text-left hover:bg-gray-100">Manage Subscriptions</button>
+            <button id="nav-admin-pending-docs-btn" class="block px-4 py-2 w-full text-left hover:bg-gray-100">Review
+              Documents</button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div id="toast-container"
+    class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 space-y-2 flex flex-col items-center">
+  </div>
+
+  <main id="app-container" class="container mt-8">
+  </main>
+
+  <div id="message-overlay" class="overlay hidden"></div>
+  <div id="message-box" class="message-box hidden">
+    <p id="message-text" class="mb-4 text-lg"></p>
+    <button id="message-ok-btn" class="cool-button cool-button-primary w-full">OK</button>
+  </div>
+
+  <div id="processing-overlay" class="overlay hidden" style="background-color: rgba(0, 0, 0, 0.75); z-index: 1001;">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="doc-review-overlay" class="overlay hidden" style="z-index: 999;"></div>
+  <div id="doc-review-modal" class="message-box hidden w-11/12 md:w-3/4 max-w-4xl"
+    style="z-index: 1000; max-height: 90vh; overflow-y: auto;">
+    <div class="flex justify-between items-start">
+      <h3 id="doc-modal-title" class="text-xl font-bold mb-4">Review Document</h3>
+      <button id="doc-modal-close-btn" class="text-gray-400 hover:text-gray-600">&times;</button>
+    </div>
+
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+        <button id="doc-tab-btn-basic"
+          class="doc-tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-indigo-500 text-indigo-600">
+          Basic View
+        </button>
+        <button id="doc-tab-btn-advanced"
+          class="doc-tab-btn whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
+          Advanced OCR Data
+        </button>
+      </nav>
+    </div>
+
+    <div class="mt-4">
+      <div id="doc-tab-content-basic" class="doc-tab-content">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="text-left">
+            <h4 class="font-semibold mb-2">Document Details</h4>
+            <div class="space-y-2 text-sm bg-gray-50 p-4 rounded-md">
+              <p><strong>Document ID:</strong> <span id="doc-modal-documentid"></span></p>
+              <p><strong>File Name:</strong> <span id="doc-modal-filename"></span></p>
+              <p><strong>Document Type:</strong> <span id="doc-modal-doctype"></span></p>
+              <p><strong>MIME Type:</strong> <span id="doc-modal-mimetype"></span></p>
+              <p><strong>Status:</strong> <span id="doc-modal-status"></span></p>
+            </div>
+            <div class="mt-4">
+              <h4 class="font-semibold mb-2">Extracted Data</h4>
+              <div id="doc-modal-extracteddata"
+                class="bg-gray-100 p-4 rounded-md min-h-[100px] text-sm text-gray-700 whitespace-pre-wrap font-mono overflow-auto"
+                style="max-height: 200px;">
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">Document Preview</h4>
+            <div id="doc-preview-container"
+              class="bg-gray-100 rounded-md min-h-[200px] text-gray-500 flex justify-center items-center overflow-hidden">
+              <p>Loading document preview...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="doc-tab-content-advanced" class="doc-tab-content hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative" id="advanced-preview-container">
+            <p class="text-center text-gray-500">Loading interactive preview...</p>
+          </div>
+          <div class="text-left">
+            <h4 class="font-semibold mb-2">Word Details</h4>
+            <div id="advanced-data-display"
+              class="bg-gray-100 p-4 rounded-md min-h-[100px] text-gray-500 flex justify-center items-center">
+              <p>Click on a red box to see details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="payment-overlay" class="overlay hidden"></div>
+  <div id="payment-modal" class="message-box hidden w-11/12 max-w-md">
+    <h3 class="text-2xl font-bold mb-4">Confirm Payment</h3>
+
+    <div class="bg-gray-50 p-4 rounded-lg text-left mb-4 border">
+      <h4 class="font-semibold mb-2">Booking Summary</h4>
+      <div class="space-y-1 text-sm">
+        <div class="flex justify-between"><span>Course:</span><strong id="payment-course-name"></strong></div>
+        <div class="flex justify-between"><span>Payment For:</span><strong id="payment-type"></strong></div>
+        <div class="flex justify-between border-t pt-2 mt-2"><span>Amount Due:</span><strong id="payment-amount"
+            class="text-xl text-indigo-600"></strong></div>
+      </div>
+    </div>
+
+    <div class="text-left space-y-3 mb-4">
+      <h4 class="font-semibold">Payment Details</h4>
+      <div>
+        <label class="text-xs">Card Number</label>
+        <input type="text" class="cool-input w-full" placeholder="**** **** **** 1234" value="**** **** **** 4242">
+      </div>
+      <div class="flex space-x-3">
+        <div class="flex-1">
+          <label class="text-xs">Expiry Date</label>
+          <input type="text" class="cool-input w-full" placeholder="MM/YY" value="12/28">
+        </div>
+        <div class="flex-1">
+          <label class="text-xs">CVC</label>
+          <input type="text" class="cool-input w-full" placeholder="123" value="***">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-xs text-gray-500 bg-gray-100 p-2 rounded-md mb-6">
+      <p><strong>Privacy Notice:</strong> By proceeding, you acknowledge that all documents submitted are protected
+        under the PDPA privacy act. Please ensure all information is accurate.</p>
+    </div>
+
+    <div class="flex flex-col-reverse sm:flex-row sm:space-x-3 space-y-2 space-y-reverse sm:space-y-0">
+      <button id="payment-cancel-btn" class="cool-button cool-button-secondary w-full">Cancel</button>
+      <button id="payment-confirm-btn" class="cool-button cool-button-primary w-full">Pay Now</button>
+    </div>
+  </div>
+
+  <div id="floating-traveler-container" class="fixed top-4 left-4 z-50 hidden">
+    <div class="relative">
+      <button id="floating-traveler-btn"
+        class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-colors focus:outline-none">
+        <span id="floating-traveler-initials" class="font-bold text-lg">T</span>
+      </button>
+
+      <div id="floating-traveler-dropdown"
+        class="absolute hidden bg-white text-gray-800 rounded-md shadow-xl py-2 mt-2 w-48 left-0 z-10 border border-gray-100">
+        <div class="px-4 py-2 text-sm text-gray-500 border-b mb-1">Select Traveler:</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notification-bell-container" class="fixed top-4 right-4 z-50">
+    <button id="notification-bell" class="relative text-gray-600 hover:text-indigo-600 focus:outline-none">
+      <i class="fas fa-bell fa-lg"></i>
+      <span id="notification-count"
+        class="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-600 text-white text-xs flex items-center justify-center hidden">0</span>
+    </button>
+    <div id="notification-panel"
+      class="absolute hidden bg-white rounded-md shadow-xl mt-2 w-80 right-0 z-20 border border-gray-200">
+      <div class="p-3 flex justify-between items-center border-b">
+        <h4 class="font-semibold text-gray-800">Notifications</h4>
+        <button id="mark-all-read-btn" class="text-sm text-indigo-600 hover:underline">Mark all as read</button>
+      </div>
+      <div id="notification-list" class="max-h-96 overflow-y-auto">
+      </div>
+    </div>
+  </div>
+
+  <div id="notification-modal-overlay" class="overlay hidden"></div>
+  <div id="notification-modal" class="message-box hidden w-11/12 max-w-lg">
+    <h3 class="text-xl font-bold mb-4">Notification Details</h3>
+    <div id="notification-modal-content" class="text-left bg-gray-50 p-4 rounded-md space-y-2">
+      <p id="notification-modal-message" class="whitespace-pre-wrap"></p>
+      <p class="text-xs text-gray-500"><strong>Received:</strong> <span id="notification-modal-timestamp"></span></p>
+    </div>
+    <button id="notification-modal-close-btn" class="cool-button cool-button-secondary mt-6 w-full">Close</button>
+  </div>
+
+
+  <script>
+    const state = {
+      currentView: 'coursesCatalog',
+      selectedCourse: null,
+      courses: [],
+      subscriptions: [],
+      travelers: [],
+      adminCourses: [],
+      isAuthenticated: false,
+      accessToken: null,
+      selectedTravelerId: null,
+      xsuaaTokenEndpoint: null,
+      xsuaaTokenCID: null,
+      xsuaaTokenCSECRET: null,
+      backendCDSCAPEndpoint: null,
+      s4Endpoint: null,
+      schemaDocuments: [],
+      docAIEndpoint: null,
+      notifications: [],
+      lastSubscriptionCheck: new Set(), // Using a Set for efficient ID lookup
+      notificationInterval: 10000 // Configurable: 10 seconds
+    };
+
+    const updateSelectedTraveler = (id, name) => {
+      state.selectedTravelerId = id;
+      const travelerSelectText = document.getElementById('traveler-select-text');
+      if (travelerSelectText) {
+        travelerSelectText.textContent = name;
+      }
+      showMessage(`Switched to traveler: ${name}`, 'info');
+
+      // Check which view is currently active to re-render the correct list
+      if (document.querySelector('#subscription-list')) {
+        // Assuming renderManageSubscriptions is also at the higher scope
+        renderManageSubscriptions();
+      } else if (document.querySelector('#profile-form')) {
+        // Assuming renderMyProfile is also at the higher scope
+        renderMyProfile();
+      }
+    };
+
+    /**
+ * Displays a toast notification that fades out automatically.
+ * @param {string} message The message content to display.
+ * @param {string} type The type of message (e.g., 'success', 'error', 'info').
+ */
+    function showMessage(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return console.error("Toast container not found.");
+
+      // Determine color class based on type
+      let colorClass = 'bg-blue-500';
+      switch (type.toLowerCase()) {
+        case 'success':
+          colorClass = 'bg-green-500';
+          break;
+        case 'error':
+          colorClass = 'bg-red-500';
+          break;
+        case 'warning':
+          colorClass = 'bg-yellow-500';
+          break;
+        default:
+          colorClass = 'bg-gray-700';
+          break;
+      }
+
+      // Create the toast element
+      const toast = document.createElement('div');
+      toast.className = `p-3 rounded-md shadow-lg text-white ${colorClass} transition-opacity duration-500 opacity-0 text-center`;
+      toast.textContent = message;
+
+      // Append to container and fade in
+      container.appendChild(toast);
+
+      // Use a small timeout to allow the browser to paint the element before setting opacity
+      setTimeout(() => {
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+      }, 10); // 10ms delay
+
+      // Set timeout to fade out and remove (e.g., after 4 seconds)
+      const displayDuration = 4000;
+
+      setTimeout(() => {
+        // Start fade out animation
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+
+        // Remove element completely after fade out completes (500ms duration)
+        setTimeout(() => {
+          container.removeChild(toast);
+        }, 500);
+      }, displayDuration);
+    }
+
+    function showProcessingOverlay() {
+      document.getElementById('processing-overlay').classList.remove('hidden');
+    }
+
+    function hideProcessingOverlay() {
+      document.getElementById('processing-overlay').classList.add('hidden');
+    }
+
+    // A new helper function for switching tabs in the modal
+    function switchDocModalTab(tabName) {
+      // Hide all content panes
+      document.querySelectorAll('.doc-tab-content').forEach(el => el.classList.add('hidden'));
+      // Deactivate all tab buttons
+      document.querySelectorAll('.doc-tab-btn').forEach(el => {
+        el.classList.remove('border-indigo-500', 'text-indigo-600');
+        el.classList.add('border-transparent', 'text-gray-500');
+      });
+
+      // Show the target pane and activate the target button
+      const tabContent = document.getElementById(`doc-tab-content-${tabName}`);
+      const tabButton = document.getElementById(`doc-tab-btn-${tabName}`);
+      if (tabContent) tabContent.classList.remove('hidden');
+      if (tabButton) tabButton.classList.add('border-indigo-500', 'text-indigo-600');
+
+      // --- Draw boxes ONLY when the advanced tab is switched to ---
+      if (tabName === 'advanced') {
+        const modal = document.getElementById('doc-review-modal');
+        const advancedContainer = document.getElementById('advanced-preview-container');
+        const hasBeenDrawn = advancedContainer.querySelector('.ocr-box'); // Check if boxes exist
+
+        // Only draw if data is ready and boxes haven't been drawn yet
+        if (modal.ocrData && !hasBeenDrawn) {
+          const ocrData = modal.ocrData;
+          const advancedImage = advancedContainer.querySelector('img');
+
+          if (advancedImage && advancedImage.clientWidth > 0) {
+            const originalWidth = ocrData.result[0].image_size[0];
+            const displayWidth = advancedImage.clientWidth;
+            const scale = displayWidth / originalWidth;
+
+            (ocrData.result[0].line_boxes || []).forEach(line => {
+              (line.word_boxes || []).forEach(word => {
+                const bbox = word.bbox;
+                const box = document.createElement('div');
+                box.className = 'ocr-box';
+
+                box.style.left = `${bbox[0][0] * scale}px`;
+                box.style.top = `${bbox[0][1] * scale}px`;
+                box.style.width = `${(bbox[1][0] - bbox[0][0]) * scale}px`;
+                box.style.height = `${(bbox[2][1] - bbox[1][1]) * scale}px`;
+
+                box.dataset.content = word.content;
+                box.dataset.confidence = (word.confidence * 100).toFixed(2);
+
+                box.addEventListener('click', () => {
+                  const currentActive = advancedContainer.querySelector('.ocr-box.active');
+                  if (currentActive) currentActive.classList.remove('active');
+                  box.classList.add('active');
+
+                  document.getElementById('advanced-data-display').innerHTML = `
+                                <div class="text-left w-full">
+                                    <p class="text-lg"><strong>Content:</strong> <span class="font-mono">${box.dataset.content}</span></p>
+                                    <p class="text-lg"><strong>Confidence:</strong> <span class="font-mono">${box.dataset.confidence}%</span></p>
+                                </div>
+                            `;
+                });
+                advancedContainer.appendChild(box);
+              });
+            });
+          }
+        }
+      }
+    }
+
+    async function showDocumentDetails(details) {
+      const modal = document.getElementById('doc-review-modal');
+      const overlay = document.getElementById('doc-review-overlay');
+
+      // --- Clear old data from the modal element ---
+      delete modal.ocrData;
+
+      // Reset to the basic tab every time the modal opens
+      switchDocModalTab('basic');
+
+      modal.classList.remove('hidden');
+      overlay.classList.remove('hidden');
+
+      document.getElementById('doc-modal-title').textContent = 'Loading Document...';
+      document.getElementById('doc-modal-documentid').textContent = details.documentID;
+      document.getElementById('doc-modal-filename').textContent = details.fileName;
+      document.getElementById('doc-modal-doctype').textContent = details.docType;
+      document.getElementById('doc-modal-mimetype').textContent = details.mimeType;
+      document.getElementById('doc-modal-status').textContent = details.status;
+      document.getElementById('doc-modal-extracteddata').textContent = 'Loading...';
+      document.getElementById('doc-preview-container').innerHTML = '<p class="text-center text-gray-500">Loading document preview...</p>';
+      document.getElementById('advanced-preview-container').innerHTML = '<p class="text-center text-gray-500">Loading interactive preview...</p>';
+      document.getElementById('advanced-data-display').innerHTML = '<p>Click on a red box to see details.</p>';
+
+      try {
+        const [ocrResponse, textResponse] = await Promise.all([
+          ApiService.getOcrResponse(details.documentID),
+          ApiService.getTextResponse(details.documentID)
+        ]);
+
+        const ocrData = ocrResponse.ocrResponse;
+        const textValue = textResponse.value;
+        const base64Image = ocrData.images[0];
+
+        // --- Store the OCR data on the modal element for later use ---
+        modal.ocrData = ocrData;
+
+        document.getElementById('doc-modal-title').textContent = 'Review Document';
+
+        // --- Populate Basic Tab ---
+        document.getElementById('doc-modal-extracteddata').textContent = textValue;
+        const basicImageHtml = `<img src="data:image/${ocrData.image_format};base64,${base64Image}" alt="Document Image" class="rounded-md max-w-full max-h-full">`;
+        document.getElementById('doc-preview-container').innerHTML = basicImageHtml;
+
+        // --- Prepare Advanced Tab (just the image, no boxes yet) ---
+        const advancedContainer = document.getElementById('advanced-preview-container');
+        const advancedImageHtml = `<img src="data:image/${ocrData.image_format};base64,${base64Image}" alt="Interactive Document Preview" class="rounded-md w-full">`;
+        advancedContainer.innerHTML = advancedImageHtml;
+
+        // Update document status
+        try {
+          await ApiService.updateSubmittedDocuments(details.ID, 'Uploaded', textValue);
+          console.log('Successfully updated document status and data via API.');
+        } catch (updateError) {
+          console.error('Failed to update document via API:', updateError);
+          showMessage('An error occurred while updating the document status. Check the console for details.', 'error');
+        }
+      } catch (error) {
+        console.error("Failed to fetch document details:", error);
+        document.getElementById('doc-modal-title').textContent = 'Error Loading Document';
+        document.getElementById('doc-preview-container').innerHTML = '<p class="text-center text-red-500">Failed to load document data. Please try again.</p>';
+        document.getElementById('advanced-preview-container').innerHTML = '<p class="text-center text-red-500">Failed to load document data.</p>';
+      }
+    }
+
+    function closeDocumentModal() {
+      const modal = document.getElementById('doc-review-modal');
+      const overlay = document.getElementById('doc-review-overlay');
+      modal.classList.add('hidden');
+      overlay.classList.add('hidden');
+
+      // --- Clean up the stored OCR data ---
+      delete modal.ocrData;
+
+      // --- Clear the advanced view to ensure it redraws next time ---
+      document.getElementById('advanced-preview-container').innerHTML = '';
+    }
+
+    // --- Payment Modal Functions ---
+    let processPaymentCallback = () => { }; // To store the payment action
+
+    function openPaymentModal(details) {
+      document.getElementById('payment-course-name').textContent = details.courseName;
+      document.getElementById('payment-type').textContent = details.paymentType;
+      document.getElementById('payment-amount').textContent = `$${details.amount}`;
+
+      processPaymentCallback = details.onConfirm; // Set the action for the "Pay Now" button
+
+      document.getElementById('payment-modal').classList.remove('hidden');
+      document.getElementById('payment-overlay').classList.remove('hidden');
+    }
+
+    function closePaymentModal() {
+      document.getElementById('payment-modal').classList.add('hidden');
+      document.getElementById('payment-overlay').classList.add('hidden');
+    }
+
+    const ApiService = {
+      async getAccessToken() {
+        try {
+          const url = state.xsuaaTokenEndpoint + '/oauth/token';
+          const options = {
+            method: 'POST',
+            body: new URLSearchParams({
+              client_id: state.xsuaaTokenCID,
+              client_secret: state.xsuaaTokenCSECRET,
+              grant_type: 'client_credentials'
+            })
+          };
+          const response = await fetch(url, options);
+          const data = await response.json();
+          state.accessToken = data.access_token;
+          state.isAuthenticated = true;
+          return state.accessToken;
+        } catch (error) {
+          console.error("Failed to get access token:", error);
+          showMessage("Failed to authenticate with the API. Please check the console.", 'error');
+          throw error;
+        }
+      },
+      async getCourses() { const url = state.backendCDSCAPEndpoint + '/admin/Courses'; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data.value }; },
+      async getRequiredDocuments(courseId) { const url = state.backendCDSCAPEndpoint + `/admin/Courses/${courseId}/requiredDocuments`; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data.value }; },
+      async createSubscription(subscriptionData) {
+        const url = state.backendCDSCAPEndpoint + `/admin/Subscriptions`;
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${state.accessToken}`,
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(subscriptionData)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to create subscription: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        return { value: data };
+      },
+      async cancelSubscription(subscriptionId) {
+        console.log("Cancelling subscription with ID:", subscriptionId);
+        const url = state.backendCDSCAPEndpoint + `/admin/Subscriptions/${subscriptionId}`;
+
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${state.accessToken}`,
+          }
+        });
+
+        if (!response.ok) {
+          // Note: DELETE requests often return a 204 No Content on success, 
+          // so we only check for response.ok (e.g., status 200 or 204)
+          throw new Error(`Failed to cancel subscription: ${response.status} ${response.statusText}`);
+        }
+
+        // DELETE often returns an empty body (204 No Content), so no need to parse JSON.
+        return true;
+      },
+      async deleteSubscription(subscriptionId) {
+        const url = state.backendCDSCAPEndpoint + `/admin/Subscriptions(${subscriptionId})`;
+        const response = await fetch(url, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${state.accessToken}`,
+          }
+        });
+
+        if (!response.ok) {
+          // Log the failure to delete, but let the primary error proceed
+          console.error(`Failed to roll back subscription ${subscriptionId}. Status: ${response.status}`);
+          // Do NOT throw an error here, or it will mask the original document failure
+        }
+        // Return true/false or just allow it to resolve
+        return response.ok;
+      },
+      async createSubmittedDocumentsBySubscriptionID(subscriptionId, documentsData, requiredDocuments) {
+        const url = state.backendCDSCAPEndpoint + `/admin/SubmittedDocuments`;
+        const token = state.accessToken;
+        const submittedDocumentTypes = new Set(documentsData.map(doc => doc.documentType));
+
+        // Helper function to check response status and throw on failure
+        const checkResponse = async (response, context) => {
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`${context} failed with status ${response.status}: ${errorText}`);
+          }
+          return response.json();
+        };
+
+        const postAndProcessPromises = documentsData.map(async (doc) => {
+          // --- 1. POST SubmittedDocument ---
+          const docPayload = {
+            ...doc,
+            subscription_ID: subscriptionId,
+            status: 'Uploaded'
+          };
+          const submitResponse = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(docPayload)
+          });
+          const submitResult = await checkResponse(submitResponse, `Submitted Document POST for ${doc.fileName}`);
+
+          // --- 2. Process Document (Upload/AI Call) ---
+          const processResponse = await fetch('/process-document', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              documentTypeId: doc.documentTypeSchemaID,
+              fileId: doc.documentID
+            })
+          });
+          const processResult = await checkResponse(processResponse, `Document Processing for ${doc.fileName}`);
+
+          // --- 3. Removed individual send-email call here ---
+          const documentId = processResult?.execute?.documentId;
+
+          return { // Return document details for final email trigger
+            fileName: doc.fileName,
+            documentId: documentId,
+            submitResult: submitResult // The SubmittedDocument record from CDS
+          };
+        });
+
+        // Handle 'Missing' documents
+        requiredDocuments.forEach(requiredDoc => {
+          if (!submittedDocumentTypes.has(requiredDoc.documentType)) {
+            const docPayload = {
+              documentType: requiredDoc.documentType,
+              fileName: null,
+              mimeType: null,
+              subscription_ID: subscriptionId,
+              status: 'Missing'
+            };
+            const missingDocPromise = fetch(url, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(docPayload)
+            }).then(response => checkResponse(response, `Missing Document POST for ${requiredDoc.documentType}`));
+
+            // Ensure missing docs also return the structured object
+            postAndProcessPromises.push(missingDocPromise.then(submitResult => ({
+              fileName: requiredDoc.documentType,
+              documentId: null, // No DocAI ID for missing documents
+              submitResult
+            })));
+          }
+        });
+
+        return Promise.all(postAndProcessPromises);
+      },
+      async getSubscriptions() { const url = state.backendCDSCAPEndpoint + '/admin/Subscriptions'; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data.value }; },
+      async getTravelers() { const url = state.backendCDSCAPEndpoint + '/admin/Travelers'; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data.value }; },
+      async getTraveler(travelerId) { const url = state.backendCDSCAPEndpoint + `/admin/Travelers/${travelerId}`; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data }; },
+      async getSubmittedDocuments() { const url = state.backendCDSCAPEndpoint + '/admin/SubmittedDocuments'; const response = await fetch(url, { headers: { 'Authorization': `Bearer ${state.accessToken}` } }); const data = await response.json(); return { value: data.value }; },
+      async createS4BusinessPartner(travelerId) { const traveler = await this.getTraveler(travelerId); const url = state.backendCDSCAPEndpoint + `/s4-api/createNewBusinessPartner`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "message": { "firstName": traveler.value.firstName, "lastName": traveler.value.lastName, "email": traveler.value.email } }) }); const data = await response.json(); return { value: data }; },
+      async createS4SalesOrder(businessPartnerID, depositAmount) { const url = state.backendCDSCAPEndpoint + `/s4-api/createNewSalesOrder`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "message": { "BusinessPartnerID": businessPartnerID, "DepositAmount": depositAmount } }) }); if (!response.ok) { const error = await response.json(); throw new Error(error.error.message); } const data = await response.json(); return { value: data }; },
+      async updateSubscriptionStatus(subscriptionId, status, s4hanaBPID = null, s4hanaSOID = null) {
+        const updateUrl = state.backendCDSCAPEndpoint + `/admin/Subscriptions/${subscriptionId}`;
+        const updateResponse = await fetch(updateUrl, { method: 'PATCH', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "status": status, "s4hanaBusinessPartnerID": s4hanaBPID, "s4hanaSalesOrderID": s4hanaSOID }) });
+        if (!updateResponse.ok) throw new Error(`Failed to update subscription status: ${updateResponse.statusText}`);
+        const updatedData = await updateResponse.json();
+        try {
+          const subDetailUrl = state.backendCDSCAPEndpoint + `/admin/Subscriptions/${subscriptionId}?$expand=traveler,course`;
+          const subDetailResponse = await fetch(subDetailUrl, { method: 'GET', headers: { 'Authorization': `Bearer ${state.accessToken}` } });
+          const subDetails = await subDetailResponse.json();
+          const traveler = subDetails.traveler; const course = subDetails.course; let emailSubject = '', emailMessage = '', navigationURL = '';
+          switch (status) {
+            case 'DepositPending': emailSubject = `Action Required: Deposit Payment for ${course.name}`; emailMessage = `Your required documents for the course **${course.name}** have been approved! Please proceed with the deposit payment of **$${course.depositAmount}** to confirm your subscription.`; navigationURL = window.location.origin + '?$navigate=subscriptions'; break;
+            case 'Confirmed': emailSubject = `Subscription Confirmed: ${course.name}`; emailMessage = `Congratulations, your subscription to **${course.name}** is now fully confirmed! Your S/4HANA Business Partner ID is **${s4hanaBPID}** and Sales Order ID is **${s4hanaSOID}**.`; navigationURL = window.location.origin + '?$navigate=subscriptions'; break;
+            default: emailSubject = `Subscription Update: ${course.name}`; emailMessage = `Your subscription status for **${course.name}** has been updated to **${status}**.`; navigationURL = window.location.origin + '?$navigate=subscriptions'; break;
+          }
+          fetch('/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: traveler.firstName + ' ' + traveler.lastName, email: traveler.email, subject: emailSubject, message: emailMessage, s4hanaBPID: s4hanaBPID, s4hanaSOID: s4hanaSOID, navurl: navigationURL }) });
+        } catch (error) { console.warn("Could not fetch details or send email:", error.message); }
+        return { value: updatedData };
+      },
+      async updateSubmittedDocuments(submittedDocumentsID, status, extractedData) { const url = state.backendCDSCAPEndpoint + `/admin/SubmittedDocuments/${submittedDocumentsID}`; const response = await fetch(url, { method: 'PATCH', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "status": status, "extractedData": extractedData }) }); const data = await response.json(); return { value: data }; },
+      async updateSubmittedDocumentsWithDocumentFileID(submittedDocumentsID, status, documentFileID, docTypeSchemaID, extractedData) { const url = state.backendCDSCAPEndpoint + `/admin/SubmittedDocuments/${submittedDocumentsID}`; const response = await fetch(url, { method: 'PATCH', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "status": status, "extractedData": extractedData, "documentID": documentFileID, "documentTypeSchemaID": docTypeSchemaID }) }); const data = await response.json(); return { value: data }; },
+      async createCourse(courseData) { const url = state.backendCDSCAPEndpoint + `/admin/Courses`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify(courseData) }); const data = await response.json(); return { value: data }; },
+      async getSchemaDocuments() { const url = '/schemas'; const response = await fetch(url); if (!response.ok) throw new Error(`Failed to fetch schema documents: ${response.statusText}`); const data = await response.json(); return data.value; },
+      async getOcrResponse(documentID) { const url = `/document-ocr/${documentID}`; const response = await fetch(url); if (!response.ok) throw new Error('Failed to fetch OCR response from proxy server.'); return response.json(); },
+      async getTextResponse(documentID) { const url = `/document-text/${documentID}`; const response = await fetch(url); if (!response.ok) throw new Error('Failed to fetch text response from proxy server.'); return response.json(); },
+      async createTraveler(travelerData) { const url = state.backendCDSCAPEndpoint + `/admin/Travelers`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify(travelerData) }); if (!response.ok) throw new Error(`Failed to create traveler: ${response.statusText}`); const data = await response.json(); return { value: data }; },
+      async updateTraveler(travelerId, updateData) { const url = state.backendCDSCAPEndpoint + `/admin/Travelers/${travelerId}`; const response = await fetch(url, { method: 'PATCH', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify(updateData) }); if (!response.ok) throw new Error(`Failed to update traveler: ${response.statusText}`); const data = await response.json(); return { value: data }; },
+      async getOpenDocuments() { const url = `/documents/reviewNeeded`; const response = await fetch(url); if (!response.ok) throw new Error(`Failed to fetch open documents: ${response.statusText}`); const data = await response.json(); return data.value; },
+      async addS4SalesOrderItem(salesOrderID, materialID) { const url = state.backendCDSCAPEndpoint + `/s4-api/addSalesOrderItem`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "message": { "SalesOrderID": salesOrderID, "MaterialID": materialID } }) }); if (!response.ok) { const error = await response.json(); throw new Error(error.error.message || 'Failed to add sales order item.'); } return response.json(); },
+      async addS4SalesOrderPricingElement(salesOrderID, remainingAmount) { const url = state.backendCDSCAPEndpoint + `/s4-api/addSalesOrderPricingElement`; const response = await fetch(url, { method: 'POST', headers: { 'Authorization': `Bearer ${state.accessToken}`, 'content-type': 'application/json' }, body: JSON.stringify({ "message": { "SalesOrderID": salesOrderID, "ConditionRateValue": remainingAmount } }) }); if (!response.ok) { const error = await response.json(); throw new Error(error.error.message || 'Failed to add pricing element.'); } return response.json(); },
+      async getFileDetails(fileId) {
+        const url = `/file-details/${fileId}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch file details for ID ${fileId}`);
+        }
+        const data = await response.json();
+
+        // console.log("File details response:", data);
+        return data;
+      },
+      async deleteFile(fileId) {
+        const url = `/delete-file/${fileId}`; // Calls the new backend route
+        const response = await fetch(url, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || `Failed to delete file ${fileId}. Status: ${response.status}`);
+        }
+        return true;
+      },
+      async getDocAIDocumentId(fileId) {
+        const url = `/document-id/${fileId}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Failed to get DocAI ID for file ${fileId}: ${errorText}`);
+        }
+        const data = await response.json();
+        if (!data || !data.docAI_ID) {
+          throw new Error(`DocAI ID not found in response for file ${fileId}`);
+        }
+        return data.docAI_ID; // Return just the ID string
+      },
+      async triggerCompletenessCheck(subscriptionId) {
+        const url = `/trigger-completeness-check`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ subscriptionId: subscriptionId })
+        });
+
+        if (!response.ok) {
+          let errorMsg = `Failed to trigger completeness check: ${response.statusText}`;
+          try {
+            const errorData = await response.json();
+            errorMsg = errorData.message || errorMsg; // Use server message if available
+          } catch (e) { /* Ignore parsing error */ }
+          throw new Error(errorMsg);
+        }
+        return response.json(); // Return the success response from the server if needed
+      },
+    };
+
+    async function renderCoursesCatalog() {
+      const container = document.getElementById('app-container');
+      container.innerHTML = `<div class="flex flex-col md:flex-row items-center justify-between mb-8 space-y-4 md:space-y-0"><h2 class="text-3xl font-bold text-gray-900">Explore Our Courses</h2></div><div id="course-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"><div class="cool-card p-6 text-center animate-pulse"><div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div></div><div class="cool-card p-6 text-center animate-pulse"><div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div></div><div class="cool-card p-6 text-center animate-pulse"><div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div></div></div>`;
+      const coursesData = await ApiService.getCourses();
+      const courseList = document.getElementById('course-list');
+      if (coursesData.value.length > 0) {
+        courseList.innerHTML = coursesData.value.map(course => `<div class="cool-card p-0 flex flex-col items-center text-center cursor-pointer overflow-hidden"><img src="${course.image || 'resources/img/placeholder.png'}" alt="${course.name}" class="w-full h-48 object-cover"><div class="p-6 flex flex-col flex-grow w-full"><h3 class="text-xl font-semibold mb-2">${course.name}</h3><p class="text-gray-600 mb-4 flex-grow">${course.description}</p><span class="text-2xl font-bold text-gray-900 mb-4">$${course.price}</span><button data-course-id="${course.ID}" class="cool-button cool-button-primary w-full view-course-btn mt-auto">View Details</button></div></div>`).join('');
+      } else {
+        courseList.innerHTML = '<p class="text-gray-500 text-center col-span-full">No courses available at the moment.</p>';
+      }
+      document.querySelectorAll('.view-course-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const courseId = e.target.closest('[data-course-id]').getAttribute('data-course-id');
+          state.selectedCourse = coursesData.value.find(c => c.ID === courseId);
+          renderCourseDetail();
+        });
+      });
+    }
+
+    async function renderCourseDetail() {
+      if (!state.selectedCourse) { renderCoursesCatalog(); return; }
+
+      // --- Fetch the current traveler's data to check for a discount ---
+      const travelerId = state.selectedTravelerId;
+      let travelerData = null;
+      let discount = 0;
+      if (travelerId) {
+        try {
+          const travelerResult = await ApiService.getTraveler(travelerId);
+          travelerData = travelerResult.value;
+          discount = (travelerData && travelerData.specialDiscount > 0) ? travelerData.specialDiscount : 0;
+        } catch (error) {
+          console.warn("Could not fetch traveler for discount check:", error);
+        }
+      }
+
+      // --- Calculate prices and prepare HTML for display ---
+      const course = state.selectedCourse;
+      let priceHtml = '';
+      let discountInfoHtml = '';
+
+      if (discount > 0) {
+        const discountedPrice = course.price * (1 - (discount / 100));
+        discountInfoHtml = `<div class="bg-blue-100 text-blue-800 text-sm font-semibold text-center p-2 rounded-lg mb-4">You are entitled to a ${discount}% discount!</div>`;
+        priceHtml = `
+            <span class="text-gray-500 line-through mr-2">$${course.price}</span>
+            <span class="font-bold text-indigo-600 text-3xl">$${discountedPrice}</span>
+        `;
+      } else {
+        priceHtml = `<span class="font-bold text-indigo-600 text-3xl">$${course.price}</span>`;
+      }
+
+      // 💡 IMPORTANT: stagedDocuments is now a global variable (or moved outside this function) 
+      // in a real application. Assuming it's defined and accessible here for now, 
+      // but we need to ensure it persists if you navigate away and back.
+      // Assuming for this modification: stagedDocuments is a local array.
+      let stagedDocuments = [];
+
+      const container = document.getElementById('app-container');
+      // --- The innerHTML now includes placeholders for the dynamic price and discount info ---
+      container.innerHTML = `<h2 class="text-3xl font-bold text-gray-900 mb-8">${course.name}</h2><div class="flex flex-col lg:flex-row lg:space-x-8"><div class="w-full lg:w-1/2 cool-card p-6 mb-8 lg:mb-0 non-clickable"><img src="${course.image || 'https://placehold.co/600x400/e2e8f0/64748b?text=Vertigo'}" alt="${course.name}" class="rounded-lg mb-6 w-full h-auto object-cover">
+    ${discountInfoHtml}
+    <p class="text-gray-600 mb-4">${course.description}</p><ul class="space-y-2 text-lg border-t pt-4"><li class="flex justify-between items-center"><span class="font-semibold">Price:</span><div>${priceHtml}</div></li><li class="flex justify-between"><span class="font-semibold">Required Deposit:</span><span class="font-bold text-indigo-600">$${course.depositAmount}</span></li></ul></div><div class="w-full lg:w-1/2 cool-card p-6 non-clickable"><h3 class="text-2xl font-bold mb-4">Finalize your Subscription</h3><div id="required-documents-section" class="mb-6"><h4 class="text-xl font-semibold mb-2">Required Documents</h4><p class="text-gray-600 mb-4">Please upload the following documents.</p><ul id="document-list" class="list-disc list-inside space-y-2 text-gray-700 bg-gray-50 p-4 rounded-lg"></ul></div><div class="space-y-4 border-t pt-6"><h4 class="text-xl font-semibold mb-2">Upload Documents</h4><div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4"><select id="document-type-select" class="cool-input flex-grow"></select><input type="file" id="document-upload" class="cool-input flex-grow"></div><button id="submit-document-btn" class="cool-button cool-button-primary w-full">Stage Document</button></div><div id="staged-docs-preview" class="mt-6"><h5 class="font-bold">Staged Documents:</h5><ul id="staged-docs-list" class="list-disc list-inside text-sm bg-gray-50 p-4 rounded-lg mt-2"><li class="text-gray-500">No documents staged yet.</li></ul></div><button id="subscribe-btn" class="cool-button cool-button-primary mt-6 w-full text-lg">Submit Subscription Request</button></div></div>`;
+
+      // Helper function to render the staged documents list
+      const renderStagedDocs = () => {
+        const stagedDocsList = document.getElementById('staged-docs-list');
+        if (stagedDocuments.length === 0) {
+          stagedDocsList.innerHTML = '<li class="text-gray-500">No documents staged yet.</li>';
+        } else {
+          // Include the remove button with the documentID as a data attribute
+          stagedDocsList.innerHTML = stagedDocuments.map((doc, index) => `
+                <li class="flex items-center justify-between py-1">
+                    <span>${doc.documentType}: ${doc.fileName} | ${doc.documentID}</span>
+                    <button class="remove-doc-btn text-red-500 hover:text-red-700 ml-4" data-index="${index}" title="Remove Document">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        // Attach listener to the new list items
+        document.querySelectorAll('.remove-doc-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const indexToRemove = parseInt(e.currentTarget.dataset.index);
+            removeStagedDocument(indexToRemove);
+          });
+        });
+      };
+
+      // Helper function to remove a document and re-render
+      const removeStagedDocument = async (index) => {
+        const fileToRemove = stagedDocuments[index];
+        if (!fileToRemove) return;
+
+        showProcessingOverlay();
+        try {
+          // 1. DELETE the file from the remote DocAI service using the new API method
+          await ApiService.deleteFile(fileToRemove.documentID);
+
+          // 2. If deletion succeeds, remove locally
+          stagedDocuments.splice(index, 1);
+          showMessage(`Document '${fileToRemove.fileName}' successfully removed and deleted remotely.`, 'success');
+          renderStagedDocs();
+        } catch (error) {
+          console.error('Error deleting remote file:', error);
+          // Show error but allow the user to see the local list updated
+          showMessage(`Failed to delete remote file '${fileToRemove.fileName}'. Error: ${error.message}`, 'error');
+        } finally {
+          hideProcessingOverlay();
+        }
+      };
+
+
+      const docsData = await ApiService.getRequiredDocuments(state.selectedCourse.ID);
+      const docList = document.getElementById('document-list');
+      const docTypeSelect = document.getElementById('document-type-select');
+
+      // Initial render of required documents and select box
+      if (docsData.value.length > 0) {
+        docList.innerHTML = docsData.value.map(doc => `<li>${doc.description} (${doc.documentType})</li>`).join('');
+        docTypeSelect.innerHTML = docsData.value.map(doc => `<option value="${doc.documentTypeSchemaID}">${doc.documentType}</option>`).join('');
+      } else {
+        docList.innerHTML = '<li>No specific documents required for this course.</li>';
+        docTypeSelect.innerHTML = '<option value="">No required documents</option>';
+      }
+
+      renderStagedDocs(); // Call it once to render the initial empty state
+
+      // --- STAGE DOCUMENT BUTTON HANDLER ---
+      document.getElementById('submit-document-btn').addEventListener('click', async () => {
+        showProcessingOverlay();
+        const docTypeSelect = document.getElementById('document-type-select');
+        const docType = docTypeSelect.selectedOptions[0].textContent;
+        const docTypeSchemaID = docTypeSelect.value;
+        const fileInput = document.getElementById('document-upload');
+        if (!fileInput.files.length || !docType) { showMessage("Please select a document type and a file to upload.", 'warning'); return; }
+        const file = fileInput.files[0];
+        if (!file) { showMessage('Please select a file first.'); return; }
+        showMessage('Uploading file...');
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+          const response = await fetch('/upload', { method: 'POST', body: formData });
+          if (!response.ok) { const errorText = await response.text(); throw new Error(errorText || `HTTP error! Status: ${response.status}`); }
+          const data = await response.json();
+          // Use the index for removal since the docID is a temp ID
+          const stagedDoc = { documentType: docType, documentTypeSchemaID: docTypeSchemaID, fileName: file.name, mimeType: file.type, documentID: data.ID };
+          stagedDocuments.push(stagedDoc);
+          showMessage("Document staged successfully!", 'success');
+
+          // Use the helper to re-render the list
+          renderStagedDocs();
+
+          fileInput.value = '';
+          hideProcessingOverlay();
+        } catch (error) { showMessage(`Upload failed: ${error.message}`); hideProcessingOverlay(); }
+      });
+
+      document.getElementById('subscribe-btn').addEventListener('click', async () => {
+        const travelerId = state.selectedTravelerId;
+        if (!travelerId) {
+          showMessage("Please select a traveler from the dropdown in the header.");
+          return;
+        }
+
+        showProcessingOverlay();
+
+        let subscriptionId = null;
+        let travelerName = 'Admin';
+
+        try {
+          // 1. Create Subscription
+          const subscription = await ApiService.createSubscription({
+            traveler_ID: travelerId,
+            course_ID: state.selectedCourse.ID,
+            status: "DocsPending"
+          });
+
+          if (!subscription || !subscription.value || !subscription.value.ID) {
+            throw new Error("Subscription creation failed to return a valid ID.");
+          }
+
+          subscriptionId = subscription.value.ID;
+          travelerName = state.travelers.find(t => t.ID === travelerId)?.firstName + ' ' + state.travelers.find(t => t.ID === travelerId)?.lastName || 'New Traveler';
+          travelerEmail = state.travelers.find(t => t.ID === travelerId)?.email || 'sandboxadmin@vjrrw.onmicrosoft.com';
+
+          console.log(`Subscription created (ID: ${subscriptionId}). Attempting to submit documents...`);
+
+          // 2. Submit Documents & Process 
+          // If ANY document processing fails, this entire Promise.all() will throw,
+          // directing control to the catch block and preventing the success email.
+          const docSubmissionResults = await ApiService.createSubmittedDocumentsBySubscriptionID(
+            subscriptionId,
+            stagedDocuments,
+            docsData.value
+          );
+
+          // Collect all successfully processed document IDs for the final email
+          const documentIds = docSubmissionResults
+            .map(r => r.documentId)
+            .filter(id => id); // Filter out null/undefined IDs (like those for 'Missing' docs)
+
+          const documentIdList = documentIds.map(id =>
+            `\n- ${id} (Review Link: ${state.docAIEndpoint}/workspace#/Documents(${id}))`
+          ).join('');
+
+
+          // 3. --- SUCCESS PATH: Send Subscription Email (Only sent if all processing succeeded) ---
+          fetch('/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: 'Admin',
+              email: 'sandboxadmin@vjrrw.onmicrosoft.com',
+              subject: `SUCCESS: New Subscription for ${travelerName} Created and Documents Submitted`,
+              navurl: state.docAIEndpoint + `/workspace#/Documents`, // Link to DocAI Document List
+              message: `A new subscription (ID: ${subscriptionId}) has been created successfully, and ALL documents have been processed.
+              
+              Traveler: ${travelerName}.
+              
+              Submitted Documents for Approval: ${documentIdList || 'None'}`
+            })
+          }).catch(e => console.error("Failed to send final subscription success email:", e));
+
+          fetch('/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: travelerName,
+              email: travelerEmail,
+              subject: `Welcome to Vertigo Travels! Sub ID: ${subscriptionId}`,
+              navurl: window.location.origin + '?$navigate=subscriptions',
+              message: `A new subscription (ID: ${subscriptionId}) has been created successfully, the following documents have been processed.
+              
+              Traveler: ${travelerName}.
+              
+              Submitted Documents for Approval: ${documentIdList || 'None'}`
+            })
+          }).catch(e => console.error("Failed to send final subscription success email:", e));
+
+
+          hideProcessingOverlay();
+          showMessage("Subscription request and documents submitted successfully!", 'success');
+          renderManageSubscriptions();
+
+        } catch (error) {
+          hideProcessingOverlay();
+
+          // --- Error Handling & Rollback ---
+          console.error("Submission failed, executing rollback:", error);
+
+          let errorMessage = "An error occurred during submission.";
+
+          // 1. ROLLBACK: Delete ALL staged files (including successful ones)
+          for (const doc of stagedDocuments) {
+            try {
+              console.log(`Rollback: Deleting file ${doc.documentID} (${doc.fileName})...`);
+              // The ApiService.deleteFile handles the DocAI deletion via the backend route
+              await ApiService.deleteFile(doc.documentID);
+            } catch (deleteError) {
+              // Log the error but continue the rollback process
+              console.error(`Rollback FAILED to delete file ${doc.documentID}:`, deleteError.message);
+            }
+          }
+          // Clear the local staged array and re-render the list after attempted deletion
+          stagedDocuments = [];
+          renderStagedDocs();
+
+
+          if (subscriptionId) {
+            // 2. ROLLBACK: Attempt to roll back the subscription
+            await ApiService.deleteSubscription(subscriptionId);
+
+            // Update error message to reflect the rollback attempt
+            errorMessage = "Failed to create subscription due to missing schema document mapped to required documents. Please contact admin.";
+          } else {
+            errorMessage = "Failed to create the initial subscription record.";
+          }
+
+          showMessage(errorMessage, 'error');
+        }
+      });
+    }
+
+    async function renderManageSubscriptions() {
+      const container = document.getElementById('app-container');
+      container.innerHTML = `<div class="flex items-center justify-between mb-8"><h2 class="text-3xl font-bold text-gray-900">My Subscriptions</h2></div><div id="subscription-list" class="space-y-6"><div class="cool-card p-6 animate-pulse"><div class="h-4 bg-gray-200 rounded w-1/2"></div></div></div>`;
+      const travelerId = state.selectedTravelerId;
+      if (!travelerId) { container.innerHTML = `<p class="text-red-500">Please select a traveler to view subscriptions.</p>`; return; }
+      const [travelerResult, subscriptionData, documents, courses] = await Promise.all([
+        ApiService.getTraveler(travelerId),
+        ApiService.getSubscriptions(),
+        ApiService.getSubmittedDocuments(),
+        ApiService.getCourses()
+      ]);
+
+      const travelerData = travelerResult.value;
+      const discount = (travelerData && travelerData.specialDiscount > 0) ? travelerData.specialDiscount : 0;
+
+      const subscriptionList = document.getElementById('subscription-list');
+      const mySubscriptions = subscriptionData.value.filter(s => s.traveler_ID === travelerId);
+
+      if (mySubscriptions.length > 0) {
+        const requiredDocsArr = await Promise.all(mySubscriptions.map(s => ApiService.getRequiredDocuments(s.course_ID)));
+        subscriptionList.innerHTML = mySubscriptions.map((s, idx) => {
+          const course = courses.value.find(c => c.ID === s.course_ID);
+          if (!course) return ''; // Failsafe
+
+          // --- Price calculations and button generation ---
+          const finalPrice = course.price * (1 - (discount / 100));
+          const remainingPrice = finalPrice - course.depositAmount;
+
+          let actionButton = '',
+            statusColor = 'bg-gray-400',
+            statusText = s.status;
+
+          let discountFooter = (discount > 0 && ['DepositPending', 'Confirmed', 'Deposit Paid'].includes(statusText))
+            ? `<div class="text-xs text-green-600 mt-2 text-right font-semibold">Includes a ${discount}% discount.</div>`
+            : '';
+
+          switch (s.status) {
+            case 'DocsPending':
+              statusColor = 'bg-yellow-400';
+              actionButton = `<button data-id="${s.ID}" class="cool-button cool-button-primary pay-deposit-btn mt-4 w-full md:w-auto">Pay Deposit ($${course.depositAmount})</button>`;
+              break;
+            case 'DocsChecking':
+              statusColor = 'bg-blue-400';
+              actionButton = `<button data-id="${s.ID}" class="cool-button cool-button-primary pay-deposit-btn mt-4 w-full md:w-auto">Pay Deposit ($${course.depositAmount})</button>`;
+              break;
+            case 'DepositPending':
+              statusColor = 'bg-purple-500';
+              actionButton = `<button data-id="${s.ID}" class="cool-button cool-button-primary pay-deposit-btn mt-4 w-full md:w-auto">Pay Deposit ($${course.depositAmount})</button>`;
+              break;
+
+            // --- NEW CASE ADDED ---
+            case 'DepositPaid':
+              statusColor = 'bg-teal-500'; // Using teal for this new status
+              statusText = 'Deposit Paid'; // Display this text
+              // No action button is shown. Traveler must wait for admin approval.
+              break;
+
+            case 'Confirmed':
+              statusColor = 'bg-green-500';
+              // This logic now only runs when status is 'Confirmed'
+              if (remainingPrice > 0) {
+                // We keep 'Deposit Paid' as the text here for clarity, since 'Confirmed' is the admin-facing status
+                statusText = 'Deposit Paid';
+                actionButton = `<button data-id="${s.ID}" data-course-id="${course.ID}" data-remaining-price="${remainingPrice}" class="cool-button bg-orange-500 hover:bg-orange-600 text-white pay-remaining-btn mt-4 w-full md:w-auto">Pay Remaining ($${remainingPrice})</button>`;
+              } else {
+                // If no remaining price, just show confirmed
+                statusText = 'Confirmed';
+              }
+              break;
+            case 'Complete': statusColor = 'bg-emerald-500'; discountFooter = ''; break;
+            case 'Canceled': statusColor = 'bg-red-500'; discountFooter = ''; break;
+          }
+          const allRequiredDocs = requiredDocsArr[idx]?.value || [];
+          const relevantDocs = documents.value.filter(d => d.subscription_ID === s.ID);
+          const documentsHtml = allRequiredDocs.length > 0 ? `<div class="mt-4 p-4 bg-gray-50 rounded-lg"><h4 class="font-semibold text-sm mb-3">Document Status</h4><ul class="space-y-2 text-sm text-gray-700">${allRequiredDocs.map(requiredDoc => { const matchingDoc = relevantDocs.find(d => d.documentType === requiredDoc.documentType); const status = matchingDoc ? matchingDoc.status : 'Missing'; let statusClass = 'text-gray-500'; switch (status.toLowerCase()) { case 'uploaded': statusClass = 'text-blue-600'; break; case 'confirmed': statusClass = 'text-green-600'; break; case 'missing': statusClass = 'text-red-600'; break; } return `<li class="flex items-center justify-between"><span class="font-medium">${requiredDoc.description}</span><span class="font-bold ${statusClass}">${status}</span></li>`; }).join('')}</ul></div>` : `<p class="text-sm text-gray-500 mt-4">No documents required.</p>`;
+
+          // --- MODIFIED: Added discountFooter to the output ---
+          return `<div class="cool-card p-6 non-clickable"><div class="flex flex-col md:flex-row justify-between items-start"><div class="flex-grow"><span class="font-semibold p-1 px-3 rounded-full text-white text-xs ${statusColor}">${statusText}</span><h3 class="text-2xl font-bold mt-2 mb-2">${course.name}</h3><div class="text-xs text-gray-400 space-y-1"><p>Subscription ID: ${s.ID}</p>${s.s4hanaBusinessPartnerID ? `<p>S/4HANA BP ID: ${s.s4hanaBusinessPartnerID}</p>` : ''}${s.s4hanaSalesOrderID ? `<p>S/4HANA SO ID: ${s.s4hanaSalesOrderID}</p>` : ''}</div></div><div class="mt-4 md:mt-0 md:text-right w-full md:w-auto">${actionButton}${discountFooter}</div></div>${documentsHtml}</div>`;
+        }).join('');
+      } else {
+        subscriptionList.innerHTML = '<p class="text-gray-500 text-center">You have no active subscriptions.</p>';
+      }
+      // --- Updated Payment Button Listeners ---
+      document.querySelectorAll('.pay-deposit-btn').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const subscriptionId = e.target.getAttribute('data-id');
+          const subscription = mySubscriptions.find(s => s.ID === subscriptionId);
+          const course = courses.value.find(c => c.ID === subscription.course_ID);
+          if (!subscription || !course) { showMessage("Error: Could not find subscription details."); return; }
+
+          openPaymentModal({
+            courseName: course.name,
+            paymentType: 'Deposit',
+            amount: course.depositAmount,
+            onConfirm: async () => {
+              showProcessingOverlay();
+              try {
+                const existingBPID = await ApiService.getTraveler(state.selectedTravelerId).then(r => r.value.businessPartnerID);
+                let s4hanaBPID = existingBPID || "1000937"; // Using fallback for demo
+                const salesOrder = await ApiService.createS4SalesOrder(s4hanaBPID, course.depositAmount);
+                const s4hanaSOID = salesOrder.value.SalesOrder;
+
+                // Change status to 'DepositPaid' instead of 'Confirmed'
+                await ApiService.updateSubscriptionStatus(subscriptionId, 'DepositPaid', s4hanaBPID, s4hanaSOID);
+                // --- END MODIFICATION ---
+
+                hideProcessingOverlay();
+
+                // Update success message
+                showMessage(`Deposit payment confirmed! Please wait for document approval.`);
+
+                renderManageSubscriptions();
+              } catch (error) {
+                hideProcessingOverlay();
+                showMessage(`An error occurred: ${error.message}`);
+              }
+            }
+          });
+        });
+      });
+
+      document.querySelectorAll('.pay-remaining-btn').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const subscriptionId = e.target.getAttribute('data-id');
+          const courseId = e.target.getAttribute('data-course-id');
+          const remainingAmount = e.target.getAttribute('data-remaining-price');
+          const subscription = mySubscriptions.find(s => s.ID === subscriptionId);
+          const course = courses.value.find(c => c.ID === courseId);
+
+          openPaymentModal({
+            courseName: course.name,
+            paymentType: 'Remaining Balance',
+            amount: remainingAmount,
+            onConfirm: async () => {
+              showProcessingOverlay();
+              try {
+                const s4hanaSOID = subscription.s4hanaSalesOrderID;
+                const s4hanaProductID = course.s4hanaProductID;
+                if (!s4hanaSOID) throw new Error("Missing S/4HANA Sales Order ID.");
+                if (!s4hanaProductID) throw new Error("Course is not configured with a valid S/4HANA Product ID. Please contact admin.");
+                await ApiService.addS4SalesOrderItem(s4hanaSOID, s4hanaProductID);
+                await ApiService.addS4SalesOrderPricingElement(s4hanaSOID, remainingAmount);
+                await ApiService.updateSubscriptionStatus(subscriptionId, 'Complete', subscription.s4hanaBusinessPartnerID, s4hanaSOID);
+                hideProcessingOverlay();
+                showMessage("Full payment processed. Your subscription is complete!");
+                renderManageSubscriptions();
+              } catch (error) {
+                hideProcessingOverlay();
+                showMessage(`An error occurred: ${error.message}`);
+              }
+            }
+          });
+        });
+      });
+    }
+
+    async function renderAdminManageTravelers() {
+      const container = document.getElementById('app-container');
+
+      container.innerHTML = `<h2 class="text-3xl font-bold text-gray-900 mb-8">Manage Travelers</h2>
+        <details class="cool-card p-0 mb-8 non-clickable">
+            <summary class="p-4 cursor-pointer flex justify-between items-center bg-gray-100 hover:bg-gray-200 rounded-t-lg">
+                <h3 class="text-2xl font-bold">Add New Traveler</h3>
+                <i class="fas fa-chevron-down text-gray-600 transform transition-transform"></i>
+            </summary>
+            
+            <div class="p-6">
+                <form id="new-traveler-form" class="space-y-6">
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium mb-2">Option 1: Manually enter traveler details.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="new-traveler-first-name" placeholder="First Name" class="cool-input w-full" required>
+                            <input type="text" id="new-traveler-last-name" placeholder="Last Name" class="cool-input w-full" required>
+                        </div>
+                        <input type="email" id="new-traveler-email" placeholder="Email" class="cool-input w-full mt-4" required>
+                    </div>
+                    <div class="flex items-center text-center">
+                        <div class="flex-grow border-t border-gray-200"></div>
+                        <span class="flex-shrink mx-4 text-gray-400 font-semibold">OR</span>
+                        <div class="flex-grow border-t border-gray-200"></div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600 font-medium mb-2">Option 2: Extract data from a biometric ID image.</p>
+                        <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3">
+                            <input type="file" id="biometric-id-upload" class="cool-input flex-grow w-full">
+                            <button type="button" id="process-biometric-btn" class="cool-button cool-button-primary flex-none w-full sm:w-auto"><i class="fas fa-microchip mr-2"></i> Extract Data</button>
+                        </div>
+                        <div id="extraction-status" class="mt-2 text-sm text-gray-700 hidden"></div>
+                    </div>
+                    <button type="submit" class="cool-button cool-button-primary w-full !mt-8 text-lg">Save New Traveler</button>
+                </form>
+            </div>
+        </details>
+        
+        <div class="cool-card p-6 non-clickable">
+            <h3 class="text-2xl font-bold mb-4">Existing Travelers</h3>
+            <div id="traveler-list-container"><p class="text-gray-500">Loading traveler data...</p></div>
+        </div>`;
+
+      document.getElementById('process-biometric-btn').addEventListener('click', async () => {
+        const fileInput = document.getElementById('biometric-id-upload');
+        if (!fileInput.files.length) { showMessage("Please select a file to upload."); return; }
+        const statusDiv = document.getElementById('extraction-status');
+        statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Uploading and processing...';
+        statusDiv.classList.remove('hidden');
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        try {
+          const uploadResponse = await fetch('/upload', { method: 'POST', body: formData });
+          if (!uploadResponse.ok) throw new Error(`Upload failed with status ${uploadResponse.status}`);
+          const uploadData = await uploadResponse.json();
+          const documentID = uploadData.ID;
+          const processResponse = await fetch('/process-document', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ documentTypeId: "ID_CARD_AI_SCHEMA_ID_FOR_DEMO", fileId: documentID }) });
+          if (!processResponse.ok) throw new Error(`Processing failed with status ${processResponse.status}`);
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          const [ocrResponse] = await Promise.all([ApiService.getOcrResponse(documentID)]);
+          const extractedData = ocrResponse.ocrResponse.result[0].extractedData;
+          document.getElementById('new-traveler-first-name').value = extractedData.firstName || '';
+          document.getElementById('new-traveler-last-name').value = extractedData.lastName || '';
+          document.getElementById('new-traveler-email').value = extractedData.email || '';
+          statusDiv.textContent = 'Data extracted and loaded into form!';
+          showMessage("Document data extracted successfully!");
+        } catch (error) { statusDiv.textContent = 'Error during data extraction. Please try manual entry.'; showMessage("Error: " + error.message); }
+      });
+
+      document.getElementById('new-traveler-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const travelerData = { firstName: document.getElementById('new-traveler-first-name').value, lastName: document.getElementById('new-traveler-last-name').value, email: document.getElementById('new-traveler-email').value };
+        showProcessingOverlay();
+        try { await ApiService.createTraveler(travelerData); hideProcessingOverlay(); showMessage('New traveler created successfully!'); renderAdminManageTravelers(); }
+        catch (error) { hideProcessingOverlay(); showMessage("An error occurred while creating the traveler."); }
+      });
+
+      const travelerListContainer = document.getElementById('traveler-list-container');
+      const [travelers, subscriptions, documents, courses] = await Promise.all([
+        ApiService.getTravelers().then(r => r.value),
+        ApiService.getSubscriptions().then(r => r.value),
+        ApiService.getSubmittedDocuments().then(r => r.value),
+        ApiService.getCourses().then(r => r.value)
+      ]);
+      const allCourseIds = [...new Set(subscriptions.map(s => s.course_ID))];
+      const requiredDocsResults = await Promise.all(allCourseIds.map(courseId => ApiService.getRequiredDocuments(courseId)));
+      const requiredDocsMap = allCourseIds.reduce((acc, courseId, index) => { acc[courseId] = requiredDocsResults[index]?.value || []; return acc; }, {});
+
+      if (travelers.length > 0) {
+        travelerListContainer.innerHTML = `<div class="space-y-4">${travelers.map(traveler => `<details class="cool-card non-clickable overflow-hidden" data-traveler-id="${traveler.ID}"><summary class="p-4 cursor-pointer flex justify-between items-center"><div><p class="font-semibold text-lg">${traveler.firstName} ${traveler.lastName}</p><p class="text-sm text-gray-500">${traveler.email}</p></div><div class="text-gray-400"><i class="fas fa-chevron-down transform transition-transform"></i></div></summary><div class="bg-gray-50 p-4 border-t space-y-4" id="subs-for-traveler-${traveler.ID}"><p class="text-sm text-gray-500">Loading subscriptions...</p></div></details>`).join('')}</div>`;
+        travelerListContainer.querySelectorAll('details').forEach(detail => {
+          detail.addEventListener('toggle', async (event) => {
+            if (event.target.open) {
+              const travelerId = event.target.dataset.travelerId;
+              const contentEl = document.getElementById(`subs-for-traveler-${travelerId}`);
+              if (!travelerId || !contentEl) return;
+              const travelerSubs = subscriptions.filter(s => s.traveler_ID === travelerId);
+              if (travelerSubs.length > 0) {
+                contentEl.innerHTML = travelerSubs.map(sub => {
+                  const course = courses.find(c => c.ID === sub.course_ID);
+                  const allRequiredDocs = requiredDocsMap[sub.course_ID] || [];
+                  const relevantDocs = documents.filter(d => d.subscription_ID === sub.ID);
+
+                  let actionButtons = '';
+                  let checkCompletenessButtonHtml = '';
+
+                  // --- Show "Check" button even if DepositPaid ---
+                  if (sub.status === 'DocsPending' || sub.status === 'DocsChecking' || sub.status === 'ActionRequired' || sub.status === 'DepositPaid') {
+                    // We add 'data-current-status' to be used by the click listener
+                    actionButtons += `<button data-id="${sub.ID}" data-current-status="${sub.status}" class="cool-button bg-green-500 text-white approve-docs-btn text-xs py-1 px-3">Approve Docs</button>`;
+
+                    // Show completeness check button for all these statuses
+                    checkCompletenessButtonHtml = `<button data-id="${sub.ID}" class="cool-button bg-blue-500 hover:bg-blue-600 text-white check-completeness-btn text-xs py-1 px-3 ml-2" title="Check Document Completeness">Check</button>`;
+
+                  } else if (sub.status === 'DepositPending') {
+                    actionButtons += `<button data-id="${sub.ID}" class="cool-button bg-blue-500 text-white approve-payment-btn text-xs py-1 px-3">Approve Payment</button>`;
+                  }
+
+                  if (sub.status !== 'Cancelled' && sub.status !== 'Confirmed' && sub.status !== 'Complete') { // Allow cancel unless Confirmed or Complete
+                    actionButtons += `<button data-id="${sub.ID}" class="cool-button bg-red-500 hover:bg-red-600 text-white cancel-subscription-btn text-xs py-1 px-3 ml-2">Cancel</button>`;
+                  }
+
+                  // Combine the buttons into the final HTML string
+                  const actionButtonHtml = (actionButtons || checkCompletenessButtonHtml)
+                    ? `<div class="flex items-center">${actionButtons}${checkCompletenessButtonHtml}</div>`
+                    : '';
+
+                  const documentsHtml = allRequiredDocs.length > 0 ? `<div class="mt-2 p-2 bg-gray-100 rounded-lg"><h5 class="font-semibold text-xs mb-1">Document Status</h5><ul class="space-y-1 text-xs text-gray-700">${allRequiredDocs.map(requiredDoc => {
+                    const matchingDoc = relevantDocs.find(d => d.documentType === requiredDoc.documentType); const status = matchingDoc ? matchingDoc.status : 'Missing'; let statusClass = 'text-gray-500'; switch (status) { case 'Uploaded': statusClass = 'text-blue-600'; break; case 'Confirmed': case 'confirmed': statusClass = 'text-green-600'; break; case 'Missing': statusClass = 'text-red-600'; break; case 'ActionRequired': statusClass = 'text-yellow-600'; break; }
+                    const reviewButtonHtml = (matchingDoc && (status === 'Uploaded' || status === 'ActionRequired') && matchingDoc.documentID) ?
+                      `<button class="review-doc-btn text-xs text-indigo-600 hover:underline font-semibold" 
+                          data-subdocumentid="${matchingDoc.ID}" 
+                          data-documentid="${matchingDoc.documentID}" 
+                          data-filename="${matchingDoc.fileName || 'N/A'}" 
+                          data-doctype="${matchingDoc.documentType}" 
+                          data-mimetype="${matchingDoc.mimeType || 'N/A'}" 
+                          data-extracteddata='${JSON.stringify(matchingDoc.extractedData)}' 
+                          data-status="${matchingDoc.status}">Review</button>`
+                      : '';
+
+                    const openInDocAIButtonHtml = (matchingDoc && matchingDoc.documentID) ?
+                      `<button class="open-docai-btn text-xs text-blue-600 hover:underline font-semibold"
+        data-file-id="${matchingDoc.documentID}" 
+        title="Open this document directly in SAP Document AI">
+        <i class="fas fa-external-link-alt mr-1"></i>DocAI
+     </button>`
+                      : '';
+
+                    return `<li class="flex items-center justify-between py-1">
+            <div>
+                <span class="font-medium">${requiredDoc.description}</span> 
+                <span class="font-bold ${statusClass}">(${status})</span>
+            </div>
+            <div class="flex items-center space-x-3">  
+                ${reviewButtonHtml}
+                ${openInDocAIButtonHtml} 
+            </div>
+        </li>`;
+                  }).join('')}</ul></div>` : `<p class="text-xs text-gray-500 mt-2">No documents required.</p>`;
+
+                  return `<div class="p-3 bg-white rounded-lg shadow-sm">
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <p class="font-semibold">${course?.name || 'Unknown Course'}</p>
+                    <p class="text-xs text-gray-500">Sub ID: ${sub.ID}</p> 
+                    <p class="text-xs text-gray-500">Status: ${sub.status}</p>
+                    <div class="text-xs text-gray-400">${sub.s4hanaBusinessPartnerID ? `<span>BP ID: ${sub.s4hanaBusinessPartnerID}</span>` : ''} ${sub.s4hanaSalesOrderID ? `<span class="ml-2">SO ID: ${sub.s4hanaSalesOrderID}</span>` : ''}</div>
+                </div>
+                ${actionButtonHtml} 
+            </div>
+            ${documentsHtml}
+        </div>`;
+                }).join('');
+              } else {
+                contentEl.innerHTML = `<p class="text-sm text-gray-500">No subscriptions for this traveler.</p>`;
+              }
+            }
+          });
+        });
+        travelerListContainer.addEventListener('click', async (e) => {
+
+          // --- Preserve existing BP/SO IDs on update ---
+          if (e.target.matches('.approve-docs-btn')) {
+            const subscriptionId = e.target.dataset.id;
+            const currentStatus = e.target.dataset.currentStatus;
+
+            // Find the full subscription object from the array we already have
+            const subscription = subscriptions.find(s => s.ID === subscriptionId);
+            if (!subscription) {
+              showMessage("Could not find subscription details to update.", 'error');
+              return;
+            }
+
+            let newStatus = 'DepositPending'; // Default for DocsPending, ActionRequired, etc.
+
+            if (currentStatus === 'DepositPaid') {
+              // If deposit is already paid, admin approval moves it to Confirmed
+              newStatus = 'Confirmed';
+            }
+
+            showProcessingOverlay();
+            try {
+              // Pass the existing BP ID and SO ID to preserve them
+              await ApiService.updateSubscriptionStatus(
+                subscriptionId,
+                newStatus,
+                subscription.s4hanaBusinessPartnerID, // Pass existing BP ID
+                subscription.s4hanaSalesOrderID        // Pass existing SO ID
+              );
+              hideProcessingOverlay();
+              showMessage("Subscription status updated.");
+              renderAdminManageTravelers();
+            }
+            catch (error) { hideProcessingOverlay(); showMessage("An error occurred."); }
+          }
+
+          if (e.target.matches('.approve-payment-btn')) {
+            const subscriptionId = e.target.dataset.id;
+
+            const subscription = subscriptions.find(s => s.ID === subscriptionId);
+            if (!subscription) {
+              showMessage("Could not find subscription details to update.", 'error');
+              return;
+            }
+
+            showProcessingOverlay();
+            try {
+              // Pass existing BP ID, and the new SO ID
+              await ApiService.updateSubscriptionStatus(
+                subscriptionId,
+                'Confirmed',
+                subscription.s4hanaBusinessPartnerID, // Pass existing BP ID
+                'SO' + Math.floor(Math.random() * 1000000) // Pass new SO ID
+              );
+              hideProcessingOverlay();
+              showMessage("Subscription status updated.");
+              e.target.closest('details').open = false;
+              renderAdminManageTravelers(); // Re-render to be safe
+            }
+            catch (error) { hideProcessingOverlay(); showMessage("An error occurred."); }
+          }
+
+          if (e.target.matches('.cancel-subscription-btn')) {
+            const subscriptionId = e.target.dataset.id;
+            if (!confirm(`Are you sure you want to cancel subscription ${subscriptionId}? This action cannot be undone.`)) {
+              return;
+            }
+
+            showProcessingOverlay();
+            try {
+              // Call the new DELETE method
+              await ApiService.cancelSubscription(subscriptionId);
+
+              hideProcessingOverlay();
+              showMessage(`Subscription ${subscriptionId} cancelled successfully!`, 'success');
+
+              // Close the details and re-render the traveler list to show the change
+              e.target.closest('details').open = false;
+              renderAdminManageTravelers();
+
+            } catch (error) {
+              hideProcessingOverlay();
+              console.error("Failed to cancel subscription:", error);
+              showMessage(`Failed to cancel subscription: ${error.message}`, 'error');
+            }
+          }
+        });
+      } else {
+        travelerListContainer.innerHTML = '<p class="text-gray-500 text-center">No travelers have signed up yet.</p>';
+      }
+    }
+
+    async function renderAdminManageSubscriptions() {
+      const container = document.getElementById('app-container');
+      container.innerHTML = `<h2 class="text-3xl font-bold text-gray-900 mb-8">Manage Subscriptions</h2><div class="cool-card p-4 mb-8 non-clickable"><div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-center"><label for="traveler-filter-select" class="text-sm font-medium text-gray-700">Filter by Traveler:</label><select id="traveler-filter-select" class="cool-input w-full md:w-auto"><option value="">All Travelers</option></select></div></div><div id="subscriptions-list-container" class="space-y-6"><p class="text-gray-500">Loading subscriptions...</p></div>`;
+      showProcessingOverlay();
+      try {
+        const [subscriptions, travelers, submittedDocs, courses, openDocs] = await Promise.all([ApiService.getSubscriptions().then(r => r.value), ApiService.getTravelers().then(r => r.value), ApiService.getSubmittedDocuments().then(r => r.value), ApiService.getCourses().then(r => r.value), ApiService.getOpenDocuments(),]);
+        hideProcessingOverlay();
+        const travelerFilterSelect = document.getElementById('traveler-filter-select');
+        travelers.forEach(traveler => { const option = document.createElement('option'); option.value = traveler.ID; option.textContent = `${traveler.firstName} ${traveler.lastName}`; travelerFilterSelect.appendChild(option); });
+        const subscriptionsListContainer = document.getElementById('subscriptions-list-container');
+        const documentDataCache = {};
+        const renderSubscriptions = (filteredTravelerId) => {
+          const filteredSubscriptions = filteredTravelerId ? subscriptions.filter(s => s.traveler_ID === filteredTravelerId) : subscriptions;
+          if (filteredSubscriptions.length === 0) { subscriptionsListContainer.innerHTML = `<p class="text-gray-500 text-center">No subscriptions found.</p>`; return; }
+          subscriptionsListContainer.innerHTML = filteredSubscriptions.map(subscription => {
+            const course = courses.find(c => c.ID === subscription.course_ID);
+            const traveler = travelers.find(t => t.ID === subscription.traveler_ID);
+            const subDocs = submittedDocs.filter(d => d.subscription_ID === subscription.ID);
+            const docsHtml = subDocs.map(doc => { const isMissing = doc.status === 'Missing'; const missingDocControls = isMissing ? `<div class="mt-3 pt-3 border-t border-gray-200 space-y-3"><p class="text-xs font-semibold text-gray-500 uppercase">Action Required: ${doc.documentType}</p><div class="bg-yellow-50 p-3 rounded-lg space-y-3"><button type="button" class="cool-button cool-button-secondary w-full text-sm py-2 px-4 suggest-btn" data-subdoc-id="${doc.ID}"><i class="fas fa-magic mr-2"></i>Find a suggestion for me</button><div class="flex items-center text-center"><div class="flex-grow border-t"></div><span class="flex-shrink mx-2 text-xs text-gray-400">OR</span><div class="flex-grow border-t"></div></div><div class="flex items-end space-x-2"><div class="flex-grow"><label class="text-xs font-medium text-gray-700">Assign Manually</label><select class="cool-input w-full mt-1 assign-doc-select text-sm" data-subdoc-id="${doc.ID}"><option value="">Select an unlinked document...</option>${openDocs.map(openDoc => `<option value="${openDoc.ID}" data-schema-id="${openDoc.schemaVersion_ID}" data-document-id="${openDoc.file_ID}">ID: ...${openDoc.file_ID.slice(-6)} (${openDoc.schemaVersion_ID.slice(0, 8)})</option>`).join('')}</select></div><button type="button" class="cool-button cool-button-primary text-sm py-2 px-4 save-btn h-[42px]" data-subdoc-id="${doc.ID}"><i class="fas fa-link"></i></button></div></div><div id="preview-${doc.ID}" class="doc-preview-container mt-2"></div></div>` : ''; const reviewBtn = doc.status === 'Uploaded' ? `<button class="review-doc-btn text-sm text-indigo-600 hover:underline ml-auto font-semibold" data-subdocumentid="${doc.ID}" data-documentid="${doc.documentID}" data-filename="${doc.fileName}" data-doctype="${doc.documentType}" data-mimetype="${doc.mimeType}" data-extracteddata='${JSON.stringify(doc.extractedData)}' data-status="${doc.status}">Review <i class="fas fa-arrow-right text-xs ml-1"></i></button>` : ''; const statusClass = doc.status === 'Uploaded' ? 'text-green-600' : 'text-red-600'; return `<div class="p-3 border rounded-md shadow-sm bg-white"><div class="flex items-center justify-between"><span class="font-semibold text-sm">${doc.documentType}</span>${reviewBtn || `<span class="font-bold text-xs ${statusClass}">${doc.status}</span>`}</div>${missingDocControls}</div>`; }).join('');
+            return `<div class="cool-card p-6"><div class="flex justify-between items-start mb-4"><div><h3 class="text-xl font-bold">${course?.name || 'Unknown Course'}</h3><p class="text-gray-600 text-sm">Traveler: ${traveler?.firstName} ${traveler?.lastName}</p><p class="text-gray-600 text-sm">Status: <span class="font-semibold p-1 px-2 rounded-md text-white text-xs bg-yellow-500">${subscription.status}</span></p></div></div><div class="space-y-3"><h4 class="font-semibold text-lg">Submitted Documents</h4>${docsHtml || `<p class="text-gray-500 text-sm">No documents submitted.</p>`}</div></div>`;
+          }).join('');
+          attachAdminSubscriptionListeners();
+        };
+        const renderInlinePreview = (containerId, data) => { const container = document.getElementById(containerId); if (!container) return; const imageHtml = data.imagePreviewUrl ? `<img src="${data.imagePreviewUrl}" alt="Preview" class="w-full h-auto rounded-md border">` : `<div class="w-full bg-gray-100 p-4 text-center rounded-md text-gray-500">No image preview.</div>`; container.innerHTML = `<div class="p-2 border rounded-md bg-white">${imageHtml}</div>`; };
+        const attachAdminSubscriptionListeners = () => {
+          document.querySelectorAll('.assign-doc-select').forEach(select => {
+            select.addEventListener('change', async (e) => {
+              const selectedOption = e.target.options[e.target.selectedIndex];
+              const subDocId = e.target.dataset.subdocId;
+              const previewContainerId = `preview-${subDocId}`;
+              if (!selectedOption.value) { document.getElementById(previewContainerId).innerHTML = ''; return; }
+              const docID = selectedOption.dataset.documentId;
+              showProcessingOverlay();
+              try { if (!documentDataCache[docID]) { const [ocrResponse] = await Promise.all([ApiService.getOcrResponse(docID)]); documentDataCache[docID] = { ocr: ocrResponse }; } hideProcessingOverlay(); const imageData = documentDataCache[docID].ocr?.ocrResponse?.images?.[0]; const imagePreviewUrl = imageData ? `data:image/jpeg;base64,${imageData}` : null; renderInlinePreview(previewContainerId, { imagePreviewUrl }); } catch (error) { hideProcessingOverlay(); document.getElementById(previewContainerId).innerHTML = `<div class="p-4 bg-red-100 text-red-600 rounded-md">Failed to load preview.</div>`; }
+            });
+          });
+          document.querySelectorAll('.suggest-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const subDocId = e.target.dataset.subdocId; const subDoc = submittedDocs.find(d => d.ID === subDocId); const subscription = subscriptions.find(s => s.ID === subDoc.subscription_ID); const traveler = travelers.find(t => t.ID === subscription.traveler_ID); const previewContainerId = `preview-${subDocId}`; e.target.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Searching...`; let suggestedDoc = null; showProcessingOverlay();
+              for (const openDoc of openDocs) {
+                const docID = openDoc.file_ID;
+                if (!documentDataCache[docID]) { try { const [ocr, text] = await Promise.all([ApiService.getOcrResponse(docID), ApiService.getTextResponse(docID)]); documentDataCache[docID] = { ocr, text: text.value }; } catch (error) { continue; } }
+                const extractedText = documentDataCache[docID].text?.toLowerCase() || '';
+                const firstName = traveler.firstName?.toLowerCase(); const lastName = traveler.lastName?.toLowerCase();
+                if (firstName && extractedText.includes(firstName) && lastName && extractedText.includes(lastName)) { suggestedDoc = openDoc; break; }
+              }
+              e.target.innerHTML = '<i class="fas fa-magic mr-2"></i>Find a suggestion for me'; hideProcessingOverlay();
+              if (suggestedDoc) { const selectElement = document.querySelector(`.assign-doc-select[data-subdoc-id="${subDocId}"]`); selectElement.value = suggestedDoc.ID; const imageData = documentDataCache[suggestedDoc.file_ID].ocr?.ocrResponse?.images?.[0]; const imagePreviewUrl = imageData ? `data:image/jpeg;base64,${imageData}` : null; renderInlinePreview(previewContainerId, { imagePreviewUrl }); showMessage(`Suggested Document found based on traveler's name.`); } else { showMessage("No matching document could be suggested."); }
+            });
+          });
+          document.querySelectorAll('.save-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const buttonElement = e.target.closest('.save-btn'); if (!buttonElement) return;
+              const subDocId = buttonElement.dataset.subdocId;
+              const selectElement = document.querySelector(`.assign-doc-select[data-subdoc-id="${subDocId}"]`);
+              const selectedOption = selectElement.options[selectElement.selectedIndex];
+              if (!selectedOption.value) { showMessage("Please select a document to save."); return; }
+              const docID = selectedOption.dataset.documentId; const schemaID = selectedOption.dataset.schemaId;
+              showProcessingOverlay();
+              if (!documentDataCache[docID]) { try { const [ocr, text] = await Promise.all([ApiService.getOcrResponse(docID), ApiService.getTextResponse(docID)]); documentDataCache[docID] = { ocr, text: text.value }; } catch (error) { hideProcessingOverlay(); showMessage("Failed to retrieve document data. Cannot save."); return; } }
+              const extractedData = JSON.stringify(documentDataCache[docID].ocr.ocrResponse.result[0].extractedData);
+              try { await ApiService.updateSubmittedDocumentsWithDocumentFileID(subDocId, "Uploaded", docID, schemaID, extractedData); hideProcessingOverlay(); showMessage("Document assigned and saved successfully!"); renderAdminManageSubscriptions(); }
+              catch (error) { hideProcessingOverlay(); showMessage("Failed to save document assignment."); }
+            });
+          });
+        };
+        travelerFilterSelect.addEventListener('change', (e) => renderSubscriptions(e.target.value));
+        renderSubscriptions('');
+      } catch (error) { hideProcessingOverlay(); container.innerHTML = `<p class="text-red-500">Failed to load data. Please check the console for details.</p>`; }
+    }
+
+    async function renderAdminPendingDocuments() {
+      const container = document.getElementById('app-container');
+
+      // --- Tab switching function ---
+      const switchPendingDocTab = (tabName) => {
+        // Hide all tab content
+        document.querySelectorAll('.pending-doc-tab-content').forEach(content => {
+          content.classList.add('hidden');
+        });
+        // Deactivate all tab buttons
+        document.querySelectorAll('.pending-doc-tab-btn').forEach(button => {
+          button.classList.remove('border-indigo-600', 'text-gray-900');
+          button.classList.add('border-transparent', 'text-gray-500');
+        });
+        // Show the selected tab content and activate its button
+        document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+        document.querySelector(`button[onclick*="${tabName}"]`).classList.add('border-indigo-600', 'text-gray-900');
+      };
+
+      // --- Initial HTML with tab structure ---
+      container.innerHTML = `
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Documents for Review</h2>
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-6" id="pending-docs-tabs">
+                <p class="py-4 px-1 text-center font-medium text-sm">Loading tabs...</p>
+            </nav>
+        </div>
+        <div id="pending-docs-container">
+            <p class="text-gray-500 text-center">Loading and categorizing documents...</p>
+        </div>
+    `;
+
+      showProcessingOverlay();
+      try {
+        const pendingDocs = await ApiService.getOpenDocuments();
+
+        if (pendingDocs.length === 0) {
+          container.innerHTML = `<h2 class="text-3xl font-bold text-gray-900 mb-8">Pending Documents for Review</h2><p class="text-gray-500 text-center">No documents are currently pending review.</p>`;
+          hideProcessingOverlay();
+          return;
+        }
+
+        const docDataPromises = pendingDocs.map(async doc => {
+          try {
+            const [fileDetails, ocrResponse, textResponse] = await Promise.all([
+              ApiService.getFileDetails(doc.file_ID),
+              ApiService.getOcrResponse(doc.file_ID),
+              ApiService.getTextResponse(doc.file_ID)
+            ]);
+            const imageData = ocrResponse?.ocrResponse?.images?.[0];
+            return {
+              ...doc,
+              fileName: fileDetails ? fileDetails.name : 'Unknown Filename',
+              extractedText: textResponse?.value || 'No text extracted.',
+              imagePreviewUrl: imageData ? `data:image/jpeg;base64,${imageData}` : null,
+              fetchError: null
+            };
+          } catch (error) {
+            console.error(`Failed to fetch full data for document ${doc.ID}:`, error);
+            return { ...doc, fetchError: 'Failed to load data.' };
+          }
+        });
+
+        const allDocsWithData = await Promise.all(docDataPromises);
+
+        const categories = { email: [], mobile: [], others: [] };
+        const mobileScanRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\.pdf$/;
+        const mobileScanRegex2 = /^\d{4}-\d{2}-\d{2}T\d{2}[_:]\d{2}[_:]\d{2}Z\.pdf$/;
+
+        allDocsWithData.forEach(doc => {
+          if (doc.fileName.endsWith('.eml')) categories.email.push(doc);
+          else if (mobileScanRegex.test(doc.fileName)) categories.mobile.push(doc);
+          else if (mobileScanRegex2.test(doc.fileName)) categories.mobile.push(doc);
+          else categories.others.push(doc);
+        });
+
+        // --- Render Tab Buttons ---
+        const tabsContainer = document.getElementById('pending-docs-tabs');
+        tabsContainer.innerHTML = `
+            <button onclick="switchPendingDocTab('email')" class="pending-doc-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                Email Ingestion <span class="bg-gray-200 text-gray-700 text-xs font-bold ml-2 px-2 py-0.5 rounded-full">${categories.email.length}</span>
+            </button>
+            <button onclick="switchPendingDocTab('mobile')" class="pending-doc-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                Mobile Scans <span class="bg-gray-200 text-gray-700 text-xs font-bold ml-2 px-2 py-0.5 rounded-full">${categories.mobile.length}</span>
+            </button>
+            <button onclick="switchPendingDocTab('others')" class="pending-doc-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                Others <span class="bg-gray-200 text-gray-700 text-xs font-bold ml-2 px-2 py-0.5 rounded-full">${categories.others.length}</span>
+            </button>
+        `;
+
+        // --- Render Tab Content Panels ---
+        const pendingDocsContainer = document.getElementById('pending-docs-container');
+
+        const renderDocCards = (docs) => {
+          if (docs.length === 0) return `<p class="text-gray-500">No documents in this category.</p>`;
+          return docs.map(doc => {
+            const imagePreviewHtml = doc.imagePreviewUrl
+              ? `<img src="${doc.imagePreviewUrl}" alt="Document Preview" class="w-full h-auto rounded-md border">`
+              : `<div class="w-full bg-gray-100 p-4 text-center rounded-md text-gray-500">No image preview available.</div>`;
+
+            return `
+                    <div class="cool-card p-4 flex flex-col">
+                        <h3 class="font-bold text-lg mb-2 truncate" title="${doc.fileName}">${doc.fileName}</h3>
+                        <div class="space-y-1 text-sm text-gray-600 border-b pb-2 mb-2">
+                            <p><strong>Status:</strong> <span class="font-semibold text-yellow-500">${doc.status}</span></p>
+                        </div>
+                        <div class="mb-2">${imagePreviewHtml}</div>
+                        <details class="mt-auto text-sm">
+                            <summary class="cursor-pointer font-semibold text-indigo-600 hover:underline">View Extracted Text</summary>
+                            <div class="mt-2 p-2 bg-gray-100 rounded border max-h-40 overflow-y-auto">
+                                <pre class="whitespace-pre-wrap text-xs text-gray-700">${doc.extractedText}</pre>
+                            </div>
+                        </details>
+                    </div>`;
+          }).join('');
+        };
+
+        pendingDocsContainer.innerHTML = `
+            <div id="tab-email" class="pending-doc-tab-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${renderDocCards(categories.email)}</div>
+            <div id="tab-mobile" class="pending-doc-tab-content hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${renderDocCards(categories.mobile)}</div>
+            <div id="tab-others" class="pending-doc-tab-content hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${renderDocCards(categories.others)}</div>
+        `;
+
+        // --- Make the tab-switching function globally accessible ---
+        window.switchPendingDocTab = switchPendingDocTab;
+
+        // --- Activate the first tab by default ---
+        switchPendingDocTab('email');
+
+      } catch (error) {
+        console.error("Failed to load pending documents:", error);
+        container.innerHTML = `<h2 class="text-3xl font-bold text-gray-900 mb-8">Pending Documents for Review</h2><p class="text-red-500 text-center">Failed to load documents. Please try again.</p>`;
+      } finally {
+        hideProcessingOverlay();
+      }
+    }
+
+    async function renderMyProfile() {
+      const container = document.getElementById('app-container');
+      const travelerId = state.selectedTravelerId;
+
+      if (!travelerId) {
+        container.innerHTML = `<p class="text-red-500">Please select a traveler from the dropdown.</p>`;
+        return;
+      }
+
+      showProcessingOverlay();
+      try {
+        const traveler = await ApiService.getTraveler(travelerId);
+        hideProcessingOverlay();
+
+        const travelerData = traveler.value;
+        console.log(travelerData)
+
+        const formatDate = (dateString) => {
+          if (!dateString) return '';
+          const date = new Date(dateString);
+          return date.toISOString().split('T')[0];
+        };
+
+        const isPremium = travelerData.businessPartnerID ?
+          '<span class="ml-2 text-xs font-bold uppercase p-1 rounded bg-yellow-400 text-yellow-900">Premium Traveler</span>' : '';
+
+        const isKid = travelerData.isKid ?
+          '<p class="text-sm text-blue-600 font-semibold mb-4"><i class="fas fa-child mr-2"></i>This traveler is registered as a dependent.</p>' : '';
+
+        // --- Create the discount status message ---
+        const discountMessage = (travelerData.specialDiscount && travelerData.specialDiscount > 0) ? `
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+              <p class="font-bold">Special Discount Active</p>
+              <p>A <strong>${travelerData.specialDiscount}% discount</strong> has been enabled for your account and will be applied to new course subscriptions.</p>
+            </div>
+        ` : '';
+
+        container.innerHTML = `
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">My Profile</h2>
+            <div class="cool-card p-0 non-clickable max-w-2xl mx-auto overflow-hidden">
+                
+                <div class="flex border-b bg-gray-50">
+                    <button class="tab-btn p-4 font-semibold text-gray-800 border-b-2 border-indigo-600 flex-1" onclick="switchTab(event, 'details')">Details</button>
+                    <button class="tab-btn p-4 font-semibold text-gray-500 border-b-2 border-transparent flex-1" onclick="switchTab(event, 'family')">Family</button>
+                    <button class="tab-btn p-4 font-semibold text-gray-500 border-b-2 border-transparent flex-1" onclick="switchTab(event, 'special')">Special Entitlements</button>
+                </div>
+
+                <div class="p-6">
+                    <div id="details" class="tab-content">
+                        ${discountMessage}
+                        <div class="flex items-center mb-4">
+                            <h3 class="text-2xl font-bold">Traveler Details</h3>
+                            ${isPremium}
+                        </div>
+                        <form id="profile-form" class="space-y-4">
+                            <div>
+                                <label for="profile-first-name" class="block text-sm font-medium text-gray-700">First Name</label>
+                                <input type="text" id="profile-first-name" class="cool-input w-full mt-1" value="${travelerData.firstName || ''}" required>
+                            </div>
+                            <div>
+                                <label for="profile-last-name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                                <input type="text" id="profile-last-name" class="cool-input w-full mt-1" value="${travelerData.lastName || ''}" required>
+                            </div>
+                            <div>
+                                <label for="profile-email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="profile-email" class="cool-input w-full mt-1" value="${travelerData.email || ''}" required>
+                            </div>
+                            <div>
+                                <label for="profile-dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                <input type="date" id="profile-dob" class="cool-input w-full mt-1" value="${formatDate(travelerData.dateOfBirth)}">
+                            </div>
+                            <button type="submit" class="cool-button cool-button-primary w-full !mt-6">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div id="family" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-2">Family Information</h3>
+                        ${isKid}
+                        <p class="text-gray-600 mb-6">Manage dependent status and related documents.</p>
+                        
+                        <div class="space-y-4 border-t pt-6">
+                            <h4 class="text-xl font-semibold">Indemnity / Liaison Form</h4>
+                            <p class="text-sm text-gray-500">To authorize a guardian, please upload a signed indemnity form. This ensures the safety and proper handover for travelers under 18.</p>
+                            <input type="file" id="indemnity-upload" class="cool-input w-full">
+                            <button id="upload-indemnity-btn" class="cool-button cool-button-primary w-full">Upload and Review Document</button>
+                        </div>
+                    </div>
+                    <div id="special" class="tab-content hidden">
+                        <h3 class="text-2xl font-bold mb-2">Special Entitlements</h3>
+                        <p class="text-gray-600 mb-6">Submit documentation to apply for special discounts on your subscriptions.</p>
+                        <div class="text-xs text-gray-500 bg-gray-100 p-3 rounded-md mb-6">
+                            <p><strong>Disclaimer:</strong> By proceeding, you acknowledge that all documents submitted are protected under the PDPA privacy act. Your data will remain confidential and is used solely for the purpose of verifying entitlement to special discounts.</p>
+                        </div>
+                        <div class="space-y-4">
+                            <h4 class="text-xl font-semibold">Upload Statement Document</h4>
+                            <p class="text-sm text-gray-500">Upload an official document to prove eligibility.</p>
+                            <input type="file" id="special-doc-upload" class="cool-input w-full">
+                            <button id="approve-special-doc-btn" class="cool-button cool-button-primary w-full">Send for Approval</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+
+        // --- Event Listeners ---
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const updatedData = {
+            firstName: document.getElementById('profile-first-name').value,
+            lastName: document.getElementById('profile-last-name').value,
+            email: document.getElementById('profile-email').value,
+            dateOfBirth: document.getElementById('profile-dob').value
+          };
+          showProcessingOverlay();
+          try {
+            await ApiService.updateTraveler(travelerId, updatedData);
+            hideProcessingOverlay();
+            showMessage('Profile updated successfully!', 'success');
+            // ... (rest of the existing update logic)
+          } catch (error) {
+            hideProcessingOverlay();
+            console.error("Failed to update profile:", error);
+            showMessage("An error occurred while saving profile changes.", 'error');
+          }
+        });
+
+        // --- Listeners for new buttons ---
+        document.getElementById('upload-indemnity-btn').addEventListener('click', () => {
+          const fileInput = document.getElementById('indemnity-upload');
+          if (!fileInput.files.length) {
+            showMessage('Please select a file to upload.', 'warning');
+            return;
+          }
+          // Mock document review
+          showProcessingOverlay();
+          setTimeout(() => {
+            hideProcessingOverlay();
+            showDocumentDetails({
+              ID: "mock-doc-123",
+              documentID: "SIM-INDEMNITY-456",
+              fileName: fileInput.files[0].name,
+              docType: "INDEMNITY_FORM",
+              mimeType: fileInput.files[0].type,
+              status: "Review Complete",
+              extractedData: JSON.stringify({ "Parent Name": "Jane Doe", "Child Name": "John Doe", "Authorization": "Granted" })
+            });
+          }, 1500);
+        });
+
+        // --- Event listener for special doc approval ---
+        document.getElementById('approve-special-doc-btn').addEventListener('click', async () => {
+          const fileInput = document.getElementById('special-doc-upload');
+          if (!fileInput.files.length) {
+            showMessage('Please select a statement document to upload.', 'warning');
+            return;
+          }
+          showProcessingOverlay();
+          try {
+            // Mock discount value
+            const discountValue = 15;
+
+            // Call the API to update the traveler profile
+            await ApiService.updateTraveler(travelerId, { specialDiscount: discountValue });
+
+            hideProcessingOverlay();
+            showMessage(`Approval successful! A ${discountValue}% discount has been applied to your account.`, 'success');
+
+            // Refresh the profile view to show the new status message
+            renderMyProfile();
+
+          } catch (error) {
+            hideProcessingOverlay();
+            console.error("Failed to apply special discount:", error);
+            showMessage("An error occurred while applying the discount.", 'error');
+          }
+        });
+
+      } catch (error) {
+        hideProcessingOverlay();
+        console.error("Failed to fetch traveler profile:", error);
+        container.innerHTML = `<p class="text-red-500">Failed to load profile data. Please try again.</p>`;
+      }
+    }
+
+    async function renderManageCourses() {
+      const container = document.getElementById('app-container');
+      container.innerHTML = `
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Manage Courses</h2>
+        <div class="cool-card p-6 mb-8 non-clickable">
+            <h3 class="text-2xl font-bold mb-4">Create New Course</h3>
+            <form id="create-course-form" class="space-y-4">
+                <input type="text" id="new-course-name" placeholder="Course Name" class="cool-input w-full" required>
+                <textarea id="new-course-description" placeholder="Description" class="cool-input w-full" rows="3" required></textarea>
+                <div class="flex space-x-4">
+                    <input type="number" id="new-course-price" placeholder="Price" class="cool-input w-full" required>
+                    <input type="number" id="new-course-deposit" placeholder="Deposit Amount" class="cool-input w-full" required>
+                </div>
+                <div class="space-y-2 border-t border-gray-200 pt-4">
+                    <h4 class="font-semibold">Required Documents:</h4>
+                    
+                    <div class="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0">
+                        <input type="text" id="new-doc-type" placeholder="Doc Type (e.g., ID_CARD)" class="cool-input w-full md:w-1/4">
+                        <input type="text" id="new-doc-desc" placeholder="Doc Description" class="cool-input w-full md:w-1/4">
+                        
+                        <select id="new-doc-type-select" class="cool-input w-full md:flex-grow"></select>
+                        
+                        <button type="button" id="add-doc-btn" class="cool-button cool-button-secondary w-full md:w-auto">+</button>
+                    </div>
+                    <ul id="doc-preview" class="list-disc list-inside text-sm pl-5"></ul>
+                </div>
+                <button type="submit" class="cool-button cool-button-primary w-full">Save New Course</button>
+            </form>
+        </div>
+        <div class="cool-card p-6 non-clickable">
+            <h3 class="text-2xl font-bold mb-4">Existing Courses</h3>
+            <div id="existing-courses-list" class="space-y-4">
+                <p class="text-gray-500">Loading courses...</p>
+            </div>
+        </div>
+      `;
+
+      let docsToCreate = [];
+      const docPreviewList = document.getElementById('doc-preview');
+      const docTypeSelect = document.getElementById('new-doc-type-select');
+
+      const activeSchemas = state.schemaDocuments.filter(schema => schema.versions && schema.versions.some(version => version.isActive === true));
+      if (activeSchemas.length > 0) {
+        activeSchemas.forEach(schema => {
+          const option = document.createElement('option');
+          option.textContent = schema.label + ' - ' + schema.name;
+          option.value = schema.versions[0].ID;
+          docTypeSelect.appendChild(option);
+        });
+      } else { docTypeSelect.innerHTML = '<option value="">No active document types found</option>'; }
+
+      document.getElementById('add-doc-btn').addEventListener('click', () => {
+        const docType = document.getElementById('new-doc-type').value;
+        const docDesc = document.getElementById('new-doc-desc').value;
+        const selectedOption = docTypeSelect.options[docTypeSelect.selectedIndex];
+        if (docType && docDesc) {
+          docsToCreate.push({ documentType: docType, description: docDesc, documentTypeSchemaID: selectedOption.value });
+          const li = document.createElement('li');
+          li.textContent = `${docDesc} (${docType}) - ${selectedOption.textContent} (${selectedOption.value})`;
+          docPreviewList.appendChild(li);
+          document.getElementById('new-doc-type').value = '';
+          document.getElementById('new-doc-desc').value = '';
+        }
+      });
+
+      document.getElementById('create-course-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('new-course-name').value;
+        const description = document.getElementById('new-course-description').value;
+        const price = parseFloat(document.getElementById('new-course-price').value);
+        const deposit = parseFloat(document.getElementById('new-course-deposit').value);
+
+        if (name && description && !isNaN(price) && !isNaN(deposit)) {
+          showProcessingOverlay();
+          try {
+            const createdCourse = await ApiService.createCourse({ name, description, price, depositAmount: deposit, requiredDocuments: docsToCreate, s4hanaProductID: '181' });
+            hideProcessingOverlay();
+            showMessage(`Course "${createdCourse.value.name}" created successfully!`);
+            renderManageCourses();
+          } catch (error) { hideProcessingOverlay(); showMessage("An error occurred while creating the course."); }
+        } else { showMessage("Please fill out all fields correctly."); }
+      });
+
+      const coursesData = await ApiService.getCourses();
+      const existingCoursesList = document.getElementById('existing-courses-list');
+      if (coursesData.value.length > 0) {
+        existingCoursesList.innerHTML = coursesData.value.map(course => `<div class="p-4 border rounded-md"><h4 class="font-bold text-lg">${course.name}</h4><p class="text-gray-600 text-sm">${course.description}</p></div>`).join('');
+      } else { existingCoursesList.innerHTML = '<p class="text-gray-500 text-center">No courses have been created yet.</p>'; }
+    }
+
+    function switchTab(event, tabName) {
+      // Hide all tab content
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.add('hidden'));
+
+      // Deactivate all tab buttons
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      tabButtons.forEach(button => {
+        button.classList.remove('border-indigo-600', 'text-gray-800');
+        button.classList.add('border-transparent', 'text-gray-500');
+      });
+
+      // Show the selected tab content
+      document.getElementById(tabName).classList.remove('hidden');
+
+      // Activate the selected tab button
+      event.currentTarget.classList.add('border-indigo-600', 'text-gray-800');
+      event.currentTarget.classList.remove('border-transparent', 'text-gray-500');
+    }
+
+    function setupEventListeners() {
+      // --- Element Definitions ---
+      const mobileMenu = document.getElementById('mobile-menu');
+      const travelerDropdown = document.getElementById('traveler-dropdown');
+      const adminDropdown = document.getElementById('admin-dropdown');
+      const travelerSelectBtn = document.getElementById('traveler-select-btn');
+      const travelerSelectDropdown = document.getElementById('traveler-select-dropdown');
+      const notificationBell = document.getElementById('notification-bell');
+      const notificationPanel = document.getElementById('notification-panel');
+
+      // Helper function to close all header dropdowns
+      const closeAllHeaderDropdowns = () => {
+        if (travelerDropdown) travelerDropdown.classList.add('hidden');
+        if (adminDropdown) adminDropdown.classList.add('hidden');
+      };
+
+      // --- Navigation Listeners ---
+      document.getElementById('nav-courses-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderCoursesCatalog();
+      });
+
+      document.getElementById('nav-traveler-btn').addEventListener('click', () => {
+        if (adminDropdown) adminDropdown.classList.add('hidden');
+        if (travelerDropdown) travelerDropdown.classList.toggle('hidden');
+      });
+
+      document.getElementById('nav-my-profile-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderMyProfile();
+      });
+
+      document.getElementById('nav-subscriptions-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderManageSubscriptions();
+      });
+
+      document.getElementById('nav-admin-btn').addEventListener('click', () => {
+        if (travelerDropdown) travelerDropdown.classList.add('hidden');
+        if (adminDropdown) adminDropdown.classList.toggle('hidden');
+      });
+
+      document.getElementById('nav-admin-manage-travelers-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderAdminManageTravelers();
+      });
+
+      document.getElementById('nav-admin-courses-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderManageCourses();
+      });
+
+      document.getElementById('nav-admin-manage-subscriptions-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderAdminManageSubscriptions();
+      });
+
+      document.getElementById('nav-admin-pending-docs-btn').addEventListener('click', () => {
+        closeAllHeaderDropdowns();
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        renderAdminPendingDocuments();
+      });
+
+      // --- Document & Payment Modal Listeners ---
+      document.getElementById('doc-modal-close-btn').addEventListener('click', closeDocumentModal);
+      document.getElementById('doc-tab-btn-basic').addEventListener('click', () => switchDocModalTab('basic'));
+      document.getElementById('doc-tab-btn-advanced').addEventListener('click', () => switchDocModalTab('advanced'));
+      document.getElementById('payment-cancel-btn').addEventListener('click', closePaymentModal);
+      document.getElementById('payment-confirm-btn').addEventListener('click', () => {
+        if (typeof processPaymentCallback === 'function') {
+          closePaymentModal();
+          processPaymentCallback();
+        }
+      });
+
+      // --- Hamburger Menu Logic ---
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      if (hamburgerBtn && mobileMenu) {
+        hamburgerBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target.id.startsWith('nav-') && !e.target.id.endsWith('-btn')) {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+      }
+
+      // --- Custom Traveler Dropdown Listeners ---
+      if (travelerSelectBtn && travelerSelectDropdown) {
+        travelerSelectBtn.addEventListener('click', () => {
+          travelerSelectDropdown.classList.toggle('hidden');
+        });
+        travelerSelectDropdown.addEventListener('click', (e) => {
+          if (e.target.tagName === 'BUTTON') {
+            updateSelectedTraveler(e.target.dataset.id, e.target.textContent.trim());
+            travelerSelectDropdown.classList.add('hidden');
+          }
+        });
+      }
+
+      // --- Notification Listeners ---
+      notificationBell.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notificationPanel.classList.toggle('hidden');
+      });
+      document.getElementById('mark-all-read-btn').addEventListener('click', markAllAsRead);
+      document.getElementById('notification-modal-close-btn').addEventListener('click', closeNotificationModal);
+      document.getElementById('notification-list').addEventListener('click', (e) => {
+        const notificationItem = e.target.closest('.notification-item');
+        if (!notificationItem) return;
+
+        const notificationId = notificationItem.dataset.id;
+
+        if (e.target.closest('.view-traveler-btn')) {
+          notificationPanel.classList.add('hidden');
+          renderAdminManageTravelers();
+        } else {
+          showNotificationModal(notificationId);
+          markNotificationAsRead(notificationId);
+        }
+      });
+
+      // --- CONSOLIDATED Global Click Listener ---
+      document.body.addEventListener('click', async (e) => {
+        // --- Logic for document review buttons (Event Delegation) ---
+        const reviewBtn = e.target.closest('.review-doc-btn');
+        if (reviewBtn) {
+          const documentID = reviewBtn.dataset.documentid;
+          if (documentID) {
+            showDocumentDetails({
+              ID: reviewBtn.dataset.subdocumentid,
+              documentID: documentID,
+              fileName: reviewBtn.dataset.filename,
+              docType: reviewBtn.dataset.doctype,
+              mimeType: reviewBtn.dataset.mimetype,
+              extractedData: reviewBtn.dataset.extracteddata,
+              status: reviewBtn.dataset.status
+            });
+          }
+        }
+
+        // --- Logic for "Open in DocAI" button ---
+        const openDocAIButton = e.target.closest('.open-docai-btn');
+        if (openDocAIButton) {
+          const fileId = openDocAIButton.dataset.fileId;
+          if (fileId) {
+            showProcessingOverlay();
+            try {
+              const docAI_ID = await ApiService.getDocAIDocumentId(fileId);
+              const docAIUrl = `${state.docAIEndpoint}/workspace#/Documents(${docAI_ID})`;
+              window.open(docAIUrl, '_blank'); // Open in a new tab
+            } catch (error) {
+              console.error("Error getting DocAI ID or opening link:", error);
+              showMessage(`Could not get Document AI link: ${error.message}`, 'error');
+            } finally {
+              hideProcessingOverlay();
+            }
+          } else {
+            console.warn("Open DocAI button clicked but file ID was missing.");
+          }
+        }
+
+        // --- Logic for "Check Completeness" button ---
+        const checkCompletenessBtn = e.target.closest('.check-completeness-btn');
+        if (checkCompletenessBtn) {
+          const subscriptionId = checkCompletenessBtn.dataset.id;
+          if (subscriptionId) {
+            // Show a temporary "checking" state on the button? (Optional)
+            checkCompletenessBtn.disabled = true;
+            checkCompletenessBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+            showProcessingOverlay(); // Show general overlay as well
+            try {
+              await ApiService.triggerCompletenessCheck(subscriptionId);
+              showMessage(`Document Completeness Check workflow started for subscription ${subscriptionId}.`, 'success');
+              // Optionally, you might want to refresh the view or update the status locally later
+            } catch (error) {
+              console.error("Error triggering completeness check:", error);
+              showMessage(`Error: ${error.message}`, 'error');
+            } finally {
+              hideProcessingOverlay();
+              // Restore button state
+              checkCompletenessBtn.disabled = false;
+              checkCompletenessBtn.innerHTML = 'Check'; // Restore original text
+            }
+          } else {
+            console.warn("Check Completeness button clicked but subscription ID was missing.");
+          }
+        }
+
+        // --- Logic for closing menus when clicking outside ---
+        // Close "My Account" dropdown if click is outside
+        if (travelerDropdown && !e.target.closest('#nav-traveler-btn') && !e.target.closest('#traveler-dropdown')) {
+          travelerDropdown.classList.add('hidden');
+        }
+
+        // Close "Admin" dropdown if click is outside
+        if (adminDropdown && !e.target.closest('#nav-admin-btn') && !e.target.closest('#admin-dropdown')) {
+          adminDropdown.classList.add('hidden');
+        }
+
+        // Close "Traveler Select" dropdown if click is outside
+        if (travelerSelectDropdown && !e.target.closest('#traveler-select-btn') && !e.target.closest('#traveler-select-dropdown')) {
+          travelerSelectDropdown.classList.add('hidden');
+        }
+
+        // Close "Notification" panel if click is outside
+        if (notificationPanel && !notificationPanel.classList.contains('hidden') && !e.target.closest('#notification-bell-container')) {
+          notificationPanel.classList.add('hidden');
+        }
+      });
+    }
+
+    function initializeFloatingTravelerSelector(travelers) {
+      const floatingContainer = document.getElementById('floating-traveler-container');
+      const floatingBtn = document.getElementById('floating-traveler-btn');
+      const floatingDropdown = document.getElementById('floating-traveler-dropdown');
+      const floatingInitials = document.getElementById('floating-traveler-initials');
+
+      if (!floatingContainer || !floatingBtn || !floatingDropdown) return;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const hideHeader = urlParams.get('$hideHeader') === 'true';
+      const userType = urlParams.get('$userType');
+
+      // Only show the floating selector if the user is a 'traveler' AND the header is hidden.
+      if (userType !== 'traveler' || !hideHeader) {
+        floatingContainer.classList.add('hidden'); // Explicitly hide it
+        return; // Exit the function, no need to proceed
+      }
+
+      // If the conditions are met, make the container visible
+      floatingContainer.classList.remove('hidden');
+
+      // --- 1. Populate Dropdown ---
+      floatingDropdown.innerHTML = '<div class="px-4 py-2 text-sm text-gray-500 border-b mb-1">Select Traveler:</div>';
+
+      travelers.forEach(traveler => {
+        const travelerBtn = document.createElement('button');
+        travelerBtn.className = 'block px-4 py-2 w-full text-left hover:bg-gray-100';
+        travelerBtn.dataset.id = traveler.ID;
+        travelerBtn.dataset.name = `${traveler.firstName} ${traveler.lastName}`;
+        travelerBtn.textContent = travelerBtn.dataset.name;
+
+        travelerBtn.addEventListener('click', (e) => {
+          const selectedId = e.target.dataset.id;
+          const selectedName = e.target.dataset.name;
+
+          updateSelectedTraveler(selectedId, selectedName);
+
+          const initials = selectedName.match(/\b(\w)/g).join('').toUpperCase().substring(0, 2);
+          floatingInitials.textContent = initials;
+
+          const mainTravelerText = document.getElementById('traveler-select-text');
+          if (mainTravelerText) {
+            mainTravelerText.textContent = selectedName;
+          }
+
+          floatingDropdown.classList.add('hidden');
+        });
+        floatingDropdown.appendChild(travelerBtn);
+      });
+
+      // --- 2. Initial Setup (synchronizing with global state) ---
+      const initialTraveler = travelers.find(t => t.ID === state.selectedTravelerId);
+      if (initialTraveler) {
+        const fullName = `${initialTraveler.firstName} ${initialTraveler.lastName}`;
+        const initials = fullName.match(/\b(\w)/g).join('').toUpperCase().substring(0, 2);
+        floatingInitials.textContent = initials;
+      }
+
+
+      // --- 3. Add Listeners ---
+      floatingBtn.addEventListener('click', () => {
+        floatingDropdown.classList.toggle('hidden');
+      });
+
+    }
+
+    /**
+     * Renders the notification bell count and the dropdown list.
+     */
+    function renderNotifications() {
+      const countElement = document.getElementById('notification-count');
+      const listElement = document.getElementById('notification-list');
+
+      // Filter for unread notifications
+      const unreadNotifications = state.notifications.filter(n => !n.read);
+
+      // Update the bell counter
+      if (unreadNotifications.length > 0) {
+        countElement.textContent = unreadNotifications.length;
+        countElement.classList.remove('hidden');
+      } else {
+        countElement.classList.add('hidden');
+      }
+
+      // Update the dropdown list
+      if (state.notifications.length === 0) {
+        listElement.innerHTML = '<p class="p-4 text-sm text-gray-500 text-center">No notifications yet.</p>';
+        return;
+      }
+
+      listElement.innerHTML = state.notifications.map(n => `
+        <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
+            <p>${n.message}</p>
+            <div class="flex justify-between items-center">
+                <span class="timestamp">${new Date(n.timestamp).toLocaleString()}</span>
+                <button class="view-traveler-btn cool-button cool-button-secondary text-xs py-1 px-2" data-nav="admin-travelers">Details</button>
+            </div>
+        </div>
+    `).join('');
+    }
+
+    /**
+     * Checks for new subscriptions and creates notifications.
+     */
+    async function fetchAndCompareSubscriptions() {
+      if (!state.isAuthenticated) return; // Don't run if not authenticated
+
+      try {
+        const subscriptionsResult = await ApiService.getSubscriptions();
+        const allSubscriptions = subscriptionsResult.value;
+        let newNotificationCreated = false;
+
+        const newSubPromises = allSubscriptions.map(async (sub) => {
+          if (!state.lastSubscriptionCheck.has(sub.ID)) {
+            // This is a new subscription, create a notification
+            newNotificationCreated = true;
+
+            // Fetch course and traveler details for a richer message
+            const [course, traveler] = await Promise.all([
+              state.courses.find(c => c.ID === sub.course_ID), // Assuming courses are pre-fetched
+              state.travelers.find(t => t.ID === sub.traveler_ID) // Assuming travelers are pre-fetched
+            ]);
+
+            const courseName = course ? course.name : 'Unknown Course';
+            const travelerName = traveler ? `${traveler.firstName} ${traveler.lastName}` : 'Unknown Traveler';
+
+            const notification = {
+              id: sub.ID,
+              message: `New subscription for "${courseName}" by ${travelerName}. Status: ${sub.status}.`,
+              timestamp: new Date().toISOString(),
+              read: false,
+              fullDetails: sub // Store the full object for later
+            };
+
+            state.notifications.unshift(notification); // Add to the top of the list
+          }
+        });
+
+        await Promise.all(newSubPromises);
+
+        // Update the set of known subscription IDs
+        allSubscriptions.forEach(sub => state.lastSubscriptionCheck.add(sub.ID));
+
+        if (newNotificationCreated) {
+          renderNotifications(); // Re-render the UI only if something changed
+        }
+
+      } catch (error) {
+        console.warn("Could not check for new subscriptions:", error);
+      }
+    }
+
+
+    /**
+     * Initializes the notification system on page load.
+     */
+    async function initializeNotificationSystem() {
+      // Fetch initial data to establish a baseline and for context
+      const [coursesData, travelersData] = await Promise.all([
+        ApiService.getCourses(),
+        ApiService.getTravelers()
+      ]);
+      state.courses = coursesData.value;
+      state.travelers = travelersData.value;
+
+      // Initial fetch to set the baseline
+      const initialSubs = await ApiService.getSubscriptions();
+      state.lastSubscriptionCheck = new Set(initialSubs.value.map(s => s.ID));
+
+      // Start the polling timer
+      setInterval(fetchAndCompareSubscriptions, state.notificationInterval);
+
+      // Initial render
+      renderNotifications();
+    }
+
+    /**
+     * Shows the modal with details for a specific notification.
+     */
+    function showNotificationModal(notificationId) {
+      const notification = state.notifications.find(n => n.id === notificationId);
+      if (!notification) return;
+
+      document.getElementById('notification-modal-message').textContent = notification.message;
+      document.getElementById('notification-modal-timestamp').textContent = new Date(notification.timestamp).toLocaleString();
+
+      document.getElementById('notification-modal-overlay').classList.remove('hidden');
+      document.getElementById('notification-modal').classList.remove('hidden');
+    }
+
+    function markNotificationAsRead(notificationId) {
+      const notification = state.notifications.find(n => n.id === notificationId);
+      if (notification && !notification.read) {
+        notification.read = true;
+        renderNotifications();
+      }
+    }
+
+    function markAllAsRead() {
+      state.notifications.forEach(n => n.read = true);
+      renderNotifications();
+      document.getElementById('notification-panel').classList.add('hidden'); // Close panel after action
+    }
+
+    function closeNotificationModal() {
+      document.getElementById('notification-modal-overlay').classList.add('hidden');
+      document.getElementById('notification-modal').classList.add('hidden');
+    }
+
+    async function initializeApp() {
+      try {
+        const response = await fetch("/environmentvariables");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const endpoints = await response.json();
+        state.xsuaaTokenEndpoint = endpoints.XSUAA_AUTH_ENDPOINT; state.xsuaaTokenCID = endpoints.XSUAA_AUTH_CID; state.xsuaaTokenCSECRET = endpoints.XSUAA_AUTH_CSECRET; state.backendCDSCAPEndpoint = endpoints.BACKEND_CDS_ENDPOINT; state.s4Endpoint = endpoints.S4HANA_ENDPOINT; state.docAIEndpoint = endpoints.DOCAI_ENDPOINT;
+        await ApiService.getAccessToken();
+        state.schemaDocuments = await ApiService.getSchemaDocuments();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const navigateTo = urlParams.get('$navigate');
+        const hideHeader = urlParams.get('$hideHeader') === 'true';
+        const userType = urlParams.get('$userType'); // Get the new userType parameter
+
+        const notificationBellContainer = document.getElementById('notification-bell-container');
+
+
+        if (userType === 'admin') {
+          // For admin, show notifications and start polling.
+          notificationBellContainer.classList.remove('hidden');
+          await initializeNotificationSystem();
+        } else {
+          // For travelers or default, hide notifications.
+          notificationBellContainer.classList.add('hidden');
+        }
+
+        if (hideHeader) {
+          document.querySelector('header').classList.add('hidden');
+        } else {
+          document.querySelector('header').classList.remove('hidden');
+        }
+
+        const adminMenuContainer = document.getElementById('nav-admin-btn').parentElement;
+        if (adminMenuContainer) {
+          if (userType === 'traveler') {
+            adminMenuContainer.classList.add('hidden');
+          } else {
+            // Ensure it's shown if userType is 'admin' or not set
+            adminMenuContainer.classList.remove('hidden');
+          }
+        }
+
+        // --- Floating Traveler Dropdown Logic ---
+        const travelers = await ApiService.getTravelers();
+        state.travelers = travelers.value;
+        const travelerDropdown = document.getElementById('traveler-select-dropdown');
+        const travelerSelectText = document.getElementById('traveler-select-text');
+
+        travelers.value.forEach(traveler => {
+          const button = document.createElement('button');
+          button.className = 'block px-4 py-2 w-full text-left hover:bg-gray-100';
+          button.textContent = `${traveler.firstName} ${traveler.lastName}`;
+          button.dataset.id = traveler.ID;
+          button.dataset.name = button.textContent;
+          travelerDropdown.appendChild(button);
+        });
+
+        const updateSelectedTraveler = (id, name) => {
+          state.selectedTravelerId = id;
+          travelerSelectText.textContent = name;
+          showMessage(`Switched to traveler: ${name}`);
+          if (document.querySelector('#subscription-list')) {
+            renderManageSubscriptions();
+          } else if (document.querySelector('#profile-form')) {
+            renderMyProfile();
+          }
+        };
+
+        if (travelers.value.length > 0) {
+          const firstTraveler = travelers.value[0];
+          const initialTraveler = travelers.value[0];
+          state.selectedTravelerId = initialTraveler.ID;
+          updateSelectedTraveler(firstTraveler.ID, `${firstTraveler.firstName} ${firstTraveler.lastName}`);
+          document.getElementById('traveler-select-text').textContent = `${initialTraveler.firstName} ${initialTraveler.lastName}`;
+
+        }
+        initializeFloatingTravelerSelector(travelers.value);
+        setupEventListeners();
+
+        switch (navigateTo) {
+          case 'courses': renderCoursesCatalog(); break;
+          case 'subscriptions': renderManageSubscriptions(); break;
+          case 'my-profile': renderMyProfile(); break;
+          case 'admin-travelers': renderAdminManageTravelers(); break;
+          case 'admin-courses': renderManageCourses(); break;
+          case 'admin-manage-subscriptions': renderAdminManageSubscriptions(); break;
+          case 'admin-pending-docs': renderAdminPendingDocuments(); break;
+          default: renderCoursesCatalog(); break;
+        }
+      } catch (error) {
+        console.error("Failed to initialize the application:", error);
+        showMessage("Application failed to start. Please check the console for errors.");
+        document.getElementById('app-container').innerHTML = `<p class="text-red-500 text-center">Application failed to initialize. Please try refreshing the page.</p>`;
+      }
+    }
+
+    window.onload = initializeApp;
+  </script>
+
+</body>
+
+</html>
