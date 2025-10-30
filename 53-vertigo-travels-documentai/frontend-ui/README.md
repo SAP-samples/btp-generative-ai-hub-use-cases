@@ -1,7 +1,7 @@
 > [!NOTE]
 > This documentation is currently under construction. Sections may be incomplete or subject to change.
 
-# Vertigo Travels UI Deployment Guide
+# Vertigo Travels App UI Deployment Guide
 
 ## 1. Overview
 
@@ -97,9 +97,6 @@ You can run the full application on your local machine for testing.
 
     **Example `.env` file structure:**
     ```
-    # Server Port
-    PORT=30000
-
     # Mailer Service Configuration
     MAILER_USER=your-email@gmail.com
     MAILER_PASSWORD=your-gmail-app-password
@@ -141,34 +138,32 @@ This guide assumes you are deploying to an SAP BTP, Cloud Foundry environment.
       memory: 256M
       disk_quota: 512M
       buildpack: nodejs_buildpack
-      command: npm start
       env:
-        NODE_ENV: production
         
         # --- SAP CAP Backend (XSUAA) ---
-        XSUAA_AUTH_ENDPOINT: "https://<your-uaa-url>.authentication.eu10.hana.ondemand.com"
-        XSUAA_AUTH_CID: "sb-vertigo-travels-cap-sadevmain-dev!t141280"
-        XSUAA_AUTH_CSECRET: "your-xsuaa-client-secret$..."
-        BACKEND_CDS_ENDPOINT: "https://<your-cap-app-url>.cfapps.eu10.hana.ondemand.com"
+        XSUAA_AUTH_ENDPOINT: https://<your-uaa-url>.authentication.eu10.hana.ondemand.com
+        XSUAA_AUTH_CID: sb-vertigo-travels-cap-sadevmain-dev!t141280
+        XSUAA_AUTH_CSECRET: your-xsuaa-client-secret$...
+        BACKEND_CDS_ENDPOINT: https://<your-cap-app-url>.cfapps.eu10.hana.ondemand.com
         
         # --- SAP Document AI ---
-        DOCAI_ENDPOINT: "https://<your-docai-url>.eu10.doc.cloud.sap"
-        DOCAI_EMB_TOKEN_URL: "https://<your-docai-auth-url>[.authentication.sap.hana.ondemand.com/oauth/token?grant_type=client_credentials](https://.authentication.sap.hana.ondemand.com/oauth/token?grant_type=client_credentials)"
-        DOCAI_EMB_TOKEN_USER: "sb-your-docai-client-id!b242056|dox-xsuaa-std-internal-production!b14483"
-        DOCAI_EMB_TOKEN_PASSWORD: "your-docai-client-secret$..."
-        DOCAI_EMB_API_URL: "[https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1](https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1)"
+        DOCAI_ENDPOINT: https://<your-docai-url>.eu10.doc.cloud.sap
+        DOCAI_EMB_TOKEN_URL: https://<your-docai-auth-url>[.authentication.sap.hana.ondemand.com/oauth/token?grant_type=client_credentials
+        DOCAI_EMB_TOKEN_USER: sb-your-docai-client-id!b242056|dox-xsuaa-std-internal-production!b14483
+        DOCAI_EMB_TOKEN_PASSWORD: your-docai-client-secret$...
+        DOCAI_EMB_API_URL: https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1
         
         # --- SAP Build Process Automation (BPA) ---
-        BPA_WORKFLOW_URL: "[https://spa-api-gateway-bpi-eu-prod.cfapps.eu10.hana.ondemand.com/workflow/rest/v1/workflow-instances](https://spa-api-gateway-bpi-eu-prod.cfapps.eu10.hana.ondemand.com/workflow/rest/v1/workflow-instances)"
-        BPA_OAUTH_URL: "https://<your-bpa-auth-url>[.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials](https://.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials)"
-        BPA_OAUTH_USER: "sb-your-bpa-client-id!b378765|xsuaa!b120249"
-        BPA_OAUTH_PASSWORD: "your-bpa-client-secret$..."
-        BPA_WORKFLOW_COMPLETENESS_CHECK_DEFINITION_ID: "eu10.your-bpa-tenant.vertigotravelsautomation.submittedDocumentsCompletenessCheck"
+        BPA_WORKFLOW_URL: https://spa-api-gateway-bpi-eu-prod.cfapps.eu10.hana.ondemand.com/workflow/rest/v1/workflow-instances
+        BPA_OAUTH_URL: https://<your-bpa-auth-url>[.authentication.eu10.hana.ondemand.com/oauth/token?grant_type=client_credentials
+        BPA_OAUTH_USER: sb-your-bpa-client-id!b378765|xsuaa!b120249
+        BPA_OAUTH_PASSWORD: your-bpa-client-secret$...
+        BPA_WORKFLOW_COMPLETENESS_CHECK_DEFINITION_ID: eu10.your-bpa-tenant.vertigotravelsautomation.submittedDocumentsCompletenessCheck
         
         # --- Other Services ---
-        S4HANA_ENDPOINT: "https://<your-s4-system>.s4hana.ondemand.com"
-        MAILER_USER: "your-email@gmail.com"
-        MAILER_PASSWORD: "your-gmail-app-password"
+        S4HANA_ENDPOINT: https://<your-s4-system>.s4hana.ondemand.com
+        MAILER_USER: your-email@gmail.com
+        MAILER_PASSWORD: your-gmail-app-password
 
     ```
 
@@ -212,7 +207,7 @@ Use this table to find the values for your `.env` file (local) or `manifest.yml`
 
 | Variable | Example Value (Anonymized) | How to Find This |
 | :--- | :--- | :--- |
-| `S4HANA_ENDPOINT` | `https://my301481.s4hana.ondemand.com` | The URL of your S/4HANA system's OData or API endpoint. |
+| `S4HANA_ENDPOINT` | `https://<your-s4-system>.s4hana.ondemand.com` | The URL of your S/4HANA system's OData or API endpoint. |
 
 ### SAP Document AI
 
@@ -254,7 +249,7 @@ Here are some of the core functionalities of the application.
 | :--- | :--- |
 | ![Admin View: Manage Travelers](https://placehold.co/600x400/eeeeee/222222?text=Admin+Traveler+Mgmt+Screenshot) | **Manage Travelers:** Admins have a central dashboard to view all travelers, expand their subscriptions, and manage document approvals. |
 | ![Admin View: Document Review](https://placehold.co/600x400/eeeeee/222222?text=Admin+Doc+Review+Screenshot) | **Document Review:** Admins can review individual documents, see the data extracted by SAP Document AI, and approve or reject submissions. |
-| ![Admin View: Pending Documents](httpsD://placehold.co/600x400/eeeeee/222222?text=Admin+Pending+Docs+Screenshot) | **Pending Documents:** A dedicated view allows admins to see and categorize unassigned documents that have been ingested via email or mobile scans. |
+| ![Admin View: Pending Documents](https://placehold.co/600x400/eeeeee/222222?text=Admin+Pending+Docs+Screenshot) | **Pending Documents:** A dedicated view allows admins to see and categorize unassigned documents that have been ingested via email or mobile scans. |
 
 ---
 
