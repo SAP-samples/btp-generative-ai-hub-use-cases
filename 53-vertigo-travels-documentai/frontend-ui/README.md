@@ -5,7 +5,7 @@
 
 ## 1. Overview
 
-This project showcases a simple Node.js application, deployed on Cloud Foundry, designed to demonstrate a streamlined user journey for the travel agency use case -- Vertigo Travels. The application handles the end-to-end process of a traveler (Mary) subscribing to a course and submitting documents, and a back-office employee (Barry) approving the subscription, which then integrates with S/4HANA Cloud.
+This project showcases a simple Node.js application, deployed on Cloud Foundry, designed to demonstrate a streamlined user journey for the travel agency use case -- Vertigo Travels. The application handles the end-to-end process of a traveler (Mary) subscribing to a course and submitting documents, and a back-office employee (Barry) approving the subscription, which then integrates with SAP S/4HANA Cloud.
 
 > [!WARNING]
 > **Prototype & Support Disclaimer**
@@ -41,13 +41,13 @@ The `app.js` proxy handles all complex authentication and API calls, allowing an
 
 ## 2. Business Scenario
 
-
+[<img src="../doc/img/business_scenario.png"/>](../doc/img/business_scenario.png)
 
 The business scenario begins when a traveler, **Mary**, subscribes to a course on the Vertigo Travels website. This action creates a pre-subscription in the Vertigo Travel BTP Extension, which stores her information and documents. A back-office employee, **Barry**, then reviews these documents. If the documents are all good, the subscription is finalized, customer information is posted to SAP S/4HANA Cloud, and an invoice is generated. If documents are missing, Mary receives an automated email reminder.
 
 ## 3. Solution Architecture
-
-The diagram below illustrates the complete solution architecture, showing how this Node.js UI application acts as the "head" for a collection of backend services on SAP BTP.
+[<img src="../doc/img/solution_architecture.png"/>](../doc/img/solution_architecture.png)
+The diagram illustrates the complete solution architecture, showing how this Node.js UI application acts as the "head" for a collection of backend services on SAP BTP.
 
 
 
