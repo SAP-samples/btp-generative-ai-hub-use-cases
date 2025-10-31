@@ -1,0 +1,24 @@
+{
+    "VCAP_SERVICES": {
+        "destination": [
+            {
+                "name": "destination",
+                "label": "destination",
+                "tags": [
+                    "destination"
+                ],
+                "credentials": _PASTE_CREDENTIALS_HERE_
+            }
+        ],
+        "xsuaa": [
+            {
+                "name": "xsuaa",
+                "label": "xsuaa",
+                "tags": [
+                    "xsuaa"
+                ],
+                "credentials": _PASTE_CREDENTIALS_HERE_
+            }
+        ]
+    }
+}

@@ -1,0 +1,9 @@
+settingKey,value,description
+"DocAI.Schema.IncomeStatement","58d1018e-f300-4bcc-aa74-f2440b2ab5b2","Document AI Schema Version ID for Income Statements (for Special Discount)"
+"DocAI.Schema.IDCard","9e42e119-bb70-4904-9bfc-afb204cdd8f9","Document AI Schema Version ID for Identity Cards (for Traveler creation)"
+"DocAI.Schema.IndemnityForm","f3e703f3-ee06-46b0-b983-4d3b84756520","Document AI Schema Version ID for Family Indemnity Forms"
+"Notifications.CheckIntervalSeconds","10","Polling interval in seconds for checking new subscription notifications."
+"Notifications.AdminEmail","sandboxadmin@vjrrw.onmicrosoft.com","Email address for admin notifications about new subscriptions/documents."
+"Discount.Special.DefaultPercentage","15","Default discount percentage applied when special entitlement document is approved."
+"Discount.Special.IncomeStatementEntity.NumberOfKids","54e249c4-fe1c-4e07-9817-ef3f001262af","Entity ID extracted by DocAI from Income Statement representing the number of kids."
+"Discount.Special.IncomeStatementEntity.GrossIncome","653f4af5-7f9d-4ee1-81ff-8fa716eee7d5","Entity ID extracted by DocAI from Income Statement representing the gross family income."

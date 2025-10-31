@@ -1,0 +1,5 @@
+ID,firstName,lastName,email,dateOfBirth,isKid,parent_ID,businessPartnerID
+2d9b6c4a-3a1e-4b8d-9c5f-6a7b8c9d0e1f,Mary,Johnson,mary.johnson@example.com,1985-05-15,false,,1000938
+3a1e4b8d-9c5f-6a7b-8c9d-0e1f2d9b6c4a,Luca,Bianchi,luca.bianchi@example.com,2010-10-20,false,,1000935
+4f5g6h7i-8j9k-1l2m-3n4o-5p6q7r8s9t0u,Claire,Dubois,claire.dubois@example.com,1990-01-01,false,,1000936
+5b8c9d0e-1f2a-3c4d-5e6f-7a8b9c0d1e2f,Mia,Dubois,mia.dubois@example.com,1992-03-25,true,4f5g6h7i-8j9k-1l2m-3n4o-5p6q7r8s9t0u,1000937

@@ -1,0 +1,80 @@
+# @cds_api = http://localhost:4004
+@cds_api = https://asd-dev-vertigo-travels-cap-srv.cfapps.eu10.hana.ondemand.com
+
+### Get all available courses from the TravelerService.
+# This should return the 5 courses we defined in the mock data.
+GET {{cds_api}}/traveler/Courses
+Accept: application/json
+
+### Get all available courses from the TravelerService.
+# This should return the 5 courses we defined in the mock data.
+GET {{cds_api}}/traveler/Courses
+Accept: application/json
+
+### Get a specific course from the TravelerService.
+# Using the ID for "Sailing Course Level 2" from the mock data.
+GET {{cds_api}}/traveler/Courses(1d6f8a9e-87d2-4e4b-9d41-3d712e52b22b)
+Accept: application/json
+
+### Create a new subscription for an existing traveler (Mary) for the "Climbing Masterclass" course.
+# The initial status should be "Draft" as per the logic.
+POST {{cds_api}}/traveler/Subscriptions
+Content-Type: application/json
+
+{
+    "traveler_ID": "2d9b6c4a-3a1e-4b8d-9c5f-6a7b8c9d0e1f",
+    "course_ID": "5d7a6e5c-2b1a-4d3f-6e7a-8b9c0d1e2f3a"
+}
+
+### Get all subscriptions from the AdminService.
+# This should show all subscriptions, including those with different statuses.
+GET {{cds_api}}/admin/Subscriptions
+Accept: application/json
+
+### Update the status of a specific subscription to "Confirmed".
+# This simulates an admin (Barry) finalizing a subscription. We use the subscription ID for "Jane Doe" from the mock data.
+# Note: In a real-world scenario, this would likely be part of a more complex backend process.
+PATCH {{cds_api}}/admin/Subscriptions(9c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f)
+Content-Type: application/json
+
+{
+  "status": "Confirmed"
+}
+
+### Get a specific traveler from the AdminService.
+# Using the ID for "Mary Travels".
+GET {{cds_api}}/admin/Travelers(2d9b6c4a-3a1e-4b8d-9c5f-6a7b8c9d0e1f)
+Accept: application/json
+
+### Get a specific subscription that requires action from the AdminService.
+# Using the ID for the "ActionRequired" subscription from the mock data.
+GET {{cds_api}}/admin/Subscriptions(ID='0d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8g')
+Accept: application/json
+
+### Try to create a new Course using the AdminService.
+# This should be successful since the admin service has CRUD permissions on Courses.
+POST {{cds_api}}/admin/Courses
+Content-Type: application/json
+
+{
+  "name": "Kayaking Adventure",
+  "description": "A thrilling kayaking tour for beginners.",
+  "price": 600.00,
+  "depositAmount": 120.00
+}
+
+### Create another Course using the AdminService.
+
+POST {{cds_api}}/admin/Courses
+Content-Type: application/json
+
+{
+    "name": "Sailing Level 2",
+    "description": "An advanced course for experienced sailors.",
+    "price": 1200.00,
+    "depositAmount": 200.00,
+    "requiredDocuments": [
+        { "documentType": "ID_CARD", "description": "Government-issued Photo ID" },
+        { "documentType": "SAILING_CERT_L1", "description": "Sailing Level 1 Certificate" }
+    ]
+}

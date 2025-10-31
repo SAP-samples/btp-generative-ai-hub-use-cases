@@ -1,0 +1,50 @@
+{
+  "name": "vertigo-travels-cap",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^1",
+    "@sap/cds": "^8",
+    "@sap/xsenv": "^6.0.0",
+    "@sap/xssec": "^4",
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "express": "^4",
+    "passport": "^0.7.0"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.6",
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^8"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "fiori": {
+      "preview": true
+    },
+    "server": {
+      "index": true
+    },
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
+      },
+      "auth": {
+        "kind": "mocked"
+      },
+      "destinations": true,
+      "VERTIGO_S4HC": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "VERTIGO_S4HC"
+        }
+      }
+    }
+  }
+}

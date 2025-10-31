@@ -1,0 +1,456 @@
+# @host = http://localhost:4004
+@host = https://asd-dev-vertigo-travels-cap-srv.cfapps.eu10.hana.ondemand.com
+@xsuaaHostname = https://asd.authentication.eu10.hana.ondemand.com
+@btpXsuaaClient = sb-asd-travels-cap-asd-dev!t141280
+@btpXsuaaSecret = asd-3600-4f8a-a7d1-676e74ed4f9e$VDwfP89gbW4bSv_DWYvW8_LgpzFybg_zNSP1TA-0Txk=
+
+### GET XSUAA TOKEN
+# @name getXsuaaToken
+POST {{xsuaaHostname}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{btpXsuaaClient}}
+&client_secret={{btpXsuaaSecret}}
+&grant_type=client_credentials
+
+
+### TOKEN
+@token = {{getXsuaaToken.response.body.$.access_token}}
+
+###
+# 13. UPDATE a specific RequiredDocument (Description and SchemaID)
+PATCH {{host}}/admin/Courses(2a4e1f7c-7c8a-4d23-95c5-b82d4f10d9e2)/requiredDocuments(ID=8c1d3e2a-9f7c-5b4d-9c3e-2f6a9d5b4c2a)
+Authorization: Bearer {{token}}
+Content-Type: application/json
+If-Match: *
+
+{
+    "description": "An PADI or equivalent level 1 diving license."
+}
+
+### **Scenario 0: Admin Setup - Create a Course**
+This is a prerequisite for all other scenarios. Barry, the travel agent, defines a new course.
+
+```http
+### =================================================================
+### DEBUG: Check if the required document for course has the valid schema ID from Doc AI
+### =================================================================
+
+GET {{host}}/admin/Courses?$expand=requiredDocuments
+Authorization: Bearer {{token}}
+###
+
+
+### =================================================================
+### SCENARIO 0: ADMIN - CREATE A NEW COURSE
+### =================================================================
+
+GET {{host}}/admin/$metadata
+Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/admin/SubmittedDocuments
+Authorization: Bearer {{token}}
+###
+
+
+###
+PATCH {{host}}/admin/SubmittedDocuments/f35c6b0c-69c6-421b-b3a6-f60cab2a5f84
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "documentID": "58f555d4-4921-4c00-8797-232309f9948a"
+}
+
+###
+PATCH {{host}}/admin/Subscriptions/1103b9a1-cbb4-4473-8a2c-a1d3a1cafb2b
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "ID": "1103b9a1-cbb4-4473-8a2c-a1d3a1cafb2c"
+}
+
+
+###
+
+GET {{host}}/admin/Travelers
+Authorization: Bearer {{token}}
+###
+
+PATCH {{host}}/admin/Travelers/2d9b6c4a-3a1e-4b8d-9c5f-6a7b8c9d0e1f
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{"specialDiscount":null}
+###
+PATCH {{host}}/admin/Courses/ae26ba83-748f-451c-8011-fb18c11268de
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{"description":"Special Offers: Vertigo Travels partners with municipalities all over the country to give every kid an opportunity to leave on holiday. For this camp, families with 2 kids or more can benefit from a special discount based on their annual income. Upload a tax statement under your customer profile to get a special price."}
+###
+
+GET {{host}}/admin/Courses?$expand=requiredDocuments
+Authorization: Bearer {{token}}
+###
+
+###
+
+DELETE {{host}}/admin/Courses(89ebe211-2f9f-4e8a-81ea-7f9227245a36)
+Authorization: Bearer {{token}}
+###
+
+GET {{host}}/admin/Courses(7211fb22-b4ab-441a-9694-55c6a7c1762d)/requiredDocuments
+Authorization: Bearer {{token}}
+###
+
+DELETE {{host}}/admin/Courses(7211fb22-b4ab-441a-9694-55c6a7c1762d)
+Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/admin/Subscriptions/1103b9a1-cbb4-4473-8a2c-a1d3a1cafb2b?$expand=documents
+Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/admin/Subscriptions(7a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d)?$expand=documents
+Authorization: Bearer {{token}}
+
+###
+
+DELETE {{host}}/admin/Subscriptions/9c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+Authorization: Bearer {{token}}
+
+#### @name createCourse
+POST {{host}}/admin/Courses
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Surfing Level 2",
+    "description": "An advanced course for experienced surfers.",
+    "price": 1200.00,
+    "depositAmount": 200.00,
+    "image":"resources/img/climbing.jpg",
+    "requiredDocuments": [
+        { "documentType": "ID_CARD", "description": "Government-issued Photo ID" },
+        { "documentType": "SURFING_CERT_L1", "description": "Surfing Level 1 Certificate" }
+    ]
+}
+
+
+### Get the ID of the newly created course
+@courseId = {{createCourse.response.body.ID}}
+```
+---
+
+### **Scenario 1: Happy Path - Solo Traveler Books, Gets Approved**
+
+Mary books a course, submits a valid document, it gets approved, she pays the deposit, and the subscription is confirmed.
+
+```http
+### =================================================================
+### SCENARIO 1: SOLO TRAVELER - HAPPY PATH
+### =================================================================
+
+# 1. Mary signs up (we'll use the Admin service to create her record for this test)
+# @name createTravelerMary
+POST {{host}}/admin/Travelers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "firstName": "Mary",
+    "lastName": "Major",
+    "email": "mary.major@example.com",
+    "dateOfBirth": "1990-05-15"
+}
+### Get the ID of the newly created traveler
+@travelerIdMary = {{createTravelerMary.response.body.ID}}
+
+# 2. Mary subscribes to the Sailing Level 2 course
+# @name createSubscriptionMary
+POST {{host}}/traveler/Subscriptions
+Content-Type: application/json
+
+{
+    "traveler_ID": "{{travelerIdMary}}",
+    "course_ID": "{{courseId}}",
+    "status": "DocsPending"
+}
+### Get the ID of the newly created subscription
+@subscriptionIdMary = {{createSubscriptionMary.response.body.ID}}
+
+# 3. Mary uploads her ID card
+# @name uploadDocumentMary
+POST {{host}}/traveler/SubmittedDocuments
+Content-Type: application/json
+
+{
+    "subscription_ID": "{{subscriptionIdMary}}",
+    "documentType": "ID_CARD",
+    "fileName": "mary_id_card.pdf",
+    "mimeType": "application/pdf"
+}
+### Get the ID of the uploaded document
+@documentIdMary = {{uploadDocumentMary.response.body.ID}}
+
+# --- SIMULATION: Backend/Admin processing ---
+
+# 4. SIMULATION: The document is processed and approved (by an Admin or automated process)
+GET {{host}}/admin/SubmittedDocuments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+####
+# 4. SIMULATION: The document is processed and approved (by an Admin or automated process)
+GET {{host}}/admin/SubmittedDocuments/007e4c4f-e7a9-401b-8dd8-121907b5f561
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+####
+# 4. SIMULATION: The document is processed and approved (by an Admin or automated process)
+PATCH {{host}}/admin/SubmittedDocuments/007e4c4f-e7a9-401b-8dd8-121907b5f561
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "Uploaded",
+  "extractedData": "{\"firstName\": \"Mary\", \"lastName\": \"Major\", \"dob\": \"1990-05-15\"}"
+}
+####
+# 4. SIMULATION: The document is processed and approved (by an Admin or automated process)
+PATCH {{host}}/admin/SubmittedDocuments/791f44bd-5d27-4626-a104-529d1624cfc4
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "Uploaded",
+  "documentID": "f225a7ad-1194-4126-b118-2e30e94cc44f",
+  "documentTypeSchemaID": "db2dd269-0987-4220-8e20-d50f16ee9c5f",
+  "fileName": "sample-invoice-2.pdf",
+  "mimeType": "application/pdf",
+  "extractedData": ""
+}
+
+### 5. SIMULATION: Since all docs are approved, the subscription status is updated to DepositPending
+PATCH {{host}}/admin/Subscriptions/{{subscriptionIdMary}}
+Content-Type: application/json
+
+{
+    "status": "DepositPending"
+}
+
+
+### 6. SIMULATION: Mary pays the deposit, and a webhook confirms the payment.
+#    The system updates the status to Confirmed and adds S/4HANA IDs.
+PATCH {{host}}/admin/Subscriptions/{{subscriptionIdMary}}
+Content-Type: application/json
+
+{
+    "status": "Confirmed",
+    "s4hanaBusinessPartnerID": "BP100234",
+    "s4hanaSalesOrderID": "SO500456"
+}
+
+### getBusinessPartner: get a S4 Business Partner
+POST {{host}}/s4-api/getBusinessPartner
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "message":{
+      "businessPartnerID": "1000911"
+   }
+}
+
+### createNewBusinessPartner: create a new S4 Business Partner
+POST {{host}}/s4-api/createNewBusinessPartner
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+   "message":{
+        "firstName": "Mary",
+        "lastName": "Jane",
+        "email": "mary@travels.com"
+   }
+}
+
+### createNewSalesOrder: create a new S4 Sales Order
+POST {{host}}/s4-api/createNewSalesOrder
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+   "message":{
+        "BusinessPartnerID": "1000937",
+        "DepositAmount": "99"
+   }
+}
+
+### addSalesOrderItem
+POST {{host}}/s4-api/addSalesOrderItem
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+   "message":{
+        "SalesOrderID": "17343",
+        "MaterialID": "173"
+   }
+}
+
+### addSalesOrderPricingElement
+POST {{host}}/s4-api/addSalesOrderPricingElement
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+   "message":{
+        "SalesOrderID": "17343",
+        "ConditionRateValue": "99"
+   }
+}
+
+###
+PATCH {{host}}/admin/RequiredDocuments/daaa5967-d034-4c83-99ff-46aa5ddfaad0
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "documentTypeSchemaID": "9e42e119-bb70-4904-9bfc-afb204cdd8f9"
+}
+
+###
+PATCH {{host}}/admin/RequiredDocuments/8c1d3e2a-9f7c-5b4d-9c3e-2f6a9d5b4c2a
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "documentTypeSchemaID": "73058d39-77de-4064-8bbe-11013835f7a4"
+}
+
+###
+GET {{host}}/admin/RequiredDocuments/8c1d3e2a-9f7c-5b4d-9c3e-2f6a9d5b4c2a
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+PATCH {{host}}/admin/Courses/c51e46bf-7581-4bb0-a790-da2c24984fe3
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "s4hanaProductID": "171"
+}
+
+### ========================================
+### AppSettings Tests
+### ========================================
+
+
+###
+# 1. GET All AppSettings
+# Retrieve all current settings
+GET {{host}}/admin/AppSettings
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 2. GET Single AppSetting (by settingKey)
+# Retrieve the notification interval setting
+GET {{host}}/admin/AppSettings(settingKey='Notifications.CheckIntervalSeconds')
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 3. CREATE a new AppSetting
+# Add a setting for a default theme
+POST {{host}}/admin/AppSettings
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "settingKey": "UI.DefaultTheme",
+    "value": "dark",
+    "description": "Default theme for the user interface (light/dark)"
+}
+
+###
+# 4. GET the newly created setting
+GET {{host}}/admin/AppSettings(settingKey='UI.DefaultTheme')
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 5. UPDATE an existing AppSetting (PATCH - partial update)
+# Change the notification interval value
+PATCH {{host}}/admin/AppSettings(settingKey='Notifications.CheckIntervalSeconds')
+Authorization: {{token}}
+Content-Type: application/json
+If-Match: *
+
+{
+    "value": "15" 
+}
+
+###
+# 6. GET the updated setting to verify
+GET {{host}}/admin/AppSettings(settingKey='Notifications.CheckIntervalSeconds')
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 7. UPDATE an existing AppSetting (PUT - full replace, less common)
+# Update the description for the theme setting (requires sending value again)
+PUT {{host}}/admin/AppSettings(settingKey='UI.DefaultTheme')
+Authorization: {{token}}
+Content-Type: application/json
+If-Match: *
+
+{
+    "value": "dark", 
+    "description": "UPDATED: Default theme for the UI"
+}
+
+###
+# 8. GET the updated theme setting to verify PUT
+GET {{host}}/admin/AppSettings(settingKey='UI.DefaultTheme')
+Authorization: {{token}}
+Accept: application/json
+
+
+###
+# 9. DELETE an AppSetting
+# Remove the theme setting we created
+DELETE {{host}}/admin/AppSettings(settingKey='UI.DefaultTheme')
+Authorization: {{token}}
+
+### 
+# 10. GET All AppSettings again to confirm deletion
+GET {{host}}/admin/AppSettings
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 11. Attempt to GET a non-existent setting (should return 404)
+GET {{host}}/admin/AppSettings(settingKey='NonExistent.Key')
+Authorization: {{token}}
+Accept: application/json
+
+###
+# 12. Attempt to CREATE a setting with a duplicate key (should fail)
+POST {{host}}/admin/AppSettings
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "settingKey": "Notifications.CheckIntervalSeconds",
+    "value": "5",
+    "description": "Trying to duplicate"
+}
