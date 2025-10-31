@@ -1,0 +1,10 @@
+ID,course_ID,documentType,description,documentTypeSchemaID
+6e8a1b9c-7d5a-4e2b-8a1c-9d5f7e3a2b1d,1d6f8a9e-87d2-4e4b-9d41-3d712e52b22b,MEDICAL_CERT,"A valid medical certificate for physical activity.","71e4c2c6-6bcb-4e8c-bee3-736b5cb277b5"
+7b9c2a1d-8e6b-4c3a-9a2d-1e5f8c4b3a1d,1d6f8a9e-87d2-4e4b-9d41-3d712e52b22b,ID_CARD,"A copy of a valid ID card or passport.","9e42e119-bb70-4904-9bfc-afb204cdd8f9"
+8c1d3e2a-9f7c-5b4d-9c3e-2f6a9d5b4c2a,2a4e1f7c-7c8a-4d23-95c5-b82d4f10d9e2,DIVER_LICENSE,"A PADI or an equivalent level 1 diving license.","73058d39-77de-4064-8bbe-11013835f7a4"
+9d2e4f3b-1a8d-6c5e-8d4f-3a7b1c6d5e4f,2a4e1f7c-7c8a-4d23-95c5-b82d4f10d9e2,MEDICAL_CERT,"A valid medical certificate for diving.","71e4c2c6-6bcb-4e8c-bee3-736b5cb277b5"
+9d2e4f3b-1a8d-6c5e-8d4f-3a7b1c6d5e4e,2a4e1f7c-7c8a-4d23-95c5-b82d4f10d9e2,ID_CARD,"A copy of a valid ID card or passport.","9e42e119-bb70-4904-9bfc-afb204cdd8f9"
+0e3f5g4c-2b9e-7d6f-9e5g-4b8c2d7e6f5g,3c9d7e5f-1a2b-4e67-8b0c-9d1a2b3c4d5e,WAIVER,"Signed liability waiver form.",""
+1a4g6h5d-3c0f-8e7g-0f6h-5c9d3e8f7g6h,4b8c7d6e-1f2a-3c4d-5e6f-7a8b9c0d1e2f,SKI_LICENSE,"An advanced skiing certification.",""
+3f7c7824-f969-442e-862c-171e1df3b4eb,ae26ba83-748f-451c-8011-fb18c11268de,"ID card","ID card of your Kid",9e42e119-bb70-4904-9bfc-afb204cdd8f9
+c1670645-9e6f-4779-9ed2-71b586551368,ae26ba83-748f-451c-8011-fb18c11268de,"Medical & Emergency information form ","Medical & Emergency information form, to be downloaded from our website",f3e703f3-ee06-46b0-b983-4d3b84756520

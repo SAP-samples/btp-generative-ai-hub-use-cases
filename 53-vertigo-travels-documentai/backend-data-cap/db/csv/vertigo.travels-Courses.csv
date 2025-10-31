@@ -1,0 +1,7 @@
+ID,name,description,price,depositAmount,image,s4hanaProductID
+1d6f8a9e-87d2-4e4b-9d41-3d712e52b22b,"Sailing Course Level 2","An intermediate sailing course, requiring prior experience and a medical certificate.",1250.00,250.00,"resources/img/sailing.jpg","169"
+2a4e1f7c-7c8a-4d23-95c5-b82d4f10d9e2,"Diving Expedition","A week-long diving trip to the Red Sea, requiring a level 1 diver license.",2500.00,500.00,"resources/img/diving.jpg","171"
+3c9d7e5f-1a2b-4e67-8b0c-9d1a2b3c4d5e,"Surf Camp","A beginner surf camp for all ages, no prior experience needed.",850.00,170.00,"resources/img/surfing.jpg","173"
+4b8c7d6e-1f2a-3c4d-5e6f-7a8b9c0d1e2f,"Skiing Adventure","An advanced skiing package for experienced skiers, including off-piste lessons.",1800.00,360.00,"resources/img/skiing.jpg","174"
+5d7a6e5c-2b1a-4d3f-6e7a-8b9c0d1e2f3a,"Climbing Masterclass","An intensive climbing course focused on multi-pitch routes.",1500.00,300.00,"resources/img/climbing.jpg","175"
+ae26ba83-748f-451c-8011-fb18c11268de,"Winter camp for Kids (10-13 years)","Special Offers: Vertigo Travels partners with municipalities all over the country to give every kid an opportunity to leave on holiday. For this camp, families with 2 kids or more can benefit from a special discount based on their annual income. Upload a tax statement under your customer profile to get a special price.",1200.00,500.00,"resources/img/kids-wintercamp.png","191"
