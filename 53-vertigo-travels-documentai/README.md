@@ -50,6 +50,9 @@ This repository is a monorepo containing the following independent modules:
 * **[`backend-data-cap/`](./backend-data-cap/)**
     The core of the application. This is an **SAP Cloud Application Programming Model (CAP)** project that defines the data model (Travelers, Courses, Subscriptions) and business logic. It is deployed on BTP, uses SAP HANA Cloud for persistence, and integrates with SAP S/4HANA Cloud via the Cloud SDK.
 
+* **[`document-samples/`](./document-samples/)**
+    Contains sample files (e.g., Passports, Identity Cards) filled with fictitious data. You can use these files to test uploads to SAP Document AI within the Vertigo Travels scenario without using sensitive real-world data.
+
 * **[`backend-doc-synchroniser-nodejs/`](./backend-doc-synchroniser-nodejs/)**
     A simple, optional Node.js scheduler. This backend service periodically polls SAP Document AI to check for document status updates (e.g., 'confirmed') and synchronizes those statuses back to the main CAP data model.
 
@@ -58,32 +61,78 @@ This repository is a monorepo containing the following independent modules:
 
 ## 4. Deployment Strategy & Dependencies
 
-To get this prototype up and running, modules must be deployed in a specific order. Here is the recommended path and a breakdown of dependencies.
+To get this prototype up and running, modules and configurations must be executed in the specific order below.
 
-### 1. Core (Mandatory): `backend-data-cap`
+### Step 1: Pre-requisites (SAP Document AI)
+
+Before deploying any code, you must prepare your BTP Subaccount.
+
+1.  **Create Service Instance:** Create an instance of the **SAP Document AI** service.
+    * **Plan:** Ensure you select the **Premium Edition** or **Embedded Edition**.
+    * **Interface:** Verify you have access to the modern `/workspace` interface and NOT the legacy `/ui` interface.
+    * [Help: Initial Setup for SAP Document AI](https://help.sap.com/docs/document-information-extraction/document-information-extraction/enabling-service-in-cloud-foundry-environment?locale=en-US)
+    * [Help: Subscribe to the Application](https://help.sap.com/docs/document-ai/sap-document-ai/what-is-sap-document-ai?locale=en-US)
+
+    ![](.github/assets/docai-setup-steps.png)
+
+    [Blog: Step by Step on Setting up SAP Document AI Embedding editioin & Workspace](https://community.sap.com/t5/technology-blog-posts-by-sap/initial-setup-of-sap-document-ai-embedded-edition-amp-workspace/ba-p/14248956)
+
+2.  **Create Service Key:** Once the instance is created, generate a **Service Key**. You will need the credentials from this key (specifically `clientid`, `clientsecret`, and `url`) for subsequent steps.
+
+    ![SAP Document AI Service Instance and Service Key](.github/assets/service-instance-key.png)
+    *(Above: Example of a successful Subscription, Service Instance and Service Key creation)*
+
+### Step 2: Deploy Core (Mandatory) - `backend-data-cap`
 
 This **must** be deployed first, as it is the data source for all other services.
 
-* **Dependency:** This project currently has a hard dependency on an **SAP S/4HANA Cloud** tenant for creating Business Partners and Sales Orders. This is because the use case was designed to have traveler transactions created in a real SAP ERP system.
-* **Work in Progress:** We are aware that not every developer has access to an S/4HANA tenant. We are working to remove this hard dependency. The goal is to mock the S/4HANA calls and save the transaction data (as a simple Sales Order ID) within the CAP data model itself, allowing for a standalone deployment.
+* **Dependency:** This project currently has a hard dependency on an **SAP S/4HANA Cloud** tenant for creating Business Partners and Sales Orders.
+* **Note:** We are working to remove this hard dependency to allow for standalone deployment by mocking S/4HANA calls.
 
-### 2. Frontend (Mandatory): `frontend-ui-nodejs`
+### Step 3: Deploy Frontend (Mandatory) - `frontend-ui-nodejs`
 
-Once the `backend-data-cap` service is deployed and its URL is known, you can deploy the `frontend-ui-nodejs` application.
+Once the `backend-data-cap` service is deployed and its URL is known, you can deploy the frontend.
 
-* **Dependency:** This app will not run without a deployed `backend-data-cap` service.
-* **Configuration:** You must provide the CAP service URL (the `BACKEND_CDS_ENDPOINT`) in the `manifest.yml` (for BTP) or `.env` (for local) file.
+* **Configuration:** You must provide the CAP service URL (the `BACKEND_CDS_ENDPOINT`) and your Document AI Service Key credentials in the `manifest.yml` (for BTP) or `.env` (for local) file.
 * **Instructions:** See the `frontend-ui-nodejs/README.MD` file for detailed instructions.
 
-### 3. Optional Services (Recommended)
+### Step 4: Initialize the Vertigo Use Case
+
+Now that the frontend & NodeJs app is running, you **must initialize** the Document AI schemas. 
+
+#### This step automates the creation of the 5 specific Vertigo Travels schemas and their entities.
+
+1.  Navigate to the initialization page: `https://<YOUR_FRONTEND_URL>/initialisation.html`
+2.  Insert the values from your **SAP Document AI Service Key** (OAuth Client Credentials).
+3.  Click "Initialize". This will call the relevant APIs to set up your workspace.
+
+    [**Click here to watch the Initialization Walkthrough Video**](https://youtu.be/pt8o4XPCT1M?si=kJnz1cytx1opgYOr)
+
+    ![](.github/assets/initialisation-tool.png)
+
+### Step 5: Update Schema Configuration & Redeploy
+
+Once initialization is complete, the system generates unique IDs for your schemas. You must link these IDs to your CAP data model.
+
+1.  Retrieve the **Schema IDs** generated in Step 4, through your SAP Document AI workspace interface.
+![Schema Version ID](.github/assets/schema_version_id.png)
+
+2.  Open your CAP project and locate the CSV data for the `requiredDocuments` entity (usually in `db/data`).
+
+3.  Update the `schemaDocumentTypeID` column with the new IDs. This ensures that when a traveler uploads a document, the system knows exactly which schema to use for processing.
+![Update Schema ID in CSV](.github/assets/cap-doctypeschemaid.png)
+
+4.  **Redeploy** the `backend-data-cap` MTA project to apply these changes.
+    
+
+### Step 6: Optional Services
 
 These services add functionality but are not required to run the basic application.
 
 * **`bpa-doc-validation-flow-project` (Optional)**
-    * **How it works:** If you deploy this BPA project, you must take its API Trigger URL and add it to the `frontend-ui-nodejs` configuration (`BPA_WORKFLOW_URL`). This will enable the "Check" button in the admin UI.
-    * **If you don't deploy this:** The "Check" button can be ignored.
-    * **Work in Progress:** The frontend UI will be improved to automatically hide or disable this button if the `BPA_WORKFLOW_URL` is not defined.
+    * **How it works:** If deployed, add its API Trigger URL to the `frontend-ui-nodejs` configuration (`BPA_WORKFLOW_URL`). This enables the "Check" button in the admin UI.
+    * **If skipped:** The "Check" button can be ignored.
 
 * **`backend-doc-synchroniser-nodejs` (Optional)**
-    * **How it works:** If you want document statuses from SAP Document AI (e.g., 'confirmed', 'rejected') to automatically update in your CAP application, deploy this service. It runs as a standalone Node.js scheduler.
-    * **If you don't deploy this:** The application will still function, but document statuses will only be "Uploaded" or "Missing" and will not automatically sync with the DocAI workspace.
+    * **How it works:** Deploys as a standalone Node.js scheduler to sync statuses (e.g., 'confirmed', 'rejected') from Document AI back to your CAP app.
+    * **If skipped:** Document statuses will remain as "Uploaded" or "Missing" and will not automatically sync.
