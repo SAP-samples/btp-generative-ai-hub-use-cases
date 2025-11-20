@@ -115,6 +115,86 @@ async function getBearerToken() {
     }
 }
 
+
+// ============================================================
+// MIGRATION TOOL EXTENSIONS
+// ============================================================
+
+// Helper: Get Token for Dynamic Credentials (For "New" Environment)
+async function getDynamicBearerToken(authUrl, clientId, clientSecret) {
+    const { default: fetch } = await import('node-fetch');
+    const credentials = btoa(`${clientId}:${clientSecret}`);
+
+    try {
+        const response = await fetch(authUrl, {
+            method: 'POST',
+            headers: { 'Authorization': `Basic ${credentials}` }
+        });
+        if (!response.ok) throw new Error(`Auth Failed: ${response.statusText}`);
+        const data = await response.json();
+        return data.access_token;
+    } catch (error) {
+        console.error('Dynamic Auth Error:', error);
+        throw error;
+    }
+}
+
+// Generic Proxy for Migration Tool
+// Handles requests to both "Old" (Env vars) and "New" (UI params) environments
+app.post('/migration-proxy', async (req, res) => {
+    const { default: fetch } = await import('node-fetch');
+
+    // environment: 'old' or 'new'
+    // config: { authUrl, clientId, clientSecret } (Only needed for 'new')
+    // targetUrl: The full DocAI API URL
+    // method: GET, POST, etc.
+    // body: Payload for POST requests
+    const { environment, config, targetUrl, method, body } = req.body;
+
+    try {
+        let token;
+
+        if (environment === 'old') {
+            // Use existing function for Old Env (uses .env file)
+            token = await getBearerToken();
+        } else {
+            // Fetch token dynamically for New Env
+            token = await getDynamicBearerToken(config.authUrl, config.clientId, config.clientSecret);
+        }
+
+        const options = {
+            method: method,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+
+        if (body && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+            options.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(targetUrl, options);
+
+        // Handle 204 No Content (often used for Activation/Deactivation)
+        if (response.status === 204) {
+            return res.status(200).json({ success: true });
+        }
+
+        if (!response.ok) {
+            const errText = await response.text();
+            return res.status(response.status).send(errText);
+        }
+
+        const data = await response.json();
+        res.json(data);
+
+    } catch (error) {
+        console.error(`Migration Proxy Error [${environment}]:`, error);
+        res.status(500).send(error.message);
+    }
+});
+
 // GET route for specific file details
 app.get('/file-details/:fileId', async (req, res) => {
     const { default: fetch } = await import('node-fetch');

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Migration Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="p-6">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-exchange-alt text-indigo-600"></i> Schema
+            Migration Tool</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="bg-white p-4 rounded shadow">
+                <h2 class="text-xl font-bold mb-4 text-gray-600">1. Source (Current Env)</h2>
+                <p class="text-sm text-gray-500 mb-4">Using credentials defined in <code>.env</code> file.</p>
+                <button onclick="loadOldSchemas()"
+                    class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+                    <i class="fas fa-download"></i> Load Active Schemas
+                </button>
+                <div id="old-schema-list" class="mt-4 space-y-3 max-h-[600px] overflow-y-auto"></div>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h2 class="text-xl font-bold mb-4 text-gray-600">2. Migration Control</h2>
+                <button id="dump-sequence-btn" onclick="dumpInitializationScript()"
+                    class="w-full bg-yellow-500 text-gray-900 py-2 rounded hover:bg-yellow-600 mb-4 hidden">
+                    Dump Initialization Script (0 requests)
+                </button>
+                <button id="clear-sequence-btn" onclick="clearRequestSequence()"
+                    class="w-1/4 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 hidden text-sm"
+                    title="Clear captured requests">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <div id="migration-console"
+                    class="text-sm bg-gray-900 text-green-400 p-3 rounded h-[600px] overflow-y-auto font-mono">
+                    <p>> Waiting for user action...</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded shadow">
+                <h2 class="text-xl font-bold mb-4 text-gray-600">3. Target (New Env)</h2>
+                <form id="new-env-form" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Authentication URL (OAuth)</label>
+                        <input type="text" id="new-auth-url" class="w-full border p-2 rounded text-sm"
+                            placeholder="https://.../oauth/token?grant_type=client_credentials">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Client ID</label>
+                        <input type="text" id="new-client-id" class="w-full border p-2 rounded text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700">Client Secret</label>
+                        <input type="password" id="new-client-secret" class="w-full border p-2 rounded text-sm">
+                    </div>
+                </form>
+                <div class="mt-4 pt-4 border-t">
+                    <button onclick="checkNewEnvConnection()"
+                        class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-4">
+                        <i class="fas fa-plug"></i> Check Connection
+                    </button>
+                    <h3 class="font-bold text-sm">Active Schemas in New Env:</h3>
+                    <div id="new-schema-list" class="mt-2 space-y-2 max-h-[300px] overflow-y-auto text-sm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const OLD_API_BASE = "https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1";
+        const API_BASE = "https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1";
+        // const API_BASE = "https://aiservices-dox.cfapps.eu10.hana.ondemand.com/document-ai/v1";
+
+        let requestSequence = [];
+
+        // --- LOGGING ---
+        function log(msg, type = "info", requestData = null) { // Added requestData parameter
+            const consoleDiv = document.getElementById('migration-console');
+            const color = type === 'error' ? 'text-red-400' : (type === 'success' ? 'text-yellow-300' : 'text-green-400');
+            consoleDiv.innerHTML += `<p class="${color}">> ${msg}</p>`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+
+            if (requestData) {
+                requestSequence.push(requestData);
+            }
+
+            const dumpBtn = document.getElementById('dump-sequence-btn');
+            const clearBtn = document.getElementById('clear-sequence-btn');
+            if (dumpBtn && requestSequence.length > 0) {
+                dumpBtn.textContent = `Dump Script (${requestSequence.length} requests)`;
+                dumpBtn.classList.remove('hidden');
+                clearBtn.classList.remove('hidden');
+            }
+        }
+
+        function clearRequestSequence() {
+            requestSequence = [];
+            document.getElementById('dump-sequence-btn').textContent = `Dump Script (0)`;
+            document.getElementById('dump-sequence-btn').classList.add('hidden');
+            document.getElementById('clear-sequence-btn').classList.add('hidden');
+            log("Request sequence cleared.", "info");
+        }
+
+        // --- PROXY CALLER ---
+        async function callProxy(environment, method, url, body = null) {
+            const payload = {
+                environment: environment,
+                targetUrl: url,
+                method: method,
+                body: body
+            };
+
+            // If new environment, attach creds
+            if (environment === 'new') {
+                payload.config = {
+                    authUrl: document.getElementById('new-auth-url').value,
+                    clientId: document.getElementById('new-client-id').value,
+                    clientSecret: document.getElementById('new-client-secret').value
+                };
+                if (!payload.config.authUrl || !payload.config.clientId) {
+                    log("Missing Target Credentials", "error");
+                    throw new Error("Missing Credentials");
+                }
+            }
+
+            const response = await fetch('/migration-proxy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const txt = await response.text();
+                throw new Error(txt);
+            }
+
+            // Handle 204 for Activate/Deactivate
+            if (response.status === 200) {
+                const text = await response.text();
+                return text ? JSON.parse(text) : {};
+            }
+            return response.json();
+        }
+
+        // --- 1. LOAD OLD SCHEMAS (API A) ---
+        async function loadOldSchemas() {
+            const listDiv = document.getElementById('old-schema-list');
+            listDiv.innerHTML = '<div class="loader"></div> Loading...';
+
+            try {
+                // API A
+                const url = `${OLD_API_BASE}/SchemaService/SchemaVersions?$filter=isActive eq true`;
+                const data = await callProxy('old', 'GET', url);
+
+                listDiv.innerHTML = '';
+
+                // We need to fetch the Schema Name (Metadata) for each version to display/migrate correctly
+                // The API A only returns Schema Version details. We usually need the Schema Definition (Name) too.
+                // For simplicity, we will fetch Schema details on demand or try to deduce. 
+                // Actually, let's fetch the Schema Definition for the label/name in the loop below.
+
+                for (const sv of data.value) {
+                    const card = document.createElement('div');
+                    card.className = "border p-3 rounded hover:shadow-md transition bg-gray-50";
+
+                    // We need to get the Schema Name (API C requires 'name').
+                    // Let's fetch the Schema definition for this version
+                    const schemaDefUrl = `${OLD_API_BASE}/SchemaService/Schemas(${sv.schema_ID})`;
+                    let schemaName = "Unknown";
+                    let schemaLabel = sv.label || "No Label";
+
+                    try {
+                        const schemaDef = await callProxy('old', 'GET', schemaDefUrl);
+                        schemaName = schemaDef.name;
+                        schemaLabel = schemaDef.label || sv.label;
+                    } catch (e) { console.error(e); }
+
+                    // Store all needed info in data attributes
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-bold text-indigo-700">${schemaLabel}</h4>
+                                <p class="text-xs text-gray-600">${sv.description || 'No description'}</p>
+                                <p class="text-xs font-mono mt-1">Ver ID: ${sv.ID}</p>
+                                <p class="text-xs font-mono">Name: ${schemaName}</p>
+                            </div>
+                            <button onclick='startMigration(${JSON.stringify(sv)}, "${schemaName}", "${schemaLabel}")' class="bg-blue-500 text-white text-xs px-2 py-1 rounded hover:bg-blue-600">
+                                Migrate <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                    listDiv.appendChild(card);
+                }
+                log(`Loaded ${data.value.length} active schemas from Source.`);
+
+            } catch (error) {
+                listDiv.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+                log(error.message, 'error');
+            }
+        }
+
+        // --- 2. CORE MIGRATION LOGIC ---
+        async function startMigration(oldSchemaVersion, schemaName, schemaLabel) {
+            if (!confirm(`Migrate schema "${schemaLabel}" to Target environment?`)) return;
+
+            // Reset sequence capture array
+            // requestSequence = [];
+            log(`=== Starting Migration for ${schemaName} ===`);
+
+            try {
+                // --- STEP 1: GET OLD ENTITIES (API B) ---
+                log(`Fetching entities from Old Ver: ${oldSchemaVersion.ID}...`);
+                const entUrl = `${OLD_API_BASE}/SchemaService/SchemaEntities?$filter=schemaVersion_ID eq ${oldSchemaVersion.ID}`;
+                const entData = await callProxy('old', 'GET', entUrl);
+                const oldEntities = entData.value;
+                log(`Found ${oldEntities.length} entities.`);
+
+                // --- STEP 2: CREATE SCHEMA IN NEW ENV (API C) ---
+                log(`Creating Schema Definition in Target...`);
+                const createSchemaPayload = {
+                    description: oldSchemaVersion.description || "Migrated Schema",
+                    label: schemaLabel,
+                    name: schemaName,
+                    clientId: "default",
+                    documentType_ID: "eee7c2f3-7f96-4340-959c-a2dd74454a98" // Use the standard ID you provided
+                };
+
+                let newSchemaID;
+                try {
+                    const newSchemaRes = await callProxy('new', 'POST', `${API_BASE}/SchemaService/Schemas`, createSchemaPayload);
+                    newSchemaID = newSchemaRes.ID;
+                    log(`Schema Created. ID: ${newSchemaID}`, 'info', {
+                        type: 'Schema Creation (API C)',
+                        url: `${API_BASE}/SchemaService/Schemas`,
+                        payload: createSchemaPayload,
+                        responseKey: 'SCHEMA_ID',
+                        responseValue: newSchemaID
+                    });
+                } catch (e) {
+                    log(`Schema creation failed (maybe exists?). Error: ${e.message}`, 'error');
+                    return;
+                }
+
+                // --- STEP 3: GET NEW SCHEMA VERSION ID (API D) ---
+                log(`Retrieving new Schema Version...`);
+                const verUrl = `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${newSchemaID}`;
+                const verData = await callProxy('new', 'GET', verUrl);
+
+                if (verData.value.length === 0) {
+                    throw new Error("No version found for new schema.");
+                }
+                const newVersionID = verData.value[0].ID;
+                log(`Target Schema Version ID: ${newVersionID}`, 'info', {
+                    type: 'Get Schema Version (API D)',
+                    url: verUrl,
+                    responseKey: 'SCHEMA_VERSION_ID',
+                    responseValue: newVersionID
+                });
+
+                // --- STEP 4: PREPARE ENTITIES (TOPOLOGICAL SORT) ---
+                const idMap = {};
+                const getDepth = (item) => {
+                    if (!item.parent_ID) return 0;
+                    const parent = oldEntities.find(e => e.ID === item.parent_ID);
+                    return parent ? 1 + getDepth(parent) : 0;
+                };
+
+                oldEntities.forEach(e => e._depth = getDepth(e));
+                oldEntities.sort((a, b) => a._depth - b._depth);
+
+                // --- STEP 5: CREATE ENTITIES IN NEW ENV (API E) ---
+                log(`Migrating ${oldEntities.length} entities...`);
+
+                for (const entity of oldEntities) {
+                    // Prepare payload - only include necessary fields for POST
+                    const payload = {
+                        description: entity.description,
+                        label: entity.label,
+                        name: entity.name,
+                        processingInstructions: entity.processingInstructions,
+                        schemaVersion_ID: newVersionID, // Use the new ID
+                        type: entity.type,
+                        dataType: entity.dataType
+                    };
+
+                    // Handle Parent Mapping
+                    if (entity.parent_ID) {
+                        if (idMap[entity.parent_ID]) {
+                            payload.parent_ID = idMap[entity.parent_ID]; // Use the NEW parent ID
+                        } else {
+                            log(`Warning: Parent ${entity.parent_ID} not found/created for ${entity.name}. Skipping parent link.`, 'error');
+                            payload.parent_ID = null; // Ensure we don't send a missing ID
+                        }
+                    } else {
+                        payload.parent_ID = null;
+                    }
+
+                    // Create Entity
+                    const createRes = await callProxy('new', 'POST', `${API_BASE}/SchemaService/SchemaEntities`, payload);
+
+                    // Save mapping for children
+                    idMap[entity.ID] = createRes.ID;
+                    log(`Created ${entity.type}: ${entity.name}`, 'info', {
+                        type: `Entity Creation (${entity.type}) (API E)`,
+                        url: `${API_BASE}/SchemaService/SchemaEntities`,
+                        payload: payload,
+                        responseKey: `ENTITY_ID_${entity.name.replace(/[^a-zA-Z0-9]/g, '')}`,
+                        responseValue: createRes.ID
+                    });
+                }
+
+                // --- STEP 6: ACTIVATE SCHEMA (API F) ---
+                log(`Activating new Schema Version...`);
+                const activateUrl = `${API_BASE}/SchemaService/SchemaVersions(${newVersionID})/SchemaService.activate`;
+                await callProxy('new', 'POST', activateUrl, {});
+                log(`Activation successful.`, 'success', {
+                    type: 'Activate Schema (API F)',
+                    url: activateUrl,
+                    payload: {}
+                });
+
+                log(`=== Migration Complete! Copy the script below! ===`, 'success');
+                loadNewSchemas(); // Refresh right column
+
+            } catch (error) {
+                log(`Migration Halted: ${error.message}`, 'error');
+            }
+        }
+
+        // --- 3. CHECK CONNECTION & LOAD NEW SCHEMAS ---
+        async function checkNewEnvConnection() {
+            loadNewSchemas();
+        }
+
+        async function loadNewSchemas() {
+            const listDiv = document.getElementById('new-schema-list');
+            listDiv.innerHTML = '<div class="loader"></div>';
+
+            try {
+                const url = `${API_BASE}/SchemaService/SchemaVersions`; // Get all, we will filter in UI or show active status
+                const data = await callProxy('new', 'GET', url);
+
+                listDiv.innerHTML = '';
+
+                // Sort: Active first
+                data.value.sort((a, b) => (a.isActive === b.isActive) ? 0 : a.isActive ? -1 : 1);
+
+                for (const sv of data.value) {
+                    const card = document.createElement('div');
+                    card.className = "border p-2 rounded flex justify-between items-center " + (sv.isActive ? "bg-green-50 border-green-200" : "bg-gray-50");
+
+                    const statusIcon = sv.isActive ? '<i class="fas fa-check-circle text-green-500"></i>' : '<i class="fas fa-times-circle text-gray-400"></i>';
+
+                    const btnAction = sv.isActive ? 'deactivate' : 'activate';
+                    const btnColor = sv.isActive ? 'text-red-500 hover:text-red-700' : 'text-green-600 hover:text-green-800';
+                    const btnIcon = sv.isActive ? 'fa-stop' : 'fa-play';
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="font-bold">${statusIcon} ${sv.schema_ID.substring(0, 8)}... | ${sv.label}</div>
+                            <div class="text-xs text-gray-500">Ver: ${sv.ID}</div>
+                        </div>
+                        <button onclick="toggleActivation('${sv.ID}', '${btnAction}')" class="${btnColor}" title="${btnAction}">
+                            <i class="fas ${btnIcon}"></i>
+                        </button>
+                    `;
+                    listDiv.appendChild(card);
+                }
+                log(`Refreshed Target environment schema list.`);
+
+            } catch (error) {
+                listDiv.innerHTML = '<p class="text-red-500">Connection Failed</p>';
+                log(`Target Connection Failed: ${error.message}`, 'error');
+            }
+        }
+
+        // --- 4. ACTIVATE / DEACTIVATE (API F) ---
+        async function toggleActivation(versionId, action) {
+            log(`Requesting to ${action} version ${versionId}...`);
+            try {
+                const url = `${API_BASE}/SchemaService/SchemaVersions(${versionId})/SchemaService.${action}`;
+                await callProxy('new', 'POST', url, {});
+                log(`Successfully ${action}d version.`, 'success');
+                loadNewSchemas();
+            } catch (error) {
+                log(`Failed to ${action}: ${error.message}`, 'error');
+            }
+        }
+
+        // REPLACE the existing dumpInitializationScript function in migration.html
+        function dumpInitializationScript() {
+            let scriptContent = `// === SAP Document AI Initialization Script ===\n`;
+            scriptContent += `// This script was generated by the Migration Tool.\n`;
+            scriptContent += `// --- START SCRIPT ---\n\n`;
+
+            // Variables to hold the IDs created on the fly (Used for substitution lookup)
+            const dynamicVars = {};
+
+            // 1. First Pass: Collect all created IDs and define variables
+            requestSequence.forEach(req => {
+                if (req.responseKey) {
+                    // Store the ID/Value and the name of the variable that will hold it
+                    dynamicVars[req.responseKey] = {
+                        responseValue: req.responseValue,
+                        isSet: true
+                    };
+                    // Define the variable declaration in the script output
+                    scriptContent += `let ${req.responseKey} = null; // Variable to hold the created ID (${req.type})\n`;
+                }
+            });
+
+            scriptContent += `\n`; // Spacer
+
+            // 2. Second Pass: Generate API calls and replace dependencies
+            requestSequence.forEach(req => {
+                let payload = req.payload ? JSON.stringify(req.payload, null, 2) : '{}';
+                let url = req.url || '';
+                const method = req.method || 'POST';
+
+                // --- Step 2a: Replace dynamic IDs in payload and URL with JS variables ---
+                for (const key in dynamicVars) {
+                    const varObj = dynamicVars[key];
+
+                    if (varObj.responseValue) {
+                        // Regex to find and replace the actual generated ID (the responseValue)
+                        const regex = new RegExp(varObj.responseValue, 'g');
+
+                        // Replace in payload and URL
+                        payload = payload.replace(regex, `\$\{${key}}`);
+                        url = url.replace(regex, `\$\{${key}}`);
+                    }
+                }
+
+                // --- CRITICAL FIX: Remove quotes and the outer braces ${} around substituted variables in JSON payload ---
+                // This ensures: "schemaVersion_ID": "${SCHEMA_VERSION_ID_VT}" 
+                // becomes: "schemaVersion_ID": SCHEMA_VERSION_ID_VT
+                for (const key in dynamicVars) {
+                    // Regex matches the string pattern: "\${VARIABLE_NAME}"
+                    const regexWithQuotes = new RegExp(`"\\\$\\\{${key}\\\}"`, 'g');
+
+                    // Replacement is the raw variable name (e.g., SCHEMA_VERSION_ID_VT)
+                    payload = payload.replace(regexWithQuotes, key);
+                }
+
+                // --- Step 2c: Identify the variable being set by this request ---
+                const nextVar = req.responseKey;
+
+                // Determine the property to extract from the response
+                let returnProperty;
+                if (req.type.includes("Schema Creation") || req.type.includes("Entity Creation")) {
+                    returnProperty = 'ID';
+                } else if (req.type.includes("Get Schema Version")) {
+                    returnProperty = 'value[0].ID';
+                } else {
+                    returnProperty = 'ID';
+                }
+
+                // --- Step 2d: Construct the API call block ---
+                const isActivationCall = req.type.includes("Activate Schema");
+                const callTarget = nextVar || 'response';
+
+                let callLine;
+                if (isActivationCall) {
+                    // Activation/Deactivation call (simple await, no variable assignment)
+                    callLine = `await runProxyCall('${method}', \`${url}\`, ${payload});`;
+                } else if (method === 'GET') {
+                    // For GET requests, the payload is null
+                    callLine = `${nextVar} = await runProxyCall('${method}', \`${url}\`, null)
+    .then(res => res.${returnProperty});`;
+                } else {
+                    // Schema/Entity Creation (POST)
+                    callLine = `${nextVar} = await runProxyCall('${method}', \`${url}\`, ${payload})
+    .then(res => res.${returnProperty});`;
+                }
+
+                // Add log message
+                const logLine = `log(\`Completed ${req.type} \${${nextVar} ? \`(\${${nextVar}})\` : \`\`}\`, 'success');`;
+
+                const callBlock = `
+// --- ${req.type} ---
+// Method: ${method}
+${nextVar ? `// (Sets ${nextVar})` : ''}
+${callLine}
+${logLine}
+`;
+                scriptContent += callBlock;
+            });
+
+            // Final output preparation (using simple alert for transport)
+            alert("Copy the script below:\n\n" + scriptContent);
+            console.log(scriptContent);
+        }
+
+    </script>
+</body>
+
+</html>

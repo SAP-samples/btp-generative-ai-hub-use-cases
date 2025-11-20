@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocAI Solution Initializer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        pre {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body class="p-6">
+
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-magic text-indigo-600"></i> DocAI Schema
+            Initialization Script</h1>
+        <p class="mb-4 text-gray-600">This script runs a sequence of API calls to automatically create the necessary
+            Document AI Schemas and Entities in a clean environment.</p>
+        <p class="mb-4 text-red-600 font-semibold">⚠️ NOTE: Ensure your Node.js server is running and the
+            <code>/migration-proxy</code> route is defined in <code>app.js</code>.
+        </p>
+
+
+        <form id="init-form" class="bg-white p-6 rounded shadow space-y-4">
+            <h2 class="text-xl font-semibold border-b pb-2">Target Environment Credentials</h2>
+            <div>
+                <label class="block text-sm font-bold text-gray-700">DocAI API Base URL (Constant)</label>
+                <input type="text" id="api-base-url" class="w-full border p-2 rounded text-sm bg-gray-100" readonly
+                    value="https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1">
+            </div>
+            <div>
+                <label class="block text-sm font-bold text-gray-700">Authentication URL (OAuth)</label>
+                <input type="text" id="auth-url" class="w-full border p-2 rounded text-sm"
+                    placeholder="https://.../oauth/token?grant_type=client_credentials" required>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700">Client ID</label>
+                    <input type="text" id="client-id" class="w-full border p-2 rounded text-sm" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700">Client Secret</label>
+                    <input type="password" id="client-secret" class="w-full border p-2 rounded text-sm" required>
+                </div>
+            </div>
+            <div class="pt-2">
+                <button type="submit" id="run-init-btn"
+                    class="w-full bg-indigo-600 text-white py-3 rounded hover:bg-indigo-700 font-semibold">
+                    <i class="fas fa-rocket mr-2"></i> Run Initialization Script
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold border-b pb-2 mb-3">Script Output Console</h2>
+            <div id="init-console"
+                class="h-64 overflow-y-auto bg-gray-900 text-green-400 p-3 rounded font-mono text-sm">
+                > Console Ready. Enter credentials and click Run.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_BASE = "https://aiservices-dox.cfapps.sap.hana.ondemand.com/document-ai/v1";
+        const DOC_TYPE_ID = "eee7c2f3-7f96-4340-959c-a2dd74454a98";
+
+        function log(msg, type = "info") {
+            const consoleDiv = document.getElementById('init-console');
+            const color = type === 'error' ? 'text-red-400' : (type === 'success' ? 'text-yellow-300' : 'text-green-400');
+            consoleDiv.innerHTML += `<p class="${color}">> ${msg}</p>`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        /**
+         * The core proxy function that routes the request through the Express server 
+         * to avoid CORS issues and handle dynamic authentication.
+         */
+        async function runProxyCall(method, url, body = null) {
+
+            const payload = {
+                environment: 'new', // Uses the dynamic credentials passed from the UI
+                targetUrl: url,
+                method: method,
+                body: body,
+                // Pass credentials needed by the Express proxy to generate the token
+                config: {
+                    authUrl: document.getElementById('auth-url').value,
+                    clientId: document.getElementById('client-id').value,
+                    clientSecret: document.getElementById('client-secret').value
+                }
+            };
+
+            const response = await fetch('/migration-proxy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Proxy Error: ${errText}`);
+            }
+
+            // Handle 204 No Content (often used for Activate/Deactivate)
+            const text = await response.text();
+            return text ? JSON.parse(text) : { ID: "N/A" };
+        }
+
+        // --- SCRIPT EXECUTION LOGIC ---
+        document.getElementById('init-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('run-init-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loader mr-2"></span> Initializing... Please wait.';
+            document.getElementById('init-console').innerHTML = ''; // Clear console
+
+            try {
+                log("Starting initialization sequence...");
+                log(`Vertigo Travels Use Case`, 'success');
+                log(`Total: 5 Schema Document Types to be Initialised!`, 'success');
+
+                // ========================================================
+                // === PASTE GENERATED SCRIPT SEQUENCE HERE ===
+                // ========================================================
+
+                // A - NATIONAL ID
+
+                log(`VERTIGO TRAVELS - NATIONAL ID SCHEMA`, 'success');
+                log(`Starting 1 out of 5`, 'success');
+
+                // === SAP Document AI Initialization Script ===
+                // This script was generated by the Migration Tool.
+                // --- START SCRIPT ---
+
+                let A_SCHEMA_ID = null; // Variable to hold the created ID (Schema Creation (API C))
+                let A_SCHEMA_VERSION_ID = null; // Variable to hold the created ID (Get Schema Version (API D))
+                let A_ENTITY_ID_nationalIdData_nationalIdData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let A_ENTITY_ID_nationalIdData_basicData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let A_ENTITY_ID_nationalIdData_nationalIdNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let A_ENTITY_ID_nationalIdData_validityDate = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let A_ENTITY_ID_nationalIdData_ownerName = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let A_ENTITY_ID_nationalIdData_dateOfBirth = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let A_ENTITY_ID_nationalIdData_countryName = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let A_ENTITY_ID_nationalIdData_ownerSurname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+
+
+                // --- Schema Creation (API C) ---
+                // Method: POST
+                // (Sets A_SCHEMA_ID)
+                A_SCHEMA_ID = await runProxyCall('POST', `${API_BASE}/SchemaService/Schemas`, {
+                    "description": "Vertigo Travels National ID",
+                    "label": "VT ID",
+                    "name": "VERTIGO_NATIONAL_ID",
+                    "clientId": "default",
+                    "documentType_ID": "eee7c2f3-7f96-4340-959c-a2dd74454a98"
+                })
+                    .then(res => res.ID);
+                log(`Completed Schema Creation (API C) ${A_SCHEMA_ID ? `(${A_SCHEMA_ID})` : ``}`, 'success');
+
+                // --- Get Schema Version (API D) ---
+                // Method: POST
+                // (Sets A_SCHEMA_VERSION_ID)
+                A_SCHEMA_VERSION_ID = await runProxyCall('GET', `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${A_SCHEMA_ID}`, {})
+                    .then(res => res.value[0].ID);
+                log(`Completed Get Schema Version (API D) ${A_SCHEMA_VERSION_ID ? `(${A_SCHEMA_VERSION_ID})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_nationalIdData)
+                A_ENTITY_ID_nationalIdData_nationalIdData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "National ID Data",
+                    "name": "nationalIdData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${A_ENTITY_ID_nationalIdData_nationalIdData ? `(${A_ENTITY_ID_nationalIdData_nationalIdData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_basicData)
+                A_ENTITY_ID_nationalIdData_basicData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Basic Data",
+                    "name": "basicData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_nationalIdData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${A_ENTITY_ID_nationalIdData_basicData ? `(${A_ENTITY_ID_nationalIdData_basicData})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_nationalIdNumber)
+                A_ENTITY_ID_nationalIdData_nationalIdNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "National ID Number",
+                    "name": "nationalIdNumber",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_nationalIdNumber ? `(${A_ENTITY_ID_nationalIdData_nationalIdNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_validityDate)
+                A_ENTITY_ID_nationalIdData_validityDate = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Validity Date",
+                    "name": "validityDate",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_validityDate ? `(${A_ENTITY_ID_nationalIdData_validityDate})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_ownerName)
+                A_ENTITY_ID_nationalIdData_ownerName = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Owner Name",
+                    "label": "Owner Name",
+                    "name": "ownerName",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_ownerName ? `(${A_ENTITY_ID_nationalIdData_ownerName})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_dateOfBirth)
+                A_ENTITY_ID_nationalIdData_dateOfBirth = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "",
+                    "label": "Date Of Birth",
+                    "name": "dateOfBirth",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_dateOfBirth ? `(${A_ENTITY_ID_nationalIdData_dateOfBirth})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_countryName)
+                A_ENTITY_ID_nationalIdData_countryName = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Country Name",
+                    "name": "countryName",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_countryName ? `(${A_ENTITY_ID_nationalIdData_countryName})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets A_ENTITY_ID_nationalIdData_ownerSurname)
+                A_ENTITY_ID_nationalIdData_ownerSurname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Owner Surname",
+                    "label": "Owner Surname",
+                    "name": "ownerSurname",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": A_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": A_ENTITY_ID_nationalIdData_basicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${A_ENTITY_ID_nationalIdData_ownerSurname ? `(${A_ENTITY_ID_nationalIdData_ownerSurname})` : ``}`, 'success');
+
+                // --- Activate Schema (API F) ---
+                // Method: POST
+
+                await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaVersions(${A_SCHEMA_VERSION_ID})/SchemaService.activate`, {});
+                log(`Completed Activate Schema (API F) ${undefined ? `(${undefined})` : ``}`, 'success');
+
+                // B - Vertigo_Kid_Medical_Info_Form
+
+                log(`VERTIGO TRAVELS - KIDS MEDICAL INFORMATION FORM SCHEMA`, 'success');
+                log(`Starting 2 out of 5`, 'success');
+
+                // === SAP Document AI Initialization Script ===
+                // This script was generated by the Migration Tool.
+                // --- START SCRIPT ---
+
+                let B_SCHEMA_ID = null; // Variable to hold the created ID (Schema Creation (API C))
+                let B_SCHEMA_VERSION_ID = null; // Variable to hold the created ID (Get Schema Version (API D))
+                let B_ENTITY_ID_EmergencyContact = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let B_ENTITY_ID_EndOfStayContact = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let B_ENTITY_ID_KidData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let B_ENTITY_ID_LegalResponsibleData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let B_ENTITY_ID_EndOfStayContactTable = null; // Variable to hold the created ID (Entity Creation (Table) (API E))
+                let B_ENTITY_ID_LegalResponsibleSurname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_Surname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_Name = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_EmergencyContactsTable = null; // Variable to hold the created ID (Entity Creation (Table) (API E))
+                let B_ENTITY_ID_Age = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_LegalResponsibleName = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_LegalResponsibleIDNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_ContactSurname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_EndOfStayContactIDNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_ContactName = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_OfficePhoneNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_Relationship = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_EndOfStayContactSurname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_PhoneNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_EndOfStayContactRelationship = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let B_ENTITY_ID_EndOfStayContactName = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+
+
+                // --- Schema Creation (API C) ---
+                // Method: POST
+                // (Sets B_SCHEMA_ID)
+                B_SCHEMA_ID = await runProxyCall('POST', `${API_BASE}/SchemaService/Schemas`, {
+                    "description": "Vertigo Kids Medical Form with tables",
+                    "label": "VT Kids Med Info",
+                    "name": "VERTIGO_KIDS_MED_INFO_FORM",
+                    "clientId": "default",
+                    "documentType_ID": "eee7c2f3-7f96-4340-959c-a2dd74454a98"
+                })
+                    .then(res => res.ID);
+                log(`Completed Schema Creation (API C) ${B_SCHEMA_ID ? `(${B_SCHEMA_ID})` : ``}`, 'success');
+
+                // --- Get Schema Version (API D) ---
+                // Method: GET
+                // (Sets B_SCHEMA_VERSION_ID)
+                B_SCHEMA_VERSION_ID = await runProxyCall('GET', `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${B_SCHEMA_ID}`, {})
+                    .then(res => res.value[0].ID);
+                log(`Completed Get Schema Version (API D) ${B_SCHEMA_VERSION_ID ? `(${B_SCHEMA_VERSION_ID})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EmergencyContact)
+                B_ENTITY_ID_EmergencyContact = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "EmergencyContact",
+                    "name": "EmergencyContact",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${B_ENTITY_ID_EmergencyContact ? `(${B_ENTITY_ID_EmergencyContact})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContact)
+                B_ENTITY_ID_EndOfStayContact = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Data of the people who are allowed to pick up the kid at the end of the stay",
+                    "label": "EndOfStayContact",
+                    "name": "EndOfStayContact",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${B_ENTITY_ID_EndOfStayContact ? `(${B_ENTITY_ID_EndOfStayContact})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_KidData)
+                B_ENTITY_ID_KidData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "KidData",
+                    "name": "KidData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${B_ENTITY_ID_KidData ? `(${B_ENTITY_ID_KidData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_LegalResponsibleData)
+                B_ENTITY_ID_LegalResponsibleData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Data of the legal responsible for the kid",
+                    "label": "Legal responsible Data",
+                    "name": "LegalResponsibleData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${B_ENTITY_ID_LegalResponsibleData ? `(${B_ENTITY_ID_LegalResponsibleData})` : ``}`, 'success');
+
+                // --- Entity Creation (Table) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContactTable)
+                B_ENTITY_ID_EndOfStayContactTable = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "EndOfStayContactTable",
+                    "name": "EndOfStayContactTable",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Table",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EndOfStayContact
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Table) (API E) ${B_ENTITY_ID_EndOfStayContactTable ? `(${B_ENTITY_ID_EndOfStayContactTable})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_LegalResponsibleSurname)
+                B_ENTITY_ID_LegalResponsibleSurname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Legal Responsible Surname",
+                    "name": "LegalResponsibleSurname",
+                    "processingInstructions": "Legal responsible last name",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_LegalResponsibleData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_LegalResponsibleSurname ? `(${B_ENTITY_ID_LegalResponsibleSurname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_Surname)
+                B_ENTITY_ID_Surname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Surname",
+                    "name": "Surname",
+                    "processingInstructions": "Kid's last name ",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_KidData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_Surname ? `(${B_ENTITY_ID_Surname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_Name)
+                B_ENTITY_ID_Name = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Name",
+                    "name": "Name",
+                    "processingInstructions": "Kid's first name ",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_KidData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_Name ? `(${B_ENTITY_ID_Name})` : ``}`, 'success');
+
+                // --- Entity Creation (Table) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EmergencyContactsTable)
+                B_ENTITY_ID_EmergencyContactsTable = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "EmergencyContactsTable",
+                    "name": "EmergencyContactsTable",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Table",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContact
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Table) (API E) ${B_ENTITY_ID_EmergencyContactsTable ? `(${B_ENTITY_ID_EmergencyContactsTable})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_Age)
+                B_ENTITY_ID_Age = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Age",
+                    "name": "Age",
+                    "processingInstructions": "Kid's age",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": B_ENTITY_ID_KidData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_Age ? `(${B_ENTITY_ID_Age})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_LegalResponsibleName)
+                B_ENTITY_ID_LegalResponsibleName = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Legal Responsible Name",
+                    "name": "LegalResponsibleName",
+                    "processingInstructions": "Legal responsible first name",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_LegalResponsibleData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_LegalResponsibleName ? `(${B_ENTITY_ID_LegalResponsibleName})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_LegalResponsibleIDNumber)
+                B_ENTITY_ID_LegalResponsibleIDNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Legal Responsible ID Number",
+                    "name": "LegalResponsibleIDNumber",
+                    "processingInstructions": "Legal responsible data of birth",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_LegalResponsibleData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_LegalResponsibleIDNumber ? `(${B_ENTITY_ID_LegalResponsibleIDNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_ContactSurname)
+                B_ENTITY_ID_ContactSurname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Surname of the person to be contacted in case of emergency",
+                    "label": "Contact Surname",
+                    "name": "ContactSurname",
+                    "processingInstructions": "Last name of the emergency contact",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContactsTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_ContactSurname ? `(${B_ENTITY_ID_ContactSurname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContactIDNumber)
+                B_ENTITY_ID_EndOfStayContactIDNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "ID Number of the person allowed to pick up the kid after the stay",
+                    "label": "EndOfStay_ContactIDNumber",
+                    "name": "EndOfStay_ContactIDNumber",
+                    "processingInstructions": "ID number of the end of stay contact",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EndOfStayContactTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_EndOfStayContactIDNumber ? `(${B_ENTITY_ID_EndOfStayContactIDNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_ContactName)
+                B_ENTITY_ID_ContactName = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Name of the person to contact in case of emergency",
+                    "label": "Contact Name",
+                    "name": "ContactName",
+                    "processingInstructions": "First name of the person to contact in case of emergency",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContactsTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_ContactName ? `(${B_ENTITY_ID_ContactName})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_OfficePhoneNumber)
+                B_ENTITY_ID_OfficePhoneNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Office phone number of the person to be contacted in case of emergency",
+                    "label": "Office Phone Number",
+                    "name": "OfficePhoneNumber",
+                    "processingInstructions": "Office phone number of the emergency contact. Always add the correct national prefix if it is not present.",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContactsTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_OfficePhoneNumber ? `(${B_ENTITY_ID_OfficePhoneNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_Relationship)
+                B_ENTITY_ID_Relationship = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Relationship between the kid and the emergency contact",
+                    "label": "Relationship",
+                    "name": "Relationship",
+                    "processingInstructions": "Relationship between the kid and the emergency contact, translated into English (for instance mother, father, uncle etc.)",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContactsTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_Relationship ? `(${B_ENTITY_ID_Relationship})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContactSurname)
+                B_ENTITY_ID_EndOfStayContactSurname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Surname of the person allowed to pick up the kid after the stay",
+                    "label": "EndOfStay_ContactSurname",
+                    "name": "EndOfStay_ContactSurname",
+                    "processingInstructions": "Surname of the end of stay contact",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EndOfStayContactTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_EndOfStayContactSurname ? `(${B_ENTITY_ID_EndOfStayContactSurname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_PhoneNumber)
+                B_ENTITY_ID_PhoneNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Mobile phone number of the person to be contacted in case of emergency",
+                    "label": "Mobile Phone Number",
+                    "name": "PhoneNumber",
+                    "processingInstructions": "Office phone number of the emergency contact. Always add the correct national prefix if it is not present.",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EmergencyContactsTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_PhoneNumber ? `(${B_ENTITY_ID_PhoneNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContactRelationship)
+                B_ENTITY_ID_EndOfStayContactRelationship = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Relationship between the kid and the person allowed to pick him up after the stay",
+                    "label": "EndOfStay_ContactRelationship",
+                    "name": "EndOfStay_ContactRelationship",
+                    "processingInstructions": "Relationship between the kid and the end of stay contact, translated into English (for instance mother, father, uncle etc.)",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EndOfStayContactTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_EndOfStayContactRelationship ? `(${B_ENTITY_ID_EndOfStayContactRelationship})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets B_ENTITY_ID_EndOfStayContactName)
+                B_ENTITY_ID_EndOfStayContactName = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Surname of the person allowed to pick up the kid after the stay",
+                    "label": "EndOfStay_ContactName",
+                    "name": "EndOfStay_ContactName",
+                    "processingInstructions": "Name of the end of stay contact",
+                    "schemaVersion_ID": B_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": B_ENTITY_ID_EndOfStayContactTable
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${B_ENTITY_ID_EndOfStayContactName ? `(${B_ENTITY_ID_EndOfStayContactName})` : ``}`, 'success');
+
+                // --- Activate Schema (API F) ---
+                // Method: POST
+
+                await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaVersions(${B_SCHEMA_VERSION_ID})/SchemaService.activate`, {});
+                log(`Completed Activate Schema (API F) ${undefined ? `(${undefined})` : ``}`, 'success');
+
+                // C - Income Statement
+
+                log(`VERTIGO TRAVELS - INCOME STATEMENT SCHEMA`, 'success');
+                log(`Starting 3 out of 5`, 'success');
+
+                // === SAP Document AI Initialization Script ===
+                // This script was generated by the Migration Tool.
+                // --- START SCRIPT ---
+
+                let C_SCHEMA_ID = null; // Variable to hold the created ID (Schema Creation (API C))
+                let C_SCHEMA_VERSION_ID = null; // Variable to hold the created ID (Get Schema Version (API D))
+                let C_ENTITY_ID_BasicData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let C_ENTITY_ID_OwnerData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let C_ENTITY_ID_FinancialData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let C_ENTITY_ID_FamilyData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let C_ENTITY_ID_Surname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let C_ENTITY_ID_NumberOfKids = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let C_ENTITY_ID_Income = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let C_ENTITY_ID_Name = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let C_ENTITY_ID_DateOfBirth = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+
+
+                // --- Schema Creation (API C) ---
+                // Method: POST
+                // (Sets C_SCHEMA_ID)
+                C_SCHEMA_ID = await runProxyCall('POST', `${API_BASE}/SchemaService/Schemas`, {
+                    "description": "Vertigo Travels Income Statement Schema",
+                    "label": "VT Income Statement",
+                    "name": "VERTIGO_INCOME_STATEMENT",
+                    "clientId": "default",
+                    "documentType_ID": "eee7c2f3-7f96-4340-959c-a2dd74454a98"
+                })
+                    .then(res => res.ID);
+                log(`Completed Schema Creation (API C) ${C_SCHEMA_ID ? `(${C_SCHEMA_ID})` : ``}`, 'success');
+
+                // --- Get Schema Version (API D) ---
+                // Method: GET
+                // (Sets C_SCHEMA_VERSION_ID)
+                C_SCHEMA_VERSION_ID = await runProxyCall('GET', `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${C_SCHEMA_ID}`, {})
+                    .then(res => res.value[0].ID);
+                log(`Completed Get Schema Version (API D) ${C_SCHEMA_VERSION_ID ? `(${C_SCHEMA_VERSION_ID})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_BasicData)
+                C_ENTITY_ID_BasicData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Basic Data",
+                    "name": "BasicData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${C_ENTITY_ID_BasicData ? `(${C_ENTITY_ID_BasicData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_OwnerData)
+                C_ENTITY_ID_OwnerData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "OwnerData",
+                    "name": "OwnerData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": C_ENTITY_ID_BasicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${C_ENTITY_ID_OwnerData ? `(${C_ENTITY_ID_OwnerData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_FinancialData)
+                C_ENTITY_ID_FinancialData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "FinancialData",
+                    "name": "FinancialData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": C_ENTITY_ID_BasicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${C_ENTITY_ID_FinancialData ? `(${C_ENTITY_ID_FinancialData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_FamilyData)
+                C_ENTITY_ID_FamilyData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Number of kids",
+                    "label": "Family Data",
+                    "name": "FamilyData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": C_ENTITY_ID_BasicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${C_ENTITY_ID_FamilyData ? `(${C_ENTITY_ID_FamilyData})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_Surname)
+                C_ENTITY_ID_Surname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Surname",
+                    "name": "Surname",
+                    "processingInstructions": "Last name of the main person submitting the tax statement",
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": C_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${C_ENTITY_ID_Surname ? `(${C_ENTITY_ID_Surname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_NumberOfKids)
+                C_ENTITY_ID_NumberOfKids = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Number Of Kids",
+                    "name": "NumberOfKids",
+                    "processingInstructions": "Total number of kids in the family",
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Number",
+                    "parent_ID": C_ENTITY_ID_FamilyData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${C_ENTITY_ID_NumberOfKids ? `(${C_ENTITY_ID_NumberOfKids})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_Income)
+                C_ENTITY_ID_Income = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Annual Income Gross",
+                    "label": "Income",
+                    "name": "Income",
+                    "processingInstructions": "Annual Income Gross",
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Number",
+                    "parent_ID": C_ENTITY_ID_FinancialData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${C_ENTITY_ID_Income ? `(${C_ENTITY_ID_Income})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_Name)
+                C_ENTITY_ID_Name = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Name",
+                    "name": "Name",
+                    "processingInstructions": "First name of the main person submitting the tax statement",
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": C_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${C_ENTITY_ID_Name ? `(${C_ENTITY_ID_Name})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets C_ENTITY_ID_DateOfBirth)
+                C_ENTITY_ID_DateOfBirth = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Date Of Birth",
+                    "name": "DateOfBirth",
+                    "processingInstructions": "Date of birth of the main person submitting the tax statement",
+                    "schemaVersion_ID": C_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": C_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${C_ENTITY_ID_DateOfBirth ? `(${C_ENTITY_ID_DateOfBirth})` : ``}`, 'success');
+
+                // --- Activate Schema (API F) ---
+                // Method: POST
+
+                await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaVersions(${C_SCHEMA_VERSION_ID})/SchemaService.activate`, {});
+                log(`Completed Activate Schema (API F) ${undefined ? `(${undefined})` : ``}`, 'success');
+
+                //  D - Medical Cert
+
+                log(`VERTIGO TRAVELS - MEDICAL CERTIFICATE SCHEMA`, 'success');
+                log(`Starting 4 out of 5`, 'success');
+
+                // === SAP Document AI Initialization Script ===
+                // This script was generated by the Migration Tool.
+                // --- START SCRIPT ---
+
+                let D_SCHEMA_ID = null; // Variable to hold the created ID (Schema Creation (API C))
+                let D_SCHEMA_VERSION_ID = null; // Variable to hold the created ID (Get Schema Version (API D))
+                let D_ENTITY_ID_BasicData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let D_ENTITY_ID_BasicDataGroup = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let D_ENTITY_ID_ValidityDate = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let D_ENTITY_ID_DateOfBirth = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let D_ENTITY_ID_Surname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let D_ENTITY_ID_Name = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+
+
+                // --- Schema Creation (API C) ---
+                // Method: POST
+                // (Sets D_SCHEMA_ID)
+                D_SCHEMA_ID = await runProxyCall('POST', `${API_BASE}/SchemaService/Schemas`, {
+                    "description": "Vertigo Travels Medical Certificate Schema",
+                    "label": "VT Med Cert",
+                    "name": "VERTIGO_MED_CERT",
+                    "clientId": "default",
+                    "documentType_ID": "eee7c2f3-7f96-4340-959c-a2dd74454a98"
+                })
+                    .then(res => res.ID);
+                log(`Completed Schema Creation (API C) ${D_SCHEMA_ID ? `(${D_SCHEMA_ID})` : ``}`, 'success');
+
+                // --- Get Schema Version (API D) ---
+                // Method: GET
+                // (Sets D_SCHEMA_VERSION_ID)
+                D_SCHEMA_VERSION_ID = await runProxyCall('GET', `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${D_SCHEMA_ID}`, {})
+                    .then(res => res.value[0].ID);
+                log(`Completed Get Schema Version (API D) ${D_SCHEMA_VERSION_ID ? `(${D_SCHEMA_VERSION_ID})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_BasicData)
+                D_ENTITY_ID_BasicData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Basic Data",
+                    "name": "BasicData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${D_ENTITY_ID_BasicData ? `(${D_ENTITY_ID_BasicData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_BasicDataGroup)
+                D_ENTITY_ID_BasicDataGroup = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "Basic Data Group",
+                    "name": "BasicDataGroup",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": D_ENTITY_ID_BasicData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${D_ENTITY_ID_BasicDataGroup ? `(${D_ENTITY_ID_BasicDataGroup})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_ValidityDate)
+                D_ENTITY_ID_ValidityDate = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Validity date of the medical certificate",
+                    "label": "Validity Date",
+                    "name": "ValidityDate",
+                    "processingInstructions": "Validity date of the medical certificate",
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": D_ENTITY_ID_BasicDataGroup
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${D_ENTITY_ID_ValidityDate ? `(${D_ENTITY_ID_ValidityDate})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_DateOfBirth)
+                D_ENTITY_ID_DateOfBirth = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Patient date of birth",
+                    "label": "DateOfBirth",
+                    "name": "DateOfBirth",
+                    "processingInstructions": "Patient Date pf Birth",
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": D_ENTITY_ID_BasicDataGroup
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${D_ENTITY_ID_DateOfBirth ? `(${D_ENTITY_ID_DateOfBirth})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_Surname)
+                D_ENTITY_ID_Surname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Patient Surname",
+                    "label": "Surname",
+                    "name": "Surname",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": D_ENTITY_ID_BasicDataGroup
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${D_ENTITY_ID_Surname ? `(${D_ENTITY_ID_Surname})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets D_ENTITY_ID_Name)
+                D_ENTITY_ID_Name = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Patient Name",
+                    "label": "Name",
+                    "name": "Name",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": D_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": D_ENTITY_ID_BasicDataGroup
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${D_ENTITY_ID_Name ? `(${D_ENTITY_ID_Name})` : ``}`, 'success');
+
+                // --- Activate Schema (API F) ---
+                // Method: POST
+
+                await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaVersions(${D_SCHEMA_VERSION_ID})/SchemaService.activate`, {});
+                log(`Completed Activate Schema (API F) ${undefined ? `(${undefined})` : ``}`, 'success');
+
+                // E - Scuba Diving License
+                log(`VERTIGO TRAVELS - SCUBA DIVING LICENSE SCHEMA`, 'success');
+                log(`Starting 5 out of 5`, 'success');
+
+                // === SAP Document AI Initialization Script ===
+                // This script was generated by the Migration Tool.
+                // --- START SCRIPT ---
+
+                let E_SCHEMA_ID = null; // Variable to hold the created ID (Schema Creation (API C))
+                let E_SCHEMA_VERSION_ID = null; // Variable to hold the created ID (Get Schema Version (API D))
+                let E_ENTITY_ID_GeneralData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let E_ENTITY_ID_OwnerData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let E_ENTITY_ID_LicenseData = null; // Variable to hold the created ID (Entity Creation (Group) (API E))
+                let E_ENTITY_ID_DateOfBirth = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let E_ENTITY_ID_Level = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let E_ENTITY_ID_LicenseNumber = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let E_ENTITY_ID_Name = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let E_ENTITY_ID_Federation = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+                let E_ENTITY_ID_Surname = null; // Variable to hold the created ID (Entity Creation (Field) (API E))
+
+
+                // --- Schema Creation (API C) ---
+                // Method: POST
+                // (Sets E_SCHEMA_ID)
+                E_SCHEMA_ID = await runProxyCall('POST', `${API_BASE}/SchemaService/Schemas`, {
+                    "description": "Vertigo Travels Scuba Diving License Schema",
+                    "label": "VT Scuba Lic",
+                    "name": "VERTIGO_SCUBA_LICENSE",
+                    "clientId": "default",
+                    "documentType_ID": "eee7c2f3-7f96-4340-959c-a2dd74454a98"
+                })
+                    .then(res => res.ID);
+                log(`Completed Schema Creation (API C) ${E_SCHEMA_ID ? `(${E_SCHEMA_ID})` : ``}`, 'success');
+
+                // --- Get Schema Version (API D) ---
+                // Method: GET
+                // (Sets E_SCHEMA_VERSION_ID)
+                E_SCHEMA_VERSION_ID = await runProxyCall('GET', `${API_BASE}/SchemaService/SchemaVersions?$filter=schema_ID eq ${E_SCHEMA_ID}`, {})
+                    .then(res => res.value[0].ID);
+                log(`Completed Get Schema Version (API D) ${E_SCHEMA_VERSION_ID ? `(${E_SCHEMA_VERSION_ID})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_GeneralData)
+                E_ENTITY_ID_GeneralData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "GeneralData",
+                    "name": "GeneralData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": null
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${E_ENTITY_ID_GeneralData ? `(${E_ENTITY_ID_GeneralData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_OwnerData)
+                E_ENTITY_ID_OwnerData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "License owner family name",
+                    "label": "Owner Data",
+                    "name": "OwnerData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_GeneralData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${E_ENTITY_ID_OwnerData ? `(${E_ENTITY_ID_OwnerData})` : ``}`, 'success');
+
+                // --- Entity Creation (Group) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_LicenseData)
+                E_ENTITY_ID_LicenseData = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "License Data",
+                    "name": "LicenseData",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Group",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_GeneralData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Group) (API E) ${E_ENTITY_ID_LicenseData ? `(${E_ENTITY_ID_LicenseData})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_DateOfBirth)
+                E_ENTITY_ID_DateOfBirth = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Owner date of birth",
+                    "label": "Date Of Birth",
+                    "name": "DateOfBirth",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Date",
+                    "parent_ID": E_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_DateOfBirth ? `(${E_ENTITY_ID_DateOfBirth})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_Level)
+                E_ENTITY_ID_Level = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Level of the diving license. Can be a number between 1 and 4.",
+                    "label": "Level",
+                    "name": "Level",
+                    "processingInstructions": "Level of the diving license. It must be a number between 1 and 4.",
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "Number",
+                    "parent_ID": E_ENTITY_ID_LicenseData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_Level ? `(${E_ENTITY_ID_Level})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_LicenseNumber)
+                E_ENTITY_ID_LicenseNumber = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": null,
+                    "label": "License Number",
+                    "name": "LicenseNumber",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_LicenseData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_LicenseNumber ? `(${E_ENTITY_ID_LicenseNumber})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_Name)
+                E_ENTITY_ID_Name = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "License owner name",
+                    "label": "Name",
+                    "name": "Name",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_Name ? `(${E_ENTITY_ID_Name})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_Federation)
+                E_ENTITY_ID_Federation = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "Name of the federation releasing the certificate. ",
+                    "label": "Federation",
+                    "name": "Federation",
+                    "processingInstructions": "Name of the federation releasing the certificate. ",
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_LicenseData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_Federation ? `(${E_ENTITY_ID_Federation})` : ``}`, 'success');
+
+                // --- Entity Creation (Field) (API E) ---
+                // Method: POST
+                // (Sets E_ENTITY_ID_Surname)
+                E_ENTITY_ID_Surname = await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaEntities`, {
+                    "description": "License owner surname",
+                    "label": "Surname",
+                    "name": "Surname",
+                    "processingInstructions": null,
+                    "schemaVersion_ID": E_SCHEMA_VERSION_ID,
+                    "type": "Field",
+                    "dataType": "String",
+                    "parent_ID": E_ENTITY_ID_OwnerData
+                })
+                    .then(res => res.ID);
+                log(`Completed Entity Creation (Field) (API E) ${E_ENTITY_ID_Surname ? `(${E_ENTITY_ID_Surname})` : ``}`, 'success');
+
+                // --- Activate Schema (API F) ---
+                // Method: POST
+
+                await runProxyCall('POST', `${API_BASE}/SchemaService/SchemaVersions(${E_SCHEMA_VERSION_ID})/SchemaService.activate`, {});
+                log(`Completed Activate Schema (API F) ${undefined ? `(${undefined})` : ``}`, 'success');
+
+            } catch (error) {
+                log(`Initialization FAILED: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-rocket mr-2"></i> Run Initialization Script';
+            }
+        });
+    </script>
+</body>
+
+</html>
