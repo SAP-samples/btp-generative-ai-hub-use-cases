@@ -1,253 +1,167 @@
-# Joule for ABAP Developers: Demo Guide
-This repository contains the step-by-step prompts and workflow for demonstrating the capabilities of Joule (SAP's AI Copilot) in the ABAP environment. Follow the sections below to build, enhance, and test a RAP (RESTful Application Programming Model) Travel Booking application.
-## Table of Contents
-1. Introduction to Joule
-2. Building the RAP Application
-3. Joule Cloud Generator (Transactional UI)
-4. Adjusting Behavior Definitions
-5. Creating Helper Classes
-6. Enhancing Data Models
-7. General Help & Explanation
-8. Unit Test Generation
-9. Predictive RAP Business Logic
-10. OData Consumption
-11. ABAP AI SDK (ISLM) Integration
+# Customer Loyalty Program - Joule Demo
 
-## 1. Introduction to Joule
-Goal: Establish context and verify Joule's capabilities in the ABAP environment.
+This scenario demonstrates how to build a Customer Loyalty Management application using Joule. You will create a transactional UI, consume external OData services (Business Partners, Products), and implement complex logic for point calculations and redemptions.
+
+## 📋 Use Case Overview
+
+We are building an app to manage:
+
+1. Customers: Tracking their total purchases and reward points.
+
+2. Purchases: Logging individual purchases to calculate points.
+
+3. Redemptions: allowing customers to spend points.
+
+## 🛠️ Step 1: BO Generator
+
+Goal: Generate the initial application structure, including the Root entity (Customer) and its Child entities (Purchases, Redemptions).
+
+**Prompt:**
+```text
+Create a transactional application for a customer loyalty program containing the entities below: 
+> Create a root entity for customers with fields:
+- customer ID (semantic key): char(10)
+- name : char(81)
+- email : string(0)
+- total purchase value : decimal(15, 2)
+- total reward points : int8 
+- total redeemed reward points : int8
+- qualification : string(0)
+* NOTE: do not define the total purchase value as a currency field!
+
+> Create a child entity purchases for the root entity customers with fields:
+- purchase value : decimal(15, 2)
+- reward points : int8
+- selected product : char(40)
+- product name : char(40)
+* NOTE: do not define the purchase value as a currency field and do not create a semantic key (purchase ID) for this entity as it's a composition of the root entity customers!
+
+> Create a child entity redemptions for the root entity customers with fields:
+- redemption type : char(15)
+- redeemed amount : int8
+* NOTE: do not create a semantic key (redemption ID) for this entity as it's a composition of the root entity customers!
+
+Create all repository object names with prefix LPM.
+```
+
+## 🔌 Step 2: OData Service Consumption
+
+Goal: Generate code to consume external APIs (Business Partners and Products) to enrich the application data.
+
+### 2.1 Read Business Partners
+
+**Prompt (Filter):**
+```text
+I want to read all YY1_BusinessPartnerPerson where BusinessPartner equals '001' and BusinessPartnerName equals 'John'
+```
+
+**Prompt (By Key):**
+```text
+I want to read the field BusinessPartnerName from a specific YY1_BusinessPartnerPerson using the entity key
+```
+
+### 2.2 Read Products
+
+**Prompt (Filter):**
+```text
+I want to read all YY1_ProductText where ProductName like 'Mountain bike*'
+```
+
+**Prompt (By Key):**
+```text
+I want to read a specific YY1_ProductText using the entity key
+```
+
+## 🧠 Step 3: Totals Calculation Logic
+
+Goal: Implement a determination that updates the Customer's Total Purchase Value and Total Reward Points whenever a purchase is created, updated, or deleted.
 
 Prompt:
 ```text
-Hi, Joule!
-⁃ How can you help me in ABAP?
-⁃ What is your base LLM?
-⁃ Have you been fine-tuned for ABAP?
+This code is executed whenever the purchase value of purchases from the affected Customer is modified (purchase create or update) or one or more purchases are deleted. All EML reads and modifies must be done from the Customer entity (root entity) using its Uuid in the WITH clause. Here's the procedure:
+ 
+1. Declare variables to totalize purchase value (decimal number with 15 positions and 2 decimal digits), reward points (int8) of all Customer's purchases, and a variable to hold the Customer Uuid (ParentUuid of the affected purchases)
+
+2. Initialize totals with 0.
+
+3. Read the ParentUuid (Customer Uuid) from the Customer's affected purchases using the Customer root entity.
+
+4. If the result is empty, that means the affected purchase(s) has(have) been deleted and no other action(s) - create or update - have been executed (no other affected purchase(s)). Therefore, in that case, the ParentUuid must be read directly from the Purchase draft table using the following code template (placeholder between "<>"):
+
+      DATA(lv_uuid) = keys[ 1 ]-uuid.
+
+      SELECT SINGLE parentuuid FROM ZLPMPURCHASE_D WHERE uuid = @lv_uuid INTO @<previously declared variable>.
+
+5. If the result of the SELECT operation is still empty, that means the Customer itself has been deleted. Therefore, in that case, the procedure must stop here (no other operations can be executed).
+
+6. If one of the previous steps (4 or 5) are successful, then the ParentUuid (Customer Uuid) must be stored in the previously declared variable.
+
+7. Read all Customer purchases using the following code template (placeholder between "<>"):
+
+    READ ENTITIES OF ZLPMR_CUSTOMER IN LOCAL MODE
+
+      ENTITY Customer BY \_Purchase
+
+      FIELDS ( PurchaseValue RewardPoints )
+
+      WITH VALUE #( ( Uuid = <previously declared variable> ) )
+
+      RESULT DATA(lt_customer_purchases).
+
+8. Loop through the resulting dataset executing:
+
+   8.1 Totalize purchase value using the previously declared variable.
+
+   8.2 Calculate the reward points of each purchase as: purchase value / 10, and also totalize such reward points using the previously declared variable.
+
+   8.3 Update the reward points of each Customer's purchase. But, in this case, unlike in the previous template begin the statement with:
+
+  MODIFY ENTITIES OF ZLPMR_CUSTOMER IN LOCAL MODE
+
+    ENTITY Purchase
+
+9. Read the total redeemed reward points from the affected Customer using the previously stored ParentUuid as Customer Uuid (use a variable named: lv_total_rr_points). The resultset is a table, so its element must be referenced using [ 1 ].  
+
+10. If the previously calculated total reward points subtracted by the Customer's total redeemed reward points is negative, then total reward points must be set to 0, else, the total redeemed reward points must be subtracted from it. To execute this operation use the "subtract_positive_or_zero" from the "zlp4bp_r_customer_helper" helper using the following code template (placeholder between "<>"):
+
+    DATA(lo_helper) = NEW zlpmbp_r_customer_helper(  ).
+
+    lv_total_reward_points = lo_helper->subtract_positive_or_zero( EXPORTING i_total_reward_points = <total reward points> i_total_rr_points = <total redeemed reward points ). 
+
+11. Finally, update the affected Customer with the totals: total purchase value and total reward points, using the previously stored ParentUuid as Customer Uuid. Use Uuid in the WITH clause instead of %tky.
 ```
 
+## 🎁 Step 4: Rewards Redemption Logic
 
-Expected Output: Joule introduces itself and explains its specific training for SAP development.
-
-## 2. Guide on how to build your RAP app
-
-Goal: Brainstorm and define the initial structure for the Travel Booking Management App.
+Goal: Implement logic to handle point deductions when a redemption record is created.
 
 Prompt:
 ```text
-Generate application for a Travel Booking Agency
-The Travel entity requires the fields:
-travel id
-agency id
-customer id
-first name
-last name
-destination
-booking fees
-total price
-currency code
-Use the data element types from the package /DMO for all the above fields.
-Create the object names with the prefix 'ms' and without a suffix.
-The application will have a helper class with the following methods:
-get_booking_status
-validate_customer
-generate_description
-The application will have another class with one method called ‘generate_demo_data’
-to create 5 sample records in the travel entity.
-Change the data type of the following fields in the entity Travel:
-'booking fees’ to the data element '/DMO/Booking_FEE’
-‘destination’ to the data element '/DMO/City’
-Add new field ‘status’ in the entity Travel and use /DMO/BOOKING_STATUS as Data
-Element for it.
-Add new field ‘description’ in the entity Travel for the description of the destination city,
-and use /DMO/DESCRIPTION as Data Element for it.
+This code is executed whenever a new redemption is created (impacting field RedeemedAmount). All EML reads and modifies must be done from the Customer entity (root entity) using its Uuid in the WITH clause. Do not declare table variables before reading entities. Here's the procedure:
+ 
+1. Read the ParentUuid (Customer Uuid) and the redeemed amount from the Customer's affected redemptions (Redemption entity) using the Customer root entity.
+
+2. Read the Uuid, total reward points and total redeemed reward points from the Customer entity using the Customer Uuid (Redemption ParentUuid).
+
+3. Sum up all redeemed reward points, using reduce operator following the code template below (placeholder between "<>"):
+
+    DATA(lv_sum_redeemed_points) = REDUCE int8( INIT lv_sum_pt TYPE int8
+
+                                                 FOR ls_redemption IN <previously read redemptions table>
+
+                                                 NEXT lv_sum_pt += ls_redemption-RedeemedAmount ).
+
+4. Save the redemption validation flag in the static member "mv_redemption_is_valid" using the following code template (placeholder between "<>"):
+
+    mv_redemption_is_valid = COND #( WHEN lv_sum_redeemed_points > <previously read customer table>[ 1 ]-TotalRewardPoints THEN abap_false ELSE abap_true ).
+
+4. If mv_redemption_is_valid = abap_true, then calculate the new total reward points as current total reward points - lv_sum_redeemed_points and the new total redeemed points as current total reedemed points + lv_sum_redeemed_points. With those results, update the corresponding fields in the Customer entity using the Customer Uuid.
 ```
 
-Expected Output: Joule outlines the plan for the application entities and classes.
+## 🛡️ Step 5: Rewards Redemption Validation Logic
 
-## 3. Joule Cloud Generator - Generate Transactional UI
-Goal: Use the Generator to create the Business Objects (BOs).
+Goal: Validate that a customer has enough points for the redemption.
 
-Prompt #1 (Creation)
-```text
-Create a transaction application for travel management. Create the entity Travel based
-on the structure /DMO/TRAVEL_DATA.
-The second entity is Booking based on /DMO/BOOKING_DATA. The generated objects
-should end with suffix “_MS”
-```
+Note: This logic is designed to be used with Predictive Code Completion within the validation method.
 
-
-Prompt #2 (Refinement)
-```text
-Change the data type of the following fields in the entity Travel:
-'booking fees’ to the data element '/DMO/Booking_FEE’
-‘destination’ to the data element '/DMO/City’
-Add Destination field for entity Travel, use /DMO/CITY as data element.
-Add SightseeingsTips field for entity Travel, use /DMO/DESCRIPTION as data element.
-Add DiscountedFlightPrice field for entity Booking, use /DMO/FLIGHT_PRICE as data
-element.
-```
-
-
-Expected Output: The system generates the artifacts (CDS Views, BOs) for the Travel and Booking entities.
-
-## 4. Adjust CDS Behavior Definitions
-Goal: Add logic controls (Mandatory fields, Read-only fields) to the Behavior Definition (BDEF).
-
-Prompt:
-```text
-Adjust the selected behavior definition with the following steps and add comment
-starting with //
-1. Set CustomerID field as mandatory for ZR_TRAVEL_MS
-2. Add the fields SightseeingsTips and TotalPrice as readonly for ZR_TRAVEL_MS
-3. Add field mandatory during the creation and set the following fields Destination,
-StartDate and EndDate for ZR_TRAVEL_MS
-4. Set field DiscountedFieldPrice as readonly for ZR_BOOKING_MS
-```
-
-Expected Output: Joule modifies the BDEF code to include validation flags.
-## 5. Suggest Code Snippets (Create Helper Class)
-Goal: Create a helper class (zcl_travel_helper_MS) with common business logic methods.
-
-Prompt:
-```text
-Add a helper class with name "zcl_travel_helper_MS" that will contain common
-business logic that can be consumed by different business objects & methods - for
-example, in determinations or validations within my RAP application. It has the following
-methods:
-⁃ validate_customer with input type pf /dmo/customer_id, and output return type
-- abap_bool. This method checks in the database if there exists a row with the given
-CustomerID. If such a row exists, return true, otherwise return false.
-⁃ get_booking_status with input type of /dmo/booking_status_text, and output
-return type - /dmo/booking_status. This method checks the booking status within ONLY
-3 options: B if booked, N if new, X if Cancelled.
-⁃ get_sightseeing_tips with input type of /dmo/city and, output return type -
-/dmo/description. This method uses ABAP AI SDK powered by ISLM to call an LLM &
-generate sightseeing tips for a specific city, however, keep the implementation empty!
-```
-
-Expected Output: Joule generates the ABAP class definition and method signatures.
-
-
-## 6. Enhance CDS Data Models
-Goal: Implement logic for calculated fields in the CDS View.
-
-Prompt (Context: DiscountedFlightPrice field):
-```text
-Add the following code lines for the field “DiscountedFlightPrice” to calculate the total
-price with discount based on field “carrier_id”:
-• If field “carrier_id” is equal to LH, the discount is 10% of field “flight_price”
-• If field “carrier_id” is equal to AF, the discount is 15% of field “flight_price”
-Use CAST explicitly as follows:
-• cast field “flight_price” as abap.dec(16,2)
-• cast “discount percentage value” as abap.dec(5,2)
-```
-
-Expected Output: Joule writes the CASE statement logic within the CDS view.
-
-## 7. Provide Help Content & Explain Code
-Goal: Demonstrate Joule's ability to act as a documentation reference and code explainer.
-
-Prompt (Help):
-```text
-How to define an ABAP CDS view? Given me an example for a travel entity?
-```
-
-Prompt (Explain):
-```text
-/explain class zcl_travel_helper_ms
-```
-
-Expected Output: Joule explains the syntax of CDS views and breaks down the logic of the specific class provided.
-
-## 8. ABAP Unit Test Generation
-
-Goal: Automate the creation of unit test scaffolding.
-
-Prompt:
-```text
-Define a unit test “LTCL_Travel_Helper_MS” without any methods for the ABAP Class
-“ZCL_TRAVEL_HELPER_MS”
-```
-
-
-Expected Output: An ABAP Unit Test class definition is generated.
-
-
-## 9. Predict RAP Business Logic Capability
-
-Goal: Use predictive capabilities to implement Validations and Determinations.
-
-### A. Enhance Validation - validateCustomer
-
-Description/Prompt:
-```text
-Instantiate the helper class ZCL_TRAVEL_HELPER_MS, then read the CustomerID field
-from the CDS view ZR_TRAVEL_MS.
-Check if the CustomerID is initial, and validate it using the ZCL_TRAVEL_HELPER_MS
-helper class.
-If the CustomerID is missing or invalid, append the key failed-travel. Also, add the key to
-reported-travel with a NEW_MESSAGE_WITH_TEXT error message.
-```
-
-### B. Enhance Determination - setSightseeingTips
-Description/Prompt:
-```text
-Instantiate a helper class ZCL_TRAVEL_HELPER_MS. Read the SightseeingsTips field
-from the Travel entity
-Filter out all entries where SightseeingsTips is already filled.
-Use get_sightseeing_tips to generate sightseeing tips based on the Destination.
-Update the SightseeingsTips field with this generated value
-```
-
-### C. Predictive Code Completion - calcTotalTravelPrice
-Description/Prompt:
-```text
-"1) Read Travel and Booking entities
-"2) Calculate the total flight price of the bookings using reduce operator in
-calculated_total_price variable
-"3) Update the total price of the Travel
-```
-
-Expected Output: Joule autocompletes the complex ABAP logic for validations and determinations based on the comments/descriptions.
-
-
-## 10. OData Consume Capability
-
-Goal: Generate code to consume external OData services.
-
-Prompt 1:
-```text
-/Consume GET/A_BusinessPartner?$select=BusinessPartner, Customer,
-BusinessPartnerUUID, BusinessPartnerCategory
-```
-
-Prompt 2:
-```text
-/Consume I want to read the field ID from all Business Partners.
-```
-
-Expected Output: Joule generates the CL_HTTP_CLIENT or Service Consumption logic.
-
-## 11. Consume ABAP AI SDK powered by ISLM
-
-Goal: Implement the AI logic for get_sightseeing_tips using the SAP AI Core.
-
-Prompt:
-```text
-Implement the selected method by calling an LLM to generate the sightseeing tips for a
-given city using the ABAP AI SDK, powered by ISLM following the steps below:
-" Step 1: Create an instance of SAP AI Core ISLM completion API Factory based on the
-ISLM_Scenario ‘ZINST_Travel_Demo_MS’
-" Step 2: Set system prompt “| You are a Travel Expert and support by giving
-sightseeing tips for a given city. | && | Write a short summary of the top 10 most
-sightseeing tips | && | using a brief listing without a caption | && | it should be less
-than 1000 characters. |.”
-" Step 3: Set user prompt ‘The city is…’
-" Step 4: Create a message container via Message Container API & Add the system
-prompt and user prompt
-" Step 5: Execute Completion API & Get the Completion
-" Step 6: Ensure sightseeings tips length limit
-" Step 7: Return the sightseeings tips
-" Step 8: Catch if any Exceptions
-```
-
-Expected Output: Joule generates the complete ABAP code to interface with the AI SDK/ISLM.
+Action: Open the validation method implementation and check the suggestions provided by Joule based on the context established in Step 4.
