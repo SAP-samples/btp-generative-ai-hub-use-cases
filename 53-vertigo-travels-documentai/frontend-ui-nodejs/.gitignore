@@ -36,3 +36,4 @@ api/test/requests.http
 !*.sample.http
 !default-*.sample.json
 !router/dev/default-env.json
+package-lock.json

@@ -17,3 +17,4 @@ langchain_openai
 langchain_aws
 langchain_community
 sql_formatter
+aioboto3
