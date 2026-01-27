@@ -247,7 +247,7 @@ app.get('/document-id/:fileId', async (req, res) => {
 
         // Construct the URL to query the Documents endpoint, filtering by file_ID
         // Note: Use encodeURIComponent for the fileId in the filter query
-        const docQueryUrl = `${docAIFileServiceUrl}/Documents?$filter=file_ID eq ${encodeURIComponent(fileId)}&$select=ID`;
+        const docQueryUrl = `${aiServiceAPIUrl}/DocumentService/Documents?$filter=file_ID eq ${encodeURIComponent(fileId)}&$select=ID`;
 
         const response = await fetch(docQueryUrl, {
             method: 'GET',
@@ -287,7 +287,7 @@ app.get('/documents/reviewNeeded', async (req, res) => {
         const aiServiceToken = await getBearerToken(); // Assuming getBearerToken() is a function you have defined
 
         // Construct the URL using the documentId from the request parameters
-        const ocrUrl = aiServiceAPIUrl + `/FileService/Documents?$filter=status eq 'reviewNeeded'`;
+        const ocrUrl = aiServiceAPIUrl + `/DocumentService/Documents?$filter=status eq 'reviewNeeded'`;
 
         const response = await fetch(ocrUrl, {
             method: 'GET',

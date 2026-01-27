@@ -1,13 +1,16 @@
 import os
 import configparser
-from flask import Flask, request, jsonify, json, Response
+import json  # Keep this: Standard Python JSON library
+from json import JSONDecodeError  # Import this specifically to handle the error
+from flask import Flask, request, jsonify, Response # REMOVED 'json' from here
 from flask_cors import CORS
 from hana_ml import dataframe
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from sql_formatter.core import format_sql
 from gen_ai_hub.proxy.langchain.openai import ChatOpenAI
 from gen_ai_hub.proxy.core.proxy_clients import get_proxy_client
+import xml.etree.ElementTree as ET
 
 # Check if the application is running on Cloud Foundry
 if 'VCAP_APPLICATION' in os.environ:
@@ -30,7 +33,7 @@ connection = dataframe.ConnectionContext(hanaURL, hanaPort, hanaUser, hanaPW)
 
 # Initialize the proxy client and LLM model globally
 proxy_client = get_proxy_client('gen-ai-hub')
-llm = ChatOpenAI(proxy_model_name='gpt-4', temperature=0, proxy_client=proxy_client)
+llm = ChatOpenAI(proxy_model_name='gpt-5', temperature=0, proxy_client=proxy_client)
 
 app = Flask(__name__)
 CORS(app)
@@ -38,10 +41,9 @@ CORS(app)
 @app.route('/execute_query_raw', methods=['POST'])
 def execute_query_raw():
     try:
-        # Get the raw query and query type from the request
         query = request.data.decode('utf-8')
-        query_type = request.args.get('query_type', 'sparql')  # Default to 'sparql'
-        response_format = request.args.get('format', 'json')  # Default to 'json'
+        query_type = request.args.get('query_type', 'sparql')
+        response_format = request.args.get('format', 'json')
 
         if not query:
             return jsonify({'error': 'Query is required'}), 400
@@ -49,37 +51,82 @@ def execute_query_raw():
         cursor = connection.connection.cursor()
 
         if query_type == 'sparql':
-            # Handle SPARQL queries (default behavior)
             if response_format == 'csv':
                 result = cursor.callproc('SPARQL_EXECUTE', (query, 'application/sparql-results+csv', '?', '?'))
-                result_csv = result[2]
-                return Response(result_csv, mimetype='text/csv')
+                return Response(result[2], mimetype='text/csv')
+            
             else:
+                # Request JSON, but be prepared for HANA to return XML
                 result = cursor.callproc('SPARQL_EXECUTE', (query, 'application/sparql-results+json', '?', '?'))
-                result_json = result[2]
-                return jsonify(json.loads(result_json)), 200
+                raw_data = result[2]
 
+                if not raw_data or not str(raw_data).strip():
+                    return jsonify({"head": {"vars": []}, "results": {"bindings": []}}), 200
+
+                # 1. Try standard JSON parsing (if HANA actually obeys the request)
+                try:
+                    return jsonify(json.loads(raw_data)), 200
+                except (ValueError, TypeError, JSONDecodeError):
+                    
+                    # 2. Fallback: Parse SPARQL XML and transform to the SPARQL JSON Standard
+                    if str(raw_data).strip().startswith('<?xml') or '<sparql' in raw_data:
+                        root = ET.fromstring(raw_data)
+                        ns = {'s': 'http://www.w3.org/2005/sparql-results#'}
+                        
+                        # Build "head": {"vars": [...]}
+                        variables = [v.get('name') for v in root.findall('.//s:variable', ns)]
+                        
+                        # Build "results": {"bindings": [...]}
+                        bindings = []
+                        for res in root.findall('.//s:result', ns):
+                            row = {}
+                            for binding in res.findall('s:binding', ns):
+                                var_name = binding.get('name')
+                                # Identify if it's a <uri>, <literal>, or <bnode>
+                                value_node = binding.find('./', ns)
+                                if value_node is not None:
+                                    # This structure matches what your formatValue and formatPartnerId expect
+                                    node_type = value_node.tag.split('}')[-1] # Gets 'uri' or 'literal'
+                                    row[var_name] = {
+                                        "type": node_type,
+                                        "value": value_node.text if value_node.text else ""
+                                    }
+                            bindings.append(row)
+                        
+                        transformed_json = {
+                            "head": {"vars": variables},
+                            "results": {"bindings": bindings}
+                        }
+                        return jsonify(transformed_json), 200
+                    
+                    # 3. If it's not JSON and not XML (e.g. raw triples), return as plain text
+                    return Response(raw_data, mimetype='text/plain'), 200
+
+        # --- PATH B: SQL QUERIES ---
         elif query_type == 'sql':
-            # Handle regular SQL queries
             cursor.execute(query)
+            
+            # Extract column headers if available (SELECT), else empty list (INSERT/UPDATE)
+            headers = [desc[0] for desc in cursor.description] if cursor.description else []
+            rows = cursor.fetchall()
+
             if response_format == 'csv':
-                # Convert SQL results to CSV format
-                rows = cursor.fetchall()
-                headers = [desc[0] for desc in cursor.description]
+                # Manual CSV conversion for SQL results
                 csv_data = ','.join(headers) + '\n'
                 csv_data += '\n'.join([','.join(map(str, row)) for row in rows])
                 return Response(csv_data, mimetype='text/csv')
+            
             else:
-                # Return SQL results as JSON
-                rows = cursor.fetchall()
-                headers = [desc[0] for desc in cursor.description]
-                result_json = [dict(zip(headers, row)) for row in rows]
-                return jsonify(result_json), 200
+                # Convert SQL rows to a list of dictionaries for JSON output
+                result_list = [dict(zip(headers, row)) for row in rows]
+                return jsonify(result_list), 200
 
         else:
             return jsonify({'error': 'Invalid query_type. Use "sparql" or "sql".'}), 400
 
     except Exception as e:
+        # Log the error for debugging in the Cloud Foundry logs
+        print(f"Error executing query: {str(e)}")
         return jsonify({'error': str(e)}), 400
 
 @app.route('/execute_sparql_query', methods=['GET'])
@@ -279,6 +326,8 @@ def translate_nl_to_new():
 
         # Convert the result to JSON if needed
         result_json = json.dumps(result)
+
+        final_query = "This is a hardcoded string."
 
         return jsonify({'result': json.loads(result_json), 'final_query': final_query}), 200
     
